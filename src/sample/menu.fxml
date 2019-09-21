@@ -6,18 +6,18 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
             <TextField fx:id="Text_Hight" layoutX="422.0" layoutY="85.0" />
-            <Slider fx:id="Slider_Hight" layoutX="212.0" layoutY="91.0" max="5.0" />
+            <Slider fx:id="Slider_Hight" layoutX="212.0" layoutY="91.0" max="5.0" onDragDropped="#hightPrint" />
             <Label layoutX="38.0" layoutY="81.0" prefHeight="26.0" prefWidth="140.0" text="Please enter the hight:" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
             <TextField fx:id="Text_Width" layoutX="410.0" layoutY="74.0" />
-            <Slider fx:id="Slider_Width" layoutX="210.0" layoutY="80.0" max="5.0" />
+            <Slider fx:id="Slider_Width" layoutX="210.0" layoutY="80.0" max="5.0" onSwipeLeft="#widthPrint" />
             <Label layoutX="40.0" layoutY="74.0" prefHeight="26.0" prefWidth="140.0" text="Please enter the width:" />
          </children></AnchorPane>
   </items>

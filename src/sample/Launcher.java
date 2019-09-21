@@ -1,3 +1,5 @@
+package sample;
+
 import Model.AdjacencyMatrix;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -7,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -36,9 +39,11 @@ public class Launcher  extends Application {
     private GridPane sizeBox;
     private Text sizeText;
     private ToggleGroup tg;
+    private Stage thisStage;
 
     public void start(Stage primaryStage) {
 
+        thisStage=primaryStage;
         Scene scene = new Scene(getContentPane(), WIDTH, HEIGHT);
         scene.getStylesheets().add("GUIstyle.css");
         primaryStage.setScene(scene);
@@ -154,6 +159,8 @@ public class Launcher  extends Application {
                 try {
                     AdjacencyMatrix.setMatrix(chosenM,chosenN);
 
+                    Scene gamePlay = Board.makeBoard(chosenM,chosenN);
+                    thisStage.setScene(gamePlay);
                 }
                 catch (Exception e1 ) {
                     e1.printStackTrace();
