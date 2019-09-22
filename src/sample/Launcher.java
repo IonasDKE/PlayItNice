@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -159,7 +160,14 @@ public class Launcher  extends Application {
                 try {
                     AdjacencyMatrix.setMatrix(chosenM,chosenN);
 
-                    Scene gamePlay = Board.makeBoard(chosenM,chosenN);
+                    //to be removed
+                    ArrayList<Color> players = new ArrayList<>();
+                    players.add(Color.BLUE);
+                    players.add(Color.CHOCOLATE);
+                    players.add(Color.ORANGE);
+                    //
+
+                    Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
                     thisStage.setScene(gamePlay);
                 }
                 catch (Exception e1 ) {

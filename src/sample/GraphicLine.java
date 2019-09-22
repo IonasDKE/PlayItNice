@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class GraphicLine extends Line {
 
+    private static final int STROKE_WIDTH = 9;
     //Arraylist made for easily iterate through all the lines
     public final static ArrayList<GraphicLine> lines = new ArrayList<>();
     private boolean empty = true;
@@ -15,7 +16,9 @@ public class GraphicLine extends Line {
         super(x,y,a,b);
         this.setId(Integer.toString(id));
         this.setStroke(Color.RED);
+        this.setStrokeWidth(STROKE_WIDTH);
         lines.add(this);
+        setOnMouseClicked(event -> fill());
     }
 
     public static ArrayList<GraphicLine> getLines() {
@@ -27,7 +30,14 @@ public class GraphicLine extends Line {
     }
 
     public void fill(){
-        this.setFill(Color.BLACK);
+        this.setStroke(Color.GREEN);
+        System.out.println(this.idProperty());
+        empty=false;
+    }
+
+    public void fillPlayer( Color color){
+        this.setStroke(color);
+        System.out.println(this.idProperty());
         empty=false;
     }
 }
