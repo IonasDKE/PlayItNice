@@ -59,7 +59,7 @@ public class Board {
             playerColor.setFill(colors.get(i));
             bottom.getChildren().add(playerColor);
 
-            Text playerScore = new Text("0");
+            Text playerScore = new Text(Integer.toString(Controller.Controller.playerOne.getScore()));
             playerScore.setFont(gameFont);
             playerScore.setFill(Color.WHITE);
             Label eq = new Label(" = ");
@@ -83,24 +83,24 @@ public class Board {
     }
 
 
-    private static Pane  makeGrid( int width, int hight){
+    private static Pane  makeGrid( int width, int higth){
         int DOT_SIZE = 10;
         Pane pane = new Pane();
-        int squareSize = GRID_SIZE/Integer.max(width,hight);
+        int squareSize = GRID_SIZE/Integer.max(width,higth);
 
         //build the horizontal lines
-        for(int h = 0; h<=hight; h++){
+        for(int h = 0; h<=higth; h++){
             for(int w=0; w<width; w++){
                 pane.getChildren().add(new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+squareSize+xTranslation, h*squareSize+yTranslation, 2*10*h+w));
             }
         }
 
         //build the vertical lines and dots
-        for(int h = 0; h<hight; h++) {
+        for(int h = 0; h<higth; h++) {
             for (int w = 0; w <= width; w++) {
                 pane.getChildren().add(new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, 2*10*h+10+w));
                 pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+yTranslation, DOT_SIZE, Color.RED));
-                if(h==(hight-1)) { pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, DOT_SIZE, Color.RED));}
+                if(h==(higth-1)) { pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, DOT_SIZE, Color.RED));}
             }
         }
         return pane;
