@@ -14,10 +14,9 @@ public class Controller {
         return players;
     }
 
-
     public static Boolean checkMove(View.GraphicLine line, View.Player player){
         int numberOfCompleteSquare;
-        //System.out.println("number of moves left for player " + player +" " + player.getMoves());
+        System.out.println("Player score " + player.getScore());
         //System.out.println(player);
         if (Color.valueOf("white") == line.getColor()) {
 
@@ -36,6 +35,10 @@ public class Controller {
             //System.out.println(numberOfCompleteSquare);
             if (numberOfCompleteSquare > 0)
                 player.addMoves();
+            else if (player.getMoves() != 0 && player.getMoves() > 0)
+                player.decreaseMoves();
+
+
 
                 //player.decreaseMoves();
 
@@ -55,19 +58,15 @@ public class Controller {
 
         if (direction.equals("horizontal")) {
             for (int i=0; i<6; i++){
-                //System.out.println(GraphicLine.getId(line)+dataForHorizontal[i]);
-                //System.out.println(GraphicLine.findLine(Integer.toString(GraphicLine.getId(line)+dataForHorizontal[i])) );
                 if(View.GraphicLine.findLine(Integer.toString(View.GraphicLine.getId(line)+dataForHorizontal[i])) != null &&
                         View.GraphicLine.findLine(Integer.toString(View.GraphicLine.getId(line)+dataForHorizontal[i])).getBoxOwner() != null){
                     counter++;
                     if (i == 2 && counter == 3){
                         numberOfSquare ++;
-                        System.out.println("number 1 " + numberOfSquare);
                         counter = 0;
 
                     }else if (counter == 3) {
                         numberOfSquare++;
-                        System.out.println("number 2 "+ numberOfSquare);
                         counter = 0;
                     }
 
@@ -76,19 +75,15 @@ public class Controller {
             }
         }else if (direction.equals("vertical")) {
             for (int j=0; j<6; j++){
-                //System.out.println(GraphicLine.getId(line)+dataForHorizontal[j]);
-                //System.out.println(GraphicLine.findLine(Integer.toString(GraphicLine.getId(line)+dataForHorizontal[j])) );
                 if(View.GraphicLine.findLine(Integer.toString(View.GraphicLine.getId(line)+dataForVertical[j])) != null &&
                         View.GraphicLine.findLine(Integer.toString(View.GraphicLine.getId(line)+dataForVertical[j])).getBoxOwner() != null) {
                     counter++;
 
                     if (j == 2 && counter == 3) {
                         numberOfSquare++;
-                        System.out.println("number 3 "+ numberOfSquare);
                         counter = 0;
                     }else if (counter == 3) {
                         numberOfSquare++;
-                        System.out.println("number 4 "+ numberOfSquare);
                         counter = 0;
                     }
                 }

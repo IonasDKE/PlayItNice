@@ -31,7 +31,7 @@ public class GraphicLine extends Line {
     }
 
     public void fill(){
-        System.out.println("player " + Controller.Controller.getPlayers()[turn].getMoves());
+        //System.out.println("player " + Controller.Controller.getPlayers()[turn].getMoves());
         if (Controller.Controller.checkMove(this, Controller.Controller.getPlayers()[turn])) {
             this.color = Controller.Controller.getPlayers()[turn].getColor();
             this.setStroke(Controller.Controller.getPlayers()[turn].getColor());
