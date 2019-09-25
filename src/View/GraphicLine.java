@@ -1,3 +1,4 @@
+package View;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -9,21 +10,17 @@ public class GraphicLine extends Line {
     private static final int STROKE_WIDTH = 9;
     //Arraylist made for easily iterate through all the lines
     public final static ArrayList<GraphicLine> lines = new ArrayList<>();
-
-    private Player playerOne = new Player(Color.GREEN, "one ");
-    private Player playerTwo = new Player(Color.BLUE, "two");
-    private Player[] players = {playerOne, playerTwo};
     private static int turn = 0;
 
-    private Player  boxOwner;
+    private Player boxOwner;
     private Color color;
 
     public GraphicLine(int x, int y, int a, int b, int id){
         super(x,y,a,b);
         this.setId(Integer.toString(id));
-        this.setStroke(Color.RED);
+        this.setStroke(Color.WHITE);
         this.setStrokeWidth(STROKE_WIDTH);
-        this.color = Color.valueOf("red");
+        this.color = Color.valueOf("white");
         this.boxOwner = null;
         lines.add(this);
         setOnMouseClicked(event -> fill());
@@ -34,13 +31,13 @@ public class GraphicLine extends Line {
     }
 
     public void fill(){
-        System.out.println("player " + players[turn].getPlayer_number());
-        if (Controller.checkMove(this, players[turn])) {
-            this.color = players[turn].getColor();
-            this.setStroke(players[turn].getColor());
-            this.boxOwner = players[turn];
+        System.out.println("player " + Controller.Controller.getPlayers()[turn].getMoves());
+        if (Controller.Controller.checkMove(this, Controller.Controller.getPlayers()[turn])) {
+            this.color = Controller.Controller.getPlayers()[turn].getColor();
+            this.setStroke(Controller.Controller.getPlayers()[turn].getColor());
+            this.boxOwner = Controller.Controller.getPlayers()[turn];
 
-            if (players[turn].getMoves() == 0)
+            if (Controller.Controller.getPlayers()[turn].getMoves() == 0)
                 changeTurn();
         }
     }
@@ -53,16 +50,16 @@ public class GraphicLine extends Line {
     public static int getId(GraphicLine line) {
         return Integer.parseInt(line.getId());
     }
-
+    //find the line that as a certain id, return's that line
     public static GraphicLine findLine(String id) {
-        GraphicLine lineTorReturn = null;
+        GraphicLine lineToReturn = null;
         for (GraphicLine line : lines) {
             if (line.getId().equals(id))
-                lineTorReturn = line;
+                lineToReturn = line;
         }
-        return lineTorReturn;
+        return lineToReturn;
     }
-
+    //return player that own's the box
     public Player getBoxOwner() {
         return this.boxOwner;
     }

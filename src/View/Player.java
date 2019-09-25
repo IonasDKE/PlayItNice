@@ -1,4 +1,4 @@
-
+package  View;
 import javafx.scene.paint.Color;
 
 public class Player {
@@ -6,24 +6,25 @@ public class Player {
     private int player_number;
     private int moves;
     private int score;
-    private int playerCounter =-1;
+    private int playerCounter =0;
     private String name;
 
     public Player(Color color, String name) {
-        this.player_number = playerCounter++;
+        this.player_number = playerCounter;
         this.color = color;
         this.name = name;
         this.moves = 0;
+        playerCounter++;
     }
 
     public void addScore(int toAdd) {
         this.score =+ toAdd;
-        System.out.println("score changed " + this.score + " " + this.name);
+        //System.out.println("score changed " + this.score + " " + this.name);
     }
 
     public void addMoves() {
         this.moves = this.moves + 1;
-        //System.out.println("move updated " + this.moves + " " + this.name);
+        System.out.println("move updated " + this.moves + " " + this.name);
         //System.out.println();
     }
 

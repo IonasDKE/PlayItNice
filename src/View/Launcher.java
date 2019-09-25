@@ -1,3 +1,4 @@
+package View;
 import Model.AdjacencyMatrix;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
