@@ -1,6 +1,7 @@
 package Controller;
 
 import View.Player;
+import View.Square;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -12,10 +13,41 @@ public class Controller {
     private static Player playerTwo = new Player(Color.BLUE, "second");
     public static ArrayList<Player> players = new ArrayList<>(Arrays.asList(playerOne, playerTwo));
 
-    public static Boolean checkMove(View.GraphicLine line, View.Player player){
-        int numberOfCompleteSquare = 0;
+    // check if the line has already been picked
+    public static Boolean checkMove(View.GraphicLine line, View.Player player) {
+        //Square.display();
+        if (line.isEmpty()) {
+          return true;
+        }else {
+            System.out.println("Movement not allowed");
+            return false;
+        }
+    }
 
-        if (Color.valueOf("white") == line.getColor()) {
+    public static void updateTurn(View.GraphicLine line, View.Player player){
+        int numberOfCompleteSquare = checkSquare(line);
+        if (numberOfCompleteSquare > 0) {
+            player.addScore(numberOfCompleteSquare);
+        }
+        if (numberOfCompleteSquare > 0){
+            // update the player score label on the gui
+        }
+        else {
+            player.decreaseMoves();
+        }
+    }
+
+    // check if any square has been completed
+    private static int checkSquare(View.GraphicLine line) {
+        int squareNb = 0;
+        for(Square sq : line.getSquares()){
+            if(sq.isComplete()){squareNb++;}
+        }
+        System.out.println("squareNb = " + squareNb);
+        return squareNb;
+    }
+
+  /* int numberOfCompleteSquare = 0;
             //line is horizontal
             if (line.getStartX() != line.getEndX()) {
                 numberOfCompleteSquare = checkSquare(line, "horizontal");
@@ -42,9 +74,11 @@ public class Controller {
             System.out.println("Movement not allowed");
             return false;
         }
-    }
 
-    private static int checkSquare(View.GraphicLine line, String direction){
+    */
+
+
+  /* private static int checkSquare(View.GraphicLine line, String direction){
         int[] dataForHorizontal = {-10,-20,-9,10,20,11}; //data needed to search if the is a square above/ below the current line
         int[] dataForVertical = {-11,-1,9,10,1,-10}; // data needed to search if there is a square left/right the current line
 
@@ -54,7 +88,7 @@ public class Controller {
         if (direction.equals("horizontal")) {
             for (int i=0; i<6; i++){
                 if(View.GraphicLine.findLine(Integer.toString(View.GraphicLine.getId(line)+dataForHorizontal[i])) != null &&
-                        View.GraphicLine.findLine(Integer.toString(View.GraphicLine.getId(line)+dataForHorizontal[i])).getLineOwner() != null){
+                        View.GraphicLine.findLine(Integer.toString(View.GraphicLine.getId(line)+dataForHorizontal[i])).isEmpty() == false){
                     counter++;
                     if (i == 2 && counter == 3){ //if all the three lines, that form a square, ABOVE the current line are colored
                         numberOfSquare ++;
@@ -71,7 +105,7 @@ public class Controller {
         }else if (direction.equals("vertical")) {
             for (int j=0; j<6; j++){
                 if(View.GraphicLine.findLine(Integer.toString(View.GraphicLine.getId(line)+dataForVertical[j])) != null &&
-                        View.GraphicLine.findLine(Integer.toString(View.GraphicLine.getId(line)+dataForVertical[j])).getLineOwner() != null) {
+                        View.GraphicLine.findLine(Integer.toString(View.GraphicLine.getId(line)+dataForVertical[j])).isEmpty() == false) {
                     counter++;
 
                     if (j == 2 && counter == 3) {//if all the three lines, that form a square, on the RIGHT of the current line are colored
@@ -85,6 +119,6 @@ public class Controller {
             }
         }
         return numberOfSquare;
-    }
+    }*/
 
 }

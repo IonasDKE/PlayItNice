@@ -89,17 +89,33 @@ public class Board {
         Pane pane = new Pane();
         int squareSize = GRID_SIZE/Integer.max(width,higth);
 
-        //build the horizontal lines
+        //build the horizontal lines and the rectangles filling space between the lines
         for(int h = 0; h<=higth; h++){
             for(int w=0; w<width; w++){
-                pane.getChildren().add(new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+squareSize+xTranslation, h*squareSize+yTranslation, 2*10*h+w));
+                GraphicLine line = new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+squareSize+xTranslation, h*squareSize+yTranslation, 2*10*h+w);
+
+                if(h!=higth){
+                    Square sq = new Square(w*squareSize+xTranslation, h*squareSize+yTranslation,squareSize, 2*10*h+w);
+                    pane.getChildren().add(sq.getRect());
+                    sq.addBorder(line);
+                }
+
+                if(h!=0){Square.findSquare(2*10*(h-1)+w).addBorder(line);};
+
+                pane.getChildren().add(line);
             }
         }
 
         //build the vertical lines and dots
         for(int h = 0; h<higth; h++) {
             for (int w = 0; w <= width; w++) {
-                pane.getChildren().add(new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, 2*10*h+10+w));
+
+                GraphicLine line = new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, 2*10*h+10+w);
+
+                if(w!=width){Square.findSquare(2*10*h+w).addBorder(line);}
+                if(w!=0){Square.findSquare(2*10*h+w-1).addBorder(line);}
+
+                pane.getChildren().add(line);
                 pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+yTranslation, DOT_SIZE, Color.RED));
                 if(h==(higth-1)) { pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, DOT_SIZE, Color.RED));}
             }

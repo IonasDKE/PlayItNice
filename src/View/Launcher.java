@@ -1,4 +1,5 @@
 package View;
+import Controller.Controller;
 import Model.AdjacencyMatrix;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -166,6 +167,7 @@ public class Launcher  extends Application {
                     players.add(Color.CHOCOLATE);
                     players.add(Color.ORANGE);
                     Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
+                    Controller con = new Controller();
                     thisStage.setScene(gamePlay);
 
                 }

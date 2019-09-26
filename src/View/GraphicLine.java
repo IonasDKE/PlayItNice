@@ -1,5 +1,6 @@
 package View;
 
+import Controller.Controller;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
@@ -12,8 +13,17 @@ public class GraphicLine extends Line {
     public final static ArrayList<GraphicLine> lines = new ArrayList<>();
     private static int turn = 0;
 
-    private Player lineOwner;
+    public ArrayList<Square> getSquares() {
+        return squares;
+    }
+
+    private boolean empty = true;
     private Color color;
+    private ArrayList<Square> squares= new ArrayList<>();
+
+    public boolean isEmpty() {
+        return empty;
+    }
 
     public GraphicLine(int x, int y, int a, int b, int id){
         super(x,y,a,b);
@@ -21,7 +31,6 @@ public class GraphicLine extends Line {
         this.setStroke(Color.WHITE);
         this.setStrokeWidth(STROKE_WIDTH);
         this.color = Color.valueOf("white");
-        this.lineOwner = null;
         lines.add(this);
         setOnMouseClicked(event -> fill());
     }
@@ -31,21 +40,26 @@ public class GraphicLine extends Line {
     }
 
     public void fill(){
-        //System.out.println("player " + Controller.Controller.getPlayers()[turn].getMoves());
-        if (Controller.Controller.checkMove(this, Player.getPlayers().get(turn))) {
-            this.color = Player.getPlayers().get(turn).getColor();
-            this.setStroke(Player.getPlayers().get(turn).getColor());
-            this.lineOwner = Player.getPlayers().get(turn);
 
-            if (Player.getPlayers().get(turn).getMoves() == 0)
-                changeTurn();
+        //System.out.println("player " + Controller.Controller.getPlayers()[turn].getMoves());
+        Player actualPlayer = Player.getPlayers().get(turn);
+
+        if (Controller.checkMove(this, actualPlayer)) {
+            this.color = actualPlayer.getColor();
+            this.setStroke(actualPlayer.getColor());
+            this.empty= false;
+
+            Controller.updateTurn(this,actualPlayer);
+
+            if (actualPlayer.getMoves() == 0) { changeTurn(); }
+
+            for( Square sq : squares){
+                sq.colorSquare(actualPlayer);
+            }
         }
     }
 
-    public void fillPlayer(Color color){
-        this.setStroke(color);
-        //System.out.println(this.idProperty());
-    }
+
     //return the id as an integer
     public static int getId(GraphicLine line) {
         return Integer.parseInt(line.getId());
@@ -60,10 +74,7 @@ public class GraphicLine extends Line {
         }
         return lineToReturn;
     }
-    //return player that own's the line
-    public Player getLineOwner() {
-        return this.lineOwner;
-    }
+
 
     public static void changeTurn() {
         if (turn < Player.getPlayers().size()-1) {
@@ -77,8 +88,13 @@ public class GraphicLine extends Line {
         }
     }
 
+    public void assignSquare(Square sq){
+            this.squares.add(sq);
+    }
+
     public Color getColor() {
         return this.color;
     }
+
 
 }
