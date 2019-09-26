@@ -33,7 +33,6 @@ public class Launcher  extends Application {
     private ToggleGroup tg;
     private Stage thisStage;
 
-
     public void start(Stage primaryStage) {
 
         thisStage=primaryStage;

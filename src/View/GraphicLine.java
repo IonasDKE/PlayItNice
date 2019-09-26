@@ -12,7 +12,7 @@ public class GraphicLine extends Line {
     public final static ArrayList<GraphicLine> lines = new ArrayList<>();
     private static int turn = 0;
 
-    private Player boxOwner;
+    private Player lineOwner;
     private Color color;
 
     public GraphicLine(int x, int y, int a, int b, int id){
@@ -21,7 +21,7 @@ public class GraphicLine extends Line {
         this.setStroke(Color.WHITE);
         this.setStrokeWidth(STROKE_WIDTH);
         this.color = Color.valueOf("white");
-        this.boxOwner = null;
+        this.lineOwner = null;
         lines.add(this);
         setOnMouseClicked(event -> fill());
     }
@@ -32,12 +32,12 @@ public class GraphicLine extends Line {
 
     public void fill(){
         //System.out.println("player " + Controller.Controller.getPlayers()[turn].getMoves());
-        if (Controller.Controller.checkMove(this, Controller.Controller.getPlayers()[turn])) {
-            this.color = Controller.Controller.getPlayers()[turn].getColor();
-            this.setStroke(Controller.Controller.getPlayers()[turn].getColor());
-            this.boxOwner = Controller.Controller.getPlayers()[turn];
+        if (Controller.Controller.checkMove(this, Player.getPlayers().get(turn))) {
+            this.color = Player.getPlayers().get(turn).getColor();
+            this.setStroke(Player.getPlayers().get(turn).getColor());
+            this.lineOwner = Player.getPlayers().get(turn);
 
-            if (Controller.Controller.getPlayers()[turn].getMoves() == 0)
+            if (Player.getPlayers().get(turn).getMoves() == 0)
                 changeTurn();
         }
     }
@@ -50,6 +50,7 @@ public class GraphicLine extends Line {
     public static int getId(GraphicLine line) {
         return Integer.parseInt(line.getId());
     }
+
     //find the line that as a certain id, return's that line
     public static GraphicLine findLine(String id) {
         GraphicLine lineToReturn = null;
@@ -59,16 +60,21 @@ public class GraphicLine extends Line {
         }
         return lineToReturn;
     }
-    //return player that own's the box
-    public Player getBoxOwner() {
-        return this.boxOwner;
+    //return player that own's the line
+    public Player getLineOwner() {
+        return this.lineOwner;
     }
 
     public static void changeTurn() {
-        if (turn == 0)
-            turn = 1;
-        else
+        if (turn < Player.getPlayers().size()-1) {
+            Player.getPlayers().get(turn).addMoves();
+            turn ++;
+        }
+
+        else {
+            Player.getPlayers().get(turn).addMoves();
             turn = 0;
+        }
     }
 
     public Color getColor() {

@@ -1,6 +1,8 @@
 package  View;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+
 public class Player {
     private Color color;
     private int moves;
@@ -10,7 +12,16 @@ public class Player {
     public Player(Color color, String name) {
         this.color = color;
         this.name = name;
-        this.moves = 0;
+        this.moves = 1;
+        this.score = 0;
+    }
+/*
+    public void addPlayerToList() {
+    players.add(this);
+    }
+*/
+    public static ArrayList<Player> getPlayers() {
+        return Controller.Controller.players;
     }
 
     public void addScore(int toAdd) {

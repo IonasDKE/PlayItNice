@@ -27,6 +27,7 @@ public class Board {
     //private ArrayList<Shape> gridComponents = new ArrayList<>();
 
     public static Scene makeBoard(int width, int hight, ArrayList<Color> colors){
+
         Font gameFont = new Font(18);
 
         BorderPane mainPane = new BorderPane();
@@ -53,13 +54,13 @@ public class Board {
         scores.setFont(gameFont);
         scores.setFill(Color.WHITE);
         bottom.getChildren().add(scores);
-        for(int i = 0; i< colors.size(); i++){
+        for(int i = 0; i< Player.getPlayers().size(); i++){
 
             Rectangle playerColor = new Rectangle(30,15);
             playerColor.setFill(colors.get(i));
             bottom.getChildren().add(playerColor);
 
-            Text playerScore = new Text(Integer.toString(Controller.Controller.playerOne.getScore()));
+            Text playerScore = new Text(Integer.toString(Player.getPlayers().get(i).getScore()));
             playerScore.setFont(gameFont);
             playerScore.setFill(Color.WHITE);
             Label eq = new Label(" = ");
