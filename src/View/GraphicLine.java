@@ -11,7 +11,6 @@ public class GraphicLine extends Line {
     private static final int STROKE_WIDTH = 9;
     //Arraylist made for easily iterate through all the lines
     public final static ArrayList<GraphicLine> lines = new ArrayList<>();
-    private static int turn = 0;
 
     public ArrayList<Square> getSquares() {
         return squares;
@@ -42,7 +41,7 @@ public class GraphicLine extends Line {
     public void fill(){
 
         //System.out.println("player " + Controller.Controller.getPlayers()[turn].getMoves());
-        Player actualPlayer = Player.getPlayers().get(turn);
+        Player actualPlayer = Player.getActualPlayer();
 
         if (Controller.checkMove(this, actualPlayer)) {
             this.color = actualPlayer.getColor();
@@ -51,11 +50,12 @@ public class GraphicLine extends Line {
 
             Controller.updateTurn(this,actualPlayer);
 
-            if (actualPlayer.getMoves() == 0) { changeTurn(); }
+            if (actualPlayer.getMoves() == 0) { Player.changeTurn(); }
 
             for( Square sq : squares){
                 sq.colorSquare(actualPlayer);
             }
+           Controller.updateComponents();
         }
     }
 
@@ -76,17 +76,6 @@ public class GraphicLine extends Line {
     }
 
 
-    public static void changeTurn() {
-        if (turn < Player.getPlayers().size()-1) {
-            Player.getPlayers().get(turn).addMoves();
-            turn ++;
-        }
-
-        else {
-            Player.getPlayers().get(turn).addMoves();
-            turn = 0;
-        }
-    }
 
     public void assignSquare(Square sq){
             this.squares.add(sq);

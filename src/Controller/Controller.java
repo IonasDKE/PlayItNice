@@ -1,17 +1,16 @@
 package Controller;
 
+import View.Board;
 import View.Player;
 import View.Square;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Controller {
-
-    private static Player playerOne = new Player(Color.GREEN, "first");
-    private static Player playerTwo = new Player(Color.BLUE, "second");
-    public static ArrayList<Player> players = new ArrayList<>(Arrays.asList(playerOne, playerTwo));
 
     // check if the line has already been picked
     public static Boolean checkMove(View.GraphicLine line, View.Player player) {
@@ -47,6 +46,11 @@ public class Controller {
         return squareNb;
     }
 
+    public static void updateComponents(){
+        Player p = Player.getActualPlayer();
+        Board.getPlayerNb().setText(p.getName());
+        Board.getScores().get(Integer.parseInt(p.getName())-1).setText(Integer.toString(p.getScore()));
+    }
   /* int numberOfCompleteSquare = 0;
             //line is horizontal
             if (line.getStartX() != line.getEndX()) {

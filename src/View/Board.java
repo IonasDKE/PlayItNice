@@ -23,6 +23,16 @@ public class Board {
     private final static int GRID_SIZE = 400;
     private static int xTranslation=(Board_Hight-GRID_SIZE)/2;
     private static int yTranslation=(Board_Width-GRID_SIZE)/2;
+    private static Label playerNb;
+    private static ArrayList<Text> scores = new ArrayList<>();
+
+    public static ArrayList<Text> getScores() {
+        return scores;
+    }
+
+    public static Label getPlayerNb() {
+        return playerNb;
+    }
 
     //private ArrayList<Shape> gridComponents = new ArrayList<>();
 
@@ -37,7 +47,7 @@ public class Board {
         turn.setFill(Color.WHITE);
         top.getChildren().add(turn);
 
-        Label playerNb = new Label("0");
+        playerNb = new Label("1");
         playerNb.setFont(gameFont);
         playerNb.setTextFill(Color.WHITE);
         playerNb.setId("label_player_nb");
@@ -45,22 +55,24 @@ public class Board {
         top.setAlignment(Pos.CENTER);
         mainPane.setTop(top);
 
-
         mainPane.setCenter(makeGrid(width,hight));
 
         HBox bottom = new HBox();
 
-        Text scores = new Text("PLAYER SCORES       ");
-        scores.setFont(gameFont);
-        scores.setFill(Color.WHITE);
-        bottom.getChildren().add(scores);
-        for(int i = 0; i< Player.getPlayers().size(); i++){
+        Text text = new Text("PLAYER SCORES       ");
+        text.setFont(gameFont);
+        text.setFill(Color.WHITE);
+        bottom.getChildren().add(text);
+
+        for(int i = 0; i< colors.size(); i++){
+
+            new Player(colors.get(i), Integer.toString(i+1));
 
             Rectangle playerColor = new Rectangle(30,15);
             playerColor.setFill(colors.get(i));
             bottom.getChildren().add(playerColor);
 
-            Text playerScore = new Text(Integer.toString(Player.getPlayers().get(i).getScore()));
+            Text playerScore = new Text("0");
             playerScore.setFont(gameFont);
             playerScore.setFill(Color.WHITE);
             Label eq = new Label(" = ");
@@ -69,7 +81,8 @@ public class Board {
             bottom.getChildren().add(eq);
             bottom.getChildren().add(playerScore);
 
-            playerScore.setId(colors.get(i).toString());
+            playerScore.setId(Integer.toString(i+1));
+            scores.add(playerScore);
             Label space = new Label("     ");
             space.setFont(gameFont);
             bottom.getChildren().add(space);

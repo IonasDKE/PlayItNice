@@ -8,12 +8,15 @@ public class Player {
     private int moves;
     private int score;
     private String name;
+    private static int turn = 0;
+    private static ArrayList<Player> players = new ArrayList<>();
 
     public Player(Color color, String name) {
         this.color = color;
         this.name = name;
         this.moves = 1;
         this.score = 0;
+        players.add(this);
     }
 /*
     public void addPlayerToList() {
@@ -21,7 +24,7 @@ public class Player {
     }
 */
     public static ArrayList<Player> getPlayers() {
-        return Controller.Controller.players;
+        return players;
     }
 
     public void addScore(int toAdd) {
@@ -33,6 +36,18 @@ public class Player {
         this.moves += 1;
         //System.out.println("move updated " + this.moves + " " + this.name);
         //System.out.println();
+    }
+
+    public static void changeTurn() {
+        Player.getPlayers().get(turn).addMoves();
+        if (turn < Player.getPlayers().size()-1) { turn ++; }
+        else { turn = 0; }
+
+        System.out.println("turn = " + turn);;
+    }
+
+    public static Player getActualPlayer(){
+        return players.get(turn);
     }
 
     public int getScore(){

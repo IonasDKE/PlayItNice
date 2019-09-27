@@ -167,7 +167,7 @@ public class Launcher  extends Application {
                     players.add(Color.CHOCOLATE);
                     players.add(Color.ORANGE);
                     Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
-                    Controller con = new Controller();
+
                     thisStage.setScene(gamePlay);
 
                 }
