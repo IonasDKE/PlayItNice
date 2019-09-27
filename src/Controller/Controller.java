@@ -1,6 +1,7 @@
 package Controller;
 
 import View.Board;
+import View.GraphicLine;
 import View.Player;
 import View.Square;
 import javafx.fxml.FXML;
@@ -52,7 +53,13 @@ public class Controller {
         Board.getScores().get(Integer.parseInt(p.getName())-1).setText(Integer.toString(p.getScore()));
     }
 
-
+    public static boolean checkEnding(){
+        boolean empty = false;
+        for(GraphicLine line : GraphicLine.getLines()){
+            if(line.isEmpty()){empty=true;}
+        }
+        return empty;
+    }
   /* int numberOfCompleteSquare = 0;
             //line is horizontal
             if (line.getStartX() != line.getEndX()) {
