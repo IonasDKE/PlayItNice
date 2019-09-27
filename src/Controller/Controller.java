@@ -51,6 +51,8 @@ public class Controller {
         Board.getPlayerNb().setText(p.getName());
         Board.getScores().get(Integer.parseInt(p.getName())-1).setText(Integer.toString(p.getScore()));
     }
+
+
   /* int numberOfCompleteSquare = 0;
             //line is horizontal
             if (line.getStartX() != line.getEndX()) {
