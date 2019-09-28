@@ -56,6 +56,7 @@ public class GraphicLine extends Line {
                 sq.colorSquare(actualPlayer);
             }
            Controller.updateComponents();
+            System.out.println(Controller.findChannelNb());
         }
     }
 

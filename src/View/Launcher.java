@@ -164,7 +164,7 @@ public class Launcher  extends Application {
                     AdjacencyMatrix.setMatrix(chosenM,chosenN);
                     ArrayList<Color> players = new ArrayList<>();
                     players.add(Color.BLUE);
-                    players.add(Color.CHOCOLATE);
+                    //players.add(Color.CHOCOLATE);
                     players.add(Color.ORANGE);
                     Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
 

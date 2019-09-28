@@ -7,8 +7,9 @@ import java.util.ArrayList;
 
 public class Square extends Rectangle {
 
-    public final static ArrayList<Square> squares = new ArrayList<>();
-    private final ArrayList<GraphicLine> borders = new ArrayList<>();
+
+    public static ArrayList<Square> squares = new ArrayList<>();
+    private ArrayList<GraphicLine> borders = new ArrayList<>();
     private Rectangle rect;
     private int id;
 
@@ -19,12 +20,30 @@ public class Square extends Rectangle {
         squares.add(this);
     }
 
+    private Square(Rectangle rect, int id){
+        this.rect=rect;
+        this.id=id;
+    }
+
     public static ArrayList<Square> getSquares() {
+        /*ArrayList<Square> result = new ArrayList<>();
+        for(Square s : squares){
+            result.add(s.cloned());
+        }
+        return result;*/
         return squares;
     }
 
     public ArrayList<GraphicLine> getBorders() {
         return borders;
+    }
+
+    public ArrayList<GraphicLine> getEmptyInnerBorders(){
+        ArrayList<GraphicLine> result = new ArrayList<>();
+        for( GraphicLine line : borders){
+            if(line.isEmpty() && line.getSquares().size()!=1 ){result.add(line);}
+        }
+        return result;
     }
 
     public Rectangle getRect() {
@@ -86,5 +105,18 @@ public class Square extends Rectangle {
             if (line.isEmpty()){ complete=false;}
         }
         return complete;
+    }
+
+    public static void setSquares(ArrayList<Square> squares) {
+        Square.squares = squares;
+    }
+
+    public void setBorders(ArrayList<GraphicLine> borders) {
+        this.borders = borders;
+    }
+    public Square cloned(){
+        Square result = new Square(this.getRect(), this.id);
+        result.setBorders(this.getBorders());
+        return result;
     }
 }

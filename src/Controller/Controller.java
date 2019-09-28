@@ -60,6 +60,43 @@ public class Controller {
         }
         return empty;
     }
+
+    public static int findChannelNb(){
+        ArrayList<Square> visited  = new ArrayList<>();
+        ArrayList<Square> toBeVisited = Square.getSquares();
+        int ChannelNb=0;
+
+        while(toBeVisited.size()!=0){
+            ChannelNb++;
+            Square checkSq = toBeVisited.remove(0);
+            visited.add(checkSq);
+            ArrayList<Square> children = new ArrayList<>();
+            children.add(checkSq);
+            //System.out.println("checkSq = " + checkSq.getid());
+            while( children.size() !=0) {
+                for(Square s : goToNextSquares(toBeVisited, children.get(0)) ){
+                    toBeVisited.remove(s);
+                    visited.add(s);
+                    children.add(s);
+                }
+                children.remove(0);
+            }
+        }
+        Square.setSquares(visited);
+        return ChannelNb;
+    }
+
+    private static ArrayList<Square> goToNextSquares(ArrayList<Square> sqs, Square s){
+        ArrayList<Square> children = new ArrayList<>();
+        for(GraphicLine line : s.getEmptyInnerBorders()){
+            for(Square neighbouringSquare : line.getSquares()){
+                if(neighbouringSquare!=s && sqs.contains(neighbouringSquare)){
+                    children.add(neighbouringSquare);
+                }
+            }
+        }
+        return children;
+    }
   /* int numberOfCompleteSquare = 0;
             //line is horizontal
             if (line.getStartX() != line.getEndX()) {
