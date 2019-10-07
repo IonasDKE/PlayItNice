@@ -42,6 +42,14 @@ public class Square extends Rectangle {
         return result;
     }
 
+    public ArrayList<GraphicLine> getEmptyBorders(){
+        ArrayList<GraphicLine> result = new ArrayList<>();
+        for( GraphicLine line : borders){
+            if(line.isEmpty()){result.add(line);}
+        }
+        return result;
+    }
+
     public Rectangle getRect() {
         return rect;
     }
@@ -124,11 +132,12 @@ public class Square extends Rectangle {
         return result;
     }
 
+
     public int getEmptyLineNumber(){
-        int countLines = 4;
+        int countLines = 0;
         for (GraphicLine line : borders){
-            if(!line.isEmpty()){
-                countLines--;
+            if(line.isEmpty()){
+                countLines++;
             }
         }
         return countLines;

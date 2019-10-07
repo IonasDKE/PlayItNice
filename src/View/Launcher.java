@@ -1,6 +1,6 @@
 package View;
 
-import Model.AdjacencyMatrix;
+import Controller.Controller;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -48,7 +47,7 @@ public class Launcher  extends Application {
 
         thisStage=primaryStage;
         Scene scene = new Scene(getContentPane(), WIDTH, HEIGHT);
-        scene.getStylesheets().add("View/GUIstyle.css");
+        scene.getStylesheets().add("GUIstyle.css");
         primaryStage.setScene(scene);
         primaryStage.setTitle("Dots and Boxes");
         primaryStage.show();
@@ -226,10 +225,11 @@ public class Launcher  extends Application {
                     if(Integer.parseInt(numberOfPlayers.getValue().toString()) == 2) {
                         players.add(Color.LIME);
                     }
-                    setOpponents();
+
+                    setPlayers(players);
                     Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
                     thisStage.setScene(gamePlay);
-
+                    Controller.aiStart();
                 }
                 catch (Exception e1 ) {
                     e1.printStackTrace();
@@ -237,21 +237,29 @@ public class Launcher  extends Application {
             }
         }));
 
-
         return pane;
     }
 
-    public void setOpponents(){
-
+    public void setPlayers(ArrayList<Color> colors){
+        int nb=0;
         if(selectPlayerOne.getValue().toString() == "End Square"){
             pOneAI = true;
+            nb++;
+            new Player(colors.get(0), Integer.toString(1), true);
+            System.out.println("one");
         }
 
         if(selectPlayerTwo.getValue().toString() == "End Square"){
             pTwoAI = true;
+            nb++;
+            new Player(colors.get(1), Integer.toString(2), true);
+            System.out.println("two");
         }
 
-
+        for(int i = nb; i< colors.size(); i++){
+            new Player(colors.get(i), Integer.toString(i+1),false);
+            System.out.println("human"+ i);
+        }
     }
 
     public static int getChosenM(){

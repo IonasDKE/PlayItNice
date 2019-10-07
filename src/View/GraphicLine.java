@@ -1,5 +1,4 @@
 package View;
-
 import Controller.Controller;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -40,7 +39,6 @@ public class GraphicLine extends Line {
 
     public void fill(){
 
-        //System.out.println("player " + Controller.Controller.getPlayers()[turn].getMoves());
         Player actualPlayer = Player.getActualPlayer();
 
         if (Controller.checkMove(this, actualPlayer)) {
@@ -50,13 +48,13 @@ public class GraphicLine extends Line {
 
             Controller.updateTurn(this,actualPlayer);
 
-            if (actualPlayer.getMoves() == 0) { Player.changeTurn(); }
-
             for( Square sq : squares){
                 sq.colorSquare(actualPlayer);
             }
            Controller.updateComponents();
-            System.out.println(Controller.findChannelNb());
+            if (actualPlayer.getMoves() == 0) { Player.changeTurn(); }
+
+            //System.out.println(Controller.findChannelNb());
         }
     }
 

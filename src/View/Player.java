@@ -1,7 +1,9 @@
-package  View;
+package View;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+
+import static Controller.Controller.*;
 
 public class Player {
     private Color color;
@@ -10,12 +12,14 @@ public class Player {
     private String name;
     private static int turn = 0;
     private static ArrayList<Player> players = new ArrayList<>();
+    private boolean ai= false;
 
-    public Player(Color color, String name) {
+    public Player(Color color, String name, boolean ai) {
         this.color = color;
         this.name = name;
         this.moves = 1;
         this.score = 0;
+        this.ai= ai;
         players.add(this);
     }
 /*
@@ -38,12 +42,20 @@ public class Player {
         //System.out.println();
     }
 
+    public boolean isAi() {
+        return ai;
+    }
+
     public static void changeTurn() {
         Player.getPlayers().get(turn).addMoves();
         if (turn < Player.getPlayers().size()-1) { turn ++; }
         else { turn = 0; }
-
-        System.out.println("turn = " + turn);;
+        System.out.println("turn = " + turn + ", ai: "+Player.getPlayers().get(turn).isAi());
+        System.out.println();
+        System.out.println();
+        if(Player.getPlayers().get(turn).isAi()){
+            Player.getPlayers().get(turn).endSquarePlay();
+        }
     }
 
     public static Player getActualPlayer(){
@@ -71,4 +83,21 @@ public class Player {
     }
 
 
+    public int getTurn() {
+        return turn;
+    }
+
+
+
+    public void endSquarePlay(){
+        /*if (Launcher.pOneAI == true && Launcher.pTwoAI == true) {
+            if (p.getTurn() == 1 || p.getTurn() == 2) {
+                completeSquare();
+                colorRandomLine();
+            }
+        }*/
+        completeSquare();
+        colorRandomLine();
+
+    }
 }

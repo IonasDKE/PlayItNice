@@ -66,8 +66,6 @@ public class Board {
 
         for(int i = 0; i< colors.size(); i++){
 
-            new Player(colors.get(i), Integer.toString(i+1));
-
             Rectangle playerColor = new Rectangle(30,15);
             playerColor.setFill(colors.get(i));
             bottom.getChildren().add(playerColor);
