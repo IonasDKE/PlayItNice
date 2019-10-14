@@ -37,7 +37,7 @@ public class Controller {
     private static int checkSquare(View.GraphicLine line) {
         int squareNb = 0;
         for (Square sq : line.getSquares()) {
-            if (sq.isComplete()) {
+            if (sq.isClaimed()) {
                 squareNb++;
             }
         }
@@ -65,13 +65,16 @@ public class Controller {
 
     //find the number of channels
     public static ArrayList<ArrayList<Square>> findChannels() {
+
+        ArrayList<ArrayList<Square>> result = new ArrayList<>();
         ArrayList<Square> visited = new ArrayList<>();
         ArrayList<Square> toBeVisited = Square.getSquares();
-        int ChannelNb = 0;
 
         while (toBeVisited.size() != 0) {
-            ChannelNb++;
+
+            ArrayList<Square> channel = new ArrayList<>();
             Square checkSq = toBeVisited.remove(0);
+            channel.add(checkSq);
             visited.add(checkSq);
             ArrayList<Square> children = new ArrayList<>();
             children.add(checkSq);
@@ -79,14 +82,21 @@ public class Controller {
             while (children.size() != 0) {
                 for (Square s : goToNextSquares(toBeVisited, children.get(0))) {
                     toBeVisited.remove(s);
+                    channel.add(s);
                     visited.add(s);
                     children.add(s);
                 }
                 children.remove(0);
             }
+            result.add(channel);
         }
+
         Square.setSquares(visited);
-        return ChannelNb;
+        return result;
+    }
+
+    public static int channelNb(){
+        return findChannels().size();
     }
 
     private static ArrayList<Square> goToNextSquares(ArrayList<Square> sqs, Square s) {

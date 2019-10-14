@@ -1,7 +1,9 @@
 package View;
+import Controller.Controller;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static Controller.Controller.*;
 
@@ -68,6 +70,7 @@ public class Player {
         else { turn = 0; }
 
         System.out.println("turn = " + turn + ", ai: "+Player.getPlayers().get(turn).isAi());
+        System.out.println("channel "+ Controller.channelNb());
         System.out.println();
         System.out.println();
 

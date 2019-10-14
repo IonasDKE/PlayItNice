@@ -89,7 +89,7 @@ public class Square extends Rectangle {
 
     //color a square form the color of a player
     public void colorSquare(Player player){
-        if(this.isComplete()){
+        if(this.isClaimed()){
             Stop[] stops = new Stop[] {
                     new Stop(0.2, Color.GRAY),
                     new Stop(0.5, player.getColor()),
@@ -102,7 +102,7 @@ public class Square extends Rectangle {
     }
 
     //check if a square has been completed
-    public boolean isComplete(){
+    public boolean isClaimed(){
         boolean complete = true;
         for (GraphicLine line : borders){
             if (line.isEmpty()){ complete=false;}
