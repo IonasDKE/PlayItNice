@@ -105,7 +105,7 @@ public class Square extends Rectangle {
     //check if a square has been completed
     public boolean isComplete(){
         boolean complete = true;
-        for (GraphicLine line : borders){
+        for (GraphicLine line :      ){
             if (line.isEmpty()){ complete=false;}
         }
         return complete;
