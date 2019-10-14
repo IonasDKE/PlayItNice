@@ -64,7 +64,7 @@ public class Controller {
     }
 
     //find the number of channels
-    public static int findChannelNb() {
+    public static ArrayList<ArrayList<Square>> findChannels() {
         ArrayList<Square> visited = new ArrayList<>();
         ArrayList<Square> toBeVisited = Square.getSquares();
         int ChannelNb = 0;
@@ -125,57 +125,67 @@ public class Controller {
                 }*/
 
 
-    public static void colorRandomLine(){
+    public static void colorRandomLine() {
         Random rand = new Random();
         boolean ok = true;
         int index = 0;
 
-        while(ok==true && index<GraphicLine.getLines().size() ) {
+        while (ok == true && index < GraphicLine.getLines().size()) {
             //int randomIndex = rand.nextInt(GraphicLine.getLines().size());
             GraphicLine chosenLine = GraphicLine.getLines().get(index);
-             if(chosenLine.isEmpty() && !isThirdLine(chosenLine)){
-                 System.out.println("fill "+ chosenLine.getId());
-                    chosenLine.fill();
-                    ok = false;
-             }
+            if (chosenLine.isEmpty() && !isThirdLine(chosenLine)) {
+                System.out.println("fill " + chosenLine.getId());
+                chosenLine.fill();
+                ok = false;
+            }
             index++;
         }
 
         //case there is no line that could be filled avoiding to give a point to the oponent
         while (ok == true && !(countSquare() == (Launcher.getChosenM() * Launcher.getChosenN()))) {
             int randomIndex = rand.nextInt(GraphicLine.getLines().size());
-                    if (GraphicLine.getLines().get(randomIndex).isEmpty()) {
-                        System.out.println("fillR "+GraphicLine.getLines().get(randomIndex).getId());
-                        GraphicLine.getLines().get(randomIndex).fill();
-                        ok = false;
-                    }
+            if (GraphicLine.getLines().get(randomIndex).isEmpty()) {
+                System.out.println("fillR " + GraphicLine.getLines().get(randomIndex).getId());
+                GraphicLine.getLines().get(randomIndex).fill();
+                ok = false;
+            }
         }
     }
 
-    private static boolean isThirdLine(GraphicLine line){
-     boolean result = false;
-     for(Square sq : line.getSquares()){
-         if(sq.getEmptyLineNumber()<=2){
-             result=true;
-         }
-     }
-     return result;
+    private static boolean isThirdLine(GraphicLine line) {
+        boolean result = false;
+        for (Square sq : line.getSquares()) {
+            if (sq.getValence() <= 2) {
+                result = true;
+            }
+        }
+        return result;
     }
 
-    public static int countSquare(){
-       int count = 0;
-        for(Square sq: Square.getSquares()){
-            if(sq.getEmptyLineNumber()== 0){
+    public static int countSquare() {
+        int count = 0;
+        for (Square sq : Square.getSquares()) {
+            if (sq.getValence() == 0) {
                 count++;
             }
         }
         return count;
     }
 
-    public static void aiStart(){
-        if(Player.getActualPlayer().isAi()){
+    public static void aiStart() {
+        if (Player.getActualPlayer().isAi()) {
             System.out.println("AI is starting");
             Player.getActualPlayer().endSquarePlay();
         }
     }
+
+    public GraphicLine evaluate() {
+        GraphicLine result = null;
+        for (GraphicLine line : GraphicLine.getEmptyLines()) {
+            if (result == null) { result = line; }
+            if (result.evaluate() < line.evaluate()) { result = line;}
+        }
+        return result;
+    }
 }
+

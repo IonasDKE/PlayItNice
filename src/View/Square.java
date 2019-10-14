@@ -26,7 +26,6 @@ public class Square extends Rectangle {
     }
 
     public static ArrayList<Square> getSquares() {
-
         return squares;
     }
 
@@ -111,13 +110,6 @@ public class Square extends Rectangle {
         return complete;
     }
 
-    public boolean isAlmostComplete(){
-        boolean complete = true;
-        for (GraphicLine line : borders){
-            if (line.isEmpty()){ complete=false;}
-        }
-        return complete;
-    }
 
     public static void setSquares(ArrayList<Square> squares) {
         Square.squares = squares;
@@ -133,7 +125,7 @@ public class Square extends Rectangle {
     }
 
 
-    public int getEmptyLineNumber(){
+    public int getValence(){
         int countLines = 0;
         for (GraphicLine line : borders){
             if(line.isEmpty()){

@@ -12,14 +12,22 @@ public class Player {
     private String name;
     private static int turn = 0;
     private static ArrayList<Player> players = new ArrayList<>();
-    private boolean ai= false;
+    private String ai= "null";
 
-    public Player(Color color, String name, boolean ai) {
+    public Player(Color color, String name, String ai) {
         this.color = color;
         this.name = name;
         this.moves = 1;
         this.score = 0;
         this.ai= ai;
+        players.add(this);
+    }
+
+    public Player(Color color, String name) {
+        this.color = color;
+        this.name = name;
+        this.moves = 1;
+        this.score = 0;
         players.add(this);
     }
 /*
@@ -43,6 +51,14 @@ public class Player {
     }
 
     public boolean isAi() {
+        if (ai == "null"){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public String getAiType(){
         return ai;
     }
 
@@ -50,11 +66,17 @@ public class Player {
         Player.getPlayers().get(turn).addMoves();
         if (turn < Player.getPlayers().size()-1) { turn ++; }
         else { turn = 0; }
+
         System.out.println("turn = " + turn + ", ai: "+Player.getPlayers().get(turn).isAi());
         System.out.println();
         System.out.println();
-        if(Player.getPlayers().get(turn).isAi()){
-            Player.getPlayers().get(turn).endSquarePlay();
+
+        Player player =  Player.getActualPlayer();
+        if(player.isAi()){
+            switch(player.getAiType()) {
+                case "End Square":
+                    player.endSquarePlay();
+            }
         }
     }
 
@@ -90,12 +112,6 @@ public class Player {
 
 
     public void endSquarePlay(){
-        /*if (Launcher.pOneAI == true && Launcher.pTwoAI == true) {
-            if (p.getTurn() == 1 || p.getTurn() == 2) {
-                completeSquare();
-                colorRandomLine();
-            }
-        }*/
         completeSquare();
         colorRandomLine();
 

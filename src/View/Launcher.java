@@ -242,22 +242,24 @@ public class Launcher  extends Application {
 
     public void setPlayers(ArrayList<Color> colors){
         int nb=0;
-        if(selectPlayerOne.getValue().toString() == "End Square"){
+        if(selectPlayerOne.getValue().toString() != "Human"){
             pOneAI = true;
             nb++;
-            new Player(colors.get(0), Integer.toString(1), true);
+            new Player(colors.get(0), Integer.toString(1),selectPlayerOne.getValue().toString());
             System.out.println("one");
         }
 
-        if(selectPlayerTwo.getValue().toString() == "End Square"){
+        if(selectPlayerTwo.getValue().toString() == "Human"){
             pTwoAI = true;
+
+            new Player(colors.get(nb), Integer.toString(nb+1), selectPlayerTwo.getValue().toString());
             nb++;
-            new Player(colors.get(1), Integer.toString(2), true);
+
             System.out.println("two");
         }
 
         for(int i = nb; i< colors.size(); i++){
-            new Player(colors.get(i), Integer.toString(i+1),false);
+            new Player(colors.get(i), Integer.toString(i+1));
             System.out.println("human"+ i);
         }
     }
