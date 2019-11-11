@@ -33,18 +33,20 @@ public class Square extends Rectangle {
         return borders;
     }
 
-    public ArrayList<GraphicLine> getEmptyInnerBorders(){
-        ArrayList<GraphicLine> result = new ArrayList<>();
-        for( GraphicLine line : borders){
-            if(line.isEmpty() && line.getSquares().size()!=1 ){result.add(line);}
-        }
-        return result;
-    }
-
+    //returns the borders of the square which are still empty
     public ArrayList<GraphicLine> getEmptyBorders(){
         ArrayList<GraphicLine> result = new ArrayList<>();
         for( GraphicLine line : borders){
             if(line.isEmpty()){result.add(line);}
+        }
+        return result;
+    }
+
+    //same as the above method but removing the borders which are edges of the main grid
+    public ArrayList<GraphicLine> getEmptyInnerBorders(){
+        ArrayList<GraphicLine> result = new ArrayList<>();
+        for( GraphicLine line : borders){
+            if(line.isEmpty() && line.getSquares().size()!=1 ){result.add(line);}
         }
         return result;
     }
@@ -80,16 +82,10 @@ public class Square extends Rectangle {
         return out;
     }
 
-    public static void display(){
-        for (Square sq : squares) {
-            //System.out.println(sq.id+"  sq = " + sq.borders.get(0).isEmpty()+sq.borders.get(1).isEmpty()+sq.borders.get(2).isEmpty()+sq.borders.get(3).isEmpty());
-
-        }
-    }
-
     //color a square form the color of a player
     public void colorSquare(Player player){
         if(this.isClaimed()){
+            //colouring pattern
             Stop[] stops = new Stop[] {
                     new Stop(0.2, Color.GRAY),
                     new Stop(0.5, player.getColor()),
@@ -118,12 +114,12 @@ public class Square extends Rectangle {
     public void setBorders(ArrayList<GraphicLine> borders) {
         this.borders = borders;
     }
+
     public Square cloned(){
         Square result = new Square(this.getRect(), this.id);
         result.setBorders(this.getBorders());
         return result;
     }
-
 
     public int getValence(){
         int countLines = 0;

@@ -1,13 +1,12 @@
 package View;
 
-import Controller.Controller;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-
+import Controller.Controller;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -232,6 +231,7 @@ public class Launcher  extends Application {
 
                     setPlayers(players);
                     Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
+                    gamePlay.getStylesheets().add("View/GUIstyle.css");
                     thisStage.setScene(gamePlay);
                     Controller.aiStart();
                 }
@@ -249,19 +249,19 @@ public class Launcher  extends Application {
         if(selectPlayerOne.getValue().toString() == "End Square"){
             pOneAI = true;
             nb++;
-            new Player(colors.get(0), Integer.toString(1), true);
+            new Player(colors.get(0), Integer.toString(1), "End Square");
             System.out.println("one");
         }
 
         if(selectPlayerTwo.getValue().toString() == "End Square"){
             pTwoAI = true;
-            new Player(colors.get(nb), Integer.toString(nb+1), true);
+            new Player(colors.get(nb), Integer.toString(nb+1), "End Square");
             nb++;
             System.out.println("two");
         }
 
         for(int i = nb; i< colors.size(); i++){
-            new Player(colors.get(i), Integer.toString(i+1),false);
+            new Player(colors.get(i), Integer.toString(i+1), "Human");
             System.out.println("human"+ i);
         }
     }

@@ -1,20 +1,15 @@
 package View;
-import Controller.Controller;
 import javafx.scene.paint.Color;
-
+import Controller.Controller;
 import java.util.ArrayList;
-import java.util.Collections;
-
-import static Controller.Controller.*;
 
 public class Player {
     private Color color;
     private int moves;
     private int score;
     private String name;
-    private static int turn = 0;
     private static ArrayList<Player> players = new ArrayList<>();
-    private String ai= "null";
+    private String ai;
 
     public Player(Color color, String name, String ai) {
         this.color = color;
@@ -25,18 +20,6 @@ public class Player {
         players.add(this);
     }
 
-    public Player(Color color, String name) {
-        this.color = color;
-        this.name = name;
-        this.moves = 1;
-        this.score = 0;
-        players.add(this);
-    }
-/*
-    public void addPlayerToList() {
-    players.add(this);
-    }
-*/
     public static ArrayList<Player> getPlayers() {
         return players;
     }
@@ -53,7 +36,7 @@ public class Player {
     }
 
     public boolean isAi() {
-        if (ai == "null"){
+        if (ai == "Human"){
             return false;
         }else{
             return true;
@@ -64,27 +47,9 @@ public class Player {
         return ai;
     }
 
-    public static void changeTurn() {
-        Player.getPlayers().get(turn).addMoves();
-        if (turn < Player.getPlayers().size()-1) { turn ++; }
-        else { turn = 0; }
-
-        System.out.println("turn = " + turn + ", ai: "+Player.getPlayers().get(turn).isAi());
-        System.out.println("channel "+ Controller.channelNb());
-        System.out.println();
-        System.out.println();
-
-        Player player =  Player.getActualPlayer();
-        if(player.isAi()){
-            switch(player.getAiType()) {
-                case "End Square":
-                    player.endSquarePlay();
-            }
-        }
-    }
 
     public static Player getActualPlayer(){
-        return players.get(turn);
+        return players.get(Controller.turn);
     }
 
     public int getScore(){
@@ -108,15 +73,8 @@ public class Player {
     }
 
 
-    public int getTurn() {
-        return turn;
-    }
-
-
-
     public void endSquarePlay(){
-        completeSquare();
-        colorRandomLine();
-
+        Controller.completeSquare();
+        Controller.colorRandomLine();
     }
 }

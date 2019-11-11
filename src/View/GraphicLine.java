@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class GraphicLine extends Line {
 
     private static final int STROKE_WIDTH = 10;
+
     //Arraylist made for easily iterate through all the lines
     public final static ArrayList<GraphicLine> lines = new ArrayList<>();
 
@@ -48,9 +49,8 @@ public class GraphicLine extends Line {
                 sq.colorSquare(actualPlayer);
             }
 
-            if (actualPlayer.getMoves() == 0) { Player.changeTurn(); }
             Controller.updateComponents();
-            //System.out.println(Controller.findChannelNb());
+            //lines.remove(this);
         }
     }
 
