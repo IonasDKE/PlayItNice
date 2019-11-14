@@ -3,7 +3,7 @@
     -fx-text-fill: -fx-text-base-color;
 
     -dark: rgb(34,34,34);
-    -fx-background-color: -black;
+    -fx-background-color: -dark;
 
     /*default font */
     -fx-font-family: 'Lucida Console';
@@ -60,7 +60,7 @@
  *                                                                             *
  ******************************************************************************/
 
-.toggle-button, .button{
+#startbutton{
     -fx-background-color: -flatter-blue;
     -fx-background-insets:  0.0;
     -fx-background-radius: 10.0;
@@ -70,6 +70,31 @@
     -fx-alignment: CENTER;
     -fx-content-display: LEFT;
     -fx-effect: dropshadow(three-pass-box, blue, 10, 0, 0, 0);
+}
+
+#quitButton{
+    -fx-background-color: #D51616;
+    -fx-background-insets:  0.0;
+    -fx-background-radius: 10.0;
+    -fx-border-width: 0.0;
+    -fx-padding: 0.7em;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+    -fx-effect: dropshadow(three-pass-box, red, 10, 0, 0, 0);
+}
+
+#validatebutton{
+    -fx-background-color: #008000;
+    -fx-background-insets:  0.0;
+    -fx-background-radius: 10.0;
+    -fx-border-width: 0.0;
+    -fx-padding: 0.7em;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+    -fx-effect: dropshadow(three-pass-box, green, 10, 0, 0, 0);
+
 }
 
 .toggle-button:focused,
@@ -104,6 +129,13 @@
     -fx-padding: 0.7em;
     -fx-border-width: 0.0;
     -fx-highlight-fill: rgb(94.0, 203.0, 234.0);
+}
+
+#titletext {
+    -fx-font: 95px Tahoma;
+    -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, white 0%, blue 50%);
+    -fx-stroke: black;
+    -fx-stroke-width: 1;
 }
 
 .text-area .text, .text-field > * > .text {
@@ -199,7 +231,7 @@
 }
 
 .content-area {
-    -fx-background-color: -black;
+    -fx-background-color: -dark;
 }
 
 
@@ -215,13 +247,27 @@
  * ChoiceBox                                                                   *
  *                                                                             *
  ******************************************************************************/
-.combo-box-base,
-.choice-box {
-    -fx-background-color: -flatter-blue;
+#playerOneBox{
+    -fx-background-color: #d2691e;
     -fx-background-insets:  0.0;
     -fx-background-radius: 2.0;
     -fx-border-width: 0.0;
 }
+
+#playerTwoBox{
+    -fx-background-color: #00ff00;
+    -fx-background-insets:  0.0;
+    -fx-background-radius: 2.0;
+    -fx-border-width: 0.0;
+}
+
+#playerNumberBox{
+    -fx-background-color: #6495ed;
+    -fx-background-insets:  0.0;
+    -fx-background-radius: 2.0;
+    -fx-border-width: 0.0;
+}
+
 
 .combo-box-base > .label,
 .choice-box > .label {
@@ -252,7 +298,7 @@
 }
 
 .context-menu .label {
-    -fx-text-fill: -black;
+    -fx-text-fill: -dark;
 }
 
 
@@ -299,7 +345,7 @@
 
 .check-box:selected > .box > .mark,
 .check-box:indeterminate > .box > .mark {
-    -fx-background-color: -black;
+    -fx-background-color: -dark;
 }
 
 .check-box:indeterminate > .box > .mark {
@@ -336,7 +382,7 @@
 }
 
 .radio-button:selected > .radio > .dot {
-    -fx-background-color: -black;
+    -fx-background-color: -dark;
 }
 
 

@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 public class GraphicLine extends Line {
 
-    private static final int STROKE_WIDTH = 9;
+    private static final int STROKE_WIDTH = 10;
+
     //Arraylist made for easily iterate through all the lines
     public final static ArrayList<GraphicLine> lines = new ArrayList<>();
 
@@ -33,10 +34,6 @@ public class GraphicLine extends Line {
         setOnMouseClicked(event -> fill());
     }
 
-    public static ArrayList<GraphicLine> getLines() {
-        return lines;
-    }
-
     public void fill(){
 
         Player actualPlayer = Player.getActualPlayer();
@@ -51,10 +48,9 @@ public class GraphicLine extends Line {
             for( Square sq : squares){
                 sq.colorSquare(actualPlayer);
             }
-           Controller.updateComponents();
-            if (actualPlayer.getMoves() == 0) { Player.changeTurn(); }
 
-            //System.out.println(Controller.findChannelNb());
+            Controller.updateComponents();
+            //lines.remove(this);
         }
     }
 
@@ -84,5 +80,21 @@ public class GraphicLine extends Line {
         return this.color;
     }
 
+    public double evaluate(){
+        return 0.0;
+    }
 
+    public static ArrayList<GraphicLine> getLines() {
+        return lines;
+    }
+
+    public static ArrayList<GraphicLine> getEmptyLines(){
+        ArrayList<GraphicLine> result = new ArrayList();
+        for(GraphicLine line : lines){
+            if(line.isEmpty()){
+                result.add(line);
+            }
+        }
+        return  result;
+    }
 }

@@ -1,20 +1,17 @@
 package View;
 import javafx.scene.paint.Color;
-
+import Controller.Controller;
 import java.util.ArrayList;
-
-import static Controller.Controller.*;
 
 public class Player {
     private Color color;
     private int moves;
     private int score;
     private String name;
-    private static int turn = 0;
     private static ArrayList<Player> players = new ArrayList<>();
-    private boolean ai= false;
+    private String ai;
 
-    public Player(Color color, String name, boolean ai) {
+    public Player(Color color, String name, String ai) {
         this.color = color;
         this.name = name;
         this.moves = 1;
@@ -22,11 +19,7 @@ public class Player {
         this.ai= ai;
         players.add(this);
     }
-/*
-    public void addPlayerToList() {
-    players.add(this);
-    }
-*/
+
     public static ArrayList<Player> getPlayers() {
         return players;
     }
@@ -43,23 +36,20 @@ public class Player {
     }
 
     public boolean isAi() {
-        return ai;
-    }
-
-    public static void changeTurn() {
-        Player.getPlayers().get(turn).addMoves();
-        if (turn < Player.getPlayers().size()-1) { turn ++; }
-        else { turn = 0; }
-        System.out.println("turn = " + turn + ", ai: "+Player.getPlayers().get(turn).isAi());
-        System.out.println();
-        System.out.println();
-        if(Player.getPlayers().get(turn).isAi()){
-            Player.getPlayers().get(turn).endSquarePlay();
+        if (ai == "Human"){
+            return false;
+        }else{
+            return true;
         }
     }
 
+    public String getAiType(){
+        return ai;
+    }
+
+
     public static Player getActualPlayer(){
-        return players.get(turn);
+        return players.get(Controller.turn);
     }
 
     public int getScore(){
@@ -83,21 +73,8 @@ public class Player {
     }
 
 
-    public int getTurn() {
-        return turn;
-    }
-
-
-
     public void endSquarePlay(){
-        /*if (Launcher.pOneAI == true && Launcher.pTwoAI == true) {
-            if (p.getTurn() == 1 || p.getTurn() == 2) {
-                completeSquare();
-                colorRandomLine();
-            }
-        }*/
-        completeSquare();
-        colorRandomLine();
-
+        Controller.completeSquare();
+        Controller.colorRandomLine();
     }
 }

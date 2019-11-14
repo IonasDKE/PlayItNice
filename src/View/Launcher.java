@@ -1,13 +1,12 @@
 package View;
 
-import Controller.Controller;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-
+import Controller.Controller;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -38,16 +37,20 @@ public class Launcher  extends Application {
     private GridPane sizeBox;
     private Text sizeText;
     private ToggleGroup tg;
-    private Stage thisStage;
+    public static Stage thisStage;
     private VBox selectPlayerVB,numberOfPlayerVB;
     private HBox opponents;
 
 
+    public static void main(String[] args)
+    {
+        launch(args);
+    }
     public void start(Stage primaryStage) {
 
         thisStage=primaryStage;
         Scene scene = new Scene(getContentPane(), WIDTH, HEIGHT);
-        scene.getStylesheets().add("GUIstyle.css");
+        scene.getStylesheets().add("View/GUIstyle.css");
         primaryStage.setScene(scene);
         primaryStage.setTitle("Dots and Boxes");
         primaryStage.show();
@@ -98,7 +101,7 @@ public class Launcher  extends Application {
                     selectPlayerVB.getChildren().addAll(selectPlayerOne, selectPlayerTwo);
                     //opponents.getChildren().remove(0);
                 }
-         }
+            }
         }
         ));
 
@@ -184,7 +187,7 @@ public class Launcher  extends Application {
         pane.getChildren().add(sizeText);
         pane.getChildren().add(sizeBox);
 
-       // pane.getChildren().add(getEmptyLabel(WIDTH,0));
+        // pane.getChildren().add(getEmptyLabel(WIDTH,0));
 
 
         Button startButton = new Button("Start Game");
@@ -208,10 +211,10 @@ public class Launcher  extends Application {
 
                     }
                     else if(!(radioButtons[i].isSelected()) && countError ==gameSizes.length -1){
-                         warning = new Text("Please add a size for the grid!");
-                         warning.setFill(Color.RED);
-                         warning.setTranslateY(0);
-                         pane.getChildren().add(warning);
+                        warning = new Text("Please add a size for the grid!");
+                        warning.setFill(Color.RED);
+                        warning.setTranslateY(0);
+                        pane.getChildren().add(warning);
                     }
                     countError++;
 
@@ -228,6 +231,7 @@ public class Launcher  extends Application {
 
                     setPlayers(players);
                     Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
+                    gamePlay.getStylesheets().add("View/GUIstyle.css");
                     thisStage.setScene(gamePlay);
                     Controller.aiStart();
                 }
@@ -245,19 +249,19 @@ public class Launcher  extends Application {
         if(selectPlayerOne.getValue().toString() == "End Square"){
             pOneAI = true;
             nb++;
-            new Player(colors.get(0), Integer.toString(1), true);
+            new Player(colors.get(0), Integer.toString(1), "End Square");
             System.out.println("one");
         }
 
         if(selectPlayerTwo.getValue().toString() == "End Square"){
             pTwoAI = true;
+            new Player(colors.get(nb), Integer.toString(nb+1), "End Square");
             nb++;
-            new Player(colors.get(1), Integer.toString(2), true);
             System.out.println("two");
         }
 
         for(int i = nb; i< colors.size(); i++){
-            new Player(colors.get(i), Integer.toString(i+1),false);
+            new Player(colors.get(i), Integer.toString(i+1), "Human");
             System.out.println("human"+ i);
         }
     }

@@ -34,8 +34,7 @@ public class Board {
         return playerNb;
     }
 
-    //private ArrayList<Shape> gridComponents = new ArrayList<>();
-
+    //builds all the gui components of the play frame
     public static Scene makeBoard(int width, int hight, ArrayList<Color> colors){
 
         Font gameFont = new Font(18);
@@ -94,7 +93,7 @@ public class Board {
         return newScene;
     }
 
-
+    // builds the grid which is composed of graphiclines and squares
     private static Pane  makeGrid( int width, int higth){
         int DOT_SIZE = 10;
         Pane pane = new Pane();

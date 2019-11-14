@@ -26,7 +26,6 @@ public class Square extends Rectangle {
     }
 
     public static ArrayList<Square> getSquares() {
-
         return squares;
     }
 
@@ -34,18 +33,20 @@ public class Square extends Rectangle {
         return borders;
     }
 
-    public ArrayList<GraphicLine> getEmptyInnerBorders(){
-        ArrayList<GraphicLine> result = new ArrayList<>();
-        for( GraphicLine line : borders){
-            if(line.isEmpty() && line.getSquares().size()!=1 ){result.add(line);}
-        }
-        return result;
-    }
-
+    //returns the borders of the square which are still empty
     public ArrayList<GraphicLine> getEmptyBorders(){
         ArrayList<GraphicLine> result = new ArrayList<>();
         for( GraphicLine line : borders){
             if(line.isEmpty()){result.add(line);}
+        }
+        return result;
+    }
+
+    //same as the above method but removing the borders which are edges of the main grid
+    public ArrayList<GraphicLine> getEmptyInnerBorders(){
+        ArrayList<GraphicLine> result = new ArrayList<>();
+        for( GraphicLine line : borders){
+            if(line.isEmpty() && line.getSquares().size()!=1 ){result.add(line);}
         }
         return result;
     }
@@ -81,16 +82,10 @@ public class Square extends Rectangle {
         return out;
     }
 
-    public static void display(){
-        for (Square sq : squares) {
-            //System.out.println(sq.id+"  sq = " + sq.borders.get(0).isEmpty()+sq.borders.get(1).isEmpty()+sq.borders.get(2).isEmpty()+sq.borders.get(3).isEmpty());
-
-        }
-    }
-
     //color a square form the color of a player
     public void colorSquare(Player player){
-        if(this.isComplete()){
+        if(this.isClaimed()){
+            //colouring pattern
             Stop[] stops = new Stop[] {
                     new Stop(0.2, Color.GRAY),
                     new Stop(0.5, player.getColor()),
@@ -103,7 +98,7 @@ public class Square extends Rectangle {
     }
 
     //check if a square has been completed
-    public boolean isComplete(){
+    public boolean isClaimed(){
         boolean complete = true;
         for (GraphicLine line :      ){
             if (line.isEmpty()){ complete=false;}
@@ -111,13 +106,6 @@ public class Square extends Rectangle {
         return complete;
     }
 
-    public boolean isAlmostComplete(){
-        boolean complete = true;
-        for (GraphicLine line : borders){
-            if (line.isEmpty()){ complete=false;}
-        }
-        return complete;
-    }
 
     public static void setSquares(ArrayList<Square> squares) {
         Square.squares = squares;
@@ -126,14 +114,14 @@ public class Square extends Rectangle {
     public void setBorders(ArrayList<GraphicLine> borders) {
         this.borders = borders;
     }
+
     public Square cloned(){
         Square result = new Square(this.getRect(), this.id);
         result.setBorders(this.getBorders());
         return result;
     }
 
-
-    public int getEmptyLineNumber(){
+    public int getValence(){
         int countLines = 0;
         for (GraphicLine line : borders){
             if(line.isEmpty()){
