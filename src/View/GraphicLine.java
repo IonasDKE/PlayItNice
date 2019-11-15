@@ -19,6 +19,7 @@ public class GraphicLine extends Line {
     private boolean empty = true;
     private Color color;
     private ArrayList<Square> squares= new ArrayList<>();
+    private int id;
 
     public boolean isEmpty() {
         return empty;
@@ -26,12 +27,16 @@ public class GraphicLine extends Line {
 
     public GraphicLine(int x, int y, int a, int b, int id){
         super(x,y,a,b);
-        this.setId(Integer.toString(id));
+        this.id= id;
         this.setStroke(Color.WHITE);
         this.setStrokeWidth(STROKE_WIDTH);
         this.color = Color.valueOf("white");
         lines.add(this);
         setOnMouseClicked(event -> fill());
+    }
+
+    public GraphicLine(int id){
+
     }
 
     public void fill(){
@@ -56,15 +61,15 @@ public class GraphicLine extends Line {
 
 
     //return the id as an integer
-    public static int getId(GraphicLine line) {
-        return Integer.parseInt(line.getId());
+    public int getid() {
+        return id;
     }
 
     //find the line that as a certain id, return's that line
-    public static GraphicLine findLine(String id) {
+    public static GraphicLine findLine(int id) {
         GraphicLine lineToReturn = null;
         for (GraphicLine line : lines) {
-            if (line.getId().equals(id))
+            if (line.getid()==id)
                 lineToReturn = line;
         }
         return lineToReturn;
@@ -88,6 +93,22 @@ public class GraphicLine extends Line {
         return lines;
     }
 
+    public static ArrayList<GraphicLine> getReducedLines(){
+        return doHeuristics(lines);
+    }
+
+    private static ArrayList<GraphicLine> doHeuristics(ArrayList<GraphicLine> l) {
+    ArrayList<GraphicLine> result = new  ArrayList();
+
+    for (GraphicLine line: lines){
+        //select all the remaining empty lines
+        if(line.isEmpty()){
+            result.add(line.cloned());
+        }
+    }
+    return result;
+    }
+
     public static ArrayList<GraphicLine> getEmptyLines(){
         ArrayList<GraphicLine> result = new ArrayList();
         for(GraphicLine line : lines){
@@ -96,5 +117,9 @@ public class GraphicLine extends Line {
             }
         }
         return  result;
+    }
+
+    public GraphicLine cloned(){
+        return new GraphicLine(this.id);
     }
 }

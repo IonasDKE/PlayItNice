@@ -20,6 +20,10 @@ public class Square extends Rectangle {
         squares.add(this);
     }
 
+    public Square(int id){
+        this.id = id;
+    }
+
     private Square(Rectangle rect, int id){
         this.rect=rect;
         this.id=id;
@@ -29,6 +33,19 @@ public class Square extends Rectangle {
         return squares;
     }
 
+    public static ArrayList<Square> getReducedSquare(){
+        return doHeuristics();
+    }
+
+    private static ArrayList<Square> doHeuristics(){
+        ArrayList<Square> result = new ArrayList<>();
+        for( Square sq : squares){
+            if(!sq.isClaimed()){
+                result.add(sq.cloned());
+            }
+        }
+        return result;
+    }
     public  ArrayList<GraphicLine> getBorders() {
         return borders;
     }
@@ -99,9 +116,9 @@ public class Square extends Rectangle {
 
     //check if a square has been completed
     public boolean isClaimed(){
-        boolean complete = true;
-        for (GraphicLine line : borders){
-            if (line.isEmpty()){ complete=false;}
+        boolean complete = false;
+        if(this.getValence()==0){
+            complete = true;
         }
         return complete;
     }
@@ -116,8 +133,8 @@ public class Square extends Rectangle {
     }
 
     public Square cloned(){
-        Square result = new Square(this.getRect(), this.id);
-        result.setBorders(this.getBorders());
+        Square result = new Square( this.id);
+        result.setBorders(this.getEmptyBorders());
         return result;
     }
 
