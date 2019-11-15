@@ -187,7 +187,7 @@ public class Controller {
     }
 
     //checks if claiming a the line will update any square to a valence of 1
-    private static boolean isThirdLine(GraphicLine line){
+    public static boolean isThirdLine(GraphicLine line){
         boolean result = false;
         for(Square sq : line.getSquares()){
             if(sq.getValence()<=2){

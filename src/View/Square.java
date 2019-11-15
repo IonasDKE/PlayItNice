@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Square extends Rectangle {
 
 
-    public static ArrayList<Square> squares = new ArrayList<>();
+    private static ArrayList<Square> squares = new ArrayList<>();
     private ArrayList<GraphicLine> borders = new ArrayList<>();
     private Rectangle rect;
     private int id;
@@ -24,31 +24,28 @@ public class Square extends Rectangle {
         this.id = id;
     }
 
-    private Square(Rectangle rect, int id){
-        this.rect=rect;
-        this.id=id;
-    }
-
     public static ArrayList<Square> getSquares() {
         return squares;
     }
 
-    public static ArrayList<Square> getReducedSquare(){
-        return doHeuristics();
+   /* public static ArrayList<Square> getReducedSquare(ArrayList<Square> sqs){
+        return doHeuristics(sqs);
     }
 
-    private static ArrayList<Square> doHeuristics(){
+    private static ArrayList<Square> doHeuristics(ArrayList<Square> sqs){
         ArrayList<Square> result = new ArrayList<>();
-        for( Square sq : squares){
+        for( Square sq : sqs){
             if(!sq.isClaimed()){
                 result.add(sq.cloned());
             }
         }
         return result;
-    }
+    }*/
+
     public  ArrayList<GraphicLine> getBorders() {
         return borders;
     }
+
 
     //returns the borders of the square which are still empty
     public ArrayList<GraphicLine> getEmptyBorders(){
@@ -86,10 +83,13 @@ public class Square extends Rectangle {
         }
     }
 
+    public static Square findSquare(int id){
+        return findSquare(id, squares);
+    }
     //find the square that as a certain id, return's that square
-    public static Square findSquare(int id) {
+    public static Square findSquare(int id, ArrayList<Square> sqs) {
         Square out= null;
-        for (Square sq : squares) {
+        for (Square sq : sqs) {
             if (sq.getid()==id)
                 out = sq;
         }
@@ -132,9 +132,26 @@ public class Square extends Rectangle {
         this.borders = borders;
     }
 
-    public Square cloned(){
-        Square result = new Square( this.id);
-        result.setBorders(this.getEmptyBorders());
+   /* public Square cloned(){
+        Square result = new Square(this.id);
+        //result.setBorders(this.getEmptyBorders()); ----
+        result.setBorders(this.getBorders());
+        return result;
+    }*/
+
+    public static ArrayList<Square> buildSquares(ArrayList<GraphicLine> lines){
+        ArrayList<Square> result = new ArrayList<>();
+        for(GraphicLine line : lines){
+          for(Square a : line.getSquares()){
+              Square f = Square.findSquare(a.getid(),result);
+              if(f ==null) {
+                  f = new Square(a.getid());
+              }
+                 line.getSquares().remove(a);
+                 line.getSquares().add(f);
+                 f.addBorder(line);
+              }
+        }
         return result;
     }
 

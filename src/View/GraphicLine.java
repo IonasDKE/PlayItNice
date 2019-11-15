@@ -1,5 +1,6 @@
 package View;
 import Controller.Controller;
+import GameTree.Tree;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
@@ -12,8 +13,16 @@ public class GraphicLine extends Line {
     //Arraylist made for easily iterate through all the lines
     public final static ArrayList<GraphicLine> lines = new ArrayList<>();
 
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
+    }
+
     public ArrayList<Square> getSquares() {
         return squares;
+    }
+
+    public void setSquares(ArrayList<Square> squares) {
+        this.squares = squares;
     }
 
     private boolean empty = true;
@@ -36,7 +45,7 @@ public class GraphicLine extends Line {
     }
 
     public GraphicLine(int id){
-
+     this.id= id;
     }
 
     public void fill(){
@@ -48,11 +57,11 @@ public class GraphicLine extends Line {
             this.setStroke(actualPlayer.getColor());
             this.empty= false;
 
-            Controller.updateTurn(this,actualPlayer);
-
-            for( Square sq : squares){
+            for( Square sq : this.getSquares()){
                 sq.colorSquare(actualPlayer);
             }
+
+            Controller.updateTurn(this,actualPlayer);
 
             Controller.updateComponents();
             //lines.remove(this);
@@ -65,8 +74,12 @@ public class GraphicLine extends Line {
         return id;
     }
 
+    public static GraphicLine findLine(int id){
+        return findLine(id,lines);
+    }
+
     //find the line that as a certain id, return's that line
-    public static GraphicLine findLine(int id) {
+    public static GraphicLine findLine(int id, ArrayList<GraphicLine> lines) {
         GraphicLine lineToReturn = null;
         for (GraphicLine line : lines) {
             if (line.getid()==id)
@@ -93,7 +106,18 @@ public class GraphicLine extends Line {
         return lines;
     }
 
-    public static ArrayList<GraphicLine> getReducedLines(){
+    public static ArrayList<GraphicLine> getCloned(ArrayList<GraphicLine> lines){
+        ArrayList<GraphicLine> result = new ArrayList<>();
+        for(GraphicLine line : lines){
+            result.add(line.cloned());
+        }
+        return result;
+    }
+
+    public static ArrayList<GraphicLine> getCloned(){
+        return getCloned(lines);
+    }
+    /*public static ArrayList<GraphicLine> getReducedLines(){
         return doHeuristics(lines);
     }
 
@@ -102,12 +126,12 @@ public class GraphicLine extends Line {
 
     for (GraphicLine line: lines){
         //select all the remaining empty lines
-        if(line.isEmpty()){
+        //if(line.isEmpty()){---
             result.add(line.cloned());
-        }
+        //}
     }
     return result;
-    }
+    }*/
 
     public static ArrayList<GraphicLine> getEmptyLines(){
         ArrayList<GraphicLine> result = new ArrayList();
@@ -120,6 +144,8 @@ public class GraphicLine extends Line {
     }
 
     public GraphicLine cloned(){
-        return new GraphicLine(this.id);
+        GraphicLine result = new GraphicLine(this.id);
+        result.setSquares(this.getSquares());
+        return result;
     }
 }
