@@ -20,6 +20,7 @@ public class Tree {
         extend(1);
     }
 
+
     //grow the tree deeper
     public void extend(int height){
        for(int i =0; i<height; i++) {
