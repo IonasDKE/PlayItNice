@@ -1,12 +1,14 @@
 package AI;
 
+import View.GraphicLine;
+
 import java.util.ArrayList;
 
 public class Tree {
     private Node rootNode;
     private static ArrayList<Node> tree = new ArrayList<>();
 
-    public Tree(View.Board state ) {
+    public Tree(ArrayList<GraphicLine> state ) {
         this.rootNode= new Node(state);
         tree.add(rootNode);
     }
@@ -22,6 +24,10 @@ public class Tree {
 
     public void deleteParent(Node node) {
         tree.remove(node.getParent());
+    }
+
+    public Node getRootNode() {
+        return this.rootNode;
     }
 
 

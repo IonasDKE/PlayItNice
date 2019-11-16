@@ -97,4 +97,8 @@ public class GraphicLine extends Line {
         }
         return  result;
     }
+
+    public GraphicLine cloneLine() {
+        return new GraphicLine((int) this.getStartX(), (int)this.getStartY(),(int) this.getEndX(),(int) this.getEndY(),Integer.parseInt(this.getId()));
+    }
 }

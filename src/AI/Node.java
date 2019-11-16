@@ -30,14 +30,42 @@ public class Node {
     }
 
     public void generateNextStates(ArrayList<GraphicLine> state) {
-        //Lines  should be up to date
         ArrayList<ArrayList<GraphicLine>> generatedState = new ArrayList<>();
-        for (GraphicLine line:state) {
-            if (line.isEmpty()) {
-
+        ArrayList<GraphicLine> allCheckedLine=new ArrayList<>(); // already picked once -> state already generated
+        for (int i = 0; i < getNumberOfEmpty(state); i++) {
+            int counter = 0;
+            boolean check = false;
+            for (GraphicLine line : state) {
+                if (line.isEmpty() && !check && !inList(allCheckedLine,line)) {
+                    generatedState.get(counter).add(line.cloneLine());
+                    allCheckedLine.add(line);
+                    check = true;
+                } else {
+                    generatedState.get(counter).add(line.cloneLine());
+                }
             }
+            counter++;
         }
         this.nextStates=generatedState;
+    }
+
+    public boolean inList(ArrayList<GraphicLine> lines, GraphicLine toCompare) {
+        boolean inSet = false;
+        for (GraphicLine line : lines) {
+            if (toCompare==line)
+                return true;
+        }
+        return inSet;
+    }
+
+    public int getNumberOfEmpty(ArrayList<GraphicLine> state) {
+        int counter=0;
+        for (GraphicLine l:state) {
+            if (l.isEmpty()) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
     public ArrayList<ArrayList<GraphicLine>> getNextStates() {
@@ -56,12 +84,12 @@ public class Node {
         this.visitCounter++;
     }
 
-    public void setParent(Node parent) {
-        this.parent=parent;
-    }
-
     public Node getParent() {
         return this.parent;
+    }
+
+    public ArrayList<GraphicLine> getState() {
+        return this.state;
     }
 
 }
