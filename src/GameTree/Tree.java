@@ -6,8 +6,8 @@ import View.Square;
 import java.util.ArrayList;
 
 public class Tree {
-    private State root;
-    private ArrayList<State> leaf = new ArrayList<>();
+    private Node root;
+    private ArrayList<Node> leaf = new ArrayList<>();
 
     public Tree(){
         rebuild();
@@ -18,7 +18,7 @@ public class Tree {
         ArrayList<GraphicLine> newLines = View.GraphicLine.getCloned();
         System.out.println();
         GraphicLine.display(newLines);
-        root = new State(newLines);
+        root = new Node(new State(newLines), null);
         leaf.add(root);
         extend(1);
     }
@@ -28,15 +28,15 @@ public class Tree {
     public void extend(int height){
        for(int i =0; i<height; i++) {
            System.out.println("extend "+i);
-           ArrayList<State> newLeafs = new ArrayList<>();
+           ArrayList<Node> newLeafs = new ArrayList<>();
 
-           for (State t : leaf) {
+           for (Node n : leaf) {
                System.out.println();
                System.out.println("Parent = ");
-               t.display();
-               ArrayList<State> children = t.getChildren();
+               n.getState().display();
+               ArrayList<State> children = n.getState().getChildren();
                for (State s : children) {
-                   newLeafs.add(s);
+                   newLeafs.add(new Node(s,n));
                }
            }
 
@@ -44,13 +44,13 @@ public class Tree {
        }
     }
 
-    //TO DO : add visit graph methods
+    //TO DO : add visit graph nodes methods
 
-    public State getRoot(){
+    public Node getRoot(){
         return root;
     }
 
-    public ArrayList<State> getLeaf() {
+    public ArrayList<Node> getLeaves() {
         return leaf;
     }
 
