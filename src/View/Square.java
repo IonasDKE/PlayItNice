@@ -1,15 +1,15 @@
 package View;
 
+import GameTree.State;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
-public class Square extends Rectangle {
+public class Square {
 
 
-    private static ArrayList<Square> squares = new ArrayList<>();
-    private ArrayList<GraphicLine> borders = new ArrayList<>();
+    private ArrayList<Line> borders = new ArrayList<>();
     private Rectangle rect;
     private int id;
 
@@ -17,35 +17,31 @@ public class Square extends Rectangle {
         this.rect = new Rectangle(x,y, size,size);
         rect.setFill(Color.GRAY);
         this.id = id;
-        squares.add(this);
     }
 
     public Square(int id){
         this.id = id;
     }
 
-    public static ArrayList<Square> getSquares() {
-        return squares;
-    }
 
-    public  ArrayList<GraphicLine> getBorders() {
+    public  ArrayList<Line> getBorders() {
         return borders;
     }
 
 
     //returns the borders of the square which are still empty
-    public ArrayList<GraphicLine> getEmptyBorders(){
-        ArrayList<GraphicLine> result = new ArrayList<>();
-        for( GraphicLine line : borders){
+    public ArrayList<Line> getEmptyBorders(){
+        ArrayList<Line> result = new ArrayList<>();
+        for( Line line : borders){
             if(line.isEmpty()){result.add(line);}
         }
         return result;
     }
 
     //same as the above method but removing the borders which are edges of the main grid
-    public ArrayList<GraphicLine> getEmptyInnerBorders(){
-        ArrayList<GraphicLine> result = new ArrayList<>();
-        for( GraphicLine line : borders){
+    public ArrayList<Line> getEmptyInnerBorders(){
+        ArrayList<Line> result = new ArrayList<>();
+        for( Line line : borders){
             if(line.isEmpty() && line.getSquares().size()!=1 ){result.add(line);}
         }
         return result;
@@ -60,30 +56,13 @@ public class Square extends Rectangle {
     }
 
     // adds a border reference to the square
-    public void addBorder(GraphicLine line){
+    public void addBorder(Line line){
         if(borders.size()<4){
             borders.add(line);
             line.assignSquare(this);
         }else{
             System.out.println("borders are full");
         }
-    }
-
-    public static Square findSquare(int id){
-        return findSquare(id, squares);
-    }
-
-    //find the square that as a certain id, return's that square
-    public static Square findSquare(int id, ArrayList<Square> sqs) {
-        Square out= null;
-        for (Square sq : sqs) {
-            if (sq.getid()==id)
-                out = sq;
-        }
-        if(out==null){
-            //System.out.println("cannot find this square");
-        }
-        return out;
     }
 
     //color a square form the color of a player
@@ -111,23 +90,19 @@ public class Square extends Rectangle {
     }
 
 
-    public static void setSquares(ArrayList<Square> squares) {
-        Square.squares = squares;
-    }
-
-    public void setBorders(ArrayList<GraphicLine> borders) {
+    public void setBorders(ArrayList<Line> borders) {
         this.borders = borders;
     }
 
     //gets the squares from the lines !! arraylist squares of lines must not be empty
-    public static ArrayList<Square> buildSquares(ArrayList<GraphicLine> lines){
+    public static ArrayList<Square> buildSquares(ArrayList<Line> lines){
         ArrayList<Square> result = new ArrayList<>();
 
-        for(GraphicLine line : lines){
+        for(Line line : lines){
 
           for(int i =0; i<line.getSquares().size(); i++){
               Square a = line.getSquares().get(0);
-              Square f = Square.findSquare(a.getid(),result);
+              Square f = State.findSquare(a.getid(),result);
               if(f ==null) {
                   f = new Square(a.getid());
                   result.add(f);
@@ -142,7 +117,7 @@ public class Square extends Rectangle {
 
     public int getValence(){
         int countLines = 0;
-        for (GraphicLine line : this.getBorders()){
+        for (Line line : this.getBorders()){
             if(line.isEmpty()){
                 countLines++;
             }
@@ -153,10 +128,11 @@ public class Square extends Rectangle {
     public static void display(ArrayList<Square> sqs){
         for(Square s: sqs){
             System.out.print("square = " + s.getid()+", valence "+ s.getValence()+ ", borders = ");
-            for(GraphicLine l : s.getBorders()){
+            for(Line l : s.getBorders()){
                 System.out.print(l.getid()+", "+l.isEmpty()+"; ");
             }
             System.out.println();
         }
     }
+
 }

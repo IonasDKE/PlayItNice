@@ -1,4 +1,5 @@
 package View;
+import GameTree.State;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -99,20 +100,30 @@ public class Board {
         Pane pane = new Pane();
         int squareSize = GRID_SIZE/Integer.max(width,higth);
 
+        if(State.currentState()!=null) {
+            State.currentState().reset();
+        }
+
+        ArrayList<Line> lines = new ArrayList<>();
+        ArrayList<Square> squares = new ArrayList<>();
+
         //build the horizontal lines and the rectangles filling space between the lines
         for(int h = 0; h<=higth; h++){
             for(int w=0; w<width; w++){
-                GraphicLine line = new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+squareSize+xTranslation, h*squareSize+yTranslation, 2*10*h+w);
+                GraphicLine graphicLine = new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+squareSize+xTranslation, h*squareSize+yTranslation, 2*10*h+w);
+
+                lines.add(graphicLine.getLine());
 
                 if(h!=higth){
                     Square sq = new Square(w*squareSize+xTranslation, h*squareSize+yTranslation,squareSize, 2*10*h+w);
+                    squares.add(sq);
                     pane.getChildren().add(sq.getRect());
-                    sq.addBorder(line);
+                    sq.addBorder(graphicLine.getLine());
                 }
 
-                if(h!=0){Square.findSquare(2*10*(h-1)+w).addBorder(line);};
+                if(h!=0){State.findSquare( (2*10*(h-1)+w),squares).addBorder(graphicLine.getLine());}
 
-                pane.getChildren().add(line);
+                pane.getChildren().add(graphicLine);
             }
         }
 
@@ -120,16 +131,20 @@ public class Board {
         for(int h = 0; h<higth; h++) {
             for (int w = 0; w <= width; w++) {
 
-                GraphicLine line = new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, 2*10*h+10+w);
+                GraphicLine graphicLine = new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, 2*10*h+10+w);
 
-                if(w!=width){Square.findSquare(2*10*h+w).addBorder(line);}
-                if(w!=0){Square.findSquare(2*10*h+w-1).addBorder(line);}
+                lines.add(graphicLine.getLine());
 
-                pane.getChildren().add(line);
+                if(w!=width){ State.findSquare( (2*10*h+w), squares).addBorder(graphicLine.getLine());}
+                if(w!=0){State.findSquare( (2*10*h+w-1), squares).addBorder(graphicLine.getLine());}
+
+                pane.getChildren().add(graphicLine);
                 pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+yTranslation, DOT_SIZE, Color.RED));
                 if(h==(higth-1)) { pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, DOT_SIZE, Color.RED));}
             }
         }
+
+        State.setCurrentState( new State(lines,squares));
         return pane;
     }
 

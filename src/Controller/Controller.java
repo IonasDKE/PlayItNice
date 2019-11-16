@@ -1,5 +1,6 @@
 package Controller;
 
+import GameTree.State;
 import GameTree.Tree;
 import View.Player;
 import View.*;
@@ -13,7 +14,7 @@ import java.util.Random;
 public class Controller {
 
     // checks if the line has already been claimed
-    public static Boolean checkMove(View.GraphicLine line, Player player) {
+    public static Boolean checkMove(View.Line line, Player player) {
         if (line.isEmpty()) {
             return true;
         } else {
@@ -27,7 +28,7 @@ public class Controller {
 
     // decreases the player's moves in case he hasn't claimed any square and adds a score to the player in case he has
     // claimed a square, a move is implicitely added to the player as its moves haven't been decreased
-    public static void updateTurn(View.GraphicLine line, Player player) {
+    public static void updateTurn(View.Line line, Player player) {
         int numberOfCompleteSquare = checkAnySquareClaimed(line);
         if (numberOfCompleteSquare > 0) {
             player.addScore(numberOfCompleteSquare);
@@ -61,7 +62,7 @@ public class Controller {
     }
 
     // check if any square has been claimed
-    private static int checkAnySquareClaimed(View.GraphicLine line) {
+    private static int checkAnySquareClaimed(View.Line line) {
         int squareNb = 0;
         for (Square sq : line.getSquares()) {
             if (sq.isClaimed()) {
@@ -86,7 +87,7 @@ public class Controller {
     //find all the different of channels, return them on a arraylist of arraylist of squares
     public static ArrayList<ArrayList<Square>> getChannels() {
         ArrayList<Square> visited = new ArrayList<>();
-        ArrayList<Square> toBeVisited = Square.getSquares();
+        ArrayList<Square> toBeVisited = State.currentState().getSquares();
         ArrayList result = new ArrayList();
 
         // while all the squares have not been visited
@@ -109,7 +110,7 @@ public class Controller {
                 children.remove(0);
             }
         }
-        Square.setSquares(visited);
+        State.currentState().setSquares(visited);
         return result;
     }
 
@@ -121,7 +122,7 @@ public class Controller {
     //returns all the neighouring squares of a given square
     private static ArrayList<Square> goToNextSquares(ArrayList<Square> sqs, Square s) {
         ArrayList<Square> children = new ArrayList<>();
-        for (GraphicLine line : s.getEmptyInnerBorders()) {
+        for (Line line : s.getEmptyInnerBorders()) {
             for (Square neighbouringSquare : line.getSquares()) {
                 if (neighbouringSquare != s && sqs.contains(neighbouringSquare)) {
                     children.add(neighbouringSquare);
@@ -134,7 +135,7 @@ public class Controller {
     //returns all the neighouring squares of a given square
     private static ArrayList<Square> goToNextSquares(Square s) {
         ArrayList<Square> children = new ArrayList<>();
-        for (GraphicLine line : s.getEmptyInnerBorders()) {
+        for (Line line : s.getEmptyInnerBorders()) {
             for (Square neighbouringSquare : line.getSquares()) {
                 if (neighbouringSquare != s ) {
                     children.add(neighbouringSquare);
@@ -145,9 +146,9 @@ public class Controller {
     }
 
     //claim the squares who can be claimed
-    public static void completeSquare() {
+    public static void completeSquare(ArrayList<Square> sqs) {
         boolean doRecursion = false;
-        for (Square sq : Square.getSquares()) {
+        for (Square sq : sqs) {
             if (sq.getValence() == 1) {
                 sq.colorSquare(Player.getActualPlayer());
                 sq.getEmptyBorders().get(0).fill();
@@ -155,18 +156,18 @@ public class Controller {
             }
         }
         if (doRecursion && !(countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN()))) {
-            completeSquare();
+            completeSquare(sqs);
         }
     }
 
-    public static void colorRandomLine(){
+    public static void colorRandomLine(ArrayList<Line> lines){
         Random rand = new Random();
         boolean lineHasNotBeenPicked = true;
         int index = 0;
 
-        //finds a line that doesnt give the opponent the opportunity to claim a square
-        while(lineHasNotBeenPicked && index<GraphicLine.getLines().size() ) {
-            GraphicLine chosenLine = GraphicLine.getLines().get(index);
+        //case 1 finds a line that doesnt give the opponent the opportunity to claim a square
+        while(lineHasNotBeenPicked && index< lines.size() ) {
+            Line chosenLine = lines.get(index);
             if(chosenLine.isEmpty() && !isThirdLine(chosenLine)){
                 System.out.println("fill "+ chosenLine.getid());
                 chosenLine.fill();
@@ -175,12 +176,12 @@ public class Controller {
             index++;
         }
 
-        //picks up a random line
+        //case 2, picks up a random line
         while (lineHasNotBeenPicked && !(countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN()))) {
-            int randomIndex = rand.nextInt(GraphicLine.getLines().size());
-            if (GraphicLine.getLines().get(randomIndex).isEmpty()) {
-                System.out.println("fillR "+GraphicLine.getLines().get(randomIndex).getid());
-                GraphicLine.getLines().get(randomIndex).fill();
+            int randomIndex = rand.nextInt( lines.size());
+            if ( lines.get(randomIndex).isEmpty()) {
+                System.out.println("fillR "+ lines.get(randomIndex).getid());
+                lines.get(randomIndex).fill();
                 lineHasNotBeenPicked = false;
             }
         }
@@ -188,7 +189,7 @@ public class Controller {
     }
 
     //checks if claiming a the line will update any square to a valence of 1
-    public static boolean isThirdLine(GraphicLine line){
+    public static boolean isThirdLine(Line line){
         boolean result = false;
 
         for(Square sq : line.getSquares()){
@@ -202,7 +203,7 @@ public class Controller {
     //counts the number of squares that players have claimed
     public static int countClaimedSquare(){
         int count = 0;
-        for(Square sq: Square.getSquares()){
+        for(Square sq: State.currentState().getSquares()){
             if(sq.getValence()== 0){
                 count++;
             }

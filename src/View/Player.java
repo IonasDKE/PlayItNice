@@ -1,4 +1,5 @@
 package View;
+import GameTree.State;
 import javafx.scene.paint.Color;
 import Controller.Controller;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class Player {
 
 
     public void endSquarePlay(){
-        Controller.completeSquare();
-        Controller.colorRandomLine();
+        Controller.completeSquare(State.currentState().getSquares());
+        Controller.colorRandomLine(State.currentState().getLines());
     }
 }

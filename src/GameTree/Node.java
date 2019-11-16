@@ -43,16 +43,19 @@ public class Node {
         addVisit();
 
         if(children==null) {
-            ArrayList<State> children = this.state.getChildren();
-            ArrayList<Node> result = new ArrayList<>();
-            for (State t : children) {
-                result.add(new Node(t, this));
-            }
-            this.children=result;
-            return result;
-        }else{
-            return children;
+            children=computeChildren();
         }
+            return children;
+    }
+
+    private ArrayList<Node> computeChildren(){
+        ArrayList<State> children = this.state.getChildren();
+        ArrayList<Node> result = new ArrayList<>();
+        for (State t : children) {
+            result.add(new Node(t, this));
+        }
+        this.children=result;
+        return result;
     }
 
     public boolean isRoot(){
