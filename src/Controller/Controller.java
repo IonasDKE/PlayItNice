@@ -1,5 +1,6 @@
 package Controller;
 
+import GameTree.Tree;
 import View.Player;
 import View.*;
 import javafx.scene.shape.Rectangle;
@@ -167,7 +168,7 @@ public class Controller {
         while(lineHasNotBeenPicked && index<GraphicLine.getLines().size() ) {
             GraphicLine chosenLine = GraphicLine.getLines().get(index);
             if(chosenLine.isEmpty() && !isThirdLine(chosenLine)){
-                System.out.println("fill "+ chosenLine.getId());
+                System.out.println("fill "+ chosenLine.getid());
                 chosenLine.fill();
                 lineHasNotBeenPicked = false;
             }
@@ -178,7 +179,7 @@ public class Controller {
         while (lineHasNotBeenPicked && !(countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN()))) {
             int randomIndex = rand.nextInt(GraphicLine.getLines().size());
             if (GraphicLine.getLines().get(randomIndex).isEmpty()) {
-                System.out.println("fillR "+GraphicLine.getLines().get(randomIndex).getId());
+                System.out.println("fillR "+GraphicLine.getLines().get(randomIndex).getid());
                 GraphicLine.getLines().get(randomIndex).fill();
                 lineHasNotBeenPicked = false;
             }
@@ -189,8 +190,9 @@ public class Controller {
     //checks if claiming a the line will update any square to a valence of 1
     public static boolean isThirdLine(GraphicLine line){
         boolean result = false;
+
         for(Square sq : line.getSquares()){
-            if(sq.getValence()<=2){
+            if(sq.getValence()==2){
                 result=true;
             }
         }
@@ -212,7 +214,12 @@ public class Controller {
     public static void aiStart(){
         if(Player.getActualPlayer().isAi()){
             System.out.println("AI is starting");
-            Player.getActualPlayer().endSquarePlay();
+            Player player = Player.getActualPlayer();
+            switch (player.getAiType()) {
+                case "End Square":
+                    player.endSquarePlay();
+            }
+            Tree t = new Tree();
         }
     }
 
@@ -235,21 +242,16 @@ public class Controller {
             for(int i = 0 ; i < Player.getPlayers().size(); i++){
                 if (max < Player.getPlayers().get(i).getScore()){
                     max = Player.getPlayers().get(i).getScore();
-                    //winner = Player.getPlayers().get(i);
                 winner=i;
                 }
 
             }
-           // Board.getPlayerNb().setText(winner.getName());
-
         }
         Rectangle sq = new Rectangle();
         sq.setFill(Player.getPlayers().get(winner).getColor());
         sq.setWidth(75);
         sq.setHeight(75);
         sq.setTranslateY(30);
-       // Player.getPlayers().get(winner).getColor();
        return sq;
-
     }
 }

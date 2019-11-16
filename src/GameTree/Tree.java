@@ -13,9 +13,12 @@ public class Tree {
         rebuild();
     }
 
+    //meant to rebuild the game tree a each turn
     public void rebuild (){
         ArrayList<GraphicLine> newLines = View.GraphicLine.getCloned();
-        root = new State(newLines, View.Square.buildSquares(newLines));
+        System.out.println();
+        GraphicLine.display(newLines);
+        root = new State(newLines);
         leaf.add(root);
         extend(1);
     }
@@ -24,10 +27,15 @@ public class Tree {
     //grow the tree deeper
     public void extend(int height){
        for(int i =0; i<height; i++) {
+           System.out.println("extend "+i);
            ArrayList<State> newLeafs = new ArrayList<>();
 
            for (State t : leaf) {
-               for (State s : t.getChildren()) {
+               System.out.println();
+               System.out.println("Parent = ");
+               t.display();
+               ArrayList<State> children = t.getChildren();
+               for (State s : children) {
                    newLeafs.add(s);
                }
            }
@@ -36,9 +44,15 @@ public class Tree {
        }
     }
 
-    //add visit graph methods
+    //TO DO : add visit graph methods
 
     public State getRoot(){
         return root;
     }
+
+    public ArrayList<State> getLeaf() {
+        return leaf;
+    }
+
 }
+

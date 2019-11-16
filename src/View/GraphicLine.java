@@ -17,6 +17,13 @@ public class GraphicLine extends Line {
         this.empty = empty;
     }
 
+    public ArrayList<Square> getClonedSquares(){
+        ArrayList<Square> result = new ArrayList<>();
+        for(Square a : this.getSquares()){
+            result.add(a);
+        }
+        return result;
+    }
     public ArrayList<Square> getSquares() {
         return squares;
     }
@@ -65,6 +72,8 @@ public class GraphicLine extends Line {
 
             Controller.updateComponents();
             //lines.remove(this);
+
+            Tree t = new Tree();
         }
     }
 
@@ -117,21 +126,6 @@ public class GraphicLine extends Line {
     public static ArrayList<GraphicLine> getCloned(){
         return getCloned(lines);
     }
-    /*public static ArrayList<GraphicLine> getReducedLines(){
-        return doHeuristics(lines);
-    }
-
-    private static ArrayList<GraphicLine> doHeuristics(ArrayList<GraphicLine> l) {
-    ArrayList<GraphicLine> result = new  ArrayList();
-
-    for (GraphicLine line: lines){
-        //select all the remaining empty lines
-        //if(line.isEmpty()){---
-            result.add(line.cloned());
-        //}
-    }
-    return result;
-    }*/
 
     public static ArrayList<GraphicLine> getEmptyLines(){
         ArrayList<GraphicLine> result = new ArrayList();
@@ -145,7 +139,18 @@ public class GraphicLine extends Line {
 
     public GraphicLine cloned(){
         GraphicLine result = new GraphicLine(this.id);
-        result.setSquares(this.getSquares());
+        result.setEmpty(this.empty);
+        result.setSquares(this.getClonedSquares());
         return result;
+    }
+
+    public static void display(ArrayList<GraphicLine> l){
+        for(GraphicLine line : l){
+            System.out.print("line " + line.getid()+ ", filled = "+ line.isEmpty()+", squares = ");
+            for(Square s :line.getSquares()){
+                System.out.print(s.getid()+", ");
+            }
+            System.out.println();
+        }
     }
 }

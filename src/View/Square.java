@@ -28,20 +28,6 @@ public class Square extends Rectangle {
         return squares;
     }
 
-   /* public static ArrayList<Square> getReducedSquare(ArrayList<Square> sqs){
-        return doHeuristics(sqs);
-    }
-
-    private static ArrayList<Square> doHeuristics(ArrayList<Square> sqs){
-        ArrayList<Square> result = new ArrayList<>();
-        for( Square sq : sqs){
-            if(!sq.isClaimed()){
-                result.add(sq.cloned());
-            }
-        }
-        return result;
-    }*/
-
     public  ArrayList<GraphicLine> getBorders() {
         return borders;
     }
@@ -86,6 +72,7 @@ public class Square extends Rectangle {
     public static Square findSquare(int id){
         return findSquare(id, squares);
     }
+
     //find the square that as a certain id, return's that square
     public static Square findSquare(int id, ArrayList<Square> sqs) {
         Square out= null;
@@ -94,7 +81,7 @@ public class Square extends Rectangle {
                 out = sq;
         }
         if(out==null){
-            System.out.println("cannot find this square");
+            //System.out.println("cannot find this square");
         }
         return out;
     }
@@ -132,36 +119,44 @@ public class Square extends Rectangle {
         this.borders = borders;
     }
 
-   /* public Square cloned(){
-        Square result = new Square(this.id);
-        //result.setBorders(this.getEmptyBorders()); ----
-        result.setBorders(this.getBorders());
-        return result;
-    }*/
-
+    //gets the squares from the lines !! arraylist squares of lines must not be empty
     public static ArrayList<Square> buildSquares(ArrayList<GraphicLine> lines){
         ArrayList<Square> result = new ArrayList<>();
+
         for(GraphicLine line : lines){
-          for(Square a : line.getSquares()){
+
+          for(int i =0; i<line.getSquares().size(); i++){
+              Square a = line.getSquares().get(0);
               Square f = Square.findSquare(a.getid(),result);
               if(f ==null) {
                   f = new Square(a.getid());
+                  result.add(f);
               }
-                 line.getSquares().remove(a);
-                 line.getSquares().add(f);
+                 line.getSquares().remove(0);
                  f.addBorder(line);
-              }
+                 // adds also f in the squares arraylists of line. As a result a is replaced by a cloned version
+          }
         }
         return result;
     }
 
     public int getValence(){
         int countLines = 0;
-        for (GraphicLine line : borders){
+        for (GraphicLine line : this.getBorders()){
             if(line.isEmpty()){
                 countLines++;
             }
         }
         return countLines;
+    }
+
+    public static void display(ArrayList<Square> sqs){
+        for(Square s: sqs){
+            System.out.print("square = " + s.getid()+", valence "+ s.getValence()+ ", borders = ");
+            for(GraphicLine l : s.getBorders()){
+                System.out.print(l.getid()+", "+l.isEmpty()+"; ");
+            }
+            System.out.println();
+        }
     }
 }

@@ -26,13 +26,10 @@ public class Player {
 
     public void addScore(int toAdd) {
         this.score += toAdd;
-        //System.out.println("score changed " + this.score + " " + this.name);
     }
 
     public void addMoves() {
         this.moves += 1;
-        //System.out.println("move updated " + this.moves + " " + this.name);
-        //System.out.println();
     }
 
     public boolean isAi() {
