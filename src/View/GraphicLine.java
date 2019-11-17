@@ -1,104 +1,23 @@
 package View;
-import Controller.Controller;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-import java.util.ArrayList;
 
 public class GraphicLine extends Line {
 
     private static final int STROKE_WIDTH = 10;
 
-    //Arraylist made for easily iterate through all the lines
-    public final static ArrayList<GraphicLine> lines = new ArrayList<>();
+    private View.Line line;
 
-    public ArrayList<Square> getSquares() {
-        return squares;
-    }
-
-    private boolean empty = true;
-    private Color color;
-    private ArrayList<Square> squares= new ArrayList<>();
-
-    public boolean isEmpty() {
-        return empty;
-    }
-
-    public GraphicLine(int x, int y, int a, int b, int id){
-        super(x,y,a,b);
-        this.setId(Integer.toString(id));
+    public GraphicLine(int x, int y, int a, int b, int id) {
+        super(x, y, a, b);
+        this.line = new View.Line(id,this);
         this.setStroke(Color.WHITE);
         this.setStrokeWidth(STROKE_WIDTH);
-        this.color = Color.valueOf("white");
-        lines.add(this);
-        setOnMouseClicked(event -> fill());
+        setOnMouseClicked(event -> this.getLine().fill());
     }
 
-    public void fill(){
-
-        Player actualPlayer = Player.getActualPlayer();
-
-        if (Controller.checkMove(this, actualPlayer)) {
-            this.color = actualPlayer.getColor();
-            this.setStroke(actualPlayer.getColor());
-            this.empty= false;
-
-            Controller.updateTurn(this,actualPlayer);
-
-            for( Square sq : squares){
-                sq.colorSquare(actualPlayer);
-            }
-
-            Controller.updateComponents();
-            //lines.remove(this);
-        }
-    }
-
-
-    //return the id as an integer
-    public static int getId(GraphicLine line) {
-        return Integer.parseInt(line.getId());
-    }
-
-    //find the line that as a certain id, return's that line
-    public static GraphicLine findLine(String id) {
-        GraphicLine lineToReturn = null;
-        for (GraphicLine line : lines) {
-            if (line.getId().equals(id))
-                lineToReturn = line;
-        }
-        return lineToReturn;
-    }
-
-
-
-    public void assignSquare(Square sq){
-            this.squares.add(sq);
-    }
-
-    public Color getColor() {
-        return this.color;
-    }
-
-    public double evaluate(){
-        return 0.0;
-    }
-
-    public static ArrayList<GraphicLine> getLines() {
-        return lines;
-    }
-
-    public static ArrayList<GraphicLine> getEmptyLines(){
-        ArrayList<GraphicLine> result = new ArrayList();
-        for(GraphicLine line : lines){
-            if(line.isEmpty()){
-                result.add(line);
-            }
-        }
-        return  result;
-    }
-
-    public GraphicLine cloneLine() {
-        return new GraphicLine((int) this.getStartX(), (int)this.getStartY(),(int) this.getEndX(),(int) this.getEndY(),Integer.parseInt(this.getId()));
+    public View.Line getLine() {
+        return line;
     }
 }
