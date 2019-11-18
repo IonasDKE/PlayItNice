@@ -231,7 +231,7 @@ public class Launcher  extends Application {
 
                     setPlayers(players);
                     Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
-                    gamePlay.getStylesheets().add("View/GUIstyle.css");
+                    gamePlay.getStylesheets().add("View./GUIstyle.css");
                     thisStage.setScene(gamePlay);
                     Controller.aiStart();
                 }

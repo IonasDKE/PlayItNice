@@ -1,4 +1,5 @@
 package View;
+import GameTree.State;
 import javafx.scene.paint.Color;
 import Controller.Controller;
 import java.util.ArrayList;
@@ -26,13 +27,10 @@ public class Player {
 
     public void addScore(int toAdd) {
         this.score += toAdd;
-        //System.out.println("score changed " + this.score + " " + this.name);
     }
 
     public void addMoves() {
         this.moves += 1;
-        //System.out.println("move updated " + this.moves + " " + this.name);
-        //System.out.println();
     }
 
     public boolean isAi() {
@@ -74,7 +72,7 @@ public class Player {
 
 
     public void endSquarePlay(){
-        Controller.completeSquare();
-        Controller.colorRandomLine();
+        Controller.completeSquare(State.currentState().getSquares());
+        Controller.colorRandomLine(State.currentState().getLines());
     }
 }
