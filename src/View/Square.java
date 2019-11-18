@@ -82,6 +82,7 @@ public class Square {
 
     //check if a square has been completed
     public boolean isClaimed(){
+
         boolean complete = false;
         if(this.getValence()==0){
             complete = true;

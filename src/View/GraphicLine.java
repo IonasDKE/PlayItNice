@@ -1,5 +1,5 @@
 package View;
-import GameTree.State;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
@@ -22,5 +22,3 @@ public class GraphicLine extends Line {
         return line;
     }
 }
-
-
