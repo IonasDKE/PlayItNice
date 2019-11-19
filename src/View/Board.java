@@ -90,7 +90,7 @@ public class Board {
         mainPane.setBottom(bottom);
 
         Scene newScene = new Scene(mainPane,Board_Width, Board_Hight);
-        newScene.getStylesheets().add("GUIstyle.css");
+        newScene.getStylesheets().add("View/GUIstyle.css");
         return newScene;
     }
 
@@ -146,6 +146,31 @@ public class Board {
 
         State.setCurrentState( new State(lines,squares));
         return pane;
+    }
+
+
+    public static int getNumberOfMoves() {
+        return getMoves().size();
+    }
+
+    public static ArrayList<Line> getMoves() {
+        ArrayList<Line> lines = new ArrayList<>();
+        for(Line kn : Line.getLines()){
+            if (kn.isEmpty()){
+                lines.add(kn);
+            }
+        }
+        return lines;
+    }
+
+
+    public Board updateBoard(Line graphicLine, int color) {
+        
+        return null;
+    }
+
+    public int getScore(int color) {
+        return 0;
     }
 
 

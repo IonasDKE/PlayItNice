@@ -2,6 +2,8 @@ package Controller;
 
 import GameTree.State;
 import GameTree.Tree;
+import Model.AISolver;
+import Model.AlphaBeta;
 import View.Player;
 import View.*;
 import javafx.scene.shape.Rectangle;
@@ -13,6 +15,9 @@ import java.util.Random;
 
 public class Controller {
 
+    public static AISolver firstSolver;
+    public static Board board;
+    public static State state;
     // checks if the line has already been claimed
     public static Boolean checkMove(View.Line line, Player player) {
         if (line.isEmpty()) {
@@ -25,6 +30,7 @@ public class Controller {
 
     //stores the information of which player's turn it is
     public static int turn = 0;
+
 
     // decreases the player's moves in case he hasn't claimed any square and adds a score to the player in case he has
     // claimed a square, a move is implicitely added to the player as its moves haven't been decreased
@@ -55,6 +61,11 @@ public class Controller {
                 switch (player.getAiType()) {
                     case "End Square":
                         player.endSquarePlay();
+                        break;
+                    case "Alpha Beta":
+                        System.out.println("je suis laid");
+                        firstSolver = new AlphaBeta();
+                        player.alphaBeta();
                 }
             }
         }
@@ -116,7 +127,7 @@ public class Controller {
 
     //return the number of channels
     public static int getChannelNb(){
-    return getChannels().size();
+        return getChannels().size();
     }
 
     //returns all the neighouring squares of a given square
@@ -219,10 +230,20 @@ public class Controller {
             switch (player.getAiType()) {
                 case "End Square":
                     player.endSquarePlay();
+                    break;
+                case "Alpha Beta":
+                    System.out.println("blabla");
+                    //firstSolver = new AlphaBeta();
+                    player.alphaBeta();
             }
             Tree t = new Tree();
         }
+
     }
+
+
+
+
 
     //check if the game has ended
     public static  boolean checkEnd(){
@@ -236,14 +257,14 @@ public class Controller {
 
     //update the gui components of the ending frame
     public static Rectangle setWinner(){
-         int winner =0;
+        int winner =0;
         //Player winner = Player.getPlayers().get(0);
         int max = 0;
         if(checkEnd()){
             for(int i = 0 ; i < Player.getPlayers().size(); i++){
                 if (max < Player.getPlayers().get(i).getScore()){
                     max = Player.getPlayers().get(i).getScore();
-                winner=i;
+                    winner=i;
                 }
 
             }
@@ -253,6 +274,15 @@ public class Controller {
         sq.setWidth(75);
         sq.setHeight(75);
         sq.setTranslateY(30);
-       return sq;
+        return sq;
     }
+
+    public static void setAlphaBeta(){
+        State state = new State(board.getMoves());
+        firstSolver = new AlphaBeta();
+        while(!checkEnd()) {
+              firstSolver.nextMove(state, turn);
+            }
+        }
+
 }

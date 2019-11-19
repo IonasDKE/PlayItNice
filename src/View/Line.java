@@ -11,11 +11,14 @@ public class Line {
     private int id;
     private boolean empty = true;
     private ArrayList<Square> squares= new ArrayList<>();
+    private static ArrayList<Line> lines = new ArrayList<>();
 
     public Line(int id, GraphicLine g){
         this.id= id;
         this.graphicLine = g;
         //State.currentState().getLines().add(this);
+        lines.add(this);
+
     }
 
     public Line (int id){
@@ -30,6 +33,7 @@ public class Line {
             this.graphicLine.setStroke(actualPlayer.getColor());
 
             this.setEmpty(false);
+
             for (Square sq : this.getSquares()) {
                 sq.colorSquare(actualPlayer);
             }
@@ -38,6 +42,10 @@ public class Line {
 
             Controller.updateComponents();
         }
+    }
+
+    public static ArrayList<Line> getLines(){
+        return lines;
     }
 
     //return the id as an integer
