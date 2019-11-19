@@ -13,6 +13,10 @@ public class Tree {
     public Tree(){
         rebuild();
     }
+    //constructor for the MCTS tree
+    public Tree(Node node) {
+        this.root=node;
+    }
 
     //meant to rebuild the game tree a each turn
     public void rebuild (){
@@ -24,7 +28,6 @@ public class Tree {
         leaf.add(root);
         extend(1);
     }
-
 
     //grow the tree deeper
     public void extend(int height){
@@ -47,6 +50,16 @@ public class Tree {
            System.out.println("time :"+ (System.currentTimeMillis()-be)/1000+ " seconds; leaf size = "+leaf.size());
 
        }
+    }
+
+    public void changeRoot(Node newRoot) {
+        this.root=newRoot;
+    }
+
+    //for MCTS, delets all the non-used subtree
+    public void deleteParents() {
+        //TODO
+
     }
 
     //TO DO : add visit graph nodes methods

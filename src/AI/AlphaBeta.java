@@ -1,12 +1,8 @@
 package AI;
 
-import GameTree.State;
-import View.Board;
-import View.GraphicLine;
+import GameTree.*;
+import View.*;
 import Controller.*;
-import View.Line;
-import View.Player;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

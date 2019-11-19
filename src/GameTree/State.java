@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class State {
 
-
     private static State currentState;
 
     public ArrayList<Line> getLines() {
@@ -35,9 +34,8 @@ public class State {
 
     //get the children of the State
     public ArrayList<State> getChildren(){
-        if(children==null){
+        if(children==null)
             children = computeChildren();
-        }
         return children;
     }
 

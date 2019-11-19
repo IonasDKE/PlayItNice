@@ -6,8 +6,8 @@ public class Node {
     private State state;
     private ArrayList<Node> children;
     private Node parent;
-    private double score=0;
-    private int visitNb =0;
+    private double score = 0;
+    private int visitNb = 0;
 
     public Node(State state, Node parent) {
         this.state = state;
@@ -26,44 +26,50 @@ public class Node {
         return visitNb;
     }
 
-    public void addScore(double nb){
-        this.score+=nb;
+    public void addScore(double nb) {
+        this.score += nb;
     }
 
-    public void addScore(){
-      addScore(1);
-    }
-
-    private void addVisit(){
+    public void addVisit() {
         this.visitNb++;
     }
-
-    public ArrayList<Node> visit(){
+    /*
+    public ArrayList<Node> visit() {
 
         addVisit();
 
-        if(children==null) {
-            children=computeChildren();
+        if (children == null) {
+            children = computeChildren();
         }
-            return children;
+        return children;
     }
-
-    private ArrayList<Node> computeChildren(){
+    */
+    private ArrayList<Node> computeChildren() {
         ArrayList<State> children = this.state.getChildren();
         ArrayList<Node> result = new ArrayList<>();
         for (State t : children) {
             result.add(new Node(t, this));
         }
-        this.children=result;
+        this.children = result;
         return result;
     }
 
-    public boolean isRoot(){
-        if(this.parent==null){
+    public boolean isRoot() {
+        if (this.parent == null) {
             return true;
-        }else{
+        } else {
             return false;
         }
+    }
+
+    public Node getParent() {
+        return this.parent;
+    }
+
+    public ArrayList<Node> getChildren() {
+        if (this.children==null)
+            this.computeChildren();
+        return this.children;
     }
 
 }

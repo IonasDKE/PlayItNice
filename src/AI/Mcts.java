@@ -1,19 +1,16 @@
 package AI;
-
-import View.GraphicLine;
-
-import java.util.ArrayList;
+import GameTree.*;
 
 public class Mcts {
     public int player;
     private Tree tree;
     private long timeLimit;
 
-    public void mcts(ArrayList<GraphicLine> state) {
-        tree = new Tree(state);
+    public void mcts(State state) {
+        tree = new Tree(new Node(state, null));
         timeLimit= System.currentTimeMillis()+1000; //1000 = 1 sec
         while (System.currentTimeMillis() < timeLimit) {
-            selection(tree.getRootNode());
+            selection(tree.getRoot());
         }
 
     }
@@ -23,8 +20,8 @@ public class Mcts {
     }
 
     public void expansion(Node toExpand) {
-        for (ArrayList<GraphicLine> state: toExpand.getNextStates()) {
-            toExpand.getChildren().add(new Node(toExpand, state));
+        for (State state: toExpand.getState().getChildren()) {
+            toExpand.getChildren().add(new Node(state,toExpand));
         }
 
         //simulate(toExpand.getChildren().get((int) Math.random()*toExpand.getChildren().size()), "random");
@@ -36,13 +33,15 @@ public class Mcts {
 
 
     public void backPropagation(Node node, int score) {
-        if (node==tree.getRootNode()) {
-            node.increaseVisit();
-            node.updateScore(score);
+        if (node==tree.getRoot()) {
+            node.addVisit();
+            node.addScore(score);
         }else {
-            node.increaseVisit();
-            node.updateScore(score);
+            node.addVisit();
+            node.addScore(score);
             backPropagation(node.getParent(), score);
         }
     }
+
+
 }
