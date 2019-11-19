@@ -1,4 +1,4 @@
-package Model;
+package AI;
 
 import GameTree.State;
 import View.Board;
