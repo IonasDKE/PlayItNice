@@ -1,4 +1,4 @@
-package Model;
+package AI;
 
 import View.GraphicLine;
 import View.Line;
