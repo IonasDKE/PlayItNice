@@ -1,6 +1,9 @@
 package AI;
 import GameTree.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Mcts {
     public int player;
     private Tree tree;
@@ -15,8 +18,24 @@ public class Mcts {
 
     }
 
-    public void selection(Node currentNode) {
+    //this method return a child node of a node that it is fed, based on the highest UCT score
+    public Node selection(Node rootNode) {
+        Node node = rootNode;
+        if (node.getChildren().size() != 0){                  //while loop just doesn't make sense here
+            node = this.maxUctNode(node.getChildren());
+        }
+        return node;
+    }
 
+    //This method is ancilliary to the selection method
+    public Node maxUctNode (ArrayList<Node> nodes){
+        Node maxUctNode = nodes.get(0);
+        for( Node aNode: nodes){
+            if (aNode.getUctScore() > maxUctNode.getUctScore()){
+                maxUctNode = aNode;
+            }
+        }
+        return maxUctNode;
     }
 
     public void expansion(Node toExpand) {

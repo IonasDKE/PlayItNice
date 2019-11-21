@@ -2,12 +2,19 @@ package GameTree;
 
 import java.util.ArrayList;
 
+/*
+TODO:
+- We could add a general class to list parameters, such as the exploration-exploitation coefficient.
+ */
+
 public class Node {
     private State state;
     private ArrayList<Node> children;
     private Node parent;
     private double score = 0;
     private int visitNb = 0;
+    private double uctScore = 0;
+    private final double COEFFICIENT = 0.5; //this coefficient balances exploration and exploitation in the UCT
 
     public Node(State state, Node parent) {
         this.state = state;
@@ -70,6 +77,15 @@ public class Node {
         if (this.children==null)
             this.computeChildren();
         return this.children;
+    }
+
+    public double getUctScore(){
+        this.computeUctScore();
+        return this.uctScore;
+    }
+
+    public void computeUctScore(){
+        this.uctScore = this.score + COEFFICIENT * Math.sqrt( Math.log( this.parent.getVisitNb() ) / this.visitNb );
     }
 
 }
