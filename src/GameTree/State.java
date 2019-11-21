@@ -8,7 +8,9 @@ import java.util.ArrayList;
 
 public class State {
 
+
     private static State currentState;
+    private ArrayList<Line> getAvailableMoves;
 
     public ArrayList<Line> getLines() {
         return lines;
@@ -34,8 +36,9 @@ public class State {
 
     //get the children of the State
     public ArrayList<State> getChildren(){
-        if(children==null)
+        if(children==null){
             children = computeChildren();
+        }
         return children;
     }
 
@@ -51,7 +54,7 @@ public class State {
 
         //case if it is not possible to pick a line that will not be a third line
         if(result.size()==0) {
-           // System.out.println("case 2");
+            // System.out.println("case 2");
             for (Line line : lines) {
                 if(line.isEmpty()){
                     addChild(line,result);
@@ -140,6 +143,28 @@ public class State {
         this.getLines().clear();
         this.getSquares().clear();
     }
+
+    public int getScore(int score){
+        //TODO
+        return 5;
+    }
+
+    //public State updateState(Line line, int color){
+    //    return getChildren();
+    //}
+
+    public ArrayList<Line> getAvailableMoves(){
+        System.out.println(this.lines.size());
+        return this.lines;
+
+    }
+
+    public int numberOfAvailableMoves(){
+        //System.out.println(getAvailableMoves().size());
+        return getAvailableMoves().size();
+
+    }
+
 
     //TO DO : add state info methods
 }
