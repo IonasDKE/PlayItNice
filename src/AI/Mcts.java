@@ -6,11 +6,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+
 public class Mcts {
     public int player;
     private Tree tree;
     private long timeLimit;
-
+    private Random rand = new Random();
 
     public void mcts(State state) {
         tree = new Tree(new Node(state, null));
@@ -46,25 +47,22 @@ public class Mcts {
             toExpand.getChildren().add(new Node(state,toExpand));
         }
 
-        simulateRandomPlayOut(toExpand.getChildren().get((int) Math.random()*toExpand.getChildren().size()));
+        simulateRandomPlayOut(toExpand.getChildren().get(rand.nextInt(toExpand.getChildren().size())));
     }
 
     public void simulateRandomPlayOut(Node selectedNode) {
         Node node = new Node(selectedNode.getState(), selectedNode.getParent());
         int score=0;
-        Random rand = new Random();
         Line randomLine;
 
-        State stateCopy = new State(selectedNode.getState().getLines().cloneLines(), selectedNode.getState().getSquares());
+        State stateCopy = new State(selectedNode.getState().cloneLines(), selectedNode.getState().getSquares());
         ArrayList<Line> lines = stateCopy.getEmptyLines();
 
         while (isNotComplete(stateCopy)) {
             randomLine=lines.get(rand.nextInt(lines.size()));
             stateCopy.fillLine(randomLine);
 
-            if (randomLine. ) {
-                currentPlayer.increaseScore;
-            }
+
 
 
         }

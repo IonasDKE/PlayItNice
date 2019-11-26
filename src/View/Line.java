@@ -54,7 +54,7 @@ public class Line {
     }
 
     public boolean isEmpty() {
-        return empty;
+        return this.empty;
     }
 
     public void setEmpty(boolean empty) {
@@ -87,17 +87,6 @@ public class Line {
         result.setSquares(this.getClonedSquares());
         return result;
     }
-    /*
-    public ArrayList<Line> cloneLines(){
-        ArrayList<Line> clone = new ArrayList<>();
-        for (Line l : this) {
-            Line result = new Line(l.id);
-            result.setEmpty(l.empty);
-            result.setSquares(l.getClonedSquares());
-        }
-        return clone;
-    }
-    */
 
     public static void display(ArrayList<Line> l){
         for(Line line : l){

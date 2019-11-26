@@ -29,6 +29,16 @@ public class State {
         return this.children;
     }
 
+    public ArrayList<Line> cloneLines(){
+        ArrayList<Line> clone = new ArrayList<>();
+        for (Line l : lines) {
+            Line result = new Line(l.getid());
+            result.setEmpty(l.isEmpty());
+            result.setSquares(l.getClonedSquares());
+        }
+        return clone;
+    }
+
     public void computeChildren(){
         if (this.getChildren()==null){
 
