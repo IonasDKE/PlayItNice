@@ -1,6 +1,6 @@
 package View;
 import GameTree.State;
-import Model.AlphaBeta;
+import AI.AlphaBeta;
 import javafx.scene.paint.Color;
 import Controller.Controller;
 import java.util.ArrayList;
@@ -12,7 +12,6 @@ public class Player {
     private String name;
     private static ArrayList<Player> players = new ArrayList<>();
     private String ai;
-
 
     public Player(Color color, String name, String ai) {
         this.color = color;

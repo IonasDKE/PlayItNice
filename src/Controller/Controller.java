@@ -2,8 +2,8 @@ package Controller;
 
 import GameTree.State;
 import GameTree.Tree;
-import Model.AISolver;
-import Model.AlphaBeta;
+import AI.AISolver;
+import AI.AlphaBeta;
 import View.Player;
 import View.*;
 import javafx.scene.shape.Rectangle;
@@ -18,6 +18,7 @@ public class Controller {
     public static AISolver firstSolver;
     public static Board board;
     public static State state;
+
     // checks if the line has already been claimed
     public static Boolean checkMove(View.Line line, Player player) {
         if (line.isEmpty()) {
@@ -90,7 +91,7 @@ public class Controller {
 
         Board.getPlayerNb().setText(p.getName());
         Board.getScores().get(Integer.parseInt(p.getName()) - 1).setText(Integer.toString(p.getScore()));
-        if(checkEnd()){
+        if (checkEnd()) {
             EndWindow.display(Launcher.thisStage);
         }
     }
@@ -126,7 +127,7 @@ public class Controller {
     }
 
     //return the number of channels
-    public static int getChannelNb(){
+    public static int getChannelNb() {
         return getChannels().size();
     }
 
@@ -148,7 +149,7 @@ public class Controller {
         ArrayList<Square> children = new ArrayList<>();
         for (Line line : s.getEmptyInnerBorders()) {
             for (Square neighbouringSquare : line.getSquares()) {
-                if (neighbouringSquare != s ) {
+                if (neighbouringSquare != s) {
                     children.add(neighbouringSquare);
                 }
             }
@@ -171,16 +172,16 @@ public class Controller {
         }
     }
 
-    public static void colorRandomLine(ArrayList<Line> lines){
+    public static void colorRandomLine(ArrayList<Line> lines) {
         Random rand = new Random();
         boolean lineHasNotBeenPicked = true;
         int index = 0;
 
         //case 1 finds a line that doesnt give the opponent the opportunity to claim a square
-        while(lineHasNotBeenPicked && index< lines.size() ) {
+        while (lineHasNotBeenPicked && index < lines.size()) {
             Line chosenLine = lines.get(index);
-            if(chosenLine.isEmpty() && !isThirdLine(chosenLine)){
-                System.out.println("fill "+ chosenLine.getid());
+            if (chosenLine.isEmpty() && !isThirdLine(chosenLine)) {
+                System.out.println("fill " + chosenLine.getid());
                 chosenLine.fill();
                 lineHasNotBeenPicked = false;
             }
@@ -189,9 +190,9 @@ public class Controller {
 
         //case 2, picks up a random line
         while (lineHasNotBeenPicked && !(countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN()))) {
-            int randomIndex = rand.nextInt( lines.size());
-            if ( lines.get(randomIndex).isEmpty()) {
-                System.out.println("fillR "+ lines.get(randomIndex).getid());
+            int randomIndex = rand.nextInt(lines.size());
+            if (lines.get(randomIndex).isEmpty()) {
+                System.out.println("fillR " + lines.get(randomIndex).getid());
                 lines.get(randomIndex).fill();
                 lineHasNotBeenPicked = false;
             }
@@ -200,22 +201,22 @@ public class Controller {
     }
 
     //checks if claiming a the line will update any square to a valence of 1
-    public static boolean isThirdLine(Line line){
+    public static boolean isThirdLine(Line line) {
         boolean result = false;
 
-        for(Square sq : line.getSquares()){
-            if(sq.getValence()==2){
-                result=true;
+        for (Square sq : line.getSquares()) {
+            if (sq.getValence() == 2) {
+                result = true;
             }
         }
         return result;
     }
 
     //counts the number of squares that players have claimed
-    public static int countClaimedSquare(){
+    public static int countClaimedSquare() {
         int count = 0;
-        for(Square sq: State.currentState().getSquares()){
-            if(sq.getValence()== 0){
+        for (Square sq : State.currentState().getSquares()) {
+            if (sq.getValence() == 0) {
                 count++;
             }
         }
@@ -223,8 +224,8 @@ public class Controller {
     }
 
     // checks if the first player to play is an ai type, if it is the case, it makes the ai play
-    public static void aiStart(){
-        if(Player.getActualPlayer().isAi()){
+    public static void aiStart() {
+        if (Player.getActualPlayer().isAi()) {
             System.out.println("AI is starting");
             Player player = Player.getActualPlayer();
             switch (player.getAiType()) {
@@ -242,29 +243,25 @@ public class Controller {
     }
 
 
-
-
-
     //check if the game has ended
-    public static  boolean checkEnd(){
-        if(countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN())){
+    public static boolean checkEnd() {
+        if (countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN())) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
     //update the gui components of the ending frame
-    public static Rectangle setWinner(){
-        int winner =0;
+    public static Rectangle setWinner() {
+        int winner = 0;
         //Player winner = Player.getPlayers().get(0);
         int max = 0;
-        if(checkEnd()){
-            for(int i = 0 ; i < Player.getPlayers().size(); i++){
-                if (max < Player.getPlayers().get(i).getScore()){
+        if (checkEnd()) {
+            for (int i = 0; i < Player.getPlayers().size(); i++) {
+                if (max < Player.getPlayers().get(i).getScore()) {
                     max = Player.getPlayers().get(i).getScore();
-                    winner=i;
+                    winner = i;
                 }
 
             }
@@ -277,12 +274,12 @@ public class Controller {
         return sq;
     }
 
-    public static void setAlphaBeta(){
+    public static void setAlphaBeta() {
         State state = new State(board.getMoves());
         firstSolver = new AlphaBeta();
-        while(!checkEnd()) {
-              firstSolver.nextMove(state, turn);
-            }
+        while (!checkEnd()) {
+            firstSolver.nextMove(state, turn);
         }
+    }
 
 }

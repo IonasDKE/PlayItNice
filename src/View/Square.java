@@ -11,6 +11,7 @@ public class Square {
     private ArrayList<Line> borders = new ArrayList<>();
     private Rectangle rect;
     private int id;
+    private Player owner=null;
 
     public Square(int x, int y, int size, int id){
         this.rect = new Rectangle(x,y, size,size);
@@ -22,11 +23,9 @@ public class Square {
         this.id = id;
     }
 
-
     public  ArrayList<Line> getBorders() {
-        return borders;
+        return this.borders;
     }
-
 
     //returns the borders of the square which are still empty
     public ArrayList<Line> getEmptyBorders(){
@@ -44,14 +43,6 @@ public class Square {
             if(line.isEmpty() && line.getSquares().size()!=1 ){result.add(line);}
         }
         return result;
-    }
-
-    public Rectangle getRect() {
-        return rect;
-    }
-
-    public int getid() {
-        return id;
     }
 
     // adds a border reference to the square
@@ -81,17 +72,11 @@ public class Square {
 
     //check if a square has been completed
     public boolean isClaimed(){
-
         boolean complete = false;
         if(this.getValence()==0){
             complete = true;
         }
         return complete;
-    }
-
-
-    public void setBorders(ArrayList<Line> borders) {
-        this.borders = borders;
     }
 
     //gets the squares from the lines !! arraylist squares of lines must not be empty
@@ -115,6 +100,7 @@ public class Square {
         return result;
     }
 
+    //return number of non complete lines
     public int getValence(){
         int countLines = 0;
         for (Line line : this.getBorders()){
@@ -134,5 +120,26 @@ public class Square {
             System.out.println();
         }
     }
+
+    public void setOwner(Player newOwner) {
+        this.owner=newOwner;
+    }
+
+    public Player getOwner() {
+        return this.owner;
+    }
+
+    public void setBorders(ArrayList<Line> borders) {
+        this.borders = borders;
+    }
+
+    public Rectangle getRect() {
+        return rect;
+    }
+
+    public int getid() {
+        return id;
+    }
+
 
 }

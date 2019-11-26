@@ -2,12 +2,15 @@ package AI;
 import GameTree.*;
 import View.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 public class Mcts {
     public int player;
     private Tree tree;
     private long timeLimit;
+
 
     public void mcts(State state) {
         tree = new Tree(new Node(state, null));
@@ -43,30 +46,58 @@ public class Mcts {
             toExpand.getChildren().add(new Node(state,toExpand));
         }
 
-        //simulate(toExpand.getChildren().get((int) Math.random()*toExpand.getChildren().size()), "random");
+        simulateRandomPlayOut(toExpand.getChildren().get((int) Math.random()*toExpand.getChildren().size()));
     }
 
-    public int simulateRandomPlayout(Node selectedNode) {
+    public void simulateRandomPlayOut(Node selectedNode) {
         Node node = new Node(selectedNode.getState(), selectedNode.getParent());
+        int score=0;
+        Random rand = new Random();
+        Line randomLine;
 
-        State stateCopy = new State(selectedNode.getState().getLines(), selectedNode.getState().getSquares());
+        State stateCopy = new State(selectedNode.getState().getLines().cloneLines(), selectedNode.getState().getSquares());
+        ArrayList<Line> lines = stateCopy.getEmptyLines();
+
         while (isNotComplete(stateCopy)) {
-            stateCopy.computeChildren();
-            stateCopy=stateCopy.getChildren().get((int)Math.random()*stateCopy.getChildren().size());
+            randomLine=lines.get(rand.nextInt(lines.size()));
+            stateCopy.fillLine(randomLine);
+
+            if (randomLine. ) {
+                currentPlayer.increaseScore;
+            }
+
+
         }
 
-        return score;
+
+        if (score <4) {
+            backPropagation(selectedNode, -1);
+        }else if (score >=4){
+            backPropagation(selectedNode, 1);
+        }else
+            backPropagation(selectedNode, 0);
+
     }
 
 
     public void backPropagation(Node node, int score) {
-        if (node==tree.getRoot()) {
-            node.addVisit();
-            node.addScore(score);
+        if (score ==0) { // no need to update score, but still need to increase number of visits
+            if (node == tree.getRoot()) {
+                node.addVisit();
+            } else {
+                node.addVisit();
+                backPropagation(node.getParent(), score);
+            }
+
         }else {
-            node.addVisit();
-            node.addScore(score);
-            backPropagation(node.getParent(), score);
+            if (node == tree.getRoot()) {
+                node.addVisit();
+                node.addScore(score);
+            } else {
+                node.addVisit();
+                node.addScore(score);
+                backPropagation(node.getParent(), score);
+            }
         }
     }
 

@@ -56,6 +56,15 @@ public class State {
 
     }
 
+    public void fillLine(Line lineToFill) {
+        for (Line line :this.getLines()) {
+            if (line == lineToFill) {
+                line.setEmpty(false);
+            }
+        }
+
+    }
+
     private void addChild(Line line, ArrayList<State> children){
         State childState = this.cloned();
         State.findLine(line.getid(),childState.getLines()).setEmpty(false);
@@ -145,6 +154,24 @@ public class State {
     //    return getChildren();
     //}
 
+
+
+    public int numberOfAvailableMoves(){
+        //System.out.println(getAvailableMoves().size());
+        return getAvailableMoves().size();
+
+    }
+
+    public ArrayList<Line> getEmptyLines() {
+        ArrayList<Line> emptyLines = new ArrayList<>();
+        for (Line line:this.getLines()) {
+            if (line.isEmpty()) {
+                emptyLines.add(line);
+            }
+        }
+        return emptyLines;
+    }
+
     public ArrayList<Line> getAvailableMoves(){
         System.out.println(this.lines.size());
         return this.lines;
@@ -158,13 +185,6 @@ public class State {
     public ArrayList<Square> getSquares() {
         return squares;
     }
-
-    public int numberOfAvailableMoves(){
-        //System.out.println(getAvailableMoves().size());
-        return getAvailableMoves().size();
-
-    }
-
 
     //TO DO : add state info methods
 }
