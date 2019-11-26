@@ -2,24 +2,39 @@ package AI;
 import GameTree.*;
 import View.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
-
-public class Mcts {
+public class Mcts extends AISolver{
     public int player;
     private Tree tree;
     private long timeLimit;
     private Random rand = new Random();
 
-    public void mcts(State state) {
+    public Line nextMove(State state, int color) {
+        System.out.println("new Move");
+        State currentState=state.currentState();
+        Node tmp =null;
         tree = new Tree(new Node(state, null));
         timeLimit= System.currentTimeMillis()+1000; //1000 = 1 sec
         while (System.currentTimeMillis() < timeLimit) {
-            selection(tree.getRoot());
+            tmp=selection(tree.getRoot());
+            expansion(tmp);
+            simulateRandomPlayOut(tmp);
+
+        }
+        double currentBest=0;
+        Node bestNode=null;
+
+        for (Node child:tree.getRoot().getChildren()) {
+            if (child.getScore()/child.getVisitNb() > currentBest) {
+                currentBest=child.getScore()/child.getVisitNb();
+                bestNode=child;
+            }
         }
 
+        Line bestLine=(State.findLine(currentState.getLines(), bestNode.getState().getLines()));
+        bestLine.fill();
+        return bestLine;
     }
 
     //this method return a child node of a node that it is fed, based on the highest UCT score
@@ -42,18 +57,18 @@ public class Mcts {
         return maxUctNode;
     }
 
-    public void expansion(Node toExpand) {
+    public Node expansion(Node toExpand) {
         for (State state: toExpand.getState().getChildren()) {
             toExpand.getChildren().add(new Node(state,toExpand));
         }
+        return toExpand.getChildren().get(rand.nextInt(toExpand.getChildren().size()));
 
-        simulateRandomPlayOut(toExpand.getChildren().get(rand.nextInt(toExpand.getChildren().size())));
     }
 
     public void simulateRandomPlayOut(Node selectedNode) {
-        Node node = new Node(selectedNode.getState(), selectedNode.getParent());
         int score=0;
         Line randomLine;
+        boolean ourTurn=true;
 
         State stateCopy = new State(selectedNode.getState().cloneLines(), selectedNode.getState().getSquares());
         ArrayList<Line> lines = stateCopy.getEmptyLines();
@@ -61,12 +76,14 @@ public class Mcts {
         while (isNotComplete(stateCopy)) {
             randomLine=lines.get(rand.nextInt(lines.size()));
             stateCopy.fillLine(randomLine);
+            lines.remove(randomLine);
+            score +=checkSquare(randomLine, ourTurn);
 
-
-
-
+            if (ourTurn){
+                ourTurn=false;
+            }else
+                ourTurn=true;
         }
-
 
         if (score <4) {
             backPropagation(selectedNode, -1);
@@ -77,9 +94,8 @@ public class Mcts {
 
     }
 
-
     public void backPropagation(Node node, int score) {
-        if (score ==0) { // no need to update score, but still need to increase number of visits
+        if (score==0) { // no need to update score, but still need to increase number of visits
             if (node == tree.getRoot()) {
                 node.addVisit();
             } else {
@@ -108,5 +124,13 @@ public class Mcts {
         return allLinesEmpty;
     }
 
+    public int checkSquare(Line line, boolean ourTurn) {
+        int score=0;
+        for (Square square: line.getSquares()) {
+            if (square.isClaimed()&& ourTurn)
+                score++;
+        }
+        return score;
+    }
 
 }

@@ -138,6 +138,17 @@ public class State {
     public static Line findLine(int id){
         return findLine(id,currentState.getLines());
     }
+    //finds the lines that needs to be colored for mcts
+    public static Line findLine(ArrayList<Line> currentState, ArrayList<Line> stateWithBestPlay) {
+        for (Line line : currentState) {
+            for (Line toFind : stateWithBestPlay) {
+                if (line.isEmpty() != toFind.isEmpty()) {
+                    return toFind;
+                }
+            }
+        }
+        return null;
+    }
 
     //find the line that as a certain id, return's that line
     public static Line findLine(int id, ArrayList<Line> lines) {

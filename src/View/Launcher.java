@@ -26,14 +26,16 @@ public class Launcher  extends Application {
     public static boolean pTwoAI = false;
     public static boolean pAlpha = false;
     public static boolean ptwoAlpha = false;
+    public static boolean pOneMcts = false;
+    public static boolean pTwoMcts = false;
     private static int chosenM, chosenN;
     private final int WIDTH = 700;
     private final int HEIGHT = 800;
     private int countError=0;
     private ComboBox selectPlayerOne, selectPlayerTwo , numberOfPlayers;
     private String[] gameSizes = {"2 x 2", "3 x 2" , "4 x 4", "4 x 5", "5 x 6", "8 x 8"};
-    private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "End Square", "Alpha Beta");
-    private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "End Square", "Alpha Beta");
+    private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "End Square", "Alpha Beta", "Mcts");
+    private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "End Square", "Alpha Beta", "Mcts");
     private ObservableList<String> playerNumbers = FXCollections.observableArrayList("Select a number","1","2");
     private RadioButton[] radioButtons;
     private GridPane sizeBox;
@@ -274,6 +276,18 @@ public class Launcher  extends Application {
             nb++;
             new Player(colors.get(1), Integer.toString(2), "Alpha Beta");
             System.out.println("two");
+        }
+
+        if (selectPlayerOne.getValue().toString() == "Mcts") {
+            pOneMcts =true;
+            nb++;
+            new Player((colors.get(1)), Integer.toString(2), "Mcts");
+        }
+
+        if (selectPlayerOne.getValue().toString() == "Mcts") {
+            pTwoMcts =true;
+            nb++;
+            new Player((colors.get(1)), Integer.toString(2), "Mcts");
         }
 
         for(int i = nb; i< colors.size(); i++){

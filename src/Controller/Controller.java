@@ -4,6 +4,7 @@ import GameTree.State;
 import GameTree.Tree;
 import AI.AISolver;
 import AI.AlphaBeta;
+import AI.Mcts;
 import View.Player;
 import View.*;
 import javafx.scene.shape.Rectangle;
@@ -67,6 +68,9 @@ public class Controller {
                         System.out.println("je suis laid");
                         firstSolver = new AlphaBeta();
                         player.alphaBeta();
+                    case "Mcts":
+                        firstSolver = new Mcts();
+                        player.mcts();
                 }
             }
         }
@@ -236,6 +240,10 @@ public class Controller {
                     System.out.println("blabla");
                     //firstSolver = new AlphaBeta();
                     player.alphaBeta();
+                    break;
+                    case "mcts":
+                        player.mcts();
+
             }
             Tree t = new Tree();
         }
@@ -280,6 +288,12 @@ public class Controller {
         while (!checkEnd()) {
             firstSolver.nextMove(state, turn);
         }
+    }
+
+    public static void setMcts() {
+        State state = new State(Board.getMoves());
+        firstSolver=new Mcts();
+        firstSolver.nextMove(state, turn);
     }
 
 }

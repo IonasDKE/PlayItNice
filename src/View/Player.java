@@ -89,4 +89,6 @@ public class Player {
     public void alphaBeta() {
         Controller.setAlphaBeta();
     }
+
+    public void mcts() { Controller.setMcts();}
 }

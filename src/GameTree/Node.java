@@ -40,7 +40,7 @@ public class Node {
     public void addVisit() {
         this.visitNb++;
     }
-    /*
+
     public ArrayList<Node> visit() {
 
         addVisit();
@@ -50,7 +50,7 @@ public class Node {
         }
         return children;
     }
-    */
+
     private ArrayList<Node> computeChildren() {
         ArrayList<State> children = this.state.getChildren();
         ArrayList<Node> result = new ArrayList<>();

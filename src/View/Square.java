@@ -11,7 +11,6 @@ public class Square {
     private ArrayList<Line> borders = new ArrayList<>();
     private Rectangle rect;
     private int id;
-    private Player owner=null;
 
     public Square(int x, int y, int size, int id){
         this.rect = new Rectangle(x,y, size,size);
@@ -119,14 +118,6 @@ public class Square {
             }
             System.out.println();
         }
-    }
-
-    public void setOwner(Player newOwner) {
-        this.owner=newOwner;
-    }
-
-    public Player getOwner() {
-        return this.owner;
     }
 
     public void setBorders(ArrayList<Line> borders) {
