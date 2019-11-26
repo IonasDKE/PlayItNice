@@ -1,6 +1,6 @@
 package AI;
 import GameTree.*;
-
+import View.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -46,8 +46,16 @@ public class Mcts {
         //simulate(toExpand.getChildren().get((int) Math.random()*toExpand.getChildren().size()), "random");
     }
 
-    public void simulate() {
+    public int simulateRandomPlayout(Node selectedNode) {
+        Node node = new Node(selectedNode.getState(), selectedNode.getParent());
 
+        State stateCopy = new State(selectedNode.getState().getLines(), selectedNode.getState().getSquares());
+        while (isNotComplete(stateCopy)) {
+            stateCopy.computeChildren();
+            stateCopy=stateCopy.getChildren().get((int)Math.random()*stateCopy.getChildren().size());
+        }
+
+        return score;
     }
 
 
@@ -60,6 +68,15 @@ public class Mcts {
             node.addScore(score);
             backPropagation(node.getParent(), score);
         }
+    }
+
+    public boolean isNotComplete(State currentState) {
+        boolean allLinesEmpty=false;
+        for (Line l: currentState.getLines()){
+            if (l.isEmpty())
+                allLinesEmpty=true;
+        }
+        return allLinesEmpty;
     }
 
 

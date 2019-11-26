@@ -8,18 +8,8 @@ import java.util.ArrayList;
 
 public class State {
 
-
     private static State currentState;
     private ArrayList<Line> getAvailableMoves;
-
-    public ArrayList<Line> getLines() {
-        return lines;
-    }
-
-    public ArrayList<Square> getSquares() {
-        return squares;
-    }
-
     private ArrayList<State> children;
     private ArrayList<Line> lines;
     private ArrayList<Square> squares;
@@ -36,32 +26,34 @@ public class State {
 
     //get the children of the State
     public ArrayList<State> getChildren(){
-        if(children==null){
-            children = computeChildren();
-        }
-        return children;
+        return this.children;
     }
 
-    private ArrayList<State> computeChildren(){
-        ArrayList<State> result = new ArrayList<>();
+    public void computeChildren(){
+        if (this.getChildren()==null){
 
-        //children that would build a third line in a square are excluded
-        for(View.Line line : lines){
-            if(line.isEmpty() && !Controller.isThirdLine(line)) {
-                addChild(line,result);
-            }
-        }
+        }else{
+            ArrayList<State> result = new ArrayList<>();
 
-        //case if it is not possible to pick a line that will not be a third line
-        if(result.size()==0) {
-            // System.out.println("case 2");
-            for (Line line : lines) {
-                if(line.isEmpty()){
+            //children that would build a third line in a square are excluded
+            for(View.Line line : lines){
+                if(line.isEmpty() && !Controller.isThirdLine(line)) {
                     addChild(line,result);
                 }
             }
+
+            //case if it is not possible to pick a line that will not be a third line
+            if(result.size()==0) {
+                // System.out.println("case 2");
+                for (Line line : lines) {
+                    if(line.isEmpty()){
+                        addChild(line,result);
+                    }
+                }
+            }
+            this.children=result;
         }
-        return result;
+
     }
 
     private void addChild(Line line, ArrayList<State> children){
@@ -157,6 +149,14 @@ public class State {
         System.out.println(this.lines.size());
         return this.lines;
 
+    }
+
+    public ArrayList<Line> getLines() {
+        return lines;
+    }
+
+    public ArrayList<Square> getSquares() {
+        return squares;
     }
 
     public int numberOfAvailableMoves(){

@@ -57,8 +57,15 @@ public class Tree {
     }
 
     //for MCTS, delets all the non-used subtree
-    public void deleteParents() {
-        //TODO
+    public void deleteParents(Node currentNode) {
+        if (currentNode.getChildren().size()==0 ||
+                (currentNode.getChildren().size()==1 && currentNode.getChildren().get(0)==this.root)) {
+            currentNode=null;
+        }else{
+            for (Node n:currentNode.getChildren()) {
+                deleteParents(n);
+            }
+        }
 
     }
 
