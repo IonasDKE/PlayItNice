@@ -2,14 +2,37 @@ package GameTree;
 
 import Controller.Controller;
 import View.Line;
+import View.Player;
 import View.Square;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import static Controller.Controller.completeSquareID;
 
 public class State {
 
+
     private static State currentState;
     private ArrayList<Line> getAvailableMoves;
+
+    public static int inverseTurn(int turn) {
+        if(turn == 0){
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public ArrayList<Line> getLines() {
+        return lines;
+    }
+
+    public ArrayList<Square> getSquares() {
+        return squares;
+    }
+
     private ArrayList<State> children;
     private ArrayList<Line> lines;
     private ArrayList<Square> squares;
@@ -28,6 +51,7 @@ public class State {
     public ArrayList<State> getChildren(){
         return this.children;
     }
+
 
     public ArrayList<Line> cloneLines(){
         ArrayList<Line> clone = new ArrayList<>();
@@ -49,17 +73,16 @@ public class State {
 
         //case if it is not possible to pick a line that will not be a third line
         //if(result.size()==0) {
-            System.out.println("case 2");
-            for (Line line : this.lines) {
-                if(line.isEmpty()){
-                    addChild(line,result);
-                }
+        System.out.println("case 2");
+        for (Line line : this.lines) {
+            if(line.isEmpty()){
+                addChild(line,result);
             }
+        }
         //}
         this.children=result;
 
     }
-
     private void addChild(Line line, ArrayList<State> children){
         State childState = this.cloned();
         State.findLine(line.getid(),childState.getLines()).setEmpty(false);
@@ -70,22 +93,13 @@ public class State {
         //childState.display();
     }
 
-    public void fillLine(Line lineToFill) {
-        for (Line line :this.getLines()) {
-            if (line == lineToFill) {
-                line.setEmpty(false);
-            }
-        }
-
-    }
-
-
-
     public void display(){
         Line.display(this.getLines());
         Square.display(this.getSquares());
-        //System.out.println();
+        System.out.println();
     }
+
+
 
     public static State currentState() {
         return currentState;
@@ -104,6 +118,16 @@ public class State {
         return findSquare(id, currentState.getSquares());
     }
 
+
+    public ArrayList<Line> getEmptyLines() {
+        ArrayList<Line> emptyLines = new ArrayList<>();
+        for (Line line:this.getLines()) {
+            if (line.isEmpty()) {
+                emptyLines.add(line);
+            }
+        }
+        return emptyLines;
+    }
     //find the square that as a certain id, return's that square
     public static Square findSquare(int id, ArrayList<Square> sqs) {
         Square out= null;
@@ -132,18 +156,8 @@ public class State {
     }
 
     public static Line findLine(int id){
+
         return findLine(id,currentState.getLines());
-    }
-    //finds the lines that needs to be colored for mcts
-    public static Line findLine(ArrayList<Line> currentState, ArrayList<Line> stateWithBestPlay) {
-        for (Line line : currentState) {
-            for (Line toFind : stateWithBestPlay) {
-                if (line.isEmpty() != toFind.isEmpty()) {
-                    return line;
-                }
-            }
-        }
-        return null;
     }
 
     //find the line that as a certain id, return's that line
@@ -156,38 +170,37 @@ public class State {
         return lineToReturn;
     }
 
+    //finds the lines that needs to be colored for mcts
+    public static Line findLine(ArrayList<Line> currentState, ArrayList<Line> stateWithBestPlay) {
+        for (Line line : currentState) {
+            for (Line toFind : stateWithBestPlay) {
+                if (line.isEmpty() != toFind.isEmpty()) {
+                    return line;
+                }
+            }
+        }
+        return null;
+    }
+
+
     //clears a state
     public void reset(){
         this.getLines().clear();
         this.getSquares().clear();
     }
 
-    public int getScore(int score){
-        //TODO
-        return 5;
+    public int getScore(int turn){
+        if(turn == 0){
+            return Player.getPlayers().get(0).getScore();
+        }
+        else{
+            return Player.getPlayers().get(1).getScore();
+        }
     }
 
     //public State updateState(Line line, int color){
     //    return getChildren();
     //}
-
-
-
-    public int numberOfAvailableMoves(){
-        //System.out.println(getAvailableMoves().size());
-        return getAvailableMoves().size();
-
-    }
-
-    public ArrayList<Line> getEmptyLines() {
-        ArrayList<Line> emptyLines = new ArrayList<>();
-        for (Line line:this.getLines()) {
-            if (line.isEmpty()) {
-                emptyLines.add(line);
-            }
-        }
-        return emptyLines;
-    }
 
     public ArrayList<Line> getAvailableMoves(){
         //System.out.println(this.lines.size());
@@ -195,13 +208,29 @@ public class State {
 
     }
 
-    public ArrayList<Line> getLines() {
-        return lines;
+    public int numberOfAvailableMoves(){
+        //System.out.println(getAvailableMoves().size());
+        return getAvailableMoves().size();
+
     }
 
-    public ArrayList<Square> getSquares() {
-        return squares;
+    public static Line findMove(State parent, State child){
+        for(Line a : parent.getLines()){
+            if(a.isEmpty() != State.findLine(a.getid(), child.getLines()).isEmpty()){
+                return a;
+            }
+        }
+        return null;
     }
+    public void fillLine(Line lineToFill) {
+        for (Line line :this.getLines()) {
+            if (line == lineToFill) {
+                line.setEmpty(false);
+            }
+        }
+
+    }
+
 
     //TO DO : add state info methods
 }
