@@ -35,7 +35,8 @@ public class Player {
     }
 
     public boolean isAi() {
-        if (ai == "human"){
+        System.out.println("ai = " + ai);
+        if (ai == "Human"){
             return false;
         }else{
             return true;
@@ -90,5 +91,13 @@ public class Player {
         Controller.setAlphaBeta();
     }
 
-    public void mcts() { Controller.setMcts();}
+    public void mcts() {
+        Controller.setMcts();
+    }
+
+    public static void display(){
+        for(Player p : players){
+            System.out.println("p = " + p.ai);
+        }
+    }
 }

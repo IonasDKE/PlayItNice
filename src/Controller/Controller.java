@@ -51,10 +51,10 @@ public class Controller {
                 turn = 0;
             }
 
-            //System.out.println("turn = " + turn + ", ai: " + Player.getPlayers().get(turn).isAi());
-            //System.out.println("channel " + Controller.getChannelNb());
-            //System.out.println();
-            //System.out.println();
+            System.out.println("turn = " + turn + ", ai: " + Player.getActualPlayer().isAi());
+            System.out.println("channel " + Controller.getChannelNb());
+            System.out.println();
+            System.out.println();
 
             //checks if the next player to play is an AI, if it is the case, makes it play
             player = Player.getActualPlayer();
@@ -69,7 +69,6 @@ public class Controller {
                         firstSolver = new AlphaBeta();
                         player.alphaBeta();
                     case "Mcts":
-                        firstSolver = new Mcts();
                         player.mcts();
                 }
             }
@@ -231,6 +230,7 @@ public class Controller {
     public static void aiStart() {
         if (Player.getActualPlayer().isAi()) {
             System.out.println("AI is starting");
+            Player.display();
             Player player = Player.getActualPlayer();
             switch (player.getAiType()) {
                 case "End Square":
@@ -240,12 +240,14 @@ public class Controller {
                     System.out.println("blabla");
                     //firstSolver = new AlphaBeta();
                     player.alphaBeta();
-                    break;
-                    case "mcts":
-                        player.mcts();
 
+                    break;
+                case "Mcts":
+                    System.out.println("Ai start");
+                    player.mcts();
+                    break;
             }
-            Tree t = new Tree();
+            //Tree t = new Tree();
         }
 
     }
@@ -290,10 +292,20 @@ public class Controller {
         }
     }
 
+    private static boolean firstTurn = true;
     public static void setMcts() {
-        State state = new State(Board.getMoves());
-        firstSolver=new Mcts();
+        State state = new State(State.currentState().getLines());
+        //state.display();
+        if (firstTurn) {
+            firstSolver = new Mcts();
+            firstTurn=false;
+        }else {
+            firstSolver.setNewRoot(State.currentState());
+            System.out.println("set new root");
+        }
+        //change the root at the end of human turn in the Mcts
         firstSolver.nextMove(state, turn);
+
     }
 
 }

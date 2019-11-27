@@ -13,16 +13,18 @@ public class Tree {
     public Tree(){
         rebuild();
     }
+
     //constructor for the MCTS tree
     public Tree(Node node) {
         this.root=node;
     }
 
     //meant to rebuild the game tree a each turn
+
     public void rebuild (){
 
         root = new Node(State.currentState().cloned(), null);
-        System.out.println("root = ");
+        //System.out.println("root = ");
         root.getState().display();
 
         leaf.add(root);
@@ -33,13 +35,13 @@ public class Tree {
     public void extend(int height){
        for(int i =0; i<height; i++) {
            long be = System.currentTimeMillis();
-           System.out.println("extend "+i);
+           //System.out.println("extend "+i);
            ArrayList<Node> newLeafs = new ArrayList<>();
 
            for (Node parent : leaf) {
-               System.out.println();
-               System.out.println("Parent = ");
-               parent.getState().display();
+               //System.out.println();
+               //System.out.println("Parent = ");
+               //parent.getState().display();
                ArrayList<State> children = parent.getState().getChildren();
                for (State s : children) {
                    newLeafs.add(new Node(s,parent));
@@ -47,7 +49,7 @@ public class Tree {
            }
 
            leaf = newLeafs;
-           System.out.println("time :"+ (System.currentTimeMillis()-be)/1000+ " seconds; leaf size = "+leaf.size());
+           //System.out.println("time :"+ (System.currentTimeMillis()-be)/1000+ " seconds; leaf size = "+leaf.size());
 
        }
     }
@@ -67,6 +69,10 @@ public class Tree {
             }
         }
 
+    }
+
+    public void setRoot(Node newRoot) {
+        this.root=newRoot;
     }
 
     //TO DO : add visit graph nodes methods

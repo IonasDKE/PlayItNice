@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 public class Launcher  extends Application {
 
-
     public static boolean pOneAI = false;
     public static boolean pTwoAI = false;
     public static boolean pAlpha = false;
@@ -284,7 +283,7 @@ public class Launcher  extends Application {
             new Player((colors.get(1)), Integer.toString(2), "Mcts");
         }
 
-        if (selectPlayerOne.getValue().toString() == "Mcts") {
+        if (selectPlayerTwo.getValue().toString() == "Mcts") {
             pTwoMcts =true;
             nb++;
             new Player((colors.get(1)), Integer.toString(2), "Mcts");

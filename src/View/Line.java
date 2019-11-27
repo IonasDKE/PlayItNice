@@ -1,7 +1,9 @@
 package View;
 
+import AI.Mcts;
 import Controller.Controller;
 import GameTree.State;
+import GameTree.Node;
 
 import java.util.ArrayList;
 
@@ -21,8 +23,10 @@ public class Line {
 
     }
 
-    public Line (int id){
+    public Line (int id,boolean empty ,ArrayList<Square> squares ){
         this.id = id;
+        this.empty=empty;
+        this.squares=squares;
     }
 
     public void fill(){
@@ -42,6 +46,10 @@ public class Line {
 
             Controller.updateComponents();
         }
+    }
+
+    public void fillNoEffect() {
+        this.empty=false;
     }
 
     public static ArrayList<Line> getLines(){
@@ -82,9 +90,7 @@ public class Line {
     }
 
     public Line cloned(){
-        Line result = new Line(this.id);
-        result.setEmpty(this.empty);
-        result.setSquares(this.getClonedSquares());
+        Line result = new Line(this.id, this.empty, this.getClonedSquares());
         return result;
     }
 

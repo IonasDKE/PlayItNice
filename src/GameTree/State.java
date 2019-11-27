@@ -32,38 +32,42 @@ public class State {
     public ArrayList<Line> cloneLines(){
         ArrayList<Line> clone = new ArrayList<>();
         for (Line l : lines) {
-            Line result = new Line(l.getid());
-            result.setEmpty(l.isEmpty());
-            result.setSquares(l.getClonedSquares());
+            Line result = new Line(l.getid(), l.isEmpty(), l.getClonedSquares());
         }
         return clone;
     }
 
     public void computeChildren(){
-        if (this.getChildren()==null){
+        ArrayList<State> result = new ArrayList<>();
 
-        }else{
-            ArrayList<State> result = new ArrayList<>();
+        //children that would build a third line in a square are excluded
+        for(View.Line line : this.lines){
+            if(line.isEmpty() && !Controller.isThirdLine(line)) {
+                addChild(line,result);
+            }
+        }
 
-            //children that would build a third line in a square are excluded
-            for(View.Line line : lines){
-                if(line.isEmpty() && !Controller.isThirdLine(line)) {
+        //case if it is not possible to pick a line that will not be a third line
+        //if(result.size()==0) {
+            System.out.println("case 2");
+            for (Line line : this.lines) {
+                if(line.isEmpty()){
                     addChild(line,result);
                 }
             }
+        //}
+        this.children=result;
 
-            //case if it is not possible to pick a line that will not be a third line
-            if(result.size()==0) {
-                // System.out.println("case 2");
-                for (Line line : lines) {
-                    if(line.isEmpty()){
-                        addChild(line,result);
-                    }
-                }
-            }
-            this.children=result;
-        }
+    }
 
+    private void addChild(Line line, ArrayList<State> children){
+        State childState = this.cloned();
+        State.findLine(line.getid(),childState.getLines()).setEmpty(false);
+        children.add(childState);
+
+        //System.out.println();
+        //System.out.println("child "+children.size());
+        //childState.display();
     }
 
     public void fillLine(Line lineToFill) {
@@ -75,20 +79,12 @@ public class State {
 
     }
 
-    private void addChild(Line line, ArrayList<State> children){
-        State childState = this.cloned();
-        State.findLine(line.getid(),childState.getLines()).setEmpty(false);
-        children.add(childState);
 
-        System.out.println();
-        System.out.println("child "+children.size());
-        childState.display();
-    }
 
     public void display(){
         Line.display(this.getLines());
         Square.display(this.getSquares());
-        System.out.println();
+        //System.out.println();
     }
 
     public static State currentState() {
@@ -143,7 +139,7 @@ public class State {
         for (Line line : currentState) {
             for (Line toFind : stateWithBestPlay) {
                 if (line.isEmpty() != toFind.isEmpty()) {
-                    return toFind;
+                    return line;
                 }
             }
         }
@@ -194,7 +190,7 @@ public class State {
     }
 
     public ArrayList<Line> getAvailableMoves(){
-        System.out.println(this.lines.size());
+        //System.out.println(this.lines.size());
         return this.lines;
 
     }

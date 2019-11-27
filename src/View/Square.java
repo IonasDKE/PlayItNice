@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Square {
 
-    private ArrayList<Line> borders = new ArrayList<>();
+    private ArrayList<Line> borders=new ArrayList<>();
     private Rectangle rect;
     private int id;
 
