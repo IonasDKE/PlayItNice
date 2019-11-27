@@ -8,7 +8,7 @@ public class WeightedEdge {
     private int weight ;
     private Line line;
 
-    WeightedEdge(Line line, int weight) {
+    public WeightedEdge(Line line, int weight) {
         this.line = line ;
         this.weight = weight ;
     }
