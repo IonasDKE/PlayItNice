@@ -49,40 +49,34 @@ public class State {
 
     //get the children of the State
     public ArrayList<State> getChildren(){
-        return this.children;
-    }
-
-
-    public ArrayList<Line> cloneLines(){
-        ArrayList<Line> clone = new ArrayList<>();
-        for (Line l : lines) {
-            Line result = new Line(l.getid(), l.isEmpty(), l.getClonedSquares());
+        if(children==null){
+            children = computeChildren();
         }
-        return clone;
+        return children;
     }
 
-    public void computeChildren(){
+    public ArrayList<State> computeChildren(){
         ArrayList<State> result = new ArrayList<>();
 
         //children that would build a third line in a square are excluded
-        for(View.Line line : this.lines){
+        for(View.Line line : lines){
             if(line.isEmpty() && !Controller.isThirdLine(line)) {
                 addChild(line,result);
             }
         }
 
         //case if it is not possible to pick a line that will not be a third line
-        //if(result.size()==0) {
-        System.out.println("case 2");
-        for (Line line : this.lines) {
-            if(line.isEmpty()){
-                addChild(line,result);
+        if(result.size()==0) {
+            // System.out.println("case 2");
+            for (Line line : lines) {
+                if(line.isEmpty()){
+                    addChild(line,result);
+                }
             }
         }
-        //}
-        this.children=result;
-
+        return result;
     }
+
     private void addChild(Line line, ArrayList<State> children){
         State childState = this.cloned();
         State.findLine(line.getid(),childState.getLines()).setEmpty(false);
@@ -98,8 +92,6 @@ public class State {
         Square.display(this.getSquares());
         System.out.println();
     }
-
-
 
     public static State currentState() {
         return currentState;
@@ -118,6 +110,15 @@ public class State {
         return findSquare(id, currentState.getSquares());
     }
 
+    public ArrayList<Line> cloneLines(){
+        ArrayList<Line> clone = new ArrayList<>();
+        for (Line l : lines) {
+            Line result = new Line(l.getid());
+            result.setEmpty(l.isEmpty());
+            result.setSquares(l.getClonedSquares());
+        }
+        return clone;
+    }
 
     public ArrayList<Line> getEmptyLines() {
         ArrayList<Line> emptyLines = new ArrayList<>();
@@ -156,7 +157,6 @@ public class State {
     }
 
     public static Line findLine(int id){
-
         return findLine(id,currentState.getLines());
     }
 
