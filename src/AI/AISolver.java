@@ -1,4 +1,4 @@
-package Model;
+package AI;
 
 import GameTree.Node;
 import GameTree.State;
