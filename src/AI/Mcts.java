@@ -43,7 +43,7 @@ public class Mcts extends AISolver{
 
         //System.out.println("current best : "+currentBest);
         //System.out.println("best move avg: "+findBestMove.getScore()/findBestMove.getVisitNb());
-        Line bestLine=(State.findLine(findBestMove.getState().getLines()));
+        Line bestLine=(State.findMove(tree.getRoot().getState(), findBestMove.getState()));
         System.out.println("Best line is : "+bestLine.getid());
 
         bestLine.fill();

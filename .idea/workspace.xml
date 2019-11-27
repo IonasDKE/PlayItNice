@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AI/AlphaBeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/AlphaBeta.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AI/Mcts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/Mcts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameTree/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameTree/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameTree/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameTree/State.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -44,28 +43,26 @@
                 <file pinned="false" current-in-tab="true">
                   <entry file="file://$PROJECT_DIR$/src/GameTree/State.java">
                     <provider selected="true" editor-type-id="text-editor">
-                      <state relative-caret-position="241">
-                        <caret line="46" column="30" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+                      <state relative-caret-position="-501">
+                        <caret line="157" column="23" selection-start-line="157" selection-start-column="23" selection-end-line="157" selection-end-column="23" />
                         <folding>
                           <element signature="imports" expanded="true" />
-                          <element signature="e#658#659#0" expanded="true" />
-                          <element signature="e#694#695#0" expanded="true" />
-                          <element signature="e#2366#2367#0" expanded="true" />
-                          <element signature="e#2401#2402#0" expanded="true" />
-                          <element signature="e#2458#2459#0" expanded="true" />
-                          <element signature="e#2496#2497#0" expanded="true" />
-                          <element signature="e#2558#2559#0" expanded="true" />
-                          <element signature="e#2607#2608#0" expanded="true" />
-                          <element signature="e#2700#2701#0" expanded="true" />
-                          <element signature="e#2764#2765#0" expanded="true" />
-                          <element signature="e#3202#3203#0" expanded="true" />
-                          <element signature="e#3265#3266#0" expanded="true" />
-                          <element signature="e#3577#3578#0" expanded="true" />
-                          <element signature="e#3636#3637#0" expanded="true" />
-                          <element signature="e#5245#5246#0" expanded="true" />
-                          <element signature="e#5273#5274#0" expanded="true" />
-                          <element signature="e#5318#5319#0" expanded="true" />
-                          <element signature="e#5348#5349#0" expanded="true" />
+                          <element signature="e#570#571#0" expanded="true" />
+                          <element signature="e#598#599#0" expanded="true" />
+                          <element signature="e#643#644#0" expanded="true" />
+                          <element signature="e#673#674#0" expanded="true" />
+                          <element signature="e#1264#1265#0" expanded="true" />
+                          <element signature="e#1300#1301#0" expanded="true" />
+                          <element signature="e#2948#2949#0" expanded="true" />
+                          <element signature="e#2983#2984#0" expanded="true" />
+                          <element signature="e#3040#3041#0" expanded="true" />
+                          <element signature="e#3078#3079#0" expanded="true" />
+                          <element signature="e#3140#3141#0" expanded="true" />
+                          <element signature="e#3189#3190#0" expanded="true" />
+                          <element signature="e#3282#3283#0" expanded="true" />
+                          <element signature="e#3346#3347#0" expanded="true" />
+                          <element signature="e#4360#4361#0" expanded="true" />
+                          <element signature="e#4423#4424#0" expanded="true" />
                         </folding>
                       </state>
                     </provider>
@@ -145,8 +142,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AI/AlphaBeta.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="147" column="40" selection-start-line="147" selection-start-column="40" selection-end-line="147" selection-end-column="40" />
+            <state relative-caret-position="322">
+              <caret line="153" column="1" selection-start-line="153" selection-start-column="1" selection-end-line="153" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -178,8 +175,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/AI/Mcts.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="83" column="35" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
+            <state relative-caret-position="220">
+              <caret line="45" column="90" selection-start-line="45" selection-start-column="90" selection-end-line="45" selection-end-column="90" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -302,8 +299,8 @@
         <option value="$PROJECT_DIR$/src/GameTree/Node.java" />
         <option value="$PROJECT_DIR$/src/AI/AISolver.java" />
         <option value="$PROJECT_DIR$/src/AI/AlphaBeta.java" />
-        <option value="$PROJECT_DIR$/src/AI/Mcts.java" />
         <option value="$PROJECT_DIR$/src/GameTree/State.java" />
+        <option value="$PROJECT_DIR$/src/AI/Mcts.java" />
       </list>
     </option>
   </component>
@@ -366,7 +363,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574872149926" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574872646258" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Documents/lib/javafx-sdk-13/lib/javafx.web.jar!/" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
@@ -557,7 +554,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574866198054</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Merged elliot and my code">
+      <created>1574872194044</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1574872194044</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TodoView">
@@ -582,11 +586,11 @@
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.50121456" side_tool="true" weight="0.3283582" />
-      <window_info anchor="bottom" id="Messages" order="2" sideWeight="0.49878544" weight="0.3283582" />
+      <window_info active="true" anchor="bottom" id="Messages" order="2" sideWeight="0.49878544" visible="true" weight="0.3283582" />
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" sideWeight="0.49878544" weight="0.3283582" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.33001658" />
+      <window_info anchor="bottom" id="Run" order="6" weight="0.33001658" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.39635158" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -644,7 +648,8 @@
     <MESSAGE value="MCTS changes for the random play out" />
     <MESSAGE value="MCTS finished, but not working" />
     <MESSAGE value="MCTS debuged a lot, but still have some ..." />
-    <option name="LAST_COMMIT_MESSAGE" value="MCTS debuged a lot, but still have some ..." />
+    <MESSAGE value="Merged elliot and my code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merged elliot and my code" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Game.java" />
@@ -799,8 +804,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AI/AlphaBeta.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="147" column="40" selection-start-line="147" selection-start-column="40" selection-end-line="147" selection-end-column="40" />
+        <state relative-caret-position="322">
+          <caret line="153" column="1" selection-start-line="153" selection-start-column="1" selection-end-line="153" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -819,36 +824,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GameTree/State.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="46" column="30" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+        <state relative-caret-position="-501">
+          <caret line="157" column="23" selection-start-line="157" selection-start-column="23" selection-end-line="157" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#658#659#0" expanded="true" />
-            <element signature="e#694#695#0" expanded="true" />
-            <element signature="e#2366#2367#0" expanded="true" />
-            <element signature="e#2401#2402#0" expanded="true" />
-            <element signature="e#2458#2459#0" expanded="true" />
-            <element signature="e#2496#2497#0" expanded="true" />
-            <element signature="e#2558#2559#0" expanded="true" />
-            <element signature="e#2607#2608#0" expanded="true" />
-            <element signature="e#2700#2701#0" expanded="true" />
-            <element signature="e#2764#2765#0" expanded="true" />
-            <element signature="e#3202#3203#0" expanded="true" />
-            <element signature="e#3265#3266#0" expanded="true" />
-            <element signature="e#3577#3578#0" expanded="true" />
-            <element signature="e#3636#3637#0" expanded="true" />
-            <element signature="e#5245#5246#0" expanded="true" />
-            <element signature="e#5273#5274#0" expanded="true" />
-            <element signature="e#5318#5319#0" expanded="true" />
-            <element signature="e#5348#5349#0" expanded="true" />
+            <element signature="e#570#571#0" expanded="true" />
+            <element signature="e#598#599#0" expanded="true" />
+            <element signature="e#643#644#0" expanded="true" />
+            <element signature="e#673#674#0" expanded="true" />
+            <element signature="e#1264#1265#0" expanded="true" />
+            <element signature="e#1300#1301#0" expanded="true" />
+            <element signature="e#2948#2949#0" expanded="true" />
+            <element signature="e#2983#2984#0" expanded="true" />
+            <element signature="e#3040#3041#0" expanded="true" />
+            <element signature="e#3078#3079#0" expanded="true" />
+            <element signature="e#3140#3141#0" expanded="true" />
+            <element signature="e#3189#3190#0" expanded="true" />
+            <element signature="e#3282#3283#0" expanded="true" />
+            <element signature="e#3346#3347#0" expanded="true" />
+            <element signature="e#4360#4361#0" expanded="true" />
+            <element signature="e#4423#4424#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AI/Mcts.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="83" column="35" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
+        <state relative-caret-position="220">
+          <caret line="45" column="90" selection-start-line="45" selection-start-column="90" selection-end-line="45" selection-end-column="90" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

@@ -57,6 +57,7 @@ public class State {
         ArrayList<Line> clone = new ArrayList<>();
         for (Line l : lines) {
             Line result = new Line(l.getid(), l.isEmpty(), l.getClonedSquares());
+            clone.add(result);
         }
         return clone;
     }
@@ -73,7 +74,6 @@ public class State {
 
         //case if it is not possible to pick a line that will not be a third line
         //if(result.size()==0) {
-        System.out.println("case 2");
         for (Line line : this.lines) {
             if(line.isEmpty()){
                 addChild(line,result);
