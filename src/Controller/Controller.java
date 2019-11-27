@@ -236,6 +236,7 @@ public class Controller {
 
     //counts the number of squares that players have claimed
     public static int countClaimedSquare(){
+        int x =0;
         int count = 0;
         for(Square sq: State.currentState().getSquares()){
             if(sq.getValence()== 0){
