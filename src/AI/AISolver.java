@@ -1,10 +1,18 @@
 package AI;
 
+import GameTree.Node;
 import GameTree.State;
+import GameTree.Tree;
 import View.Board;
 import View.GraphicLine;
 import View.Line;
 import View.Player;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import static Controller.Controller.completeSquare;
+import static Controller.Controller.completeSquareID;
 
 public abstract class AISolver {
 
@@ -15,8 +23,12 @@ public abstract class AISolver {
     private final static int cTwo = 1;
 
     protected int evaluationFunction(State board, int color){
-       //TODO
-        return 0;
+
+        //return completeSquareID(State.currentState().getSquares());
+        Random r = new Random();
+        return r.nextInt(100-10)+10;
+
+
     }
 
     public abstract Line nextMove(State board, int color);
