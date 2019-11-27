@@ -1,11 +1,14 @@
 package View;
+import AI.AISolver;
+import AI.Mcts;
 import GameTree.State;
-import AI.AlphaBeta;
+//import AI.AlphaBeta;
 import javafx.scene.paint.Color;
 import Controller.Controller;
 import java.util.ArrayList;
 
 public class Player {
+    private AISolver solver;
     private Color color;
     private int moves;
     private int score;
@@ -20,6 +23,9 @@ public class Player {
         this.score = 0;
         this.ai= ai;
         players.add(this);
+        if(ai == "Mcts"){
+            solver = new Mcts();
+        }
     }
 
     public static ArrayList<Player> getPlayers() {
@@ -92,7 +98,7 @@ public class Player {
     }
 
     public void mcts() {
-        Controller.setMcts();
+        solver.nextMove(State.currentState(), Integer.parseInt(name));
     }
 
     public static void display(){

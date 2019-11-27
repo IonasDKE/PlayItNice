@@ -54,6 +54,10 @@ public class Square {
         }
     }
 
+    public int geid() {
+        return id;
+    }
+
     //color a square form the color of a player
     public void colorSquare(Player player){
         if(this.isClaimed()){
@@ -65,7 +69,7 @@ public class Square {
             };
             LinearGradient linearGradient =
                     new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
-            rect.setFill(linearGradient);
+            State.findSquare(this.getid()).getRect().setFill(linearGradient);
         }
     }
 

@@ -1,9 +1,10 @@
 package Controller;
 
-import AI.Mcts;
 import GameTree.State;
+import GameTree.Tree;
 import AI.AISolver;
 import AI.AlphaBeta;
+import AI.Mcts;
 import View.Player;
 import View.*;
 import javafx.scene.shape.Rectangle;
@@ -11,7 +12,6 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 
 
 public class Controller {
@@ -50,31 +50,37 @@ public class Controller {
             } else {
                 turn = 0;
             }
-
-            System.out.println("turn = " + turn + ", ai: " + Player.getPlayers().get(turn).isAi());
+        }
+            System.out.println();
+            System.out.println();
+            System.out.println("turn = " + turn + ", ai: " + Player.getActualPlayer().isAi());
             System.out.println("channel " + Controller.getChannelNb());
             System.out.println();
-            System.out.println();
 
+        if (checkEnd()) {
+            EndWindow.display(Launcher.thisStage);
+        }else {
             //checks if the next player to play is an AI, if it is the case, makes it play
-            player = Player.getActualPlayer();
-            if (player.isAi()) {
-                //calls for the specific AI play method
-                switch (player.getAiType()) {
-                    case "End Square":
-                        player.endSquarePlay();
-                        break;
-                    case "Alpha Beta":
-                        firstSolver = new AlphaBeta();
-                        firstSolver.nextMove(State.currentState(),turn).fill();
-                        break;
-                    case "Mcts":
-                        player.mcts();
-                        break;
-                }
+            checkAiPlay();
+        }
+    }
+
+    private static void checkAiPlay(){
+        Player player = Player.getActualPlayer();
+        if (player.isAi()) {
+            //calls for the specific AI play method
+            switch (player.getAiType()) {
+                case "End Square":
+                    player.endSquarePlay();
+                    break;
+                case "Alpha Beta":
+                    System.out.println("je suis laid");
+                    firstSolver = new AlphaBeta();
+                    player.alphaBeta();
+                case "Mcts":
+                    player.mcts();
             }
         }
-
     }
 
     // check if any square has been claimed
@@ -95,9 +101,6 @@ public class Controller {
 
         Board.getPlayerNb().setText(p.getName());
         Board.getScores().get(Integer.parseInt(p.getName()) - 1).setText(Integer.toString(p.getScore()));
-        if(checkEnd()){
-            EndWindow.display(Launcher.thisStage);
-        }
     }
 
     //find all the different of channels, return them on a arraylist of arraylist of squares
@@ -131,7 +134,7 @@ public class Controller {
     }
 
     //return the number of channels
-    public static int getChannelNb(){
+    public static int getChannelNb() {
         return getChannels().size();
     }
 
@@ -153,7 +156,7 @@ public class Controller {
         ArrayList<Square> children = new ArrayList<>();
         for (Line line : s.getEmptyInnerBorders()) {
             for (Square neighbouringSquare : line.getSquares()) {
-                if (neighbouringSquare != s ) {
+                if (neighbouringSquare != s) {
                     children.add(neighbouringSquare);
                 }
             }
@@ -176,34 +179,16 @@ public class Controller {
         }
     }
 
-    public static int completeSquareID(ArrayList<Square> sqs) {
-        boolean doRecursion = false;
-        for (Square sq : sqs) {
-            if (sq.getValence() == 1) {
-                sq.colorSquare(Player.getActualPlayer());
-                doRecursion = true;
-                return sq.getEmptyBorders().get(0).getid();
-
-            }
-        }
-        if (doRecursion && !(countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN()))) {
-            completeSquare(sqs);
-        }
-        return 0;
-    }
-
-
-
-    public static void colorRandomLine(ArrayList<Line> lines){
+    public static void colorRandomLine(ArrayList<Line> lines) {
         Random rand = new Random();
         boolean lineHasNotBeenPicked = true;
         int index = 0;
 
         //case 1 finds a line that doesnt give the opponent the opportunity to claim a square
-        while(lineHasNotBeenPicked && index< lines.size() ) {
+        while (lineHasNotBeenPicked && index < lines.size()) {
             Line chosenLine = lines.get(index);
-            if(chosenLine.isEmpty() && !isThirdLine(chosenLine)){
-                System.out.println("fill "+ chosenLine.getid());
+            if (chosenLine.isEmpty() && !isThirdLine(chosenLine)) {
+                System.out.println("fill " + chosenLine.getid());
                 chosenLine.fill();
                 lineHasNotBeenPicked = false;
             }
@@ -212,9 +197,9 @@ public class Controller {
 
         //case 2, picks up a random line
         while (lineHasNotBeenPicked && !(countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN()))) {
-            int randomIndex = rand.nextInt( lines.size());
-            if ( lines.get(randomIndex).isEmpty()) {
-                System.out.println("fillR "+ lines.get(randomIndex).getid());
+            int randomIndex = rand.nextInt(lines.size());
+            if (lines.get(randomIndex).isEmpty()) {
+                System.out.println("fillR " + lines.get(randomIndex).getid());
                 lines.get(randomIndex).fill();
                 lineHasNotBeenPicked = false;
             }
@@ -223,23 +208,22 @@ public class Controller {
     }
 
     //checks if claiming a the line will update any square to a valence of 1
-    public static boolean isThirdLine(Line line){
+    public static boolean isThirdLine(Line line) {
         boolean result = false;
 
-        for(Square sq : line.getSquares()){
-            if(sq.getValence()==2){
-                result=true;
+        for (Square sq : line.getSquares()) {
+            if (sq.getValence() == 2) {
+                result = true;
             }
         }
         return result;
     }
 
     //counts the number of squares that players have claimed
-    public static int countClaimedSquare(){
-        int x =0;
+    public static int countClaimedSquare() {
         int count = 0;
-        for(Square sq: State.currentState().getSquares()){
-            if(sq.getValence()== 0){
+        for (Square sq : State.currentState().getSquares()) {
+            if (sq.getValence() == 0) {
                 count++;
             }
         }
@@ -247,50 +231,51 @@ public class Controller {
     }
 
     // checks if the first player to play is an ai type, if it is the case, it makes the ai play
-    public static void aiStart(){
-        if(Player.getActualPlayer().isAi()){
+    public static void aiStart() {
+        if (Player.getActualPlayer().isAi()) {
             System.out.println("AI is starting");
+            //Player.display();
             Player player = Player.getActualPlayer();
             switch (player.getAiType()) {
                 case "End Square":
                     player.endSquarePlay();
                     break;
                 case "Alpha Beta":
-                    firstSolver = new AlphaBeta();
-                    firstSolver.nextMove(State.currentState(), turn).fill();
+                    System.out.println("blabla");
+                    //firstSolver = new AlphaBeta();
+                    player.alphaBeta();
+
                     break;
                 case "Mcts":
-                    firstSolver=new Mcts();
+                    System.out.println("Ai start");
                     player.mcts();
+                    break;
             }
+            //Tree t = new Tree();
         }
 
     }
 
 
-
-
-
     //check if the game has ended
-    public static  boolean checkEnd(){
-        if(countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN())){
+    public static boolean checkEnd() {
+        if (countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN())) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
     //update the gui components of the ending frame
-    public static Rectangle setWinner(){
-        int winner =0;
+    public static Rectangle setWinner() {
+        int winner = 0;
         //Player winner = Player.getPlayers().get(0);
         int max = 0;
-        if(checkEnd()){
-            for(int i = 0 ; i < Player.getPlayers().size(); i++){
-                if (max < Player.getPlayers().get(i).getScore()){
+        if (checkEnd()) {
+            for (int i = 0; i < Player.getPlayers().size(); i++) {
+                if (max < Player.getPlayers().get(i).getScore()) {
                     max = Player.getPlayers().get(i).getScore();
-                    winner=i;
+                    winner = i;
                 }
 
             }
@@ -304,23 +289,12 @@ public class Controller {
     }
 
     public static void setAlphaBeta() {
-        firstSolver.nextMove(State.currentState(), turn).fill();
-    }
-
-    private static boolean firstTurn = true;
-    public static void setMcts() {
-        State state = new State(State.currentState().getLines());
-        //state.display();
-        if (firstTurn) {
-            firstSolver = new Mcts();
-            firstTurn=false;
-        }else {
-            firstSolver.setNewRoot(State.currentState());
-            System.out.println("set new root");
+        State state = new State(board.getMoves());
+        firstSolver = new AlphaBeta();
+        while (!checkEnd()) {
+            firstSolver.nextMove(state, turn);
         }
-        //change the root at the end of human turn in the Mcts
-        firstSolver.nextMove(state, turn);
-
     }
+
 
 }

@@ -34,9 +34,12 @@ public class Line {
         Player actualPlayer = Player.getActualPlayer();
 
         if (Controller.checkMove(this, actualPlayer)) {
+            System.out.println("fill line "+this.id);
+            this.setEmpty(false);
+            Mcts.setNewRoots();
+
             this.graphicLine.setStroke(actualPlayer.getColor());
 
-            this.setEmpty(false);
 
             for (Square sq : this.getSquares()) {
                 sq.colorSquare(actualPlayer);
