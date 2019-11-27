@@ -258,6 +258,9 @@ public class Controller {
                     firstSolver = new AlphaBeta();
                     firstSolver.nextMove(State.currentState(), turn).fill();
                     break;
+                case "Mcts":
+                    firstSolver=new Mcts();
+                    player.mcts();
             }
         }
 

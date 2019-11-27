@@ -12,10 +12,10 @@ public class Mcts extends AISolver{
     public int minScore;
 
     public Line nextMove(State state, int color) {
-        minScore = (Launcher.getChosenN()*Launcher.getChosenM())/2 +1;
         if (firstTurn) {
             tree = new Tree(new Node(state, null));
             firstTurn=false;
+            minScore = (Launcher.getChosenN()*Launcher.getChosenM())/2 +1;
         }
 
         System.out.println("new Move");
@@ -27,7 +27,6 @@ public class Mcts extends AISolver{
             findBestMove=selection(tree.getRoot());
             expansion(findBestMove);
             simulateRandomPlayOut(findBestMove);
-
         }
 
         double currentBest=-100;
@@ -81,7 +80,7 @@ public class Mcts extends AISolver{
         for (State state: toExpand.getState().getChildren()) {
             toExpand.addChild(new Node(new State(state.cloneLines()),toExpand));
         }
-        System.out.println("children size : "+toExpand.getChildren().size());
+        //System.out.println("children size : "+toExpand.getChildren().size());
         return toExpand.getChildren().get(rand.nextInt(toExpand.getChildren().size()));
 
     }
@@ -108,9 +107,9 @@ public class Mcts extends AISolver{
                 ourTurn=true;
         }
         //System.out.println("score to add: "+score);
-        if (score <minScore) {
+        if (score < minScore) {
             backPropagation(selectedNode, -1);
-        }else if (score >=minScore){
+        }else if (score >= minScore){
             backPropagation(selectedNode, 1);
         }else {
             backPropagation(selectedNode, 0);
@@ -140,13 +139,13 @@ public class Mcts extends AISolver{
     }
 
     public boolean isNotComplete(State currentState) {
-        boolean allLinesEmpty=false;
+        boolean allLinesAreEmpty=false;
         for (Line l: currentState.getLines()){
             if (l.isEmpty()) {
-                allLinesEmpty = true;
+                allLinesAreEmpty = true;
             }
         }
-        return allLinesEmpty;
+        return allLinesAreEmpty;
     }
 
     public int checkSquare(Line line, boolean ourTurn) {

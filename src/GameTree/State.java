@@ -52,7 +52,6 @@ public class State {
         return this.children;
     }
 
-
     public ArrayList<Line> cloneLines(){
         ArrayList<Line> clone = new ArrayList<>();
         for (Line l : lines) {
@@ -73,13 +72,13 @@ public class State {
         }
 
         //case if it is not possible to pick a line that will not be a third line
-        //if(result.size()==0) {
-        for (Line line : this.lines) {
-            if(line.isEmpty()){
-                addChild(line,result);
+        if(result.size()==0) {
+            for (Line line : this.lines) {
+                if(line.isEmpty()){
+                    addChild(line,result);
+                }
             }
         }
-        //}
         this.children=result;
 
     }

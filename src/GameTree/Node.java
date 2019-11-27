@@ -76,8 +76,6 @@ public class Node {
     }
 
     public ArrayList<Node> getChildren() {
-        if (this.children==null)
-            this.computeChildren();
         return this.children;
     }
 
