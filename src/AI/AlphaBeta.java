@@ -61,7 +61,6 @@ public class AlphaBeta extends AISolver {
             Collections.shuffle(moves);
 
             if(!Player.getActualPlayer().isAlpha()){
-               // System.out.println("bite");
             }
 
             // IF TURN = AI
