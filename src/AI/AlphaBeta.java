@@ -43,6 +43,11 @@ public class AlphaBeta extends AISolver {
 
     }
 
+    @Override
+    public void setNewRoot(State state) {
+            // Nothing in here
+    }
+
     public WeightedEdge startAI(State state, int turn, int depth, int alpha, int beta) {
        // System.out.println(turn);
         if ((depth < maxDepth && (System.nanoTime() - startTime) < moveTime)) {
@@ -145,4 +150,5 @@ public class AlphaBeta extends AISolver {
             return new WeightedEdge(null, evaluationFunction(state, turn));
         }
     }
+
 }
