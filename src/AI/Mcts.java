@@ -29,38 +29,46 @@ public class Mcts extends AISolver{
             simulateRandomPlayOut(findBestMove);
 
         }
-        double currentBest=-1000000;
 
+        double currentBest=-100;
         for (Node child:tree.getRoot().getChildren()) {
-            if (child.getScore()/child.getVisitNb() > currentBest) {
+            //System.out.println("all scores :"+child.getScore()/child.getVisitNb());
+            if (child.getScore()/child.getVisitNb() >= currentBest) {
                 currentBest=child.getScore()/child.getVisitNb();
                 findBestMove=child;
-                //System.out.println("current best : "+currentBest);
             }
         }
-        //System.out.println(tree.getRoot().getChildren().get(0).getScore()/tree.getRoot().getChildren().get(0).getVisitNb());
 
-        //System.out.println("children size "+ tree.getRoot().getChildren().size());
-        Line bestLine=(State.findLine(state.getLines(), findBestMove.getState().getLines()));
-        //System.out.println("Best line is : "+bestLine.getid());
+        System.out.println("root children size: "+tree.getRoot().getChildren().size());
+
+        //System.out.println("current best : "+currentBest);
+        //System.out.println("best move avg: "+findBestMove.getScore()/findBestMove.getVisitNb());
+        Line bestLine=(State.findLine(findBestMove.getState().getLines()));
+        System.out.println("Best line is : "+bestLine.getid());
+
         bestLine.fill();
         tree.setRoot(findBestMove);
+        System.out.println(tree.getRoot());
         return bestLine;
     }
 
     //this method return a child node of a node that it is fed, based on the highest UCT score
     public Node selection(Node rootNode) {
-        Node node = rootNode;
-        if (node.getChildren().size() != 0){                  //while loop just doesn't make sense here
-            node = this.maxUctNode(node.getChildren());
+        if (rootNode.getChildren().size()==0) {
+            return rootNode;
+        }else{
+            Node node = rootNode;
+            while (node.getChildren().size() != 0) {                  //while loop just doesn't make sense here
+                node = maxUctNode(node.getChildren());               //of course you need a while loop!
+            }
+            return node;
         }
-        return node;
     }
 
     //This method is ancilliary to the selection method
     public Node maxUctNode (ArrayList<Node> nodes){
-        Node maxUctNode = nodes.get(0);
-        for( Node aNode: nodes){
+        Node maxUctNode = nodes.get(nodes.size()-1);
+        for(Node aNode: nodes){
             if (aNode.getUctScore() > maxUctNode.getUctScore()){
                 maxUctNode = aNode;
             }
@@ -69,14 +77,11 @@ public class Mcts extends AISolver{
     }
 
     public Node expansion(Node toExpand) {
-        //System.out.println("parent: "+toExpand.getParent()+" score: "+toExpand.getScore()+" visit nb: "+toExpand.getVisitNb()+" children size: "+toExpand.getChildren().size());
         toExpand.getState().computeChildren();
-        //System.out.println("state children size "+toExpand.getState().getChildren().size());
         for (State state: toExpand.getState().getChildren()) {
-            //System.out.println("in loops");
             toExpand.addChild(new Node(new State(state.cloneLines()),toExpand));
         }
-        //System.out.println("children size "+ toExpand.getChildren().size());
+        System.out.println("children size : "+toExpand.getChildren().size());
         return toExpand.getChildren().get(rand.nextInt(toExpand.getChildren().size()));
 
     }
@@ -114,7 +119,7 @@ public class Mcts extends AISolver{
 
     public void backPropagation(Node node, int score) {
         if (score==0) { // no need to update score, but still need to increase number of visits
-            if (node == tree.getRoot()) {
+            if (node.getParent() == null) {
                 node.addVisit();
             } else {
                 node.addVisit();
@@ -122,7 +127,7 @@ public class Mcts extends AISolver{
             }
 
         }else {
-            if (node == tree.getRoot()) {
+            if (node.getParent() == null) {
                 node.addVisit();
                 node.addScore(score);
             } else {

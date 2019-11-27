@@ -145,4 +145,5 @@ public class AlphaBeta extends AISolver {
             return new WeightedEdge(null, evaluationFunction(state, turn));
         }
     }
+    public void setNewRoot(State state){}
 }

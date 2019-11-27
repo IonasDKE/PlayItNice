@@ -18,6 +18,9 @@ public class Node {
     public Node(State state, Node parent) {
         this.state = state;
         this.parent = parent;
+
+        if (parent ==null)
+            this.visitNb=1;
     }
 
     public State getState() {
@@ -84,7 +87,7 @@ public class Node {
     }
 
     public void computeUctScore(){
-        this.uctScore = this.score + COEFFICIENT * Math.sqrt( Math.log( this.parent.getVisitNb() ) / this.visitNb );
+        this.uctScore = this.score + COEFFICIENT * Math.sqrt( Math.log(this.parent.getVisitNb() ) / this.visitNb );
     }
 
     public void addChild(Node newChild) {
