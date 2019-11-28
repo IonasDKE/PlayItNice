@@ -248,51 +248,17 @@ public class Launcher  extends Application {
     }
 
     public void setPlayers(ArrayList<Color> colors){
-        int nb=0;
-        if(selectPlayerOne.getValue().toString() == "End Square"){
-            pOneAI = true;
-            nb++;
-            new Player(colors.get(0), Integer.toString(1), "End Square");
-            System.out.println("one");
+        int playerNumber=0;
+        new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), "Human");
+        playerNumber++;
+        String opponent1 = selectPlayerOne.getValue().toString();
+        new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent1);
+        playerNumber++;
+        String opponent2 = selectPlayerTwo.getValue().toString();
+        if(opponent2 != "Opponent 2" && opponent2 !="" && opponent2 != null) {
+            new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent2);
         }
-
-        if(selectPlayerTwo.getValue().toString() == "End Square"){
-            pTwoAI = true;
-            new Player(colors.get(nb), Integer.toString(nb+1), "End Square");
-            nb++;
-            System.out.println("two");
-        }
-
-        if(selectPlayerOne.getValue().toString() == "Alpha Beta"){
-            pAlpha = true;
-            nb++;
-            new Player(colors.get(1), Integer.toString(2), "Alpha Beta");
-            System.out.println("one");
-        }
-
-        if(selectPlayerTwo.getValue().toString() == "Alpha Beta"){
-            ptwoAlpha = true;
-            nb++;
-            new Player(colors.get(1), Integer.toString(2), "Alpha Beta");
-            System.out.println("two");
-        }
-
-        if (selectPlayerOne.getValue().toString() == "Mcts") {
-            pOneMcts =true;
-            nb++;
-            new Player((colors.get(1)), Integer.toString(2), "Mcts");
-        }
-
-        if (selectPlayerTwo.getValue().toString() == "Mcts") {
-            pTwoMcts =true;
-            nb++;
-            new Player((colors.get(1)), Integer.toString(2), "Mcts");
-        }
-
-        for(int i = nb; i< colors.size(); i++){
-            new Player(colors.get(i), Integer.toString(i+1), "Human");
-            System.out.println("human "+ i);
-        }
+        playerNumber++;
     }
 
     public static int getChosenM(){

@@ -26,7 +26,6 @@ public class Mcts extends AISolver{
         while (System.currentTimeMillis() < timeLimit) {
             findBestMove=selection(tree.getRoot());
             expansion(findBestMove);
-            simulateRandomPlayOut(findBestMove);
         }
 
         double currentBest=-100;
@@ -57,8 +56,8 @@ public class Mcts extends AISolver{
             return rootNode;
         }else{
             Node node = rootNode;
-            while (node.getChildren().size() != 0) {                  //while loop just doesn't make sense here
-                node = maxUctNode(node.getChildren());               //of course you need a while loop!
+            while (node.getChildren().size() != 0 && isNotComplete(node.getState())) {                  //while loop just doesn't make sense here
+                node = maxUctNode(node.getChildren());                                            //of course you need a while loop!
             }
             return node;
         }
@@ -75,13 +74,14 @@ public class Mcts extends AISolver{
         return maxUctNode;
     }
 
-    public Node expansion(Node toExpand) {
+    public void expansion(Node toExpand) {
         toExpand.getState().computeChildren();
+        System.out.println("state children : "+toExpand.getState().getChildren().size());
         for (State state: toExpand.getState().getChildren()) {
             toExpand.addChild(new Node(new State(state.cloneLines()),toExpand));
         }
-        //System.out.println("children size : "+toExpand.getChildren().size());
-        return toExpand.getChildren().get(rand.nextInt(toExpand.getChildren().size()));
+        System.out.println("children size : "+toExpand.getChildren().size());
+        simulateRandomPlayOut(toExpand.getChildren().get(rand.nextInt(toExpand.getChildren().size())));
 
     }
 
