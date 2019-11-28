@@ -2,6 +2,7 @@ package GameTree;
 
 import View.Line;
 import View.Square;
+import View.Player;
 
 import java.util.ArrayList;
 
@@ -35,13 +36,14 @@ public class State {
         return children;
     }
 
-   /* public ArrayList<Line> cloneLines(){
+   public ArrayList<Line> cloneLines(){
         ArrayList<Line> clone = new ArrayList<>();
         for (Line l : lines) {
             Line result = new Line(l.getid(), l.isEmpty(), l.getClonedSquares());
+            clone.add(result);
         }
         return clone;
-    }*/
+    }
 
     public void computeChildren(){
         ArrayList<State> result = new ArrayList<>();
@@ -83,14 +85,11 @@ public class State {
                 line.setEmpty(false);
             }
         }
-
     }
 
-
-
     public void display(){
-        Line.display(this.getLines());
-        Square.display(this.getSquares());
+        //Line.display(this.getLines());
+        //Square.display(this.getSquares());
         //System.out.println();
     }
 
@@ -171,17 +170,6 @@ public class State {
         this.getSquares().clear();
     }
 
-    public int getScore(int score){
-        //TODO
-        return 5;
-    }
-
-    //public State updateState(Line line, int color){
-    //    return getChildren();
-    //}
-
-
-
     public int numberOfAvailableMoves(){
         //System.out.println(getAvailableMoves().size());
         return getAvailableMoves().size();
@@ -216,7 +204,7 @@ public class State {
     }
 
     public static Line findMove(State parent, State child){
-        System.out.println("bugg");
+        //System.out.println("bugg");
         return parent.getLines().get(0);
     }
     public ArrayList<Line> getLines() {
@@ -225,6 +213,26 @@ public class State {
 
     public ArrayList<Square> getSquares() {
         return squares;
+    }
+
+    public static Line findMove(ArrayList<Line> state) {
+        Line toReturn=null;
+        for (Line toFind: currentState.getLines()) {
+            for (Line line : state) {
+                if (toFind.isEmpty() != line.isEmpty())
+                    toReturn= toFind;
+            }
+        }
+        return toReturn;
+    }
+
+    public int getScore(int turn){
+        if(turn == 0){
+            return Player.getPlayers().get(0).getScore();
+        }
+        else{
+            return Player.getPlayers().get(1).getScore();
+        }
     }
 
     //TO DO : add state info methods

@@ -77,15 +77,14 @@ public class Tree {
     }
 
     //for MCTS, delets all the non-used subtree
-    public void deleteParents(Node currentNode) {
-        if (currentNode.getSafeChildren().size()==0 ||
-                (currentNode.getSafeChildren().size()==1 && currentNode.getSafeChildren().get(0)==this.root)) {
-            currentNode=null;
-        }else{
-            for (Node n:currentNode.getSafeChildren()) {
-                deleteParents(n);
-            }
+    public void deleteParents() {
+        Node parent = this.getRoot().getParent();
+        this.getRoot().setParent(null);
+        for (Node childToDelete:parent.getChildren()) {
+            if (childToDelete != this.getRoot())
+                childToDelete=null;
         }
+        parent=null;
 
     }
 
@@ -136,10 +135,11 @@ public class Tree {
 
             if (nbdiff== 0) {
                 this.setRoot(node);
-                 System.out.println("Mcts.setNewRoot");
-                 node.getState().display();
+                 System.out.println("Mcts.setNewRoot strange");
+                 //node.getState().display();
             }
         }
+
     }
    /* public ArrayList<Node> getLeaves() {
         return leaf;

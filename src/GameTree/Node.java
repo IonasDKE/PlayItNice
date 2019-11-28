@@ -8,7 +8,7 @@ TODO:
  */
 public class Node {
     private State state;
-    private ArrayList<Node> children;
+    private ArrayList<Node> children=new ArrayList<>();
     private Node parent;
     private double score = 0;
     private int visitNb = 0;
@@ -106,6 +106,10 @@ public class Node {
 
     public void addChild(Node newChild) {
         this.children.add(newChild);
+    }
+
+    public void setParent(Node newParent) {
+        this.parent=newParent;
     }
 
 }

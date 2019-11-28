@@ -51,12 +51,13 @@ public class Controller {
                 turn = 0;
             }
         }
+        /*
             System.out.println();
             System.out.println();
             System.out.println("turn = " + turn + ", ai: " + Player.getActualPlayer().isAi());
             System.out.println("channel " + Controller.getChannelNb());
             System.out.println();
-
+        */
         if (checkEnd()) {
             EndWindow.display(Launcher.thisStage);
         }else {
@@ -91,7 +92,7 @@ public class Controller {
                 squareNb++;
             }
         }
-        System.out.println("squareNb = " + squareNb);
+        //System.out.println("squareNb = " + squareNb);
         return squareNb;
     }
 
@@ -233,7 +234,7 @@ public class Controller {
     // checks if the first player to play is an ai type, if it is the case, it makes the ai play
     public static void aiStart() {
         if (Player.getActualPlayer().isAi()) {
-            System.out.println("AI is starting");
+            //System.out.println("AI is starting");
             //Player.display();
             Player player = Player.getActualPlayer();
             switch (player.getAiType()) {
@@ -247,7 +248,7 @@ public class Controller {
 
                     break;
                 case "Mcts":
-                    System.out.println("Ai start");
+                    //System.out.println("Ai start");
                     player.mcts();
                     break;
             }

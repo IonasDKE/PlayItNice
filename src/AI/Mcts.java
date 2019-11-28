@@ -32,21 +32,20 @@ public class Mcts extends AISolver {
     public Line nextMove(State state, int color) {
         if(firstTurn) {
             tree = new Tree();
-            trees.add(tree);
+            //trees.add(tree);
             firstTurn=false;
+            minScore = (Launcher.getChosenN()*Launcher.getChosenM())/2 +1;
         }
-        minScore = (Launcher.getChosenN()*Launcher.getChosenM())/2 +1;
 
         System.out.println();
         System.out.println("root Move");
-        tree.getRoot().getState().display();
+        //tree.getRoot().getState().display();
 
         Node findBestMove =null;
         timeLimit= System.currentTimeMillis()+1000; //1000 = 1 sec
         while (System.currentTimeMillis() < timeLimit) {
             findBestMove=selection(tree.getRoot());
-            findBestMove.computeChildren();
-            simulateRandomPlayOut(findBestMove);
+            expansion(findBestMove);
 
         }
 
@@ -56,21 +55,17 @@ public class Mcts extends AISolver {
             if (child.getScore()/child.getVisitNb() > currentBest) {
                 currentBest=child.getScore()/child.getVisitNb();
                 findBestMove=child;
-                //System.out.println("current best : "+currentBest);
+                System.out.println("current best : "+currentBest);
             }
         }
         //System.out.println(tree.getRoot().getChildren().get(0).getScore()/tree.getRoot().getChildren().get(0).getVisitNb());
 
-        //System.out.println("children size "+ tree.getRoot().getChildren().size());
-        System.out.println("next");
-        findBestMove.getState().display();
-        System.out.println();
-        System.out.println("state");
-
-        Line bestLine=(State.findDiffLine( findBestMove.getState().getLines()));
+        Line bestLine=(State.findMove(findBestMove.getState().getLines()));
         System.out.println("Best line is : "+bestLine.getid());
         bestLine.fill();
-        //tree.setRoot(findBestMove);
+        tree.setRoot(findBestMove);
+        tree.deleteParents();
+        System.out.println(findBestMove.getParent());
         return bestLine;
     }
 
@@ -78,7 +73,7 @@ public class Mcts extends AISolver {
     public Node selection(Node rootNode) {
         Node node = rootNode;
         if (node.computeAndGetChildren().size() != 0){                  //while loop just doesn't make sense here
-            node = this.maxUctNode(node.getSafeChildren());
+            node = this.maxUctNode(node.getChildren());
         }
         return node;
     }
@@ -94,18 +89,18 @@ public class Mcts extends AISolver {
         return maxUctNode;
     }
 
-  /*  public Node expansion(Node toExpand) {
+    public void expansion(Node toExpand) {
         //System.out.println("parent: "+toExpand.getParent()+" score: "+toExpand.getScore()+" visit nb: "+toExpand.getVisitNb()+" children size: "+toExpand.getChildren().size());
         toExpand.getState().computeChildren();
         //System.out.println("state children size "+toExpand.getState().getChildren().size());
         for (State state: toExpand.getState().getChildren()) {
             //System.out.println("in loops");
-           // toExpand.addChild(new Node(new State(state.cloneLines()),toExpand));
+           toExpand.addChild(new Node(new State(state.cloneLines()),toExpand));
         }
-        System.out.println("children size "+ toExpand.getSafeChildren().size());
-        return toExpand.getSafeChildren().get(rand.nextInt(toExpand.getSafeChildren().size()));
+        //System.out.println("children size "+ toExpand.getChildren().size());
+        simulateRandomPlayOut(toExpand.getChildren().get(rand.nextInt(toExpand.getChildren().size())));
 
-    }*/
+    }
 
     public void simulateRandomPlayOut(Node selectedNode) {
         int score=0;

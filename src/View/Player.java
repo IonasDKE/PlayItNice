@@ -41,7 +41,7 @@ public class Player {
     }
 
     public boolean isAi() {
-        System.out.println("ai = " + ai);
+        //System.out.println("ai = " + ai);
         if (ai == "Human"){
             return false;
         }else{
@@ -103,7 +103,7 @@ public class Player {
 
     public static void display(){
         for(Player p : players){
-            System.out.println("p = " + p.ai);
+            //System.out.println("p = " + p.ai);
         }
     }
 }

@@ -50,7 +50,7 @@ public class Square {
             borders.add(line);
             line.assignSquare(this);
         }else{
-            System.out.println("borders are full");
+            //System.out.println("borders are full");
         }
     }
 
@@ -116,11 +116,11 @@ public class Square {
 
     public static void display(ArrayList<Square> sqs){
         for(Square s: sqs){
-            System.out.print("square = " + s.getid()+", valence "+ s.getValence()+ ", borders = ");
+            //System.out.print("square = " + s.getid()+", valence "+ s.getValence()+ ", borders = ");
             for(Line l : s.getBorders()){
-                System.out.print(l.getid()+", "+l.isEmpty()+"; ");
+                //System.out.print(l.getid()+", "+l.isEmpty()+"; ");
             }
-            System.out.println();
+            //System.out.println();
         }
     }
 
