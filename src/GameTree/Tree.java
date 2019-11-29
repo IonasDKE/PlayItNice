@@ -77,13 +77,13 @@ public class Tree {
     }
 
     //for MCTS, delets all the non-used subtree
-    public void deleteParents() {
+    public void deleteRootParent() {
         Node parent = this.getRoot().getParent();
-        this.getRoot().setParent(null);
-        for (Node childToDelete:parent.getChildren()) {
+        for (Node childToDelete: parent.getChildren()) {
             if (childToDelete != this.getRoot())
                 childToDelete=null;
         }
+        this.getRoot().setParent(null);
         parent=null;
 
     }

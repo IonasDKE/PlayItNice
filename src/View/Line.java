@@ -40,14 +40,12 @@ public class Line {
 
             this.graphicLine.setStroke(actualPlayer.getColor());
 
-
             for (Square sq : this.getSquares()) {
                 sq.colorSquare(actualPlayer);
             }
 
-            Controller.updateTurn(this, actualPlayer);
-
             Controller.updateComponents();
+            Controller.updateTurn(this, actualPlayer);
         }
     }
 
@@ -99,11 +97,11 @@ public class Line {
 
     public static void display(ArrayList<Line> l){
         for(Line line : l){
-            //System.out.print("line " + line.getid()+ ", filled = "+ line.isEmpty()+", squares = ");
+            System.out.print("line " + line.getid()+ ", filled = "+ line.isEmpty()+", squares = ");
             for(Square s :line.getSquares()){
-                //System.out.print(s.getid()+", ");
+                System.out.print(s.getid()+", ");
             }
-            //System.out.println();
+            System.out.println();
         }
     }
 

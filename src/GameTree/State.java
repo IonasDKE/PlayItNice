@@ -6,6 +6,8 @@ import View.Player;
 
 import java.util.ArrayList;
 
+import static Controller.Controller.isThirdLine;
+
 public class State {
 
     private static State currentState;
@@ -30,10 +32,10 @@ public class State {
     }
 
     public ArrayList<State> computeAndGetChildren(){
-        if(children==null) {
+        if(this.children==null) {
             computeChildren();
         }
-        return children;
+        return this.children;
     }
 
    public ArrayList<Line> cloneLines(){
@@ -49,11 +51,11 @@ public class State {
         ArrayList<State> result = new ArrayList<>();
 
         //children that would build a third line in a square are excluded
-      /*  for(View.Line line : this.lines){
-            if(line.isEmpty() && !Controller.isThirdLine(line)) {
+        for(View.Line line : this.lines){
+            if(line.isEmpty() && !isThirdLine(line)) {
                 addChild(line,result);
             }
-        }*/
+        }
 
         //case if it is not possible to pick a line that will not be a third line
         if(result.size()==0) {
@@ -88,7 +90,7 @@ public class State {
     }
 
     public void display(){
-        //Line.display(this.getLines());
+        Line.display(this.getLines());
         //Square.display(this.getSquares());
         //System.out.println();
     }
@@ -216,13 +218,18 @@ public class State {
     }
 
     public static Line findMove(ArrayList<Line> state) {
-        Line toReturn=null;
+        Line toReturn = null;
         for (Line toFind: currentState.getLines()) {
+            //System.out.println("toFind emptiness :" + toFind.isEmpty());
             for (Line line : state) {
-                if (toFind.isEmpty() != line.isEmpty())
-                    toReturn= toFind;
+                //System.out.println("line emptiness :" + line.isEmpty());
+                if (toFind.isEmpty() != line.isEmpty() && toFind.isEmpty()) {
+                    toReturn = toFind;
+                    //System.out.println("line found ");
+                }
             }
         }
+        System.out.println();
         return toReturn;
     }
 

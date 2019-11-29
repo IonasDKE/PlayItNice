@@ -7,12 +7,14 @@ TODO:
 - We could add a general class to list parameters, such as the exploration-exploitation coefficient.
  */
 public class Node {
+    private static int totalVisit=0;
     private State state;
     private ArrayList<Node> children=new ArrayList<>();
     private Node parent;
     private double score = 0;
+    private int numberOfWin=0;
     private int visitNb = 0;
-    private double uctScore = 0;
+    private double uctScore = Double.NEGATIVE_INFINITY;
     private final double COEFFICIENT = 0.5; //this coefficient balances exploration and exploitation in the UCT
 
     public Node(State state, Node parent) {
@@ -20,37 +22,14 @@ public class Node {
         this.parent = parent;
     }
 
-    public State getState() {
-        return state;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public int getVisitNb() {
-        return visitNb;
-    }
-
-    public void addScore(double nb) {
-        this.score += nb;
-    }
-
-    public void addVisit() {
-        this.visitNb++;
-    }
-
-
-
-    public ArrayList<Node> computeChildren() {
-        ArrayList<State> children = this.state.computeAndGetChildren();
-        ArrayList<Node> result = new ArrayList<>();
-        for (State t : children) {
-            result.add(new Node(t, this));
+    public ArrayList<Node> computeChildren( ) {
+        ArrayList<State> stateChildren = this.state.computeAndGetChildren();
+        ArrayList<Node> nodeNewChildren = new ArrayList<>();
+        for (State t : stateChildren) {
+            nodeNewChildren.add(new Node(t, this));
         }
-        this.children = result;
-        //System.out.println("children = " + children.size());
-        return result;
+        this.children = nodeNewChildren;
+        return nodeNewChildren;
     }
 
     public boolean isRoot() {
@@ -66,14 +45,14 @@ public class Node {
     }
 
     public ArrayList<Node> getSafeChildren() {
-        if (!hasChildren())
+        if (!this.hasChildren())
             this.computeChildren();
         return this.children;
     }
 
     public boolean hasChildren(){
         //System.out.println("children = " + children);
-        return children != null;
+        return this.children != null;
     }
 
     public ArrayList<Node> computeAndGetChildren(){
@@ -96,20 +75,51 @@ public class Node {
     }*/
 
     public double getUctScore(){
-        this.computeUctScore();
+        if (this.uctScore==Double.NEGATIVE_INFINITY) {
+            this.uctScore = (this.numberOfWin /(double)this.visitNb)+ COEFFICIENT * Math.sqrt(Math.log(totalVisit)/(double) this.visitNb);
+        }
         return this.uctScore;
-    }
-
-    public void computeUctScore(){
-        this.uctScore = this.score + COEFFICIENT * Math.sqrt( Math.log( this.parent.getVisitNb() ) / this.visitNb );
-    }
-
-    public void addChild(Node newChild) {
-        this.children.add(newChild);
     }
 
     public void setParent(Node newParent) {
         this.parent=newParent;
+    }
+
+    public int getNumberOfWin() {
+        return numberOfWin;
+    }
+
+    public void increaseWinNb() {
+        this.numberOfWin ++;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public int getVisitNb() {
+        return visitNb;
+    }
+
+    public void addScore(double nb) {
+        this.score += nb;
+    }
+
+    public double getAvg() {
+        return this.score/this.visitNb;
+    }
+
+    public void addVisit() {
+        this.visitNb++;
+        totalVisit++;
+    }
+
+    public static void resetTotalVisit() {
+        totalVisit=0;
     }
 
 }
