@@ -1,5 +1,6 @@
 package GameTree;
 
+import Controller.Controller;
 import View.Line;
 import View.Square;
 import View.Player;
@@ -10,6 +11,7 @@ import static Controller.Controller.isThirdLine;
 
 public class State {
 
+    private Player playerToPlay;
     private static State currentState;
     private ArrayList<Line> getAvailableMoves;
     private ArrayList<State> children;
@@ -21,9 +23,16 @@ public class State {
         squares = Square.buildSquares(g);
     }
 
-    public State(ArrayList<Line> lines, ArrayList<Square> squares) {
+    public State (ArrayList<Line> g, Player player){
+        lines = g;
+        squares = Square.buildSquares(g);
+        playerToPlay = player;
+    }
+
+    public State(ArrayList<Line> lines, ArrayList<Square> squares, Player player) {
         this.lines = lines;
         this.squares = squares;
+        playerToPlay = player;
     }
 
     //get the children of the State
@@ -51,21 +60,21 @@ public class State {
         ArrayList<State> result = new ArrayList<>();
 
         //children that would build a third line in a square are excluded
-        for(View.Line line : this.lines){
+       /* for(View.Line line : this.lines){
             if(line.isEmpty() && !isThirdLine(line)) {
                 addChild(line,result);
             }
-        }
+        }*/
 
         //case if it is not possible to pick a line that will not be a third line
-        if(result.size()==0) {
+        //if(result.size()==0) {
           //  System.out.println("case 2");
             for (Line line : this.lines) {
                 if(line.isEmpty()){
                     addChild(line,result);
                 }
             }
-        }
+       // }
         //System.out.println("result = " + result.size());
         this.children=result;
 
@@ -73,7 +82,15 @@ public class State {
 
     private void addChild(Line line, ArrayList<State> children){
         State childState = this.cloned();
-        State.findLine(line.getid(),childState.getLines()).setEmpty(false);
+        Line filledLine = State.findLine(line.getid(),childState.getLines());
+        filledLine.setEmpty(false);
+        Player nextPlayer;
+        if(Controller.checkAnySquareClaimed(filledLine)>0){
+            nextPlayer = this.getPlayerToPlay();
+        }else{
+            nextPlayer = Player.nextPlayer(this.playerToPlay);
+        }
+        childState.setPlayerToPlay(nextPlayer);
         children.add(childState);
 
         //System.out.println();
@@ -236,5 +253,11 @@ public class State {
         }
     }
 
-    //TO DO : add state info methods
+    public Player getPlayerToPlay() {
+        return playerToPlay;
+    }
+
+    public void setPlayerToPlay(Player playerToPlay) {
+        this.playerToPlay = playerToPlay;
+    }
 }

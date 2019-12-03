@@ -80,7 +80,7 @@ public class Controller {
     }
 
     // check if any square has been claimed
-    private static int checkAnySquareClaimed(View.Line line) {
+    public static int checkAnySquareClaimed(View.Line line) {
         int squareNbBefore = 0;
         int squareNbAfter = 0;
         line.setEmpty(true);

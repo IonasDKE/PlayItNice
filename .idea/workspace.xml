@@ -2,35 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6f75b1a-9282-45b2-9205-2dc31094bb9e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/AI/RuleBased.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/View/GraphicLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Ionas.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PlayItNice.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PlayItNice.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/AI/AISolver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/AI/AlphaBeta.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/AI/Mcts.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/AI/WeightedEdge.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/Controller/Controller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/GameTree/Node.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/GameTree/State.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/GameTree/Tree.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Board.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/EndWindow.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/GUIstyle.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/GraphicLine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Launcher$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Launcher$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Launcher.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Line.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Player.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Square.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/module-info.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AI/AISolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/AISolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AI/AlphaBeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/AlphaBeta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AI/Mcts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/Mcts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameTree/Tree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameTree/Tree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameTree/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameTree/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Player.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -96,8 +70,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1575374267797</updated>
-      <workItem from="1575374269534" duration="952000" />
+      <workItem from="1575374269534" duration="2408000" />
     </task>
+    <task id="LOCAL-00001" summary="bug correction">
+      <created>1575376689508</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1575376689508</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,5 +95,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="bug correction" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug correction" />
   </component>
 </project>

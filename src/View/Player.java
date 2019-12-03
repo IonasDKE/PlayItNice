@@ -107,7 +107,25 @@ public class Player {
         }
     }
 
-
+    public static Player nextPlayer(Player prevPlayer){
+        int index = 0;
+        Player nextPlayer = null;
+        for(Player player : players){
+            if(player.getName() == prevPlayer.getName()){
+                if (index == players.size() - 1) {
+                    nextPlayer = players.get(0);
+                }
+                else{
+                    nextPlayer = players.get(index+1);
+                }
+            }
+            index++;
+        }
+        if(nextPlayer== null){
+            System.out.println("did not find player");
+        }
+        return nextPlayer;
+    }
 
     public static void display(){
         for(Player p : players){
