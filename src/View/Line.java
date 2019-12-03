@@ -33,23 +33,18 @@ public class Line {
 
         Player actualPlayer = Player.getActualPlayer();
 
-        if (Controller.checkMove(this, actualPlayer)) {
-            this.graphicLine.setStroke(actualPlayer.getColor());
-
+        if (Controller.checkMove(this)) {
+            //System.out.println("fill line "+this.id);
             this.setEmpty(false);
+
+            this.graphicLine.setStroke(actualPlayer.getColor());
 
             for (Square sq : this.getSquares()) {
                 sq.colorSquare(actualPlayer);
             }
 
             Controller.updateTurn(this, actualPlayer);
-
-            Controller.updateComponents();
         }
-    }
-
-    public void fillNoEffect() {
-        this.empty=false;
     }
 
     public static ArrayList<Line> getLines(){

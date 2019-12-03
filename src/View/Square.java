@@ -50,8 +50,12 @@ public class Square {
             borders.add(line);
             line.assignSquare(this);
         }else{
-            System.out.println("borders are full");
+            //System.out.println("borders are full");
         }
+    }
+
+    public int geid() {
+        return id;
     }
 
     //color a square form the color of a player
@@ -65,7 +69,7 @@ public class Square {
             };
             LinearGradient linearGradient =
                     new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
-            rect.setFill(linearGradient);
+            State.findSquare(this.getid()).getRect().setFill(linearGradient);
         }
     }
 
@@ -112,11 +116,11 @@ public class Square {
 
     public static void display(ArrayList<Square> sqs){
         for(Square s: sqs){
-            System.out.print("square = " + s.getid()+", valence "+ s.getValence()+ ", borders = ");
+            //System.out.print("square = " + s.getid()+", valence "+ s.getValence()+ ", borders = ");
             for(Line l : s.getBorders()){
-                System.out.print(l.getid()+", "+l.isEmpty()+"; ");
+                //System.out.print(l.getid()+", "+l.isEmpty()+"; ");
             }
-            System.out.println();
+            //System.out.println();
         }
     }
 

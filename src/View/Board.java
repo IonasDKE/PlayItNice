@@ -149,20 +149,6 @@ public class Board {
     }
 
 
-    public static int getNumberOfMoves() {
-        return getMoves().size();
-    }
-
-    public static ArrayList<Line> getMoves() {
-        ArrayList<Line> lines = new ArrayList<>();
-        for(Line kn : Line.getLines()){
-            if (kn.isEmpty()){
-                lines.add(kn);
-            }
-        }
-        return lines;
-    }
-
 
     public Board updateBoard(Line graphicLine, int color) {
         

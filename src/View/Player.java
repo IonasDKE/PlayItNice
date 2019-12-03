@@ -1,11 +1,18 @@
+
 package View;
-import GameTree.State;
-import AI.AlphaBeta;
-import javafx.scene.paint.Color;
-import Controller.Controller;
-import java.util.ArrayList;
+        import AI.AISolver;
+        import AI.AlphaBeta;
+        import AI.Mcts;
+        import AI.RuleBased;
+        import GameTree.Node;
+        import GameTree.State;
+//import AI.AlphaBeta;
+        import javafx.scene.paint.Color;
+        import Controller.Controller;
+        import java.util.ArrayList;
 
 public class Player {
+    private AISolver solver;
     private Color color;
     private int moves;
     private int score;
@@ -20,6 +27,17 @@ public class Player {
         this.score = 0;
         this.ai= ai;
         players.add(this);
+        switch (ai) {
+            case  "Mcts":
+                solver = new Mcts();
+                break;
+            case "Rule Based":
+                solver = new RuleBased();
+                break;
+            case "Alpha Beta" :
+                solver = new AlphaBeta();
+                break;
+        }
     }
 
     public static ArrayList<Player> getPlayers() {
@@ -35,7 +53,7 @@ public class Player {
     }
 
     public boolean isAi() {
-        System.out.println("ai = " + ai);
+        //System.out.println("ai = " + ai);
         if (ai == "Human"){
             return false;
         }else{
@@ -73,9 +91,11 @@ public class Player {
     }
 
 
-    public void endSquarePlay(){
-        Controller.completeSquare(State.currentState().getSquares());
-        Controller.colorRandomLine(State.currentState().getLines());
+    public void aiPlay() {
+        //System.out.println("called ai player");
+        Line chosenLine = solver.nextMove(State.currentState(), Integer.parseInt(name));
+        chosenLine.fill();
+        System.out.println("ai fill "+chosenLine.getid());
     }
 
     public boolean isAlpha() {
@@ -84,20 +104,19 @@ public class Player {
         }
         else{
             return false;
-            }
+        }
     }
 
-    public void alphaBeta() {
-        Controller.setAlphaBeta();
-    }
 
-    public void mcts() {
-        Controller.setMcts();
-    }
 
     public static void display(){
         for(Player p : players){
             System.out.println("p = " + p.ai);
         }
     }
+
+   /* public static boolean getFistTurn() {
+        return mctsFirstIteration;
+    }*/
+
 }
