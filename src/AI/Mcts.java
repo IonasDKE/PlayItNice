@@ -1,18 +1,18 @@
 package AI;
 import GameTree.*;
 import View.*;
-import Controller.*;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Mcts extends AISolver {
     private  Tree tree;
+    private Node rootNode;
     private static ArrayList<Tree> trees = new ArrayList<>();
     //private static AISolver solver;
     private static long timeLimit;
     private Random rand = new Random();
-    private boolean firstTurn= true;
-    public  static int minScore;
+    private static int minScore;
 
    /* private void setMcts() {
         State clonedCurrentState = new State(State.currentState().getLines());
@@ -31,27 +31,29 @@ public class Mcts extends AISolver {
     }*/
 
     public Line nextMove(State state, int color) {
+        boolean firstTurn = Player.getFistTurn();
         if(firstTurn) {
             tree = new Tree(new Node(state, null));
             trees.add(tree);
-            firstTurn=false;
             minScore = (Launcher.getChosenN()*Launcher.getChosenM())/2 +1;
+            System.out.println("first turn");
         }
+
         Node.resetTotalVisit();
+        rootNode=this.tree.getRoot();
 
         System.out.println();
         System.out.println("root Move");
-        System.out.println("root node "+tree.getRoot() +" children: "+tree.getRoot().getChildren().size());
+        //System.out.println("root node "+tree.getRoot() +" children: "+tree.getRoot().getChildren().size());
         //tree.getRoot().getState().display();
 
-        timeLimit= System.currentTimeMillis()+1000; //1000 = 1 sec
+        timeLimit= System.currentTimeMillis()+2000; //1000 = 1 sec
         while (System.currentTimeMillis() < timeLimit) {
-            Node promisingNode=selection(tree.getRoot());
-            if (isNotComplete(promisingNode.getState())) {
+            Node promisingNode=selection(rootNode);
+            if (!isComplete(promisingNode.getState())) {
                 expansion(promisingNode);
             }
             if (promisingNode.getChildren().size()>0) {
-                //System.out.println("in if 2");
                 promisingNode=promisingNode.getChildren().get(rand.nextInt(promisingNode.getChildren().size()));
             }
             int score = simulateRandomPlayOut(promisingNode);
@@ -69,19 +71,33 @@ public class Mcts extends AISolver {
             }
         }
 
+        this.tree.getTreeSize(rootNode);
+        System.out.println("tree size "+tree.treeSize);
+        System.out.println("simulation nb :" +simulationCounter);
+
         Node winnerNode = getBestChild();
-        tree.setRoot(winnerNode);
-        tree.deleteRootParent();
-        Line bestLine=(State.findMove(winnerNode.getState().getLines()));
-        //System.out.println("Best line is : "+bestLine.getid());
+        System.out.println("winner node size: "+winnerNode.getState().getLines().size());
+        this.tree.setRoot(winnerNode);
+
+        if (!firstTurn) {
+            winnerNode.setParent(null); //in java when information is not accesible, it's deleted
+            //tree.deleteRootParent();
+        }
+
+        for (Line l :winnerNode.getState().getLines())
+            System.out.println(l.isEmpty()+" id: "+l.getid());
+
+        Line bestLine=(State.findDiffLine(state.getLines(), winnerNode.getState().getLines()));
+        System.out.println("best line id "+bestLine.getid());
         bestLine.fill();
+
         return bestLine;
     }
 
     //this method return a child node of a node that it is fed, based on the highest UCT score
     public Node selection(Node rootNode) {
         Node node = rootNode;
-        while (node.getChildren().size() != 0 && !isNotComplete(node.getState())){
+        while (node.getChildren().size()!=0 && !isComplete(node.getState())){
             node = maxUctNode(node);
         }
         return node;
@@ -89,7 +105,7 @@ public class Mcts extends AISolver {
 
     //This method is ancilliary to the selection method
     public Node maxUctNode (Node node){
-        Node maxUctNode =null;
+        Node maxUctNode =node.getChildren().get(0);
         for(Node aNode: node.getChildren()){
             if (aNode.getUctScore() > maxUctNode.getUctScore()){
                 maxUctNode = aNode;
@@ -102,28 +118,35 @@ public class Mcts extends AISolver {
         if (toExpand.hasChildren())
             toExpand.computeChildren();
     }
-
+    public int simulationCounter=0;
     public int simulateRandomPlayOut(Node selectedNode) {
+        simulationCounter++;
         State stateCopy = new State(selectedNode.getState().cloned(selectedNode.getState().getLines()));
         ArrayList<Line> lines = stateCopy.getEmptyLines();
-
+        for (Line line: stateCopy.getLines()){
+            //System.out.println(line.getid()+ " emptiness :"+line.isEmpty());
+        }
+        //System.out.println();
+        int lastScore=0;
         int score=0;
         Line randomLine;
         boolean ourTurn=true;
 
-        while (isNotComplete(stateCopy)) {
+        while (!isComplete(stateCopy)) {
+            lastScore=score;
             //System.out.println("lines size : "+lines.size());
             randomLine=lines.get(rand.nextInt(lines.size()));
             score += checkSquare(randomLine, ourTurn);
             randomLine.fillNoEffect();
             lines.remove(randomLine);
 
-            if (ourTurn){
-                ourTurn=false;
-            }else
-                ourTurn=true;
+            if (lastScore==score) {
+                if (ourTurn) {
+                    ourTurn = false;
+                } else
+                    ourTurn = true;
+            }
         }
-
         return score;
     }
 
@@ -148,14 +171,14 @@ public class Mcts extends AISolver {
         }
     }
 
-    public boolean isNotComplete(State state) {
-        boolean boardInProgress=false;
+    public boolean isComplete(State state) {
+        boolean boardIsComplete=true;
         for (Line l: state.getLines()){
             if (l.isEmpty()) {
-                boardInProgress = true;
+                boardIsComplete=false;
             }
         }
-        return boardInProgress;
+        return boardIsComplete;
     }
 
     public int checkSquare(Line line, boolean ourTurn) {
@@ -171,20 +194,26 @@ public class Mcts extends AISolver {
     public Node getBestChild() {
         double currentBest=Double.NEGATIVE_INFINITY;
         Node bestChild=null;
+        int counterDebugg=0;
 
-        for (Node child : this.tree.getRoot().getChildren()) {
+        for (Node child : rootNode.getChildren()) {
+            System.out.println("current best: "+child.getAvg()+" counter: "+counterDebugg++);
             if (child.getAvg() > currentBest) {
                 bestChild=child;
                 currentBest=child.getAvg();
+                //System.out.println("current best in loop: "+currentBest);
+
             }
         }
         return bestChild;
     }
 
+    public void setNewRoots(State newRootState){
+        for (Node node: this.tree.getRoot().getChildren()){
+            if (node.getState() == newRootState)
+                this.tree.setRoot(node);
 
-    public static void setNewRoots(){
-        for(Tree t : trees){
-            t.setNewRoot();
         }
     }
+
 }

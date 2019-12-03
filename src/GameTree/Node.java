@@ -1,5 +1,7 @@
 package GameTree;
 
+import View.Line;
+
 import java.util.ArrayList;
 
 /*
@@ -15,18 +17,20 @@ public class Node {
     private int numberOfWin=0;
     private int visitNb = 0;
     private double uctScore = Double.NEGATIVE_INFINITY;
-    private final double COEFFICIENT = 0.5; //this coefficient balances exploration and exploitation in the UCT
 
     public Node(State state, Node parent) {
         this.state = state;
         this.parent = parent;
     }
 
-    public ArrayList<Node> computeChildren( ) {
-        ArrayList<State> stateChildren = this.state.computeAndGetChildren();
+    public ArrayList<Node> computeChildren( ) { //for the first iteration return 2 non empty lines?
+        ArrayList<State> stateChildren = this.getState().computeAndGetChildren();
         ArrayList<Node> nodeNewChildren = new ArrayList<>();
         for (State t : stateChildren) {
+            //for (Line l : t.getLines())
+              //  System.out.println(l.isEmpty()+" "+l.getid());
             nodeNewChildren.add(new Node(t, this));
+           // System.out.println();
         }
         this.children = nodeNewChildren;
         return nodeNewChildren;
@@ -66,19 +70,24 @@ public class Node {
         return children;
     }
 
-    /*public ArrayList<Node> safeGetChildren(){
+    public ArrayList<Node> safeGetChildren(){
         //addVisit();
         if (children == null) {
             children = computeChildren();
         }
         return children;
-    }*/
+    }
 
     public double getUctScore(){
-        if (this.uctScore==Double.NEGATIVE_INFINITY) {
+        final double COEFFICIENT = 0.1; //this coefficient balances exploration and exploitation in the UCT
+        double toReturn=0;
+        if (this.visitNb==0) {
+            toReturn=Double.MAX_VALUE;
+        } else if (this.uctScore==Double.NEGATIVE_INFINITY) {
             this.uctScore = (this.numberOfWin /(double)this.visitNb)+ COEFFICIENT * Math.sqrt(Math.log(totalVisit)/(double) this.visitNb);
+            toReturn=this.uctScore;
         }
-        return this.uctScore;
+        return toReturn;
     }
 
     public void setParent(Node newParent) {

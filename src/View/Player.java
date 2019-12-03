@@ -1,6 +1,7 @@
 package View;
 import AI.AISolver;
 import AI.Mcts;
+import GameTree.Node;
 import GameTree.State;
 //import AI.AlphaBeta;
 import javafx.scene.paint.Color;
@@ -97,8 +98,16 @@ public class Player {
         Controller.setAlphaBeta();
     }
 
+    private static boolean mctsFirstIteration=true;
     public void mcts() {
-        solver.nextMove(State.currentState(), Integer.parseInt(name));
+        if (mctsFirstIteration) {
+            solver.nextMove(State.currentState(), Integer.parseInt(name));
+            mctsFirstIteration=false;
+        }else {
+            solver.setNewRoots(State.currentState());
+            solver.nextMove(State.currentState(), Integer.parseInt(name));
+        }
+
     }
 
     public static void display(){
@@ -106,4 +115,9 @@ public class Player {
             //System.out.println("p = " + p.ai);
         }
     }
+
+    public static boolean getFistTurn() {
+        return mctsFirstIteration;
+    }
+
 }

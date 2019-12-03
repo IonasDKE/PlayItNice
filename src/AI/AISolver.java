@@ -31,5 +31,7 @@ public abstract class AISolver {
 
     }
 
+    public void setNewRoots(State state){}
+
     public abstract Line nextMove(State board, int color);
 }
