@@ -64,6 +64,7 @@ public class Mcts extends AISolver {
 
         timeLimit= System.currentTimeMillis()+2000; //1000 = 1 sec
         while (System.currentTimeMillis() < timeLimit) {
+
             Node promisingNode=selection(rootNode);
             if (!isComplete(promisingNode.getState())) {
                 expansion(promisingNode);
@@ -110,9 +111,15 @@ public class Mcts extends AISolver {
 
     //this method return a child node of a node that it is fed, based on the highest UCT score
     public Node selection(Node rootNode) {
-        Node node = rootNode;
-        while (node.getChildren().size()!=0 && !isComplete(node.getState())){
-            node = maxUctNode(node);
+
+       /* if (rootNode.getChildren().size()==0) {
+            return rootNode;
+        }*/
+            Node node = rootNode;
+            while (node.getChildren().size() != 0 && isNotComplete(node.getState())) {                  //while loop just doesn't make sense here
+                node = maxUctNode(node.getChildren());                                            //of course you need a while loop!
+            
+
         }
         return node;
     }
@@ -129,9 +136,10 @@ public class Mcts extends AISolver {
     }
 
     public void expansion(Node toExpand) {
-        if (toExpand.hasChildren())
+
+       == if (!toExpand.hasChildren())
             toExpand.computeChildren();
-    }
+
     public int simulationCounter=0;
     public int simulateRandomPlayOut(Node selectedNode) {
         simulationCounter++;
