@@ -2,7 +2,6 @@ package AI;
 
 import GameTree.State;
 import View.Board;
-import View.GraphicLine;
 import Controller.*;
 import View.Line;
 import View.Player;

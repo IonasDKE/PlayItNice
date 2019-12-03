@@ -5,7 +5,6 @@ import GameTree.Node;
 import GameTree.State;
 import GameTree.Tree;
 import View.Board;
-import View.GraphicLine;
 import View.Line;
 import View.Player;
 

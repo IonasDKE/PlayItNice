@@ -109,17 +109,11 @@ public class Mcts extends AISolver {
         return bestLine;
     }
 
-    //this method return a child node of a node that it is fed, based on the highest UCT score
+    ///this method return a child node of a node that it is fed, based on the highest UCT score
     public Node selection(Node rootNode) {
-
-       /* if (rootNode.getChildren().size()==0) {
-            return rootNode;
-        }*/
-            Node node = rootNode;
-            while (node.getChildren().size() != 0 && isNotComplete(node.getState())) {                  //while loop just doesn't make sense here
-                node = maxUctNode(node.getChildren());                                            //of course you need a while loop!
-            
-
+        Node node = rootNode;
+        while (node.getChildren().size()!=0 && !isComplete(node.getState())){
+            node = maxUctNode(node);
         }
         return node;
     }
@@ -136,9 +130,10 @@ public class Mcts extends AISolver {
     }
 
     public void expansion(Node toExpand) {
-
-       == if (!toExpand.hasChildren())
+        //check exclamation mark
+        if (!toExpand.hasChildren())
             toExpand.computeChildren();
+    }
 
     public int simulationCounter=0;
     public int simulateRandomPlayOut(Node selectedNode) {
