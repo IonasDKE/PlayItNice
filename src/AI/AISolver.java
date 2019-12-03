@@ -11,7 +11,6 @@ import View.Player;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static Controller.Controller.completeSquare;
 //import static Controller.Controller.completeSquareID;
 
 public abstract class AISolver {

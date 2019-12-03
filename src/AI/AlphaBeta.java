@@ -145,5 +145,5 @@ public class AlphaBeta extends AISolver {
         }
     }
 
-    public void setNewRoot(State state) {}
+    public void setNewRoots(State state) {}
 }

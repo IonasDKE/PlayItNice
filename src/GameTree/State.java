@@ -193,6 +193,16 @@ public class State {
         return this.lines;
 
     }
+    public ArrayList<Line> getNdValenceLines(){
+        ArrayList<Line> lines = new ArrayList<>();
+        System.out.println(" nd" + this.getLines().size());
+        for (Line line: this.getLines()) {
+            if (line.isEmpty() && !isThirdLine(line)) {
+                lines.add(line);
+            }
+        }
+        return lines;
+    }
 
     public int isEqual(State other){
         int nbOfDifferences = 0;

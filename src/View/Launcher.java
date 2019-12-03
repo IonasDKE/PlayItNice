@@ -33,8 +33,8 @@ public class Launcher  extends Application {
     private int countError=0;
     private ComboBox selectPlayerOne, selectPlayerTwo , numberOfPlayers;
     private String[] gameSizes = {"2 x 2", "3 x 2" , "4 x 4", "4 x 5", "5 x 6", "8 x 8"};
-    private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "End Square", "Alpha Beta", "Mcts");
-    private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "End Square", "Alpha Beta", "Mcts");
+    private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "Rule Based", "Alpha Beta", "Mcts");
+    private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "Rule Based", "Alpha Beta", "Mcts");
     private ObservableList<String> playerNumbers = FXCollections.observableArrayList("Select a number","1","2");
     private RadioButton[] radioButtons;
     private GridPane sizeBox;
@@ -236,7 +236,7 @@ public class Launcher  extends Application {
                     Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
                     gamePlay.getStylesheets().add("View.GUIstyle.css");
                     thisStage.setScene(gamePlay);
-                    Controller.aiStart();
+                    Controller.checkAiPlay();
                 }
                 catch (Exception e1 ) {
                     e1.printStackTrace();

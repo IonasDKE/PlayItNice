@@ -28,15 +28,30 @@ public class Mcts extends AISolver {
         //change the root at the end of human turn in the Mcts
         //solver.nextMove(state, turn);
 
+    }
+    private boolean mctsFirstIteration=true;
+    public void mcts() {
+        if (mctsFirstIteration) {
+            solver.nextMove(State.currentState(), Integer.parseInt(name));
+            mctsFirstIteration=false;
+        }else {
+            solver.setNewRoots(State.currentState());
+            solver.nextMove(State.currentState(), Integer.parseInt(name));
+        }
+
     }*/
+   private boolean mctsFirstIteration=true;
 
     public Line nextMove(State state, int color) {
-        boolean firstTurn = Player.getFistTurn();
-        if(firstTurn) {
+
+        if(mctsFirstIteration) {
             tree = new Tree(new Node(state, null));
             trees.add(tree);
             minScore = (Launcher.getChosenN()*Launcher.getChosenM())/2 +1;
             System.out.println("first turn");
+            mctsFirstIteration = false;
+        }else{
+            this.setNewRoots(state);
         }
 
         Node.resetTotalVisit();
@@ -79,7 +94,7 @@ public class Mcts extends AISolver {
         System.out.println("winner node size: "+winnerNode.getState().getLines().size());
         this.tree.setRoot(winnerNode);
 
-        if (!firstTurn) {
+        if (!mctsFirstIteration) {
             winnerNode.setParent(null); //in java when information is not accesible, it's deleted
             //tree.deleteRootParent();
         }
@@ -89,7 +104,6 @@ public class Mcts extends AISolver {
 
         Line bestLine=(State.findDiffLine(state.getLines(), winnerNode.getState().getLines()));
         System.out.println("best line id "+bestLine.getid());
-        bestLine.fill();
 
         return bestLine;
     }
@@ -137,7 +151,7 @@ public class Mcts extends AISolver {
             //System.out.println("lines size : "+lines.size());
             randomLine=lines.get(rand.nextInt(lines.size()));
             score += checkSquare(randomLine, ourTurn);
-            randomLine.fillNoEffect();
+            randomLine.setEmpty(false);
             lines.remove(randomLine);
 
             if (lastScore==score) {

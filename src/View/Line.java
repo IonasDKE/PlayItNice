@@ -33,10 +33,9 @@ public class Line {
 
         Player actualPlayer = Player.getActualPlayer();
 
-        if (Controller.checkMove(this, actualPlayer)) {
+        if (Controller.checkMove(this)) {
             //System.out.println("fill line "+this.id);
             this.setEmpty(false);
-            //Mcts.setNewRoots();
 
             this.graphicLine.setStroke(actualPlayer.getColor());
 
@@ -44,13 +43,8 @@ public class Line {
                 sq.colorSquare(actualPlayer);
             }
 
-            Controller.updateComponents();
             Controller.updateTurn(this, actualPlayer);
         }
-    }
-
-    public void fillNoEffect() {
-        this.empty=false;
     }
 
     public static ArrayList<Line> getLines(){
