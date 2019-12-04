@@ -64,6 +64,7 @@ public class Mcts extends AISolver {
 
     //this method return a child node of a node that it is fed, based on the highest UCT score
     private Node selection(Node rootNode) {
+
         Node node = rootNode;
         while (node.getChildren().size()!=0 && !isComplete(node.getState())){
             node = maxUctNode(node);

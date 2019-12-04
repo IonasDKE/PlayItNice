@@ -189,4 +189,10 @@ public class RuleBased extends AISolver {
         return result;
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+
+
+>>>>>>> master

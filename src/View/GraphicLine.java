@@ -22,3 +22,4 @@ public class GraphicLine extends Line {
         return line;
     }
 }
+

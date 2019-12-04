@@ -17,24 +17,21 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 
 public class Launcher  extends Application {
 
-    public static boolean pOneAI = false;
-    public static boolean pTwoAI = false;
-    public static boolean pAlpha = false;
-    public static boolean ptwoAlpha = false;
-    public static boolean pOneMcts = false;
-    public static boolean pTwoMcts = false;
+
     private static int chosenM, chosenN;
     private final int WIDTH = 700;
     private final int HEIGHT = 800;
     private int countError=0;
     private ComboBox selectPlayerOne, selectPlayerTwo , numberOfPlayers;
     private String[] gameSizes = {"2 x 2", "3 x 2" , "4 x 4", "4 x 5", "5 x 6", "8 x 8"};
-    private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "Rule Based", "Alpha Beta", "Mcts");
-    private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "Rule Based", "Alpha Beta", "Mcts");
+    //Creates the label for all the types of player
+    private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "End Square", "Rule Based","Alpha Beta", "Mcts");
+    private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "End Square", "Rule Based","Alpha Beta", "Mcts");
     private ObservableList<String> playerNumbers = FXCollections.observableArrayList("Select a number","1","2");
     private RadioButton[] radioButtons;
     private GridPane sizeBox;
@@ -49,6 +46,9 @@ public class Launcher  extends Application {
     {
         launch(args);
     }
+
+    //This methid is launching the progam and it calls the function getcontent pane
+    //which contains all the components for the main menu
     public void start(Stage primaryStage) {
 
         thisStage=primaryStage;
@@ -60,13 +60,22 @@ public class Launcher  extends Application {
 
     }
 
-
+    /**
+     *  This method is used to create an empty space on the GUI
+     * @param w width of the empty label
+     * @param h height of the empty label
+     * @return
+     */
     private Label getEmptyLabel(int w, int h){
         Label emptyLabel = new Label();
         emptyLabel.setPrefSize(w, h);
         return emptyLabel;
     }
 
+    /**
+     * You don't need to understand this, it's all the buttons and stuff..
+     * @return All the components of the main menu GUI
+     */
     private VBox getContentPane(){
 
         VBox pane = new VBox(20);
@@ -198,55 +207,60 @@ public class Launcher  extends Application {
         startButton.setId("startbutton");
         pane.getChildren().add(startButton);
 
-
-        startButton.setOnAction((new EventHandler<ActionEvent>() {
-
-            @Override public void handle(ActionEvent e) {
-
-
-                Text warning;
-                for(int i = 0 ; i < gameSizes.length; i++){
-                    if(radioButtons[i].isSelected()){
-                        char[] widthchar = gameSizes[i].toCharArray();
-                        chosenM = Character.getNumericValue(widthchar[0]);
-                        chosenN = Character.getNumericValue(widthchar[gameSizes[i].length()-1]);
+        /**
+         * Set an action to the 'play' button
+         */
+        startButton.setOnAction((e -> {
 
 
-                    }
-                    else if(!(radioButtons[i].isSelected()) && countError ==gameSizes.length -1){
-                        warning = new Text("Please add a size for the grid!");
-                        warning.setFill(Color.RED);
-                        warning.setTranslateY(0);
-                        pane.getChildren().add(warning);
-                    }
-                    countError++;
+            Text warning;
+            for(int i = 0 ; i < gameSizes.length; i++){
+                if(radioButtons[i].isSelected()){
+                    char[] widthchar = gameSizes[i].toCharArray();
+                    chosenM = Character.getNumericValue(widthchar[0]);
+                    chosenN = Character.getNumericValue(widthchar[gameSizes[i].length()-1]);
+
 
                 }
-
-                try {
-                    //AdjacencyMatrix.setMatrix(chosenM,chosenN);
-                    ArrayList<Color> players = new ArrayList<>();
-                    players.add(Color.BLUE);
-                    players.add(Color.CHOCOLATE);
-                    if(Integer.parseInt(numberOfPlayers.getValue().toString()) == 2) {
-                        players.add(Color.LIME);
-                    }
-
-                    setPlayers(players);
-                    Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
-                    gamePlay.getStylesheets().add("View.GUIstyle.css");
-                    thisStage.setScene(gamePlay);
-                    Controller.checkAiPlay();
+                else if(!(radioButtons[i].isSelected()) && countError ==gameSizes.length -1){
+                    warning = new Text("Please add a size for the grid!");
+                    warning.setFill(Color.RED);
+                    warning.setTranslateY(0);
+                    pane.getChildren().add(warning);
                 }
-                catch (Exception e1 ) {
-                    e1.printStackTrace();
+                countError++;
+
+            }
+
+            try {
+                //AdjacencyMatrix.setMatrix(chosenM,chosenN);
+                ArrayList<Color> players = new ArrayList<>();
+                players.add(Color.BLUE);
+                players.add(Color.CHOCOLATE);
+                if(Integer.parseInt(numberOfPlayers.getValue().toString()) == 2) {
+                    players.add(Color.LIME);
                 }
+
+                setPlayers(players);
+                Scene gamePlay = Board.makeBoard(chosenM,chosenN, players);
+                gamePlay.getStylesheets().add("View/GUIstyle.css");
+                thisStage.setScene(gamePlay);
+                //TimeUnit.SECONDS.sleep(15);
+                Controller.aiStart();
+            }
+            catch (Exception e1 ) {
+                e1.printStackTrace();
             }
         }));
 
         return pane;
     }
 
+    /**
+     * This set all the players to do the right function
+     * e.g if the user select MCTS, then it assigns a player to BE mcts
+     * @param colors whatever
+     */
     public void setPlayers(ArrayList<Color> colors){
         int playerNumber=0;
         new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), "Human");
@@ -263,10 +277,16 @@ public class Launcher  extends Application {
         playerNumber++;
     }
 
+    /**
+     * @return the chosen m size of the grid
+     */
     public static int getChosenM(){
         return chosenM;
     }
 
+    /**
+     * @return the chosen n size of the grid
+     */
     public static int getChosenN(){
         return chosenN;
     }

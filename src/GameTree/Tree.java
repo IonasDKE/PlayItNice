@@ -63,7 +63,7 @@ public class Tree {
                 //System.out.println();
                 //System.out.println("Parent = ");
                 //parent.getState().display();
-                if(parent.hasChildren()) {
+                if(!parent.hasChildren()) {
                     ArrayList<Node> children = parent.computeAndGetChildren();
                     for (Node s : children) {
                         newLeafs.add(s);
