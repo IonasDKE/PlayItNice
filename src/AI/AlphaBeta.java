@@ -56,7 +56,7 @@ public class AlphaBeta extends AISolver {
             //Collections.shuffle(moves);
 
             // IF TURN = AI
-            if (Player.getActualPlayer().isAlpha()) {
+            if (state.getPlayerToPlay().isAlpha()) {
                 //System.out.println("is AI");
                 // This is the edge we will return
                 WeightedEdge newEdge = new WeightedEdge(null, MIN);
@@ -82,7 +82,7 @@ public class AlphaBeta extends AISolver {
                         // Backtracks
                         if (newEdge.getWeight() < getScore) {
                             newEdge.setWeight(getScore);
-                            newEdge.setLine(State.findMove(state, child));
+                            newEdge.setLine(State.findDiffLine(state.getLines(), child.getLines()));
                         }
                         if (found)
                             if (getScore >= beta)
@@ -100,7 +100,8 @@ public class AlphaBeta extends AISolver {
 
                 System.out.println("is not ai");
 
-                for (State child : state.getChildren()) {
+                //computes the children if they do not exist
+                for (State child : state.computeAndGetChildren()) {
 
 
                     //State child = state.updateState(moves.get(i), color);
@@ -121,7 +122,7 @@ public class AlphaBeta extends AISolver {
                     // Backtracks
                     if (newEdge.getWeight() > getScore) {
                         newEdge.setWeight(getScore);
-                        newEdge.setLine(State.findMove(state, child));
+                        newEdge.setLine(State.findDiffLine(state.getLines(), child.getLines()));
                     }
                     if (found)
                         if (getScore <= alpha)

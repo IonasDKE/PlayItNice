@@ -126,8 +126,8 @@ public class Player {
 
     public void aiPlay() {
         //System.out.println("called ai player");
-        Line chosenLine = solver.nextMove(State.currentState(), Integer.parseInt(name));
-        chosenLine.fill();
+        Line chosenLine = solver.nextMove(State.currentState(), Integer.parseInt(name)-1);
+        State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
         System.out.println("ai fill "+chosenLine.getid());
     }
 
@@ -175,7 +175,7 @@ public class Player {
         //might produce a bug
         cloned.solver = this.solver;
 
-        return cloned();
+        return cloned;
     }
 
     public static ArrayList<Player> cloned(ArrayList<Player> p){

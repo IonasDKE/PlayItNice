@@ -146,7 +146,9 @@ public class State {
     public State cloned(){
         State result = new State(State.cloned(this.getLines()),Player.cloned(this.players));
         result.setTurn(this.getTurn());
-        result.setChildren(this.clonedChildren());
+        if(this.children!=null) {
+            result.setChildren(this.clonedChildren());
+        }
         return result;
     }
 
@@ -232,10 +234,6 @@ public class State {
         return nbOfDifferences;
     }
 
-    public static Line findMove(State parent, State child){
-        //System.out.println("bugg");
-        return parent.getLines().get(0);
-    }
     public ArrayList<Line> getLines() {
         return lines;
     }
@@ -261,7 +259,11 @@ public class State {
     }
 
     public void updateTurn() {
-        this.turn = turn+1;
+        if (turn < players.size() - 1) {
+            turn++;
+        } else {
+            turn = 0;
+        }
     }
 
     public void setPlayers(ArrayList<Player> newPlayers, int turn) {
