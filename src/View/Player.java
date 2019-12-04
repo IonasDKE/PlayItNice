@@ -1,9 +1,7 @@
-
 package View;
         import AI.AISolver;
         import AI.AlphaBeta;
         import AI.Mcts;
-        import AI.RuleBased;
         import GameTree.Node;
         import GameTree.State;
 //import AI.AlphaBeta;
@@ -108,6 +106,17 @@ public class Player {
     }
 
 
+    private static boolean mctsFirstIteration=true;
+    public void mcts() {
+        if (mctsFirstIteration) {
+            solver.nextMove(State.currentState(), Integer.parseInt(name));
+            mctsFirstIteration=false;
+        }else {
+            solver.setNewRoots(State.currentState());
+            solver.nextMove(State.currentState(), Integer.parseInt(name));
+        }
+
+    }
 
     public static void display(){
         for(Player p : players){
@@ -115,8 +124,8 @@ public class Player {
         }
     }
 
-   /* public static boolean getFistTurn() {
+    public static boolean getFistTurn() {
         return mctsFirstIteration;
-    }*/
+    }
 
 }

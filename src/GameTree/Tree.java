@@ -141,18 +141,9 @@ public class Tree {
         }
 
     }
-    public int treeSize=0;
-    public void getTreeSize(Node node) {
-        treeSize++;
-        for (Node n:node.getChildren()) {
-            getTreeSize(n);
-        }
-
-    }
-
-     public ArrayList<Node> getLeaves() {
+   /* public ArrayList<Node> getLeaves() {
         return leaf;
-    }
+    }*/
 
 }
 

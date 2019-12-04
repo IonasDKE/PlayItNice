@@ -142,7 +142,7 @@ public class State {
     public static Line findLine(int id){
         return findLine(id,currentState.getLines());
     }
-
+    //finds the lines that needs to be colored for mcts
     public static Line findDiffLine(ArrayList<Line> state1, ArrayList<Line> state2) {
         for (Line line : state1) {
                 if (line.isEmpty() != State.findLine(line.getid(),state2).isEmpty()) {
@@ -225,6 +225,22 @@ public class State {
 
     public ArrayList<Square> getSquares() {
         return squares;
+    }
+
+    public static Line findMove(ArrayList<Line> state) {
+        Line toReturn = null;
+        for (Line toFind: currentState.getLines()) {
+            //System.out.println("toFind emptiness :" + toFind.isEmpty());
+            for (Line line : state) {
+                //System.out.println("line emptiness :" + line.isEmpty());
+                if (toFind.isEmpty() != line.isEmpty() && toFind.isEmpty()) {
+                    toReturn = toFind;
+                    //System.out.println("line found ");
+                }
+            }
+        }
+        System.out.println();
+        return toReturn;
     }
 
     public int getScore(int turn){
