@@ -35,7 +35,10 @@ public class Board {
         return playerNb;
     }
 
-    //builds all the gui components of the play frame
+    /**
+     * Returns a scene which will be the main scene with the board of the game
+     * it takes in the width of the GUI and the height of the GUI
+     */
     public static Scene makeBoard(int width, int hight, ArrayList<Color> colors){
 
         Font gameFont = new Font(18);
@@ -94,7 +97,11 @@ public class Board {
         return newScene;
     }
 
-    // builds the grid which is composed of graphiclines and squares
+    /**
+     * @param width width of the grid
+     * @param higth height of the grid
+     * @return the board of the game which is composed of dots and lines ;)
+     */
     private static Pane  makeGrid( int width, int higth){
         int DOT_SIZE = 10;
         Pane pane = new Pane();
@@ -144,10 +151,27 @@ public class Board {
             }
         }
 
-        State.setCurrentState( new State(lines,squares, Player.getPlayers().get(0)));
+        State.setCurrentState( new State(lines,squares));
         return pane;
     }
 
+
+    public static int getNumberOfMoves() {
+        return getMoves().size();
+    }
+
+    /**
+     * @return all the possible moves
+     */
+    public static ArrayList<Line> getMoves() {
+        ArrayList<Line> lines = new ArrayList<>();
+        for(Line kn : Line.getLines()){
+            if (kn.isEmpty()){
+                lines.add(kn);
+            }
+        }
+        return lines;
+    }
 
 
     public Board updateBoard(Line graphicLine, int color) {
