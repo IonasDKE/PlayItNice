@@ -62,8 +62,8 @@ public class AlphaBeta extends AISolver {
                 WeightedEdge newEdge = new WeightedEdge(null, MIN);
 
 
-
-                    for (State child : state.getChildren()) {
+                     //computes the children if they do not exist
+                    for (State child : state.computeAndGetChildren()) {
                         //State child = state.updateState(moves.get(i), color);
                         //Training edge
                         WeightedEdge wedge;

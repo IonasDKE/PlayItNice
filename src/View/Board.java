@@ -1,17 +1,14 @@
 package View;
 import GameTree.State;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -151,7 +148,7 @@ public class Board {
             }
         }
 
-        State.setCurrentState( new State(lines,squares));
+        State.setCurrentState( new State(lines,squares, Player.getActualPlayers(), 0));
         return pane;
     }
 

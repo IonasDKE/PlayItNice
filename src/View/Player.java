@@ -2,6 +2,7 @@ package View;
 import AI.AISolver;
 import AI.AlphaBeta;
 import AI.Mcts;
+import AI.RuleBased;
 import GameTree.State;
 import javafx.scene.paint.Color;
 import Controller.Controller;
@@ -15,9 +16,8 @@ public class Player {
     private int moves;
     private int score;
     private String name;
-    private static ArrayList<Player> players = new ArrayList<>();
+    private static ArrayList<Player> actualPlayers = new ArrayList<>();
     private String ai;
-    private int index=0;
 
 
     public Player(Color color, String name, String ai) {
@@ -26,31 +26,32 @@ public class Player {
         this.moves = 1;
         this.score = 0;
         this.ai= ai;
-        players.add(this);
-        this.index=index;
-        index++;
-        switch (ai) {
+    }
+
+    public void setSolver(){
+        switch (this.ai) {
             case  "Mcts":
                 solver = new Mcts();
                 break;
             case "Rule Based":
-                //solver = new RuleBased();
+                solver = new RuleBased();
                 break;
             case "Alpha Beta" :
                 solver = new AlphaBeta();
                 break;
-        }    }
+        }
+    }
 
     public Player(){
 
     }
 
-    public void     addToPlayers(){
-        players.add(this);
+    public void  addToPlayers(){
+        actualPlayers.add(this);
     }
 
-    public static ArrayList<Player> getPlayers() {
-        return players;
+    public static ArrayList<Player> getActualPlayers() {
+        return actualPlayers;
     }
 
     /** this function increments the score of a player
@@ -91,7 +92,7 @@ public class Player {
      * @return the player which is actually playing (which is why this is static)
      */
     public static Player getActualPlayer(){
-        return players.get(Controller.turn);
+        return actualPlayers.get(Controller.turn);
     }
 
     public int getScore(){
@@ -117,20 +118,11 @@ public class Player {
         this.moves -= 1;
     }
 
-    /**
-     * sets up our first "end square" ai
-     */
-    public void endSquarePlay(){
-        Controller.completeSquare(State.currentState().getSquares());
-        Controller.colorRandomLine(State.currentState().getLines());
-    }
 
     public boolean isAlpha() {
         if (ai == "Alpha Beta") { return true; }
         else{ return false; }
     }
-
-    public void mcts() { Controller.setMcts(); }
 
     public void aiPlay() {
         //System.out.println("called ai player");
@@ -143,7 +135,7 @@ public class Player {
      * display the type of player
      */
     public static void display(){
-        for(Player p : players){
+        for(Player p : actualPlayers){
             System.out.println("p = " + p.ai);
         }
     }
@@ -155,13 +147,13 @@ public class Player {
     public static Player nextPlayer(Player prevPlayer){
         int index = 0;
         Player nextPlayer = null;
-        for(Player player : players){
+        for(Player player : actualPlayers){
             if(player.getName() == prevPlayer.getName()){
-                if (index == players.size() - 1) {
-                    nextPlayer = players.get(0);
+                if (index == actualPlayers.size() - 1) {
+                    nextPlayer = actualPlayers.get(0);
                 }
                 else{
-                    nextPlayer = players.get(index+1);
+                    nextPlayer = actualPlayers.get(index+1);
                 }
             }
             index++;
@@ -186,12 +178,12 @@ public class Player {
         return cloned();
     }
 
-    /**
-     * @return index of the player
-     */
-    public int getIndex() {
-        return this.index;
+    public static ArrayList<Player> cloned(ArrayList<Player> p){
+        ArrayList<Player> result = new ArrayList<>();
+        for(Player player : p){
+            result.add(player.cloned());
+        }
+        return result;
     }
-
 
 }

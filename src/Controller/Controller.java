@@ -1,17 +1,9 @@
 package Controller;
 
 import GameTree.State;
-import GameTree.Tree;
-import AI.AISolver;
-import AI.AlphaBeta;
-import AI.Mcts;
 import View.Player;
 import View.*;
 import javafx.scene.shape.Rectangle;
-
-
-import java.util.ArrayList;
-import java.util.Random;
 
 
 public class Controller {
@@ -46,7 +38,7 @@ public class Controller {
 
         if (player.getMoves() == 0) {
             player.addMoves();
-            if (turn < Player.getPlayers().size() - 1) {
+            if (turn < Player.getActualPlayers().size() - 1) {
                 turn++;
             } else {
                 turn = 0;
@@ -147,16 +139,16 @@ public class Controller {
         //Player winner = Player.getPlayers().get(0);
         int max = 0;
         if (checkEnd()) {
-            for (int i = 0; i < Player.getPlayers().size(); i++) {
-                if (max < Player.getPlayers().get(i).getScore()) {
-                    max = Player.getPlayers().get(i).getScore();
+            for (int i = 0; i < Player.getActualPlayers().size(); i++) {
+                if (max < Player.getActualPlayers().get(i).getScore()) {
+                    max = Player.getActualPlayers().get(i).getScore();
                     winner = i;
                 }
 
             }
         }
         Rectangle sq = new Rectangle();
-        sq.setFill(Player.getPlayers().get(winner).getColor());
+        sq.setFill(Player.getActualPlayers().get(winner).getColor());
         sq.setWidth(75);
         sq.setHeight(75);
         sq.setTranslateY(30);

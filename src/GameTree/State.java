@@ -13,29 +13,31 @@ import static Controller.Controller.isThirdLine;
 
 public class State {
 
-    private Player playerToPlay;
+    private ArrayList<Player> players = new ArrayList<>();
+    private int turn;
     private static State currentState;
     private ArrayList<State> children;
     private ArrayList<Line> lines;
     private ArrayList<Square> squares;
-    private Player playerToPlay;
-    private ArrayList<Integer> scores=new ArrayList<>(Arrays.asList(0,0)); //the score of a player at that state, at the same index as
+   // private ArrayList<Integer> scores=new ArrayList<>(Arrays.asList(0,0)); //the score of a player at that state, at the same index as
       /*                                                          //player in players array
     public State (ArrayList<Line> g){
         lines = g;
         squares = Square.buildSquares(g);
     }
 */
-    public State (ArrayList<Line> g, Player player){
-        lines = g;
-        squares = Square.buildSquares(g);
-        playerToPlay = player.cloned();
+    public State (ArrayList<Line> g, ArrayList<Player> players){
+        this.lines = g;
+        this.squares = Square.buildSquares(g);
+        this.players = players;
     }
 
-    public State(ArrayList<Line> lines, ArrayList<Square> squares, Player player) {
+    //use this state constructor only for the current state!
+    public State(ArrayList<Line> lines, ArrayList<Square> squares, ArrayList<Player> players, int turn) {
         this.lines = lines;
         this.squares = squares;
-        playerToPlay = player.cloned();
+        this.players = players;
+        this.turn = turn;
     }
 
     //get the children of the State
@@ -48,6 +50,10 @@ public class State {
             computeChildren();
         }
         return this.children;
+    }
+
+    public void setChildren(ArrayList<State> children) {
+        this.children = children;
     }
 
     public void computeChildren(){
@@ -80,15 +86,15 @@ public class State {
         State childState = this.cloned();
         Line filledLine = State.findLine(line.getid(),childState.getLines());
         filledLine.setEmpty(false);
-        Player nextPlayer;
+
         int scored = Controller.checkAnySquareClaimed(filledLine);
+
         if(scored>0){
-            nextPlayer = this.getPlayerToPlay().cloned();
-            nextPlayer.addScore(scored);
+            childState.getPlayerToPlay().addScore(scored);
         }else{
-            nextPlayer = Player.nextPlayer(this.playerToPlay).cloned();
+            childState.updateTurn();
         }
-        childState.setPlayerToPlay(nextPlayer);
+
         children.add(childState);
 
         //System.out.println();
@@ -96,9 +102,9 @@ public class State {
         //childState.display();
     }
 
-    public void increaseScore(Player player) {
+    /*public void increaseScore(Player player) {
         this.scores.set(player.getIndex(), +1);
-    }
+    }*/
 
     public void display(){
         Line.display(this.getLines());
@@ -138,7 +144,10 @@ public class State {
 
     //returns a cloned state
     public State cloned(){
-        return new State(State.cloned(this.getLines()),this.getPlayerToPlay());
+        State result = new State(State.cloned(this.getLines()),Player.cloned(this.players));
+        result.setTurn(this.getTurn());
+        result.setChildren(this.clonedChildren());
+        return result;
     }
 
     //returns a cloned arraylist of lines
@@ -236,29 +245,56 @@ public class State {
     }
 
     public int getScore(int turn){
-        if(turn == 0){
-            return Player.getPlayers().get(0).getScore();
-        }
-        else{
-            return Player.getPlayers().get(1).getScore();
-        }
+        return players.get(turn).getScore();
     }
 
     public Player getPlayerToPlay() {
-        return this.playerToPlay;
+        return players.get(turn);
     }
 
-    public void setPlayerToPlay(Player newPlayer) {
-        this.playerToPlay=newPlayer;
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    public void updateTurn() {
+        this.turn = turn+1;
+    }
+
+    public void setPlayers(ArrayList<Player> newPlayers, int turn) {
+        this.players = newPlayers;
+        this.turn = turn;
     }
 
     public int getScore(Player player) {
-        return scores.get(player.getIndex());
+        //-1 is just an arbitrary value
+        int result = -1;
+        for( Player p: players) {
+            if (p.getName() == player.getName()) {
+                return p.getScore();
+            }
+        }
+        if (result == -1) {
+            System.out.println("player not found");
+        }
+        return result;
     }
 
-    public void setScores(ArrayList<Integer> newScores) {
-        this.scores=newScores;
+    public ArrayList<State> clonedChildren(){
+        ArrayList<State> result = new ArrayList<>();
+        for(State state : this.children){
+            result.add(state.cloned());
+        }
+        return result;
     }
+   /*public void setScores(ArrayList<Integer> newScores) {
+        for(Player p : players){
+
+        }
+    }*/
 
     //TO DO : add state info methods
 

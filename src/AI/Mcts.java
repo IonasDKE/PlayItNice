@@ -83,12 +83,12 @@ public class Mcts extends AISolver {
     }
 
     private void expansion(Node toExpand) {
-        if (toExpand.hasChildren())
+        if (!toExpand.hasChildren())
             toExpand.computeChildren();
     }
 
     private int simulateRandomPlayOut(Node selectedNode) {
-        State stateCopy = new State(selectedNode.getState().cloned(selectedNode.getState().getLines()),selectedNode.getState().getPlayerToPlay());
+        State stateCopy = selectedNode.getState().cloned();
 
         while (!isComplete(stateCopy)) {
             stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));

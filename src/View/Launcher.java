@@ -30,8 +30,8 @@ public class Launcher  extends Application {
     private ComboBox selectPlayerOne, selectPlayerTwo , numberOfPlayers;
     private String[] gameSizes = {"2 x 2", "3 x 2" , "4 x 4", "4 x 5", "5 x 6", "8 x 8"};
     //Creates the label for all the types of player
-    private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "End Square", "Rule Based","Alpha Beta", "Mcts");
-    private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "End Square", "Rule Based","Alpha Beta", "Mcts");
+    private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "Rule Based","Alpha Beta", "Mcts");
+    private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "Rule Based","Alpha Beta", "Mcts");
     private ObservableList<String> playerNumbers = FXCollections.observableArrayList("Select a number","1","2");
     private RadioButton[] radioButtons;
     private GridPane sizeBox;
@@ -246,7 +246,7 @@ public class Launcher  extends Application {
                 gamePlay.getStylesheets().add("View/GUIstyle.css");
                 thisStage.setScene(gamePlay);
                 //TimeUnit.SECONDS.sleep(15);
-                Controller.aiStart();
+                Controller.checkAiPlay();
             }
             catch (Exception e1 ) {
                 e1.printStackTrace();
@@ -265,17 +265,20 @@ public class Launcher  extends Application {
         int playerNumber=0;
         Player a = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), "Human");
         a.addToPlayers();
+        a.setSolver();
         playerNumber++;
 
         String opponent1 = selectPlayerOne.getValue().toString();
         Player b = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent1);
         b.addToPlayers();
+        b.setSolver();
         playerNumber++;
 
         String opponent2 = selectPlayerTwo.getValue().toString();
         if(opponent2 != "Opponent 2" && opponent2 !="" && opponent2 != null) {
             Player c = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent2);
             c.addToPlayers();
+            c.setSolver();
         }
         playerNumber++;
     }

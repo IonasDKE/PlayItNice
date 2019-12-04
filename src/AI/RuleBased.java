@@ -23,12 +23,12 @@ public class RuleBased extends AISolver {
         //board.display();
         Line result = null;
 
-        if( board.getNdValenceLines().size() != 0) {
+        if (board.getNdValenceLines().size() != 0) {
             result = completeSquare(State.currentState().getSquares());
-            if(result == null) {
+            if (result == null) {
                 result = colorRandomLine(board);
             }
-        }else{
+        } else {
 
             result = fillPhase();
         }
@@ -50,14 +50,14 @@ public class RuleBased extends AISolver {
             visited.add(checkSq);
             ArrayList<Square> children = new ArrayList<>();
 
-            if(!checkSq.isClaimed()) {
+            if (!checkSq.isClaimed()) {
                 result.add(newChannel);
                 newChannel.add(checkSq);
                 children.add(checkSq);
             }
             while (children.size() != 0) {
                 for (Square s : goToNextSquares(toBeVisited, children.get(0))) {
-                    if(!s.isClaimed()) {
+                    if (!s.isClaimed()) {
                         newChannel.add(s);
                         children.add(s);
                     }
@@ -124,7 +124,7 @@ public class RuleBased extends AISolver {
         return lines.get(index);
     }
 
-    public static Line fillPhase(){
+    public static Line fillPhase() {
         Line result = null;
 
         Random rand = new Random();
@@ -138,17 +138,18 @@ public class RuleBased extends AISolver {
         int randomLineIndex = rand.nextInt(randomSq.getEmptyBorders().size());
 
         result = randomSq.getEmptyBorders().get(randomLineIndex);
-        return  result;
+        return result;
     }
 
-    private static ArrayList<ArrayList<Square>> getSortedChannels(){
+    private static ArrayList<ArrayList<Square>> getSortedChannels() {
         return sort(getChannels());
     }
-    private static ArrayList<ArrayList<Square>> sort(ArrayList<ArrayList<Square>> channels){
+
+    private static ArrayList<ArrayList<Square>> sort(ArrayList<ArrayList<Square>> channels) {
         channels.sort(new Comparator<ArrayList<Square>>() {
             @Override
             public int compare(ArrayList<Square> squares, ArrayList<Square> t1) {
-                if(squares.size() > t1.size()){
+                if (squares.size() > t1.size()) {
                     return 1;
                 } else {
                     return -1;
@@ -159,40 +160,33 @@ public class RuleBased extends AISolver {
         return channels;
     }
 
-    private static int pairScore(){
+    private static int pairScore() {
 
         int result = 0;
         boolean add = true;
-        for(ArrayList<Square> a :  getSortedChannels()){
-            if(add){
+        for (ArrayList<Square> a : getSortedChannels()) {
+            if (add) {
                 result += a.size();
-                add=false;
-            }else{
-                add= true;
+                add = false;
+            } else {
+                add = true;
             }
         }
         return result;
     }
 
-    private static int impairScore(){
+    private static int impairScore() {
 
         int result = 0;
         boolean add = false;
-        for(ArrayList<Square> a :  getSortedChannels()){
-            if(add){
+        for (ArrayList<Square> a : getSortedChannels()) {
+            if (add) {
                 result += a.size();
-                add=false;
-            }else{
-                add= true;
+                add = false;
+            } else {
+                add = true;
             }
         }
         return result;
     }
-
-<<<<<<< HEAD
 }
-=======
-}
-
-
->>>>>>> master
