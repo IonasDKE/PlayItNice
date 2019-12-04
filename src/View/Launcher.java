@@ -263,16 +263,19 @@ public class Launcher  extends Application {
      */
     public void setPlayers(ArrayList<Color> colors){
         int playerNumber=0;
-        new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), "Human");
+        Player a = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), "Human");
+        a.addToPlayers();
         playerNumber++;
 
         String opponent1 = selectPlayerOne.getValue().toString();
-        new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent1);
+        Player b = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent1);
+        b.addToPlayers();
         playerNumber++;
 
         String opponent2 = selectPlayerTwo.getValue().toString();
         if(opponent2 != "Opponent 2" && opponent2 !="" && opponent2 != null) {
-            new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent2);
+            Player c = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent2);
+            c.addToPlayers();
         }
         playerNumber++;
     }

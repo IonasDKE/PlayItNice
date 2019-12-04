@@ -45,6 +45,10 @@ public class Player {
 
     }
 
+    public void addToPlayers(){
+        players.add(this);
+    }
+
     public static ArrayList<Player> getPlayers() {
         return players;
     }
@@ -111,8 +115,6 @@ public class Player {
         }
     }
 
-<<<<<<< HEAD
-=======
     public static Player nextPlayer(Player prevPlayer){
         int index = 0;
         Player nextPlayer = null;
@@ -133,7 +135,6 @@ public class Player {
         return nextPlayer;
     }
 
->>>>>>> master
     public static void display(){
         for(Player p : players){
             System.out.println("p = " + p.ai);
@@ -158,6 +159,17 @@ public class Player {
             System.out.println("did not find player");
         }
         return nextPlayer;
+    }
+
+    public Player cloned(){
+        Player cloned  = new Player(this.color,this.name,this.ai);
+        cloned.score = this.score;
+        cloned.moves = this.moves;
+
+        //might produce a bug
+        cloned.solver = this.solver;
+
+        return cloned();
     }
 
     public int getIndex() {

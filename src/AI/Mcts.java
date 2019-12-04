@@ -1,5 +1,4 @@
 package AI;
-
 import GameTree.*;
 import View.*;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class Mcts extends AISolver {
             this.setNewRoots();
         }
 
-        //this.tree.getRoot().getState().display();
+        this.tree.getRoot().getState().display();
 
         Node.resetTotalVisit();
         rootNode=this.tree.getRoot();

@@ -15,7 +15,6 @@ public class State {
 
     private Player playerToPlay;
     private static State currentState;
-    private ArrayList<Line> getAvailableMoves;
     private ArrayList<State> children;
     private ArrayList<Line> lines;
     private ArrayList<Square> squares;
@@ -30,13 +29,13 @@ public class State {
     public State (ArrayList<Line> g, Player player){
         lines = g;
         squares = Square.buildSquares(g);
-        playerToPlay = player;
+        playerToPlay = player.cloned();
     }
 
     public State(ArrayList<Line> lines, ArrayList<Square> squares, Player player) {
         this.lines = lines;
         this.squares = squares;
-        playerToPlay = player;
+        playerToPlay = player.cloned();
     }
 
     //get the children of the State
@@ -82,10 +81,12 @@ public class State {
         Line filledLine = State.findLine(line.getid(),childState.getLines());
         filledLine.setEmpty(false);
         Player nextPlayer;
-        if(Controller.checkAnySquareClaimed(filledLine)>0){
-            nextPlayer = this.getPlayerToPlay();
+        int scored = Controller.checkAnySquareClaimed(filledLine);
+        if(scored>0){
+            nextPlayer = this.getPlayerToPlay().cloned();
+            nextPlayer.addScore(scored);
         }else{
-            nextPlayer = Player.nextPlayer(this.playerToPlay);
+            nextPlayer = Player.nextPlayer(this.playerToPlay).cloned();
         }
         childState.setPlayerToPlay(nextPlayer);
         children.add(childState);
