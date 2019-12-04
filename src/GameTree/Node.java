@@ -15,7 +15,6 @@ public class Node {
     private int numberOfWin=0;
     private int visitNb = 0;
     private double uctScore = Double.NEGATIVE_INFINITY;
-    private final double COEFFICIENT = 0.5; //this coefficient balances exploration and exploitation in the UCT
 
     public Node(State state, Node parent) {
         this.state = state;
@@ -66,19 +65,24 @@ public class Node {
         return children;
     }
 
-    /*public ArrayList<Node> safeGetChildren(){
+    public ArrayList<Node> safeGetChildren(){
         //addVisit();
         if (children == null) {
             children = computeChildren();
         }
         return children;
-    }*/
+    }
 
     public double getUctScore(){
-        if (this.uctScore==Double.NEGATIVE_INFINITY) {
+        final double COEFFICIENT = 0.1; //this coefficient balances exploration and exploitation in the UCT
+        double toReturn=0;
+        if (this.visitNb==0) {
+            toReturn=Double.MAX_VALUE;
+        } else if (this.uctScore==Double.NEGATIVE_INFINITY) {
             this.uctScore = (this.numberOfWin /(double)this.visitNb)+ COEFFICIENT * Math.sqrt(Math.log(totalVisit)/(double) this.visitNb);
+            toReturn=this.uctScore;
         }
-        return this.uctScore;
+        return toReturn;
     }
 
     public void setParent(Node newParent) {
@@ -116,6 +120,11 @@ public class Node {
     public void addVisit() {
         this.visitNb++;
         totalVisit++;
+    }
+
+    public void deleteParent(Boolean firstTurn) {
+        if (!firstTurn)
+            this.parent=null;
     }
 
     public static void resetTotalVisit() {

@@ -1,13 +1,13 @@
 package View;
-        import AI.AISolver;
-        import AI.AlphaBeta;
-        import AI.Mcts;
-        import GameTree.Node;
-        import GameTree.State;
-//import AI.AlphaBeta;
-        import javafx.scene.paint.Color;
-        import Controller.Controller;
-        import java.util.ArrayList;
+
+import AI.AISolver;
+import AI.AlphaBeta;
+import AI.Mcts;
+import GameTree.State;
+import AI.*;
+import javafx.scene.paint.Color;
+import Controller.Controller;
+import java.util.ArrayList;
 
 public class Player {
     private AISolver solver;
@@ -17,6 +17,7 @@ public class Player {
     private String name;
     private static ArrayList<Player> players = new ArrayList<>();
     private String ai;
+    private int index=0;
 
     public Player(Color color, String name, String ai) {
         this.color = color;
@@ -25,6 +26,9 @@ public class Player {
         this.score = 0;
         this.ai= ai;
         players.add(this);
+        this.index=index;
+        index++;
+
         switch (ai) {
             case  "Mcts":
                 solver = new Mcts();
@@ -36,6 +40,9 @@ public class Player {
                 solver = new AlphaBeta();
                 break;
         }
+    }
+    public Player() {
+
     }
 
     public static ArrayList<Player> getPlayers() {
@@ -88,7 +95,6 @@ public class Player {
         this.moves -= 1;
     }
 
-
     public void aiPlay() {
         //System.out.println("called ai player");
         Line chosenLine = solver.nextMove(State.currentState(), Integer.parseInt(name));
@@ -105,27 +111,34 @@ public class Player {
         }
     }
 
-
-    private static boolean mctsFirstIteration=true;
-    public void mcts() {
-        if (mctsFirstIteration) {
-            solver.nextMove(State.currentState(), Integer.parseInt(name));
-            mctsFirstIteration=false;
-        }else {
-            solver.setNewRoots(State.currentState());
-            solver.nextMove(State.currentState(), Integer.parseInt(name));
-        }
-
-    }
-
     public static void display(){
         for(Player p : players){
             System.out.println("p = " + p.ai);
         }
     }
+   static int counter =0;
+    public static Player nextPlayer(Player prevPlayer){
+        int index = 0;
+        Player nextPlayer = new Player();
+        for(Player player : players){
+            if(player.getName()==prevPlayer.getName()){
+                if (index == players.size() - 1) {
+                    nextPlayer = players.get(0);
+                }
+                else{
+                    nextPlayer = players.get(index+1);
+                }
+            }
+            index++;
+        }
+        if(nextPlayer== null){
+            System.out.println("did not find player");
+        }
+        return nextPlayer;
+    }
 
-    public static boolean getFistTurn() {
-        return mctsFirstIteration;
+    public int getIndex() {
+        return this.index;
     }
 
 }

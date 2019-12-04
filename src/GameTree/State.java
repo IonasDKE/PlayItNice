@@ -3,8 +3,10 @@ package GameTree;
 import View.Line;
 import View.Square;
 import View.Player;
+import Controller.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static Controller.Controller.isThirdLine;
 
@@ -15,15 +17,24 @@ public class State {
     private ArrayList<State> children;
     private ArrayList<Line> lines;
     private ArrayList<Square> squares;
-
+    private Player playerToPlay;
+    private ArrayList<Integer> scores=new ArrayList<>(Arrays.asList(0,0)); //the score of a player at that state, at the same index as
+      /*                                                          //player in players array
     public State (ArrayList<Line> g){
         lines = g;
         squares = Square.buildSquares(g);
     }
+*/
+    public State (ArrayList<Line> g, Player player){
+        lines = g;
+        squares = Square.buildSquares(g);
+        playerToPlay = player;
+    }
 
-    public State(ArrayList<Line> lines, ArrayList<Square> squares) {
+    public State(ArrayList<Line> lines, ArrayList<Square> squares, Player player) {
         this.lines = lines;
         this.squares = squares;
+        playerToPlay = player;
     }
 
     //get the children of the State
@@ -38,25 +49,17 @@ public class State {
         return this.children;
     }
 
-   public ArrayList<Line> cloneLines(){
-        ArrayList<Line> clone = new ArrayList<>();
-        for (Line l : lines) {
-            Line result = new Line(l.getid(), l.isEmpty(), l.getClonedSquares());
-            clone.add(result);
-        }
-        return clone;
-    }
-
     public void computeChildren(){
         ArrayList<State> result = new ArrayList<>();
 
         //children that would build a third line in a square are excluded
+        /*
         for(View.Line line : this.lines){
             if(line.isEmpty() && !isThirdLine(line)) {
                 addChild(line,result);
             }
         }
-
+        */
         //case if it is not possible to pick a line that will not be a third line
         if(result.size()==0) {
           //  System.out.println("case 2");
@@ -66,6 +69,9 @@ public class State {
                 }
             }
         }
+
+        for (State state:result)
+            state.setScores(this.scores);
         //System.out.println("result = " + result.size());
         this.children=result;
 
@@ -73,7 +79,18 @@ public class State {
 
     private void addChild(Line line, ArrayList<State> children){
         State childState = this.cloned();
-        State.findLine(line.getid(),childState.getLines()).setEmpty(false);
+        Line filledLine = State.findLine(line.getid(),childState.getLines());
+        filledLine.setEmpty(false);
+        Player nextPlayer;
+
+        if(Controller.checkAnySquareClaimed(filledLine)>0){
+            nextPlayer = this.getPlayerToPlay();
+            childState.increaseScore(nextPlayer);
+
+        }else{
+            nextPlayer = Player.nextPlayer(this.playerToPlay);
+        }
+        childState.setPlayerToPlay(nextPlayer);
         children.add(childState);
 
         //System.out.println();
@@ -81,18 +98,14 @@ public class State {
         //childState.display();
     }
 
-    public void fillLine(Line lineToFill) {
-        for (Line line :this.getLines()) {
-            if (line == lineToFill) {
-                line.setEmpty(false);
-            }
-        }
+    public void increaseScore(Player player) {
+        this.scores.set(player.getIndex(), +1);
     }
 
     public void display(){
         Line.display(this.getLines());
-        //Square.display(this.getSquares());
-        //System.out.println();
+        Square.display(this.getSquares());
+        System.out.println();
     }
 
     public static State currentState() {
@@ -127,7 +140,7 @@ public class State {
 
     //returns a cloned state
     public State cloned(){
-        return new State(State.cloned(this.getLines()));
+        return new State(State.cloned(this.getLines()),this.getPlayerToPlay());
     }
 
     //returns a cloned arraylist of lines
@@ -139,9 +152,6 @@ public class State {
         return result;
     }
 
-    public static Line findLine(int id){
-        return findLine(id,currentState.getLines());
-    }
     //finds the lines that needs to be colored for mcts
     public static Line findDiffLine(ArrayList<Line> state1, ArrayList<Line> state2) {
         for (Line line : state1) {
@@ -195,7 +205,7 @@ public class State {
     }
     public ArrayList<Line> getNdValenceLines(){
         ArrayList<Line> lines = new ArrayList<>();
-        System.out.println(" nd" + this.getLines().size());
+        //System.out.println(" nd" + this.getLines().size());
         for (Line line: this.getLines()) {
             if (line.isEmpty() && !isThirdLine(line)) {
                 lines.add(line);
@@ -227,22 +237,6 @@ public class State {
         return squares;
     }
 
-    public static Line findMove(ArrayList<Line> state) {
-        Line toReturn = null;
-        for (Line toFind: currentState.getLines()) {
-            //System.out.println("toFind emptiness :" + toFind.isEmpty());
-            for (Line line : state) {
-                //System.out.println("line emptiness :" + line.isEmpty());
-                if (toFind.isEmpty() != line.isEmpty() && toFind.isEmpty()) {
-                    toReturn = toFind;
-                    //System.out.println("line found ");
-                }
-            }
-        }
-        System.out.println();
-        return toReturn;
-    }
-
     public int getScore(int turn){
         if(turn == 0){
             return Player.getPlayers().get(0).getScore();
@@ -250,6 +244,22 @@ public class State {
         else{
             return Player.getPlayers().get(1).getScore();
         }
+    }
+
+    public Player getPlayerToPlay() {
+        return this.playerToPlay;
+    }
+
+    public void setPlayerToPlay(Player newPlayer) {
+        this.playerToPlay=newPlayer;
+    }
+
+    public int getScore(Player player) {
+        return scores.get(player.getIndex());
+    }
+
+    public void setScores(ArrayList<Integer> newScores) {
+        this.scores=newScores;
     }
 
     //TO DO : add state info methods

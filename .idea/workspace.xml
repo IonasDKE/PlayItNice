@@ -2,24 +2,40 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7fecebef-cc67-4226-b833-66063c7f843d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Ionas.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/AI/RuleBased.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Ionas.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PlayItNice.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PlayItNice.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/AI/AISolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/AI/AISolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/AI/AlphaBeta.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/AI/AlphaBeta.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/AI/Mcts.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/AI/Mcts.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/AI/WeightedEdge.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/AI/WeightedEdge.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/Controller/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/Controller/Controller.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/GameTree/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/GameTree/Node.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/GameTree/State.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/GameTree/State.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/GameTree/Tree.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/GameTree/Tree.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/View/Board.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/EndWindow.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/View/EndWindow.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/GraphicLine.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/View/GraphicLine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Launcher$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/View/Launcher$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Launcher$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/View/Launcher$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Launcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/View/Launcher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Line.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/View/Line.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/View/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/View/Square.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/View/Square.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PlayItNice/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlayItNice/module-info.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AI/AISolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/AISolver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AI/Mcts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/Mcts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameTree/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameTree/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameTree/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameTree/State.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameTree/Tree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameTree/Tree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/View/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module-info.java" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,264 +46,38 @@
       <FILTER>View.*</FILTER>
     </SUITE>
   </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <splitter split-orientation="horizontal" split-proportion="0.5">
-            <split-first>
-              <leaf>
-                <file pinned="false" current-in-tab="true">
-                  <entry file="file://$PROJECT_DIR$/src/GameTree/Node.java">
-                    <provider selected="true" editor-type-id="text-editor">
-                      <state relative-caret-position="1275">
-                        <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
-                        <folding>
-                          <element signature="imports" expanded="true" />
-                        </folding>
-                      </state>
-                    </provider>
-                  </entry>
-                </file>
-                <file pinned="false" current-in-tab="false">
-                  <entry file="file://$PROJECT_DIR$/src/GameTree/Tree.java">
-                    <provider selected="true" editor-type-id="text-editor">
-                      <state relative-caret-position="567">
-                        <caret line="139" column="13" lean-forward="true" selection-start-line="139" selection-start-column="13" selection-end-line="139" selection-end-column="13" />
-                        <folding>
-                          <element signature="e#163#164#0" expanded="true" />
-                          <element signature="e#188#189#0" expanded="true" />
-                          <element signature="e#254#255#0" expanded="true" />
-                          <element signature="e#284#285#0" expanded="true" />
-                        </folding>
-                      </state>
-                    </provider>
-                  </entry>
-                </file>
-              </leaf>
-            </split-first>
-            <split-second>
-              <leaf>
-                <file pinned="false" current-in-tab="true">
-                  <entry file="file://$PROJECT_DIR$/src/GameTree/State.java">
-                    <provider selected="true" editor-type-id="text-editor">
-                      <state relative-caret-position="675">
-                        <caret line="217" column="5" selection-start-line="217" selection-start-column="5" selection-end-line="217" selection-end-column="5" />
-                        <folding>
-                          <element signature="e#698#699#0" expanded="true" />
-                          <element signature="e#734#735#0" expanded="true" />
-                          <element signature="e#3857#3858#0" expanded="true" />
-                          <element signature="e#3916#3917#0" expanded="true" />
-                        </folding>
-                      </state>
-                    </provider>
-                  </entry>
-                </file>
-              </leaf>
-            </split-second>
-          </splitter>
-        </state>
-      </content>
-    </window>
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/Controller.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="81" column="30" lean-forward="true" selection-start-line="81" selection-start-column="30" selection-end-line="81" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AI/AlphaBeta.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="21" column="46" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AI/AISolver.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="33" column="39" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/View/Launcher.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="263" column="5" selection-start-line="263" selection-start-column="5" selection-end-line="263" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/AI/Mcts.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="91" column="24" lean-forward="true" selection-start-line="91" selection-start-column="24" selection-end-line="91" selection-end-column="24" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/View/Player.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="107" column="74" selection-start-line="107" selection-start-column="74" selection-end-line="107" selection-end-column="74" />
-              <folding>
-                <element signature="e#1947#1948#0" expanded="true" />
-                <element signature="e#1988#1989#0" expanded="true" />
-                <element signature="e#2614#2615#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="module-info" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>disp</find>
-      <find>displa</find>
-      <find>system</find>
-      <find>getsa</find>
-      <find>getsafe</find>
-      <find>setNewRoot</find>
-      <find>setNe</find>
-      <find>findMo</find>
-      <find>clone</find>
-      <find>findmo</find>
-      <find>addchild</find>
-      <find>isth</find>
-      <find>display</find>
-      <find>hasch</find>
-      <find>dis</find>
-      <find>setnewroot</find>
-      <find>getuct</find>
-      <find>mcts</find>
-      <find>update</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/View/Square.java" />
-        <option value="$PROJECT_DIR$/src/View/Line.java" />
-        <option value="$PROJECT_DIR$/src/GameTree/Tree.java" />
-        <option value="$PROJECT_DIR$/src/GameTree/Node.java" />
-        <option value="$PROJECT_DIR$/src/module-info.java" />
-        <option value="$PROJECT_DIR$/src/GameTree/State.java" />
-        <option value="$PROJECT_DIR$/src/AI/AlphaBeta.java" />
-        <option value="$PROJECT_DIR$/src/Controller/Controller.java" />
-        <option value="$PROJECT_DIR$/src/AI/AISolver.java" />
-        <option value="$PROJECT_DIR$/src/View/Player.java" />
-        <option value="$PROJECT_DIR$/src/AI/Mcts.java" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-12" />
-    <option name="width" value="981" />
-    <option name="height" value="1092" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1UDN4xUdj1uGRI8klpzyea0GqzI" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="PlayItNice" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlayItNice" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlayItNice" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlayItNice" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlayItNice" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlayItNice" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="AI" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlayItNice" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlayItNice" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlayItNice" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlayItNice" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="GameTree" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlayItNice" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlayItNice" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="View" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1575363382223" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1575398342698" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../github/PlayItNice-master" />
-    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+    <property name="settings.editor.selected.configurable" value="preferences.pathVariables" />
   </component>
   <component name="RunManager" selected="Application.Launcher (1)">
     <configuration name="Launcher (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -310,21 +100,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="View.Launcher" />
+      <module name="PlayItNice" />
+      <option name="VM_PARAMETERS" value="--module-path ${PATH_TO_FX} --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="View.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Launcher (1)" />
+        <item itemvalue="Application.Launcher" />
         <item itemvalue="Application.Launcher" />
       </list>
     </recent_temporary>
   </component>
   <component name="ServiceViewManager">
-    <option name="allServicesViewState">
-      <serviceView>
-        <treeState>
-          <expand />
-          <select />
-        </treeState>
-      </serviceView>
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
     </option>
   </component>
   <component name="SvnConfiguration">
@@ -478,68 +285,6 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info id="Designer" order="0" />
-      <window_info id="UI Designer" order="1" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info id="Image Layers" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.15546559" />
-      <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="0" weight="0.3283582" />
-      <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.50121456" side_tool="true" weight="0.3283582" />
-      <window_info anchor="bottom" id="Messages" order="2" sideWeight="0.49878544" weight="0.3283582" />
-      <window_info anchor="bottom" id="Version Control" order="3" weight="0.3283582" />
-      <window_info anchor="bottom" id="Message" order="4" />
-      <window_info anchor="bottom" id="Find" order="5" sideWeight="0.49878544" weight="0.3283582" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.3897181" />
-      <window_info anchor="bottom" id="Debug" order="7" weight="0.4543947" />
-      <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="10" weight="0.3283582" />
-      <window_info anchor="right" id="Theme Preview" order="0" />
-      <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="right" id="Palette&#9;" order="2" />
-      <window_info anchor="right" id="Maven" order="3" />
-      <window_info anchor="right" id="Palette" order="4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="5" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="6" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
-      <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.32955465" />
-    </layout>
-    <layout-to-restore>
-      <window_info id="Designer" order="0" />
-      <window_info id="UI Designer" order="1" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info id="Image Layers" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.14736842" />
-      <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.50121456" side_tool="true" weight="0.3283582" />
-      <window_info anchor="bottom" id="Messages" order="2" sideWeight="0.49878544" weight="0.3283582" />
-      <window_info anchor="bottom" id="Version Control" order="3" />
-      <window_info anchor="bottom" id="Message" order="4" />
-      <window_info anchor="bottom" id="Find" order="5" sideWeight="0.49878544" weight="0.3283582" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.33001658" />
-      <window_info anchor="bottom" id="Debug" order="7" weight="0.39635158" />
-      <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="10" />
-      <window_info anchor="right" id="Theme Preview" order="0" />
-      <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="right" id="Palette&#9;" order="2" />
-      <window_info anchor="right" id="Maven" order="3" />
-      <window_info anchor="right" id="Palette" order="4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="5" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="6" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
-      <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.32955465" />
-    </layout-to-restore>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
@@ -549,12 +294,6 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
@@ -591,142 +330,113 @@
     <MESSAGE value="Did some changes in the mcts file, still have buggs" />
     <option name="LAST_COMMIT_MESSAGE" value="Did some changes in the mcts file, still have buggs" />
   </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/View/Square.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1904">
-          <caret line="122" column="14" selection-start-line="122" selection-start-column="14" selection-end-line="122" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Line.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1394">
-          <caret line="103" column="12" selection-start-line="103" selection-start-column="12" selection-end-line="103" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1285#1286#0" expanded="true" />
-            <element signature="e#1317#1318#0" expanded="true" />
-            <element signature="e#1364#1365#0" expanded="true" />
-            <element signature="e#1392#1393#0" expanded="true" />
-            <element signature="e#1452#1453#0" expanded="true" />
-            <element signature="e#1477#1478#0" expanded="true" />
-            <element signature="e#1509#1510#0" expanded="true" />
-            <element signature="e#1542#1543#0" expanded="true" />
-            <element signature="e#1585#1586#0" expanded="true" />
-            <element signature="e#1619#1620#0" expanded="true" />
-            <element signature="e#1664#1665#0" expanded="true" />
-            <element signature="e#1694#1695#0" expanded="true" />
-            <element signature="e#1949#1950#0" expanded="true" />
-            <element signature="e#1985#1986#0" expanded="true" />
-            <element signature="e#2042#2043#0" expanded="true" />
-            <element signature="e#2080#2081#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PlayItNice.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/module-info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GameTree/State.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="217" column="5" selection-start-line="217" selection-start-column="5" selection-end-line="217" selection-end-column="5" />
-          <folding>
-            <element signature="e#698#699#0" expanded="true" />
-            <element signature="e#734#735#0" expanded="true" />
-            <element signature="e#3857#3858#0" expanded="true" />
-            <element signature="e#3916#3917#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GameTree/Tree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="139" column="13" lean-forward="true" selection-start-line="139" selection-start-column="13" selection-end-line="139" selection-end-column="13" />
-          <folding>
-            <element signature="e#163#164#0" expanded="true" />
-            <element signature="e#188#189#0" expanded="true" />
-            <element signature="e#254#255#0" expanded="true" />
-            <element signature="e#284#285#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AI/AlphaBeta.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="21" column="46" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="81" column="30" lean-forward="true" selection-start-line="81" selection-start-column="30" selection-end-line="81" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AI/AISolver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="33" column="39" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Launcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="263" column="5" selection-start-line="263" selection-start-column="5" selection-end-line="263" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="107" column="74" selection-start-line="107" selection-start-column="74" selection-end-line="107" selection-end-column="74" />
-          <folding>
-            <element signature="e#1947#1948#0" expanded="true" />
-            <element signature="e#1988#1989#0" expanded="true" />
-            <element signature="e#2614#2615#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GameTree/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1275">
-          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AI/Mcts.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="91" column="24" lean-forward="true" selection-start-line="91" selection-start-column="24" selection-end-line="91" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+  <component name="WindowStateProjectService">
+    <state x="96" y="15" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1575462950006">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="96" y="15" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575462950006" />
+    <state x="96" y="15" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.720@0.0.1280.720" timestamp="1575459830840" />
+    <state x="88" y="0" key="CommitChangelistDialog2" timestamp="1575471149322">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="88" y="0" key="CommitChangelistDialog2/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575471149322" />
+    <state width="392" height="446" key="DebuggerActiveHint" timestamp="1575451956913">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="392" height="446" key="DebuggerActiveHint/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575451956913" />
+    <state width="1237" height="212" key="GridCell.Tab.-1.bottom" timestamp="1575453334738">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="212" key="GridCell.Tab.-1.bottom/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575453334738" />
+    <state width="1237" height="212" key="GridCell.Tab.-1.center" timestamp="1575453334738">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="212" key="GridCell.Tab.-1.center/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575453334738" />
+    <state width="1237" height="212" key="GridCell.Tab.-1.left" timestamp="1575453334737">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="212" key="GridCell.Tab.-1.left/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575453334737" />
+    <state width="1237" height="212" key="GridCell.Tab.-1.right" timestamp="1575453334738">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="212" key="GridCell.Tab.-1.right/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575453334738" />
+    <state width="1237" height="220" key="GridCell.Tab.0.bottom" timestamp="1575462987209">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="220" key="GridCell.Tab.0.bottom/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575462987209" />
+    <state width="1237" height="176" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1575460892837" />
+    <state width="1237" height="220" key="GridCell.Tab.0.center" timestamp="1575462987209">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="220" key="GridCell.Tab.0.center/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575462987209" />
+    <state width="1237" height="176" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1575460892837" />
+    <state width="1237" height="220" key="GridCell.Tab.0.left" timestamp="1575462987209">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="220" key="GridCell.Tab.0.left/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575462987209" />
+    <state width="1237" height="176" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1575460892837" />
+    <state width="1237" height="220" key="GridCell.Tab.0.right" timestamp="1575462987209">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="220" key="GridCell.Tab.0.right/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575462987209" />
+    <state width="1237" height="176" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1575460892837" />
+    <state width="1237" height="220" key="GridCell.Tab.1.bottom" timestamp="1575462987210">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="220" key="GridCell.Tab.1.bottom/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575462987210" />
+    <state width="1237" height="220" key="GridCell.Tab.1.bottom/0.0.1280.720@0.0.1280.720" timestamp="1575460673157" />
+    <state width="1237" height="220" key="GridCell.Tab.1.center" timestamp="1575462987209">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="220" key="GridCell.Tab.1.center/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575462987209" />
+    <state width="1237" height="220" key="GridCell.Tab.1.center/0.0.1280.720@0.0.1280.720" timestamp="1575460673157" />
+    <state width="1237" height="220" key="GridCell.Tab.1.left" timestamp="1575462987209">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="220" key="GridCell.Tab.1.left/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575462987209" />
+    <state width="1237" height="220" key="GridCell.Tab.1.left/0.0.1280.720@0.0.1280.720" timestamp="1575460673157" />
+    <state width="1237" height="220" key="GridCell.Tab.1.right" timestamp="1575462987210">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1237" height="220" key="GridCell.Tab.1.right/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575462987210" />
+    <state width="1237" height="220" key="GridCell.Tab.1.right/0.0.1280.720@0.0.1280.720" timestamp="1575460673157" />
+    <state x="121" y="54" key="MergeDialog" timestamp="1575471111168">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="121" y="54" key="MergeDialog/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575471111168" />
+    <state x="352" y="76" key="MultipleFileMergeDialog" timestamp="1575471117536">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="352" y="76" key="MultipleFileMergeDialog/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575471117536" />
+    <state x="327" y="183" key="com.intellij.ide.util.TipDialog" timestamp="1575470986321">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="327" y="183" key="com.intellij.ide.util.TipDialog/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575470986321" />
+    <state x="327" y="183" key="com.intellij.ide.util.TipDialog/0.0.1280.720@0.0.1280.720" timestamp="1575459788908" />
+    <state x="443" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1575471095630">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="443" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575471095630" />
+    <state x="-1489" y="7" width="948" height="709" maximized="true" key="dock-window-1" timestamp="1575470989534">
+      <screen x="-1920" y="7" width="1920" height="1080" />
+    </state>
+    <state x="-1489" y="7" width="948" height="709" maximized="true" key="dock-window-1/0.0.1280.720/-1920.7.1920.1080@0.0.1280.720" timestamp="1575470989534" />
+    <state x="331" y="97" width="618" height="526" key="find.popup" timestamp="1575460887926">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="331" y="97" width="618" height="526" key="find.popup/0.0.1280.720@0.0.1280.720" timestamp="1575460887926" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="scores.get(0)" />
+        <watch expression="Player.getPlayers()" language="JAVA" custom="View.Player" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="masterDetails">
     <states>

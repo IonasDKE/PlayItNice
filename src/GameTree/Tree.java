@@ -43,7 +43,7 @@ public class Tree {
                        newLeafs.add(s);
                    }
            }
-           System.out.println("newLeafs = " + newLeafs.size());
+           //System.out.println("newLeafs = " + newLeafs.size());
            leaf = newLeafs;
            //System.out.println("time :"+ (System.currentTimeMillis()-be)/1000+ " seconds; leaf size = "+leaf.size());
 
@@ -123,7 +123,7 @@ public class Tree {
         return root;
     }
 
-    public void setNewRoot() {
+    public void setNewRoot(State state) {
         //tree.rootCheckExtend(2);
 
         for (Node node : this.getLayer(1)){
@@ -131,19 +131,20 @@ public class Tree {
             //System.out.println("New State");
             //node.getState().display();
 
-            int nbdiff = node.getState().isEqual(State.currentState());
+            int nbdiff = node.getState().isEqual(state);
 
             if (nbdiff== 0) {
                 this.setRoot(node);
-                 System.out.println("Mcts.setNewRoot strange");
-                 //node.getState().display();
+                System.out.println("mcts root changed");
+                //node.getState().display();
             }
         }
 
     }
-   /* public ArrayList<Node> getLeaves() {
+
+    public ArrayList<Node> getLeaves() {
         return leaf;
-    }*/
+    }
 
 }
 

@@ -1,2 +1,8 @@
-module $MODULE_NAME$ {
+module PlayItNice {
+    requires javafx.fxml;
+    requires javafx.graphics;
+    requires javafx.controls;
+
+
+    opens View;
 }

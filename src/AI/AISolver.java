@@ -29,6 +29,5 @@ public abstract class AISolver {
 
 
     }
-
     public abstract Line nextMove(State board, int color);
 }

@@ -144,7 +144,7 @@ public class Board {
             }
         }
 
-        State.setCurrentState( new State(lines,squares));
+        State.setCurrentState( new State(lines,squares, Player.getPlayers().get(0)));
         return pane;
     }
 
