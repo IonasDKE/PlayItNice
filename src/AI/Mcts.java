@@ -51,8 +51,10 @@ public class Mcts extends AISolver {
             System.out.println("first turn");
             mctsFirstIteration = false;
         }else{
-            this.setNewRoots(state);
+            this.setNewRoots();
         }
+
+        this.tree.getRoot().getState().display();
 
         Node.resetTotalVisit();
         rootNode=this.tree.getRoot();
@@ -225,11 +227,9 @@ public class Mcts extends AISolver {
         return bestChild;
     }
 
-    public void setNewRoots(State newRootState){
-        for (Node node: this.tree.getRoot().getChildren()){
-            if (node.getState() == newRootState)
-                this.tree.setRoot(node);
-
+    public void setNewRoots(){
+        for (Tree tree : this.trees){
+                this.tree.setNewRoot(State.currentState());
         }
     }
 

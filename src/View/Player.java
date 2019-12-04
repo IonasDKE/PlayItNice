@@ -26,7 +26,6 @@ public class Player {
         this.moves = 1;
         this.score = 0;
         this.ai= ai;
-        players.add(this);
         switch (ai) {
             case  "Mcts":
                 solver = new Mcts();
@@ -38,6 +37,10 @@ public class Player {
                 solver = new AlphaBeta();
                 break;
         }
+    }
+
+    public void addToPlayers(){
+        players.add(this);
     }
 
     public static ArrayList<Player> getPlayers() {
@@ -133,6 +136,16 @@ public class Player {
         }
     }
 
+    public Player cloned(){
+        Player cloned  = new Player(this.color,this.name,this.ai);
+        cloned.score = this.score;
+        cloned.moves = this.moves;
+
+        //might produce a bug
+        cloned.solver = this.solver;
+
+        return cloned();
+    }
    /* public static boolean getFistTurn() {
         return mctsFirstIteration;
     }*/

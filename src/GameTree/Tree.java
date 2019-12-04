@@ -123,7 +123,7 @@ public class Tree {
         return root;
     }
 
-    public void setNewRoot() {
+    public void setNewRoot(State state) {
         //tree.rootCheckExtend(2);
 
         for (Node node : this.getLayer(1)){
@@ -131,7 +131,7 @@ public class Tree {
             //System.out.println("New State");
             //node.getState().display();
 
-            int nbdiff = node.getState().isEqual(State.currentState());
+            int nbdiff = node.getState().isEqual(state);
 
             if (nbdiff== 0) {
                 this.setRoot(node);
