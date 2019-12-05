@@ -13,7 +13,6 @@ public class Player {
 
     private AISolver solver;
     private Color color;
-    private int moves;
     private int score;
     private String name;
     private String ai;
@@ -22,7 +21,6 @@ public class Player {
     public Player(Color color, String name, String ai) {
         this.color = color;
         this.name = name;
-        this.moves = 1;
         this.score = 0;
         this.ai= ai;
     }
@@ -46,14 +44,6 @@ public class Player {
      */
     public void addScore(int toAdd) {
         this.score += toAdd;
-    }
-
-    /**
-     * this is used when a player gets a point and
-     * gets a new move
-     */
-    public void addMoves() {
-        this.moves += 1;
     }
 
     /**
@@ -83,19 +73,9 @@ public class Player {
         return this.color;
     }
 
-    public int getMoves() {
-        return this.moves;
-    }
 
     public String getName() {
         return this.name;
-    }
-
-    /**
-     * used when a player gets a point then he can play again
-     */
-    public void decreaseMoves() {
-        this.moves -= 1;
     }
 
 
@@ -107,7 +87,7 @@ public class Player {
 
     public void aiPlay() {
         //System.out.println("called ai player");
-        Line chosenLine = solver.nextMove(State.currentState(), Controller.turn);
+        Line chosenLine = solver.nextMove(State.currentState(), State.currentState().getTurn());
         State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
         System.out.println("ai fill "+chosenLine.getid());
     }
@@ -151,7 +131,6 @@ public class Player {
     public Player cloned(){
         Player cloned  = new Player(this.color,this.name,this.ai);
         cloned.score = this.score;
-        cloned.moves = this.moves;
 
         //might produce a bug
         cloned.solver = this.solver;

@@ -150,32 +150,4 @@ public class Board {
     }
 
 
-    public static int getNumberOfMoves() {
-        return getMoves().size();
-    }
-
-    /**
-     * @return all the possible moves
-     */
-    public static ArrayList<Line> getMoves() {
-        ArrayList<Line> lines = new ArrayList<>();
-        for(Line kn : Line.getLines()){
-            if (kn.isEmpty()){
-                lines.add(kn);
-            }
-        }
-        return lines;
-    }
-
-
-    public Board updateBoard(Line graphicLine, int color) {
-        
-        return null;
-    }
-
-    public int getScore(int color) {
-        return 0;
-    }
-
-
 }

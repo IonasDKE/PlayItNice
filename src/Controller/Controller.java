@@ -5,13 +5,11 @@ import View.Player;
 import View.*;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+
 
 public class Controller {
 
-
-    //stores the information of which player's turn it is
-    public static int turn = 0;
-    private static State state = State.currentState();
 
     // checks if the line has already been claimed
     public static Boolean checkMove(View.Line line) {
@@ -26,24 +24,21 @@ public class Controller {
 
     // decreases the player's moves in case he hasn't claimed any square and adds a score to the player in case he has
     // claimed a square, a move is implicitely added to the player as its moves haven't been decreased
-    public static void updateTurn(View.Line line, Player player) {
+    public static void updateTurn(Line line, State s) {
         int numberOfCompleteSquare = checkAnySquareClaimed(line);
+
         if (numberOfCompleteSquare > 0) {
-            player.addScore(numberOfCompleteSquare);
+            s.getActualPlayer().addScore(numberOfCompleteSquare);
         } else {
-            player.decreaseMoves();
-        }
-
-        updateComponents();
-
-        if (player.getMoves() == 0) {
-            player.addMoves();
-            if (turn < State.getCurrentPlayers().size() - 1) {
-                turn++;
+            if (s.getTurn() < s.getPlayers().size() - 1) {
+                s.nextTurn();
             } else {
-                turn = 0;
+                s.setTurn(0);
             }
         }
+
+        if(s.isEqual(State.currentState())==0) {
+            updateComponents();
         /*
             System.out.println();
             System.out.println();
@@ -51,12 +46,13 @@ public class Controller {
             System.out.println("channel " + Controller.getChannelNb());
             System.out.println();
         */
-        if (checkEnd()) {
-            System.out.println("endGame");
-            EndWindow.display(Launcher.thisStage);
-        }else {
-            //checks if the next player to play is an AI, if it is the case, makes it play
-            checkAiPlay();
+            if (checkEnd()) {
+                System.out.println("endGame");
+                EndWindow.display(Launcher.thisStage);
+            } else {
+                //checks if the next player to play is an AI, if it is the case, makes it play
+                checkAiPlay();
+            }
         }
     }
 

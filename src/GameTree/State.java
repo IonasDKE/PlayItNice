@@ -46,7 +46,7 @@ public class State {
      * @return the player which is actually playing (which is why this is static)
      */
     public static Player getCurrentActualPlayer(){
-        return getCurrentPlayers().get(Controller.turn);
+        return State.currentState().getActualPlayer();
     }
     public static ArrayList<Player> getCurrentPlayers(){
         return State.currentState().getPlayers();
@@ -104,13 +104,7 @@ public class State {
         Line filledLine = State.findLine(line.getid(),childState.getLines());
         filledLine.setEmpty(false);
 
-        int scored = Controller.checkAnySquareClaimed(filledLine);
-
-        if(scored>0){
-            childState.getActualPlayer().addScore(scored);
-        }else{
-            childState.updateTurn();
-        }
+        Controller.updateTurn(filledLine, childState);
 
         children.add(childState);
 
@@ -119,9 +113,6 @@ public class State {
         //childState.display();
     }
 
-    /*public void increaseScore(Player player) {
-        this.scores.set(player.getIndex(), +1);
-    }*/
 
     public void display(){
         Line.display(this.getLines());
@@ -178,7 +169,7 @@ public class State {
         return result;
     }
 
-    //finds the lines that needs to be colored for mcts
+    //finds the line which empty attribute is different from state 1 then state 2
     public static Line findDiffLine(ArrayList<Line> state1, ArrayList<Line> state2) {
         Line randomEmptyLine=null;
         for (Line line : state1) {
@@ -216,9 +207,7 @@ public class State {
     }
 
     public int numberOfAvailableMoves(){
-        //System.out.println(getAvailableMoves().size());
-        return getAvailableMoves().size();
-
+        return getEmptyLines().size();
     }
 
     public ArrayList<Line> getEmptyLines() {
@@ -231,11 +220,6 @@ public class State {
         return emptyLines;
     }
 
-    public ArrayList<Line> getAvailableMoves(){
-        //System.out.println(this.lines.size());
-        return this.lines;
-
-    }
     public ArrayList<Line> getNdValenceLines(){
         ArrayList<Line> lines = new ArrayList<>();
         //System.out.println(" nd" + this.getLines().size());
@@ -282,18 +266,10 @@ public class State {
         this.turn = turn;
     }
 
-    public void updateTurn() {
-        if (turn < players.size() - 1) {
-            turn++;
-        } else {
-            turn = 0;
-        }
+    public void nextTurn(){
+        this.turn = this.turn+1;
     }
 
-    public void setPlayers(ArrayList<Player> newPlayers, int turn) {
-        this.players = newPlayers;
-        this.turn = turn;
-    }
 
     public int getScore(Player player) {
         //-1 is just an arbitrary value
@@ -311,18 +287,13 @@ public class State {
 
     public ArrayList<State> clonedChildren(){
         ArrayList<State> result = new ArrayList<>();
+        if(this.children==null){
+            System.out.println("children do not exist");
+        }
         for(State state : this.children){
             result.add(state.cloned());
         }
         return result;
     }
-
-   /*public void setScores(ArrayList<Integer> newScores) {
-        for(Player p : players){
-
-        }
-    }*/
-
-    //TO DO : add state info methods
 
 }

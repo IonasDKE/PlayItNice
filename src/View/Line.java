@@ -43,7 +43,7 @@ public class Line {
                 sq.colorSquare(actualPlayer);
             }
 
-            Controller.updateTurn(this, actualPlayer);
+            Controller.updateTurn(this, State.currentState());
         }
     }
 
