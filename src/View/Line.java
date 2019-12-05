@@ -99,4 +99,8 @@ public class Line {
         }
     }
 
+    public void display() {
+        System.out.println(this.empty+" "+ this.id);
+    }
+
 }

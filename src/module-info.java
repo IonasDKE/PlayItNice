@@ -3,6 +3,5 @@ module PlayItNice {
     requires javafx.graphics;
     requires javafx.controls;
 
-
     opens View;
 }

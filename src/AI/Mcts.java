@@ -4,6 +4,16 @@ import View.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Monte Carlo Tree Search
+ * 4 steps (methods):
+ *  Selection: returns a node that seems promising
+ *  Expansion: generates the children of the promising node/state
+ *  Simulation: simulates the promising node/state until the end of the game, returns win or loose depending on the simulation
+ *  Back propagation: for all the parent of the promising node, increase/decrease the score found in the simulation stage.
+ *                   And increase the number of visit by 1.
+ */
+
 public class Mcts extends AISolver {
     private Tree tree;
     private Node rootNode;
@@ -24,9 +34,11 @@ public class Mcts extends AISolver {
             System.out.println("first turn");
         }else{
             this.setNewRoots();
+            if (tree.getRoot().getState() != State.currentState())
+                    tree.setRoot(new Node(State.currentState(), null));
         }
 
-        this.tree.getRoot().getState().display();
+        //this.tree.getRoot().getState().display();
 
         Node.resetTotalVisit();
         rootNode=this.tree.getRoot();
@@ -46,17 +58,18 @@ public class Mcts extends AISolver {
             int score = simulateRandomPlayOut(promisingNode);
             backPropagation(promisingNode,score);
         }
-
         Node winnerNode = getBestChild();
-        //System.out.println("winner node size: "+winnerNode.getState().getLines().size());
+        System.out.println("equal "+ winnerNode.getState().equals(State.currentState()));
+        System.out.println("winner node: "+winnerNode);
+
+        Line bestLine=(State.findDiffLine(state.getLines(), winnerNode.getState().getLines()));
+        System.out.println("best line id "+bestLine.getid()+" emptiness:"+bestLine.isEmpty());
+
         this.tree.setNewRoot(winnerNode.getState());
         System.out.println("new root after winner node found: "+tree.getRoot());
 
         winnerNode.deleteParent(firstTurn); //in java when information is not accesible, it's deleted
         this.firstTurn=false;
-
-        Line bestLine=(State.findDiffLine(state.getLines(), winnerNode.getState().getLines()));
-        System.out.println("best line id "+bestLine.getid());
 
         return bestLine;
     }
@@ -83,7 +96,7 @@ public class Mcts extends AISolver {
     }
 
     private void expansion(Node toExpand) {
-        if (!toExpand.hasChildren())
+        if (toExpand.hasChildren())
             toExpand.computeChildren();
     }
 
@@ -143,7 +156,7 @@ public class Mcts extends AISolver {
 
     public Node getBestChild() {
         double currentBest=Double.NEGATIVE_INFINITY;
-        Node bestChild=null;
+        Node bestChild=rootNode.getChildren().get(0);
 
         for (Node child : rootNode.getChildren()) {
             //System.out.println("current best: "+child.getAvg());

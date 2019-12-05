@@ -163,12 +163,16 @@ public class State {
 
     //finds the lines that needs to be colored for mcts
     public static Line findDiffLine(ArrayList<Line> state1, ArrayList<Line> state2) {
+        Line randomEmptyLine=null;
         for (Line line : state1) {
-                if (line.isEmpty() != State.findLine(line.getid(),state2).isEmpty()) {
-                    return line;
-                }
+            if (line.isEmpty())
+                randomEmptyLine=line;
+            if (line.isEmpty() != State.findLine(line.getid(),state2).isEmpty() && line.isEmpty()) {
+                return line;
+            }
         }
-        return null;
+        System.out.println("random line returned");
+        return randomEmptyLine;
     }
 
     public static Line findDiffLine( ArrayList<Line> state1){
@@ -274,7 +278,7 @@ public class State {
     public int getScore(Player player) {
         //-1 is just an arbitrary value
         int result = -1;
-        for( Player p: players) {
+        for (Player p: players) {
             if (p.getName() == player.getName()) {
                 return p.getScore();
             }
