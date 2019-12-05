@@ -16,7 +16,6 @@ public class Player {
     private int moves;
     private int score;
     private String name;
-    private static ArrayList<Player> actualPlayers = new ArrayList<>();
     private String ai;
 
 
@@ -40,18 +39,6 @@ public class Player {
                 solver = new AlphaBeta();
                 break;
         }
-    }
-
-    public Player(){
-
-    }
-
-    public void  addToPlayers(){
-        actualPlayers.add(this);
-    }
-
-    public static ArrayList<Player> getActualPlayers() {
-        return actualPlayers;
     }
 
     /** this function increments the score of a player
@@ -88,13 +75,6 @@ public class Player {
     }
 
 
-    /**
-     * @return the player which is actually playing (which is why this is static)
-     */
-    public static Player getActualPlayer(){
-        return actualPlayers.get(Controller.turn);
-    }
-
     public int getScore(){
         return this.score;
     }
@@ -120,13 +100,14 @@ public class Player {
 
 
     public boolean isAlpha() {
-        if (ai == "Alpha Beta") { return true; }
+        if (ai == "Alpha Beta")
+        { return true; }
         else{ return false; }
     }
 
     public void aiPlay() {
         //System.out.println("called ai player");
-        Line chosenLine = solver.nextMove(State.currentState(), Integer.parseInt(name)-1);
+        Line chosenLine = solver.nextMove(State.currentState(), Controller.turn);
         State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
         System.out.println("ai fill "+chosenLine.getid());
     }
@@ -135,7 +116,7 @@ public class Player {
      * display the type of player
      */
     public static void display(){
-        for(Player p : actualPlayers){
+        for(Player p : State.getCurrentPlayers()){
             System.out.println("p = " + p.ai);
         }
     }
@@ -147,13 +128,13 @@ public class Player {
     public static Player nextPlayer(Player prevPlayer){
         int index = 0;
         Player nextPlayer = null;
-        for(Player player : actualPlayers){
+        for(Player player : State.getCurrentPlayers()){
             if(player.getName() == prevPlayer.getName()){
-                if (index == actualPlayers.size() - 1) {
-                    nextPlayer = actualPlayers.get(0);
+                if (index == State.getCurrentPlayers().size() - 1) {
+                    nextPlayer = State.getCurrentPlayers().get(0);
                 }
                 else{
-                    nextPlayer = actualPlayers.get(index+1);
+                    nextPlayer = State.getCurrentPlayers().get(index+1);
                 }
             }
             index++;

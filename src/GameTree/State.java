@@ -4,10 +4,8 @@ import Controller.Controller;
 import View.Line;
 import View.Square;
 import View.Player;
-import Controller.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static Controller.Controller.isThirdLine;
 
@@ -33,11 +31,26 @@ public class State {
     }
 
     //use this state constructor only for the current state!
-    public State(ArrayList<Line> lines, ArrayList<Square> squares, ArrayList<Player> players, int turn) {
+    public void setLinesAndSquares(ArrayList<Line> lines, ArrayList<Square> squares) {
         this.lines = lines;
         this.squares = squares;
+    }
+
+    //use this state constructor only for the current state!
+    public State( ArrayList<Player> players, int turn) {
         this.players = players;
         this.turn = turn;
+    }
+
+    /**
+     * @return the player which is actually playing (which is why this is static)
+     */
+    public static Player getCurrentActualPlayer(){
+        return getCurrentPlayers().get(Controller.turn);
+    }
+    public static ArrayList<Player> getCurrentPlayers(){
+        return State.currentState().getPlayers();
+
     }
 
     //get the children of the State
@@ -54,6 +67,10 @@ public class State {
 
     public void setChildren(ArrayList<State> children) {
         this.children = children;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 
     public void computeChildren(){
@@ -193,6 +210,9 @@ public class State {
     public void reset(){
         this.getLines().clear();
         this.getSquares().clear();
+        this.getPlayers().clear();
+        this.getChildren().clear();
+        this.turn = 0;
     }
 
     public int numberOfAvailableMoves(){

@@ -1,5 +1,6 @@
 package View;
 
+import GameTree.State;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -262,25 +263,32 @@ public class Launcher  extends Application {
      * @param colors whatever
      */
     public void setPlayers(ArrayList<Color> colors){
+        ArrayList<Player> currentPlayers = new ArrayList<>();
         int playerNumber=0;
         Player a = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), "Human");
-        a.addToPlayers();
+        currentPlayers.add(a);
         a.setSolver();
         playerNumber++;
 
         String opponent1 = selectPlayerOne.getValue().toString();
         Player b = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent1);
-        b.addToPlayers();
+        currentPlayers.add(b);
         b.setSolver();
         playerNumber++;
 
         String opponent2 = selectPlayerTwo.getValue().toString();
         if(opponent2 != "Opponent 2" && opponent2 !="" && opponent2 != null) {
             Player c = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent2);
-            c.addToPlayers();
+            currentPlayers.add(c);
             c.setSolver();
         }
         playerNumber++;
+
+        if(State.currentState()!=null) {
+            State.currentState().reset();
+        }
+
+        State.setCurrentState(new State(currentPlayers, 0));
     }
 
     /**

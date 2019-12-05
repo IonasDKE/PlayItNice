@@ -31,7 +31,7 @@ public class Line {
 
     public void fill(){
 
-        Player actualPlayer = Player.getActualPlayer();
+        Player actualPlayer = State.getCurrentActualPlayer();
 
         if (Controller.checkMove(this)) {
             //System.out.println("fill line "+this.id);

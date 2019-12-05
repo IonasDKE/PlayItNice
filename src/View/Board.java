@@ -104,9 +104,6 @@ public class Board {
         Pane pane = new Pane();
         int squareSize = GRID_SIZE/Integer.max(width,higth);
 
-        if(State.currentState()!=null) {
-            State.currentState().reset();
-        }
 
         ArrayList<Line> lines = new ArrayList<>();
         ArrayList<Square> squares = new ArrayList<>();
@@ -148,7 +145,7 @@ public class Board {
             }
         }
 
-        State.setCurrentState( new State(lines,squares, Player.getActualPlayers(), 0));
+        State.currentState().setLinesAndSquares(lines,squares);
         return pane;
     }
 
