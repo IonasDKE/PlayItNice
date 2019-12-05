@@ -46,7 +46,7 @@ public class AlphaBeta extends AISolver {
 
         if ((depth < maxDepth && (System.nanoTime() - startTime) < moveTime)) {
             int availableMoves = state.numberOfAvailableMoves();
-            ArrayList<Line> moves = state.getAvailableMoves();
+            ArrayList<Line> moves = state.getEmptyLines();
             //int movesLength = moves.size();
 
             if (availableMoves == 0) {

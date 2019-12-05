@@ -28,7 +28,7 @@ public class Mcts extends AISolver {
     public Line nextMove(State state, int color) {
 
         if(firstTurn) {
-            this.player= Player.getActualPlayer();
+            this.player= State.getCurrentActualPlayer();
             tree = new Tree(new Node(state, null));
             trees.add(tree);
             minScore = (Launcher.getChosenN()*Launcher.getChosenM())/2 +1;

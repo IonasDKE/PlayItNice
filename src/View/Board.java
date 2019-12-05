@@ -104,9 +104,6 @@ public class Board {
         Pane pane = new Pane();
         int squareSize = GRID_SIZE/Integer.max(width,higth);
 
-        if(State.currentState()!=null) {
-            State.currentState().reset();
-        }
 
         ArrayList<Line> lines = new ArrayList<>();
         ArrayList<Square> squares = new ArrayList<>();
@@ -148,36 +145,8 @@ public class Board {
             }
         }
 
-        State.setCurrentState( new State(lines,squares, Player.getActualPlayers(), 0));
+        State.currentState().setLinesAndSquares(lines,squares);
         return pane;
-    }
-
-
-    public static int getNumberOfMoves() {
-        return getMoves().size();
-    }
-
-    /**
-     * @return all the possible moves
-     */
-    public static ArrayList<Line> getMoves() {
-        ArrayList<Line> lines = new ArrayList<>();
-        for(Line kn : Line.getLines()){
-            if (kn.isEmpty()){
-                lines.add(kn);
-            }
-        }
-        return lines;
-    }
-
-
-    public Board updateBoard(Line graphicLine, int color) {
-        
-        return null;
-    }
-
-    public int getScore(int color) {
-        return 0;
     }
 
 
