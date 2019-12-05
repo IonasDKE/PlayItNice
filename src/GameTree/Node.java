@@ -7,7 +7,6 @@ TODO:
 - We could add a general class to list parameters, such as the exploration-exploitation coefficient.
  */
 public class Node {
-    private static int totalVisit=0;
     private State state;
     private ArrayList<Node> children=new ArrayList<>();
     private Node parent;
@@ -23,12 +22,12 @@ public class Node {
 
     public ArrayList<Node> computeChildren( ) {
         ArrayList<State> stateChildren = this.state.computeAndGetChildren();
-        ArrayList<Node> nodeNewChildren = new ArrayList<>();
+        ArrayList<Node> newChildren = new ArrayList<>();
         for (State t : stateChildren) {
-            nodeNewChildren.add(new Node(t, this));
+            newChildren.add(new Node(t, this));
         }
-        this.children = nodeNewChildren;
-        return nodeNewChildren;
+        this.children = newChildren;
+        return newChildren;
     }
 
     public boolean isRoot() {
@@ -74,15 +73,12 @@ public class Node {
     }
 
     public double getUctScore(){
-        final double COEFFICIENT = 0.1; //this coefficient balances exploration and exploitation in the UCT
-        double toReturn=0;
+        final double COEFFICIENT = 1.41; //this coefficient balances exploration and exploitation in the UCT
         if (this.visitNb==0) {
-            toReturn=Double.MAX_VALUE;
-        } else if (this.uctScore==Double.NEGATIVE_INFINITY) {
-            this.uctScore = (this.numberOfWin /(double)this.visitNb)+ COEFFICIENT * Math.sqrt(Math.log(totalVisit)/(double) this.visitNb);
-            toReturn=this.uctScore;
+            return Integer.MAX_VALUE;
         }
-        return toReturn;
+        return this.uctScore = (this.numberOfWin /(double)this.visitNb)+
+                COEFFICIENT * Math.sqrt(Math.log(this.getParent().getVisitNb())/(double) this.visitNb);
     }
 
     public void setParent(Node newParent) {
@@ -119,16 +115,11 @@ public class Node {
 
     public void addVisit() {
         this.visitNb++;
-        totalVisit++;
     }
 
     public void deleteParent(Boolean firstTurn) {
         if (!firstTurn)
             this.parent=null;
-    }
-
-    public static void resetTotalVisit() {
-        totalVisit=0;
     }
 
 }

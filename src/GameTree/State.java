@@ -19,13 +19,7 @@ public class State {
     private ArrayList<State> children;
     private ArrayList<Line> lines;
     private ArrayList<Square> squares;
-   // private ArrayList<Integer> scores=new ArrayList<>(Arrays.asList(0,0)); //the score of a player at that state, at the same index as
-      /*                                                          //player in players array
-    public State (ArrayList<Line> g){
-        lines = g;
-        squares = Square.buildSquares(g);
-    }
-*/
+
     public State (ArrayList<Line> g, ArrayList<Player> players){
         this.lines = g;
         this.squares = Square.buildSquares(g);
@@ -60,8 +54,7 @@ public class State {
         ArrayList<State> result = new ArrayList<>();
 
         //children that would build a third line in a square are excluded
-
-        for(View.Line line : this.lines){
+        for(Line line : this.lines){
             if(line.isEmpty() && !isThirdLine(line)) {
                 addChild(line,result);
             }
@@ -69,7 +62,6 @@ public class State {
 
         //case if it is not possible to pick a line that will not be a third line
         if(result.size()==0) {
-          //  System.out.println("case 2");
             for (Line line : this.lines) {
                 if(line.isEmpty()){
                     addChild(line,result);
@@ -87,10 +79,10 @@ public class State {
         Line filledLine = State.findLine(line.getid(),childState.getLines());
         filledLine.setEmpty(false);
 
-        int scored = Controller.checkAnySquareClaimed(filledLine);
+        int score = Controller.checkAnySquareClaimed(filledLine);
 
-        if(scored>0){
-            childState.getActualPlayer().addScore(scored);
+        if(score>0){
+            childState.getActualPlayer().addScore(score);
         }else{
             childState.updateTurn();
         }
@@ -164,14 +156,17 @@ public class State {
     //finds the lines that needs to be colored for mcts
     public static Line findDiffLine(ArrayList<Line> state1, ArrayList<Line> state2) {
         Line randomEmptyLine=null;
+        boolean found = false;
         for (Line line : state1) {
             if (line.isEmpty())
                 randomEmptyLine=line;
             if (line.isEmpty() != State.findLine(line.getid(),state2).isEmpty() && line.isEmpty()) {
+                found=true;
                 return line;
             }
         }
-        System.out.println("random line returned");
+        if (!found)
+            System.out.println("random line returned");
         return randomEmptyLine;
     }
 

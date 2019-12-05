@@ -64,10 +64,10 @@ public class Controller {
         Player player = Player.getActualPlayer();
         if (player.isAi()) {
             //calls for the specific AI play method
-            System.out.println("player = " + player.getAiType());
+            //System.out.println("player = " + player.getAiType());
             player.aiPlay();
         }else{
-            System.out.println("player = " + player.getAiType()+ " "+ player.getName());
+            // System.out.println("player = " + player.getAiType()+ " "+ player.getName());
         }
     }
 
@@ -100,7 +100,7 @@ public class Controller {
     }
 
 
-    //checks if claiming a the line will update any square to a valence of 1
+    //checks if claiming the line will update any square to a valence of 1
     public static boolean isThirdLine(Line line) {
         boolean result = false;
 

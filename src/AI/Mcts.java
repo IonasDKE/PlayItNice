@@ -2,6 +2,8 @@ package AI;
 import GameTree.*;
 import View.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -18,11 +20,10 @@ public class Mcts extends AISolver {
     private Tree tree;
     private Node rootNode;
     private static ArrayList<Tree> trees = new ArrayList<>();
-    private static long timeLimit;
-    private Random rand = new Random();
     private static int minScore;
     private boolean firstTurn=true;
     private Player player;
+    private Random rand = new Random();
 
     public Line nextMove(State state, int color) {
 
@@ -39,14 +40,12 @@ public class Mcts extends AISolver {
         }
 
         //this.tree.getRoot().getState().display();
-
-        Node.resetTotalVisit();
         rootNode=this.tree.getRoot();
 
         System.out.println();
-        System.out.println("root node "+tree.getRoot() +" children: "+tree.getRoot().getChildren().size());
+        //System.out.println("root node "+tree.getRoot() +" children: "+tree.getRoot().getChildren().size());
 
-        timeLimit= System.currentTimeMillis()+2000; //1000 = 1 sec
+        long timeLimit = System.currentTimeMillis() + 5000; //1000 = 1 sec
         while (System.currentTimeMillis() < timeLimit) {
             Node promisingNode=selection(rootNode);
             if (!isComplete(promisingNode.getState())) {
@@ -59,40 +58,26 @@ public class Mcts extends AISolver {
             backPropagation(promisingNode,score);
         }
         Node winnerNode = getBestChild();
-        System.out.println("equal "+ winnerNode.getState().equals(State.currentState()));
-        System.out.println("winner node: "+winnerNode);
+        //System.out.println("winner node: "+winnerNode);
 
         Line bestLine=(State.findDiffLine(state.getLines(), winnerNode.getState().getLines()));
         System.out.println("best line id "+bestLine.getid()+" emptiness:"+bestLine.isEmpty());
 
         this.tree.setNewRoot(winnerNode.getState());
-        System.out.println("new root after winner node found: "+tree.getRoot());
+        System.out.println("simulation counter: "+simulationCounter);
 
-        winnerNode.deleteParent(firstTurn); //in java when information is not accesible, it's deleted
         this.firstTurn=false;
-
         return bestLine;
     }
 
     //this method return a child node of a node that it is fed, based on the highest UCT score
     private Node selection(Node rootNode) {
-
         Node node = rootNode;
         while (node.getChildren().size()!=0 && !isComplete(node.getState())){
-            node = maxUctNode(node);
+            node = Collections.max(node.getChildren(),          //collections.max returns the child node with largest UCT
+                    Comparator.comparing(Node::getUctScore));
         }
         return node;
-    }
-
-    //This method is ancilliary to the selection method
-    private Node maxUctNode (Node node){
-        Node maxUctNode =node.getChildren().get(0);
-        for(Node aNode: node.getChildren()){
-            if (aNode.getUctScore() > maxUctNode.getUctScore()){
-                maxUctNode = aNode;
-            }
-        }
-        return maxUctNode;
     }
 
     private void expansion(Node toExpand) {
@@ -100,15 +85,16 @@ public class Mcts extends AISolver {
             toExpand.computeChildren();
     }
 
+    public int simulationCounter=0; //for debug
     private int simulateRandomPlayOut(Node selectedNode) {
         State stateCopy = selectedNode.getState().cloned();
-
+        simulationCounter++;
         while (!isComplete(stateCopy)) {
             stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));
         }
         int score=stateCopy.getScore(player);
 
-        //System.out.println("score to add: "+score);
+
         if (score < minScore) {
             score=-1;
             //System.out.println("loose");
@@ -157,9 +143,9 @@ public class Mcts extends AISolver {
     public Node getBestChild() {
         double currentBest=Double.NEGATIVE_INFINITY;
         Node bestChild=rootNode.getChildren().get(0);
-
+        //System.out.println("root visit number: "+rootNode.getVisitNb());
         for (Node child : rootNode.getChildren()) {
-            //System.out.println("current best: "+child.getAvg());
+            //System.out.println("current best: "+child.getAvg()+" score: "+child.getScore()+" visit nb: "+child.getVisitNb());
             if (child.getAvg() > currentBest) {
                 bestChild=child;
                 currentBest=child.getAvg();

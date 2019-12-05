@@ -98,7 +98,7 @@ public class AlphaBeta extends AISolver {
 
             WeightedEdge newEdge = new WeightedEdge(null, MAX);
 
-                System.out.println("is not ai");
+                //System.out.println("is not ai");
 
                 //computes the children if they do not exist
                 for (State child : state.computeAndGetChildren()) {
