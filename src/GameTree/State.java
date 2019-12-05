@@ -90,7 +90,7 @@ public class State {
         int scored = Controller.checkAnySquareClaimed(filledLine);
 
         if(scored>0){
-            childState.getPlayerToPlay().addScore(scored);
+            childState.getActualPlayer().addScore(scored);
         }else{
             childState.updateTurn();
         }
@@ -246,7 +246,7 @@ public class State {
         return players.get(turn).getScore();
     }
 
-    public Player getPlayerToPlay() {
+    public Player getActualPlayer() {
         return players.get(turn);
     }
 
@@ -292,6 +292,7 @@ public class State {
         }
         return result;
     }
+
    /*public void setScores(ArrayList<Integer> newScores) {
         for(Player p : players){
 

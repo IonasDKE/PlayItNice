@@ -56,7 +56,7 @@ public class AlphaBeta extends AISolver {
             //Collections.shuffle(moves);
 
             // IF TURN = AI
-            if (state.getPlayerToPlay().isAlpha()) {
+            if (state.getActualPlayer().isAlpha()) {
                 //System.out.println("is AI");
                 // This is the edge we will return
                 WeightedEdge newEdge = new WeightedEdge(null, MIN);
@@ -68,8 +68,8 @@ public class AlphaBeta extends AISolver {
                         //Training edge
                         WeightedEdge wedge;
 
-                        int childScore = child.getScore(turn);
-                        int actualScore = state.getScore(turn);
+                        int childScore = child.getScore(state.getActualPlayer());
+                        int actualScore = state.getScore(state.getActualPlayer());
                         boolean found = false;
                         if (childScore == actualScore) {
                             wedge = startAI(child, 0, depth + 1, alpha, beta);
@@ -103,14 +103,15 @@ public class AlphaBeta extends AISolver {
                 //computes the children if they do not exist
                 for (State child : state.computeAndGetChildren()) {
 
-
                     //State child = state.updateState(moves.get(i), color);
                     //Training edge
                     WeightedEdge wedge;
 
-                    int childScore = child.getScore(turn);
-                    int actualScore = state.getScore(turn);
+                    Player p = state.getActualPlayer();
+                    int childScore = child.getScore(p);
+                    int actualScore = state.getScore(p);
                     boolean found = false;
+
                     if (childScore == actualScore) {
                         wedge = startAI(child, 0, depth + 1, alpha, beta);
                         found = true;
