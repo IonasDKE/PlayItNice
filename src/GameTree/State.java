@@ -69,13 +69,12 @@ public class State {
 
     public void computeChildren(){
         ArrayList<State> result = new ArrayList<>();
-
         //children that would build a third line in a square are excluded
-        for(Line line : this.lines){
+        /*for(Line line : this.lines){
             if(line.isEmpty() && !isThirdLine(line)) {
                 addChild(line,result);
             }
-        }
+        }*/
 
         //case if it is not possible to pick a line that will not be a third line
         if(result.size()==0) {

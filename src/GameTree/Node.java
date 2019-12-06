@@ -8,7 +8,7 @@ TODO:
  */
 public class Node {
     private State state;
-    private ArrayList<Node> children=new ArrayList<>();
+    private ArrayList<Node> children;
     private Node parent;
     private double score = 0;
     private int numberOfWin=0;
@@ -25,6 +25,7 @@ public class Node {
         ArrayList<Node> newChildren = new ArrayList<>();
         for (State t : stateChildren) {
             newChildren.add(new Node(t, this));
+
         }
         this.children = newChildren;
         return newChildren;
@@ -76,9 +77,11 @@ public class Node {
         final double COEFFICIENT = 1.41; //this coefficient balances exploration and exploitation in the UCT
         if (this.visitNb==0) {
             return Integer.MAX_VALUE;
+        }else {
+            return this.uctScore = (this.numberOfWin / (double) this.visitNb) +
+                    COEFFICIENT * Math.sqrt(Math.log(this.getParent().getVisitNb()) / (double) this.visitNb);
+
         }
-        return this.uctScore = (this.numberOfWin /(double)this.visitNb)+
-                COEFFICIENT * Math.sqrt(Math.log(this.getParent().getVisitNb())/(double) this.visitNb);
     }
 
     public void setParent(Node newParent) {
