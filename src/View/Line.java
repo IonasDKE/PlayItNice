@@ -1,9 +1,8 @@
 package View;
 
-import AI.Mcts;
 import Controller.Controller;
 import GameTree.State;
-import GameTree.Node;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
@@ -29,6 +28,14 @@ public class Line {
         this.squares=squares;
     }
 
+    public Line (int id){
+        this.id = id;
+    }
+
+    /**
+     * this method is used to fill (color) a line, it is called on a single line and it
+     * also switches the turn
+     */
     public void fill(){
 
         Player actualPlayer = State.getCurrentActualPlayer();
@@ -47,19 +54,32 @@ public class Line {
         }
     }
 
+    /**
+     * @return all the lines contained in the board
+     */
     public static ArrayList<Line> getLines(){
         return lines;
     }
 
     //return the id as an integer
+
+    /**
+     * @return the id of a line
+     */
     public int getid() {
         return id;
     }
 
+    /**
+     * @return true if a line has not been colored yet
+     */
     public boolean isEmpty() {
-        return this.empty;
+        return empty;
     }
 
+    /**
+     * @param empty takes a boolean and set a line to empty
+     */
     public void setEmpty(boolean empty) {
         this.empty = empty;
     }
@@ -84,11 +104,17 @@ public class Line {
         this.squares = squares;
     }
 
+    /**
+     * @return a cloned line
+     */
     public Line cloned(){
         Line result = new Line(this.id, this.empty, this.getClonedSquares());
         return result;
     }
 
+    /** this method prints all the informations about some lines
+     * @param l  an array list which contains some lines
+     */
     public static void display(ArrayList<Line> l){
         for(Line line : l){
             System.out.print("line " + line.getid()+ ", filled = "+ line.isEmpty()+", squares = ");
@@ -98,9 +124,8 @@ public class Line {
             System.out.println();
         }
     }
-
-    public void display() {
-        System.out.println(this.empty+" "+ this.id);
+    public void fillNoEffect() {
+        this.empty=false;
     }
 
 }
