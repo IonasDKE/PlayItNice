@@ -36,24 +36,6 @@ public class Controller {
                 s.setTurn(0);
             }
         }
-
-        if(s.isEqual(State.currentState())==0) {
-            updateComponents();
-        /*
-            System.out.println();
-            System.out.println();
-            System.out.println("turn = " + turn + ", ai: " + Player.getActualPlayer().isAi());
-            System.out.println("channel " + Controller.getChannelNb());
-            System.out.println();
-        */
-            if (checkEnd()) {
-                System.out.println("endGame");
-                EndWindow.display(Launcher.thisStage);
-            } else {
-                //checks if the next player to play is an AI, if it is the case, makes it play
-                checkAiPlay();
-            }
-        }
     }
 
     public static void checkAiPlay(){

@@ -11,7 +11,7 @@ import static Controller.Controller.isThirdLine;
 
 public class State {
 
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players;
     private int turn;
     private static State currentState;
     private ArrayList<State> children;
@@ -186,7 +186,7 @@ public class State {
     }
 
     //finds the lines that needs to be colored for mcts
-    public static Line findDiffLine(ArrayList<Line> state1, ArrayList<Line> state2) {
+    public static Line findDiffLineMinMax(ArrayList<Line> state1, ArrayList<Line> state2) {
         Line randomEmptyLine=null;
         for (Line line : state1) {
             if (line.isEmpty())
@@ -195,12 +195,20 @@ public class State {
                 return line;
             }
         }
-        System.out.println("random line returned");
+        //System.out.println("random line returned");
         return randomEmptyLine;
     }
 
-    public static Line findDiffLine( ArrayList<Line> state1){
-        return findDiffLine(State.currentState().getLines(), state1);
+    //finds the lines that needs to be colored for mcts
+    public static Line findDiffLineMcts(ArrayList<Line> state1, ArrayList<Line> state2) {
+        Line randomEmptyLine=null;
+        for (Line line : state1) {
+            if (line.isEmpty() != State.findLine(line.getid(),state2).isEmpty()) {
+                return line;
+            }
+        }
+        //System.out.println("random line returned");
+        return randomEmptyLine;
     }
 
     //find the line that as a certain id, return's that line
@@ -224,7 +232,6 @@ public class State {
 
     public int numberOfAvailableMoves(){
         return getEmptyLines().size();
-
     }
 
     public ArrayList<Line> getEmptyLines() {

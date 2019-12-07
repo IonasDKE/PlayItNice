@@ -1,8 +1,6 @@
 package AI;
 
 import GameTree.State;
-import View.Board;
-import Controller.*;
 import View.Line;
 import View.Player;
 
@@ -65,7 +63,7 @@ public class AlphaBeta extends AISolver {
             for (int i = 0; i < childrenState.size(); i++) {
                 State newBoard = childrenState.get(i);
                 ArrayList<Line> stateLine = state.getLines();
-                Line line = State.findDiffLine(stateLine, childrenState.get(i).getLines());
+                Line line = State.findDiffLineMinMax(stateLine, childrenState.get(i).getLines());
                 newEdges[i] = new WeightedEdge(line, evaluationFunction(newBoard, (newBoard.getScore(turn) > state.getScore(turn) ? turn : State.inverseTurn(turn))));
             }
 
@@ -106,7 +104,7 @@ public class AlphaBeta extends AISolver {
                     // Backtracks
                     if (newEdge.getWeight() < getScore) {
                         newEdge.setWeight(getScore);
-                        newEdge.setLine(State.findDiffLine(state.getLines(), child.getLines()));
+                        newEdge.setLine(State.findDiffLineMinMax(state.getLines(), child.getLines()));
                     }
                     if (found)
                         if (getScore >= beta)
@@ -177,7 +175,7 @@ public class AlphaBeta extends AISolver {
                     // Backtracks
                     if (newEdge.getWeight() > getScore) {
                         newEdge.setWeight(getScore);
-                        newEdge.setLine(State.findDiffLine(state.getLines(), child.getLines()));
+                        newEdge.setLine(State.findDiffLineMinMax(state.getLines(), child.getLines()));
                     }
                     if (found)
                         if (getScore <= alpha)

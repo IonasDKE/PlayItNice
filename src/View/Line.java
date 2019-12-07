@@ -1,5 +1,6 @@
 package View;
 
+import AI.Mcts;
 import Controller.Controller;
 import GameTree.State;
 import javafx.scene.paint.Color;
@@ -51,6 +52,17 @@ public class Line {
             }
 
             Controller.updateTurn(this, State.currentState());
+
+            Controller.updateComponents();
+
+            if (Controller.checkEnd()) {
+                System.out.println("endGame");
+                EndWindow.display(Launcher.thisStage);
+            } else {
+                //checks if the next player to play is an AI, if it is the case, makes it play
+                Mcts.setNewRoots();
+                Controller.checkAiPlay();
+            }
         }
     }
 
@@ -117,11 +129,13 @@ public class Line {
      */
     public static void display(ArrayList<Line> l){
         for(Line line : l){
-            System.out.print("line " + line.getid()+ ", filled = "+ line.isEmpty()+", squares = ");
-            for(Square s :line.getSquares()){
-                System.out.print(s.getid()+", ");
+            if(line.isEmpty()) {
+                System.out.print("line " + line.getid() + ", empty = " + line.isEmpty() + ", squares = ");
+                for (Square s : line.getSquares()) {
+                    System.out.print(s.getid() + ", ");
+                }
+                System.out.println();
             }
-            System.out.println();
         }
     }
     public void fillNoEffect() {

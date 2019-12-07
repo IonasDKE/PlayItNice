@@ -1,5 +1,6 @@
 package AI;
 
+import Controller.Controller;
 import GameTree.*;
 import View.*;
 import java.util.*;
@@ -31,12 +32,11 @@ public class Mcts extends AISolver {
             trees.add(tree);
             minScore = (Launcher.getChosenN()*Launcher.getChosenM())/2 +1;
             System.out.println("first turn");
-        }else{
-            this.setNewRoots();
+            this.firstTurn = false;
         }
+
         rootNode=this.tree.getRoot();
-        if (rootNode.getChildren() == null)
-            rootNode.computeChildren();
+
 
         //System.out.println();
         //System.out.println("root node "+tree.getRoot() +" children: "+tree.getRoot().getChildren().size());
@@ -69,7 +69,7 @@ public class Mcts extends AISolver {
         Node winnerNode = getBestChild();
         this.tree.setNewRoot(winnerNode.getState());
         this.firstTurn=false;
-        return (State.findDiffLine(state.getLines(), winnerNode.getState().getLines()));
+        return (State.findDiffLineMcts(state.getLines(), winnerNode.getState().getLines()));
     }
 
     //this method return a child node of a node that it is fed, based on the highest UCT score
@@ -84,7 +84,7 @@ public class Mcts extends AISolver {
     }
 
     private void expansion(Node toExpand) {
-        if (!toExpand.hasChildren()) {
+        if (toExpand.getChildren()==null) {
             toExpand.computeChildren();
         }
     }
@@ -93,10 +93,20 @@ public class Mcts extends AISolver {
     private int simulateRandomPlayOut(Node selectedNode) {
         State stateCopy = selectedNode.getState().cloned();
 
+        boolean firstTurn = true;
+        boolean print  = false;
         simulationCounter++;
         while (!isComplete(stateCopy)) {
             stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));
 
+            Line colored = State.findDiffLineMcts(stateCopy.getLines(),selectedNode.getState().getLines());
+
+            //System.out.println(Controller.checkAnySquareClaimed(colored));
+            if(firstTurn && stateCopy.isEqual(State.currentState())==1 && Controller.checkAnySquareClaimed(colored)>0){
+                stateCopy.display();
+                firstTurn= false;
+                print = true;
+            }
         }
         int score=stateCopy.getScore(player);
 
@@ -109,6 +119,10 @@ public class Mcts extends AISolver {
             selectedNode.increaseWinNb();
         }else {
             score=0;
+        }
+
+        if(print){
+            System.out.println("score = " + score);
         }
 
         return score;
@@ -160,7 +174,7 @@ public class Mcts extends AISolver {
         return bestChild;
     }
 
-    public void setNewRoots(){
+    public static void setNewRoots(){
         for (Tree tree:trees){
             tree.setNewRoot(State.currentState());
             //System.out.println("new root: "+tree.getRoot());

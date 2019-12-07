@@ -50,7 +50,7 @@ public class Tree {
        }
     }
 
-    public void rootCheckExtend(int height){
+   /* public void rootCheckExtend(int height){
         ArrayList<Node> Leafs = new ArrayList<>();
         Leafs.add(this.root);
 
@@ -74,7 +74,7 @@ public class Tree {
             Leafs = newLeafs;
             //System.out.println("time :"+ (System.currentTimeMillis()-be)/1000+ " seconds; leaf size = "+leaf.size());
         }
-    }
+    }*/
 
     //for MCTS, delets all the non-used subtree
     public void deleteRootParent() {
@@ -132,10 +132,11 @@ public class Tree {
             //node.getState().display();
 
             int nbdiff = node.getState().isEqual(state);
+            //System.out.println("nbdiff = " + nbdiff);
 
             if (nbdiff== 0) {
                 this.setRoot(node);
-                //System.out.println("mcts root changed");
+                System.out.println("mcts root changed");
                 //node.getState().display();
             }
         }

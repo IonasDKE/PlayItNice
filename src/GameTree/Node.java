@@ -81,7 +81,6 @@ public class Node {
     }
 
     public ArrayList<Node> safeGetChildren(){
-        //addVisit();
         if (children == null) {
             children = computeChildren();
         }
