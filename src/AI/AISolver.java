@@ -12,7 +12,7 @@ public abstract class AISolver {
     protected Player getActualPlayer;
     private final static int cScore = 20;
     private final static int cThree = 15;
-    private final static int cTwo = 1;
+    private final static int cTwo = 2;
     int counter =0;
 
     /**
@@ -23,21 +23,21 @@ public abstract class AISolver {
      */
     public int evaluationFunction(State board, int color){
         int score;
-        if(playerColor==1) {
+        //Return the score of the first player
+        if(playerColor==0) {
             score = cScore * board.getScore(0) - cScore * board.getScore(1);
-            //System.out.println("Red score");}
         }
+        //Return the score of the second player
         else{
-                //AI HERE
-                score = cScore * board.getScore(1) - cScore * board.getScore(0);
-                // System.out.println("Blue score "+ score) ;}
+            score = cScore * board.getScore(1) - cScore * board.getScore(0);
             }
+        //CHECKS IN THE FUTURE
         if(playerColor == color) {
-            System.out.println(counter + " board valence three: " + board.getValence(1));
-            counter++;
-            score += cThree * board.getValence(1) - cTwo * board.getValence(2);
+            //Assigns a good score to the end square
+            score += cThree * board.getValence(0) - cTwo * board.getValence(2);
         }else
-            score -= cThree * board.getValence(1) - cTwo * board.getValence(2);
+            //Assigns a bad score to the opposite end square
+            score -= cThree * board.getValence(0) - cTwo * board.getValence(2);
         return score;
     }
 
@@ -47,9 +47,4 @@ public abstract class AISolver {
      * @param color takes the turn ( which player is playing
      */
     public abstract Line nextMove(State board, int color);
-
-    public void setNewRoot(State state) {
-
-    }
-
 }
