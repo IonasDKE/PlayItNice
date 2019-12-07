@@ -1,5 +1,7 @@
 package GameTree;
 
+import View.Line;
+
 import java.util.ArrayList;
 
 /*
@@ -12,12 +14,25 @@ public class Node {
     private Node parent;
     private double score = 0;
     private int numberOfWin=0;
+    private int turn;
     private int visitNb = 0;
+    private int weight;
+    private Line line;
     private double uctScore = Double.NEGATIVE_INFINITY;
+    public final static int MIN = -1000000000;
 
     public Node(State state, Node parent) {
         this.state = state;
         this.parent = parent;
+    }
+
+    public Node(State state, int turn, Node parent, Line line){
+        this.state = state;
+        this.turn = turn;
+        this.parent = parent;
+        this.weight = MIN;
+        this.line = line;
+
     }
 
     public ArrayList<Node> computeChildren( ) {
@@ -125,4 +140,23 @@ public class Node {
             this.parent=null;
     }
 
+    public int getTurn() {
+        return turn;
+    }
+
+    public int getWeight(){
+        return this.weight;
+    }
+
+    public void setWeigth(int weigth){
+        this.weight = weigth;
+    }
+
+    public void setLine(Line line){
+        this.line = line;
+    }
+
+    public Line getLine() {
+        return this.line;
+    }
 }
