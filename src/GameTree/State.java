@@ -167,9 +167,11 @@ public class State {
     public State cloned(){
         State result = new State(State.cloned(this.getLines()),Player.cloned(this.players));
         result.setTurn(this.getTurn());
+        /*
         if(this.children!=null) {
             result.setChildren(this.clonedChildren());
         }
+         */
         return result;
     }
 

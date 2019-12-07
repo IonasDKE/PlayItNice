@@ -24,7 +24,7 @@ public class Mcts extends AISolver {
     private Random rand = new Random();
 
     public Line nextMove(State state, int color) {
-
+        System.out.println("mcts new move");
         if(firstTurn) {
             this.player= State.getCurrentActualPlayer();
             tree = new Tree(new Node(state, null));
@@ -38,42 +38,43 @@ public class Mcts extends AISolver {
         if (rootNode.getChildren() == null)
             rootNode.computeChildren();
 
-        System.out.println();
+        //System.out.println();
         //System.out.println("root node "+tree.getRoot() +" children: "+tree.getRoot().getChildren().size());
-        long timeLimit = System.currentTimeMillis() + 5000; //1000 = 1 sec
-        while (System.currentTimeMillis() < timeLimit) {
-            Node promisingNode=selection(rootNode);
-            //promisingNode.getState().display();
+        long timeLimit = System.currentTimeMillis() + 3000; //1000 = 1 sec
+        try {
+            while (System.currentTimeMillis() < timeLimit) {
+                Node promisingNode = selection(rootNode);
+                //promisingNode.getState().display();
 
-            if (!isComplete(promisingNode.getState())) {
-                expansion(promisingNode);
+                if (!isComplete(promisingNode.getState())) {
+                    expansion(promisingNode);
 
-                if (promisingNode.getChildren().size() > 0) {
-                    promisingNode = promisingNode.getChildren().get(rand.nextInt(promisingNode.getChildren().size()));
-                }
-                int score = simulateRandomPlayOut(promisingNode);
-                backPropagation(promisingNode,score);
-            }else
-                backPropagation(promisingNode,promisingNode.getState().getScore(player));
+                    if (promisingNode.getChildren().size() > 0) {
+                        promisingNode = promisingNode.getChildren().get(rand.nextInt(promisingNode.getChildren().size()));
+                    }
+                    int score = simulateRandomPlayOut(promisingNode);
+                    backPropagation(promisingNode, score);
+                } else
+                    backPropagation(promisingNode, promisingNode.getState().getScore(player));
 
+            }
+        }catch(StackOverflowError e) {
+            return bestMove(state);
         }
+
+        return bestMove(state);
+    }
+    //return the best Line to color after the limited time or if there is a stack over flow
+    public Line bestMove(State state) {
         Node winnerNode = getBestChild();
-        //System.out.println("winner node: "+winnerNode);
-
-        Line bestLine=(State.findDiffLine(state.getLines(), winnerNode.getState().getLines()));
-        //System.out.println("best line id "+bestLine.getid()+" emptiness:"+bestLine.isEmpty());
-
         this.tree.setNewRoot(winnerNode.getState());
-        //System.out.println("simulation counter: "+simulationCounter);
-
         this.firstTurn=false;
-        return bestLine;
+        return (State.findDiffLine(state.getLines(), winnerNode.getState().getLines()));
     }
 
     //this method return a child node of a node that it is fed, based on the highest UCT score
     private Node selection(Node rootNode) {
         Node node = rootNode;
-
         while (node.getChildren()!=null && node.getChildren().size() != 0 && !isComplete(node.getState()) ) {
             node = Collections.max(node.getChildren(),          //collections.max returns the child node with largest UCT
                     Comparator.comparing(Node::getUctScore));
@@ -83,7 +84,7 @@ public class Mcts extends AISolver {
     }
 
     private void expansion(Node toExpand) {
-        if (toExpand.getChildren()==null) {
+        if (!toExpand.hasChildren()) {
             toExpand.computeChildren();
         }
     }
@@ -115,7 +116,7 @@ public class Mcts extends AISolver {
 
     private void backPropagation(Node node, int score) {
         if (score==0) { // no need to update score, but still need to increase number of visits
-            if (node == tree.getRoot()) {
+            if (node.getParent() == null) {
                 node.addVisit();
             } else {
                 node.addVisit();
@@ -123,7 +124,7 @@ public class Mcts extends AISolver {
             }
 
         }else {
-            if (node == tree.getRoot()) {
+            if (node.getParent() == null) {
                 node.addVisit();
                 node.addScore(score);
             } else {
@@ -150,9 +151,9 @@ public class Mcts extends AISolver {
         //System.out.println("root visit number: "+rootNode.getVisitNb());
         for (Node child : rootNode.getChildren()) {
             //System.out.println("current best: "+child.getAvg()+" score: "+child.getScore()+" visit nb: "+child.getVisitNb());
-            if (child.getVisitNb() > currentBest) {
+            if (child.getAvg() > currentBest) {
                 bestChild = child;
-                currentBest=child.getVisitNb();
+                currentBest=child.getAvg();
                 System.out.println("current best : "+currentBest+ " node: "+child);
             }
         }
