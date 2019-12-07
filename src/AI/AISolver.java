@@ -3,6 +3,7 @@ package AI;
 import GameTree.State;
 import View.*;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
@@ -21,7 +22,7 @@ public abstract class AISolver {
      * @param color
      * @return score of an evaluation function
      */
-    public int evaluationFunction(State board, int color){
+        public int evaluationFunction(State board, int color){
         int score;
         //Return the score of the first player
         if(playerColor==0) {
@@ -34,17 +35,38 @@ public abstract class AISolver {
         //CHECKS IN THE FUTURE
         if(playerColor == color) {
             //Assigns a good score to the end square
-            score += cThree * board.getValence(0) - cTwo * board.getValence(2);
+            score += cThree * board.getValence(0) - cTwo * board.getValence(1);
         }else
             //Assigns a bad score to the opposite end square
-            score -= cThree * board.getValence(0) - cTwo * board.getValence(2);
+            score -= cThree * board.getValence(0) - cTwo * board.getValence(1);
         return score;
     }
 
-    /**
-     * Creates a next move for the player
-     * @param board the state 'next move'
-     * @param color takes the turn ( which player is playing
-     */
+    /*
+    public int evaluationFunction(State board, int color) {
+    int eval = 0;
+    ArrayList<State> child = board.computeAndGetChildren();
+    for(State state: child) {
+        for (Line line : state.getLines()) {
+            for (Square sq : line.getSquares()) {
+                if (sq.getEmptyBorders().size() == 1) {
+                    eval += 1 / child.size();
+                } else {
+                    for (State st : state.computeAndGetChildren()) {
+                        eval += evaluationFunction(st, color);
+                    }
+                }
+            }
+        }
+    }
+        return eval;
+    }
+    */
+
+        /**
+         * Creates a next move for the player
+         * @param board the state 'next move'
+         * @param color takes the turn ( which player is playing
+         */
     public abstract Line nextMove(State board, int color);
 }
