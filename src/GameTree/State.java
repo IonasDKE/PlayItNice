@@ -106,12 +106,12 @@ public class State {
 
         int scored = Controller.checkAnySquareClaimed(filledLine);
 
-        /*if(scored>0){
+        if(scored>0){
             childState.getActualPlayer().addScore(scored);
         }else{
             childState.updateTurn();
         }
-        */
+
 
         Controller.updateTurn(filledLine, childState);
 

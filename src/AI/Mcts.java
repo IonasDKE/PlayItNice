@@ -34,9 +34,7 @@ public class Mcts extends AISolver {
             System.out.println("first turn");
             this.firstTurn = false;
         }
-
         rootNode=this.tree.getRoot();
-
 
         //System.out.println();
         //System.out.println("root node "+tree.getRoot() +" children: "+tree.getRoot().getChildren().size());
@@ -93,22 +91,14 @@ public class Mcts extends AISolver {
     private int simulateRandomPlayOut(Node selectedNode) {
         State stateCopy = selectedNode.getState().cloned();
 
-        boolean firstTurn = true;
-        boolean print  = false;
         simulationCounter++;
         while (!isComplete(stateCopy)) {
             stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));
+            //RuleBased.nextMove(stateCopy, player.getColor());
 
-            Line colored = State.findDiffLineMcts(stateCopy.getLines(),selectedNode.getState().getLines());
-
-            //System.out.println(Controller.checkAnySquareClaimed(colored));
-            if(firstTurn && stateCopy.isEqual(State.currentState())==1 && Controller.checkAnySquareClaimed(colored)>0){
-                stateCopy.display();
-                firstTurn= false;
-                print = true;
-            }
         }
-        int score=stateCopy.getScore(player);
+
+        int score= stateCopy.getScore(player);
 
         if (score < minScore) {
             score=-1;
@@ -121,11 +111,9 @@ public class Mcts extends AISolver {
             score=0;
         }
 
-        if(print){
-            System.out.println("score = " + score);
-        }
-
         return score;
+
+
     }
 
     private void backPropagation(Node node, int score) {
@@ -162,9 +150,8 @@ public class Mcts extends AISolver {
     public Node getBestChild() {
         double currentBest=Double.NEGATIVE_INFINITY;
         Node bestChild=null;
-        //System.out.println("root visit number: "+rootNode.getVisitNb());
         for (Node child : rootNode.getChildren()) {
-            //System.out.println("current best: "+child.getAvg()+" score: "+child.getScore()+" visit nb: "+child.getVisitNb());
+            System.out.println("child visit nb: "+child.getVisitNb());
             if (child.getAvg() > currentBest) {
                 bestChild = child;
                 currentBest=child.getAvg();

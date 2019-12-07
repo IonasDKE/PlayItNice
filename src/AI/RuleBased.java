@@ -6,6 +6,7 @@ import View.Launcher;
 import View.Line;
 import View.Player;
 import View.Square;
+import javafx.scene.paint.Color;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -17,6 +18,23 @@ import static Controller.Controller.isThirdLine;
 
 
 public class RuleBased extends AISolver {
+
+    public static State nextMove(State stateCopy, Color color) {
+        Line result = null;
+
+        if (stateCopy.getNdValenceLines().size() != 0) {
+            result = completeSquare(State.currentState().getSquares());
+            if (result == null) {
+                result = colorRandomLine(stateCopy);
+            }
+        } else {
+
+            result = fillPhase();
+        }
+
+        return stateCopy;
+    }
+
     @Override
     public Line nextMove(State board, int color) {
 
@@ -115,7 +133,7 @@ public class RuleBased extends AISolver {
     }
 
     public static Line colorRandomLine(State s) {
-        System.out.println("called random");
+        //System.out.println("called random");
         Random rand = new Random();
         ArrayList<Line> lines = s.getNdValenceLines();
         int index = rand.nextInt(lines.size());
@@ -129,7 +147,7 @@ public class RuleBased extends AISolver {
 
         Random rand = new Random();
 
-        System.out.println(" pick smallest channel");
+        //System.out.println(" pick smallest channel");
 
         ArrayList<Square> smallestChannel = getSortedChannels().get(0);
         int randomSqIndex = rand.nextInt(smallestChannel.size());

@@ -136,7 +136,7 @@ public class Tree {
 
             if (nbdiff== 0) {
                 this.setRoot(node);
-                System.out.println("mcts root changed");
+                //System.out.println("mcts root changed");
                 //node.getState().display();
             }
         }

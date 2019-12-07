@@ -42,6 +42,7 @@ public class Node {
             newChildren.add(new Node(t, this));
 
         }
+
         this.children = newChildren;
         return newChildren;
     }
@@ -92,8 +93,9 @@ public class Node {
         if (this.visitNb==0) {
             return Integer.MAX_VALUE;
         }else {
-            return this.uctScore = (this.numberOfWin / (double) this.visitNb) +
+            this.uctScore = (this.score / (double) this.visitNb) +
                     COEFFICIENT * Math.sqrt(Math.log(this.getParent().getVisitNb()) / (double) this.visitNb);
+            return this.uctScore;
 
         }
     }
@@ -158,4 +160,5 @@ public class Node {
     public Line getLine() {
         return this.line;
     }
+
 }
