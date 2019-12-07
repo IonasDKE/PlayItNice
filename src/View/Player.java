@@ -1,8 +1,5 @@
 package View;
-import AI.AISolver;
-import AI.AlphaBeta;
-import AI.Mcts;
-import AI.RuleBased;
+import AI.*;
 import GameTree.State;
 import javafx.scene.paint.Color;
 import Controller.Controller;
@@ -35,6 +32,10 @@ public class Player {
                 break;
             case "Alpha Beta" :
                 solver = new AlphaBeta();
+                break;
+            case "MiniMax" :
+                System.out.println("haha");
+                solver = new MiniMax();
                 break;
         }
     }
