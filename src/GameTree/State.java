@@ -226,7 +226,9 @@ public class State {
         this.getLines().clear();
         this.getSquares().clear();
         this.getPlayers().clear();
-        this.getChildren().clear();
+        if(children!=null) {
+            this.getChildren().clear();
+        }
         this.turn = 0;
     }
 

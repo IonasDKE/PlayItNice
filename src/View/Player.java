@@ -89,8 +89,9 @@ public class Player {
     public void aiPlay() {
         //System.out.println("called ai player");
         Line chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn());
-        State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
         System.out.println("ai fill "+chosenLine.getid());
+
+        State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
 
     }
 

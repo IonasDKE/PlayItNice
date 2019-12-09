@@ -29,7 +29,7 @@ public class Launcher  extends Application {
     private final int HEIGHT = 800;
     private int countError=0;
     private ComboBox selectPlayerOne, selectPlayerTwo , numberOfPlayers;
-    private String[] gameSizes = {"2 x 2", "3 x 3" , "4 x 4", "4 x 5", "5 x 6", "8 x 8"};
+    private String[] gameSizes = {"2 x 2", "3 x 3" , "4 x 4", "5 x 5", "5 x 6", "8 x 8"};
     //Creates the label for all the types of player
     private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "Rule Based","Alpha Beta", "Mcts", "MiniMax");
     private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "Rule Based","Alpha Beta", "Mcts", "MiniMax");
