@@ -104,15 +104,6 @@ public class State {
         Line filledLine = State.findLine(line.getid(),childState.getLines());
         filledLine.setEmpty(false);
 
-        int scored = Controller.checkAnySquareClaimed(filledLine);
-
-        if(scored>0){
-            childState.getActualPlayer().addScore(scored);
-        }else{
-            childState.updateTurn();
-        }
-
-
         Controller.updateTurn(filledLine, childState);
 
         children.add(childState);
@@ -302,14 +293,6 @@ public class State {
         this.turn = turn;
     }
 
-    public void updateTurn() {
-        if (turn < players.size() - 1) {
-            turn++;
-        } else {
-            turn = 0;
-        }
-    }
-
     public void setPlayers(ArrayList<Player> newPlayers, int turn) {
         this.players = newPlayers;
         this.turn = turn;
@@ -337,7 +320,7 @@ public class State {
         return result;
     }
 
-    public int getValence(int k) {
+    public int getValenceNb(int k) {
         int counter = 0;
         for(Square sq : getSquares()){
             if(sq.getValence()==k){
@@ -357,9 +340,6 @@ public class State {
         return 0;
     }
 
-    public State duplicateBoard(Line line, int turn) {
-        return  computeAndGetChildren().get(1);
-    }
 
     public void nextTurn(){
         this.turn = this.turn+1;
@@ -377,13 +357,5 @@ public class State {
         Controller.updateTurn(filledLine, childState);
         return childState;
     }
-
-   /*public void setScores(ArrayList<Integer> newScores) {
-        for(Player p : players){
-
-        }
-    }*/
-
-    //TO DO : add state info methods
 
 }

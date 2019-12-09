@@ -3,9 +3,6 @@ package AI;
 import GameTree.State;
 import View.*;
 
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 
 public abstract class AISolver {
 
@@ -35,10 +32,10 @@ public abstract class AISolver {
         //CHECKS IN THE FUTURE
         if(playerColor == color) {
             //Assigns a good score to the end square
-            score += cThree * board.getValence(0) - cTwo * board.getValence(1);
+            score += cThree * board.getValenceNb(0) - cTwo * board.getValenceNb(1);
         }else
             //Assigns a bad score to the opposite end square
-            score -= cThree * board.getValence(0) - cTwo * board.getValence(1);
+            score -= cThree * board.getValenceNb(0) - cTwo * board.getValenceNb(1);
         return score;
     }
 
