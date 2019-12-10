@@ -37,7 +37,7 @@ public class Player {
                 solver = new AlphaBeta();
                 break;
             case "MiniMax" :
-                System.out.println("haha");
+                //System.out.println("haha");
                 solver = new MiniMax();
                 break;
         }

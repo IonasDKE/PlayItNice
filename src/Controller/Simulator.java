@@ -42,12 +42,12 @@ public class Simulator {
 
         ArrayList<Player> currentPlayers = new ArrayList<>();
         int playerNumber=0;
-        Player a = new Player(players.get(playerNumber), Integer.toString(playerNumber+1), "Alpha Beta");
+        Player a = new Player(players.get(playerNumber), Integer.toString(playerNumber+1), "Mcts");
         currentPlayers.add(a);
         a.setSolver();
         playerNumber++;
 
-        Player b = new Player(players.get(playerNumber), Integer.toString(playerNumber+1), "Mcts");
+        Player b = new Player(players.get(playerNumber), Integer.toString(playerNumber+1), "MiniMax");
         currentPlayers.add(b);
         b.setSolver();
         playerNumber++;
@@ -90,8 +90,8 @@ public class Simulator {
 
             StringBuilder sb = new StringBuilder();
 
-            sb.append("score");
-            sb.append("wins");
+            sb.append("score: ");
+            sb.append(" wins: ");
             sb.append("\n");
 
             for (int i =0;i<values.size();i++) {
