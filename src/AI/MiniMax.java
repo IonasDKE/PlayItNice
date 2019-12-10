@@ -128,7 +128,7 @@ public class MiniMax extends AISolver{
         //DO THIS UNTIL WE REACH THE ROOT!!
         //Which is why we stop at 1
         }   while(backtrack.size()!=1);
-        System.out.println(root.getLine().getid());
+        //System.out.println(root.getLine().getid());
         return root.getLine();
 
     }

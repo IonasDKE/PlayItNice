@@ -25,20 +25,21 @@ public class Mcts extends AISolver {
     private Random rand = new Random();
 
     public Line nextMove(State state, int color) {
-        System.out.println("mcts new move");
+        //System.out.println("mcts new move");
         if(firstTurn) {
             this.player= State.getCurrentActualPlayer();
             tree = new Tree(new Node(state, null));
             trees.add(tree);
             minScore = (Launcher.getChosenN()*Launcher.getChosenM())/2 +1;
-            System.out.println("first turn");
+            //System.out.println("min score =" + minScore);
+            //System.out.println("first turn");
             this.firstTurn = false;
         }
         rootNode=this.tree.getRoot();
 
         //System.out.println();
         //System.out.println("root node "+tree.getRoot() +" children: "+tree.getRoot().getChildren().size());
-        long timeLimit = System.currentTimeMillis() + 3000; //1000 = 1 sec
+        long timeLimit = System.currentTimeMillis() + 1000; //1000 = 1 sec
         try {
             while (System.currentTimeMillis() < timeLimit) {
                 Node promisingNode = selection(rootNode);
@@ -50,8 +51,7 @@ public class Mcts extends AISolver {
                     if (promisingNode.getChildren().size() > 0) {
                         promisingNode = promisingNode.getChildren().get(rand.nextInt(promisingNode.getChildren().size()));
                     }
-                    int score = simulateRandomPlayOut(promisingNode);
-                    backPropagation(promisingNode, score);
+                    backPropagation(promisingNode, simulateRandomPlayOut(promisingNode));
                 } else
                     backPropagation(promisingNode, promisingNode.getState().getScore(player));
 
@@ -82,7 +82,7 @@ public class Mcts extends AISolver {
     }
 
     private void expansion(Node toExpand) {
-        if (toExpand.getChildren()==null) {
+        if (!toExpand.hasChildren()) {
             toExpand.computeChildren();
         }
     }
@@ -99,7 +99,6 @@ public class Mcts extends AISolver {
         }
 
         int score= stateCopy.getScore(player);
-
         if (score < minScore) {
             score=-1;
             //System.out.println("loose");
@@ -117,24 +116,15 @@ public class Mcts extends AISolver {
     }
 
     private void backPropagation(Node node, int score) {
-        if (score==0) { // no need to update score, but still need to increase number of visits
-            if (node.getParent() == null) {
-                node.addVisit();
-            } else {
-                node.addVisit();
-                backPropagation(node.getParent(), score);
-            }
-
-        }else {
-            if (node.getParent() == null) {
-                node.addVisit();
-                node.addScore(score);
-            } else {
-                node.addVisit();
-                node.addScore(score);
-                backPropagation(node.getParent(), score);
-            }
+        if (node.getParent() == null) {
+            node.addVisit();
+            node.addScore(score);
+        } else {
+            node.addVisit();
+            node.addScore(score);
+            backPropagation(node.getParent(), score);
         }
+
     }
 
     private boolean isComplete(State state) {
@@ -151,11 +141,11 @@ public class Mcts extends AISolver {
         double currentBest=Double.NEGATIVE_INFINITY;
         Node bestChild=null;
         for (Node child : rootNode.getChildren()) {
-            System.out.println("child visit nb: "+child.getVisitNb());
+            //System.out.println("child score : "+child.getScore());
             if (child.getAvg() > currentBest) {
                 bestChild = child;
                 currentBest=child.getAvg();
-                System.out.println("current best : "+currentBest+ " node: "+child);
+                //System.out.println("current best : "+currentBest+ " node: "+child);
             }
         }
         return bestChild;
@@ -166,6 +156,10 @@ public class Mcts extends AISolver {
             tree.setNewRoot(State.currentState());
             //System.out.println("new root: "+tree.getRoot());
         }
+    }
+
+    public static void resetMcts() {
+        trees= new ArrayList<>();
     }
 
 }

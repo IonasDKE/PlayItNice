@@ -18,6 +18,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.control.Label;
 
+import java.io.IOException;
+
 import static Controller.Controller.setWinner;
 
 
@@ -44,7 +46,7 @@ public class EndWindow{
      * it doesnt't have to be modified
      * @param primaryStage the stage of the entire GUI
      */
-    public static void display(Stage primaryStage){
+    public static void display(Stage primaryStage) throws IOException {
 
         VBox root = new VBox(20);
         root.setAlignment(Pos.CENTER);

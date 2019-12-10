@@ -3,7 +3,10 @@ import AI.*;
 import GameTree.State;
 import javafx.scene.paint.Color;
 import Controller.Controller;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 
 public class Player {
@@ -86,10 +89,10 @@ public class Player {
         else{ return false; }
     }
 
-    public void aiPlay() {
+    public void aiPlay() throws IOException {
         //System.out.println("called ai player");
         Line chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn());
-        System.out.println("ai fill "+chosenLine.getid());
+        //System.out.println("ai fill "+chosenLine.getid());
 
         State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
 
@@ -147,6 +150,10 @@ public class Player {
             result.add(player.cloned());
         }
         return result;
+    }
+
+    public void setScore(int newScore) {
+        this.score = newScore;
     }
 
 }

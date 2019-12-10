@@ -47,7 +47,7 @@ public class RuleBased extends AISolver {
                 if(pairScore()<impairScore()){
                     trick = true;
                 }
-                System.out.println("nb = " + nb);
+                //System.out.println("nb = " + nb);
                 System.out.println(pairScore()+ " "+impairScore());
                 firstCall =false;
             }
@@ -140,7 +140,7 @@ public class RuleBased extends AISolver {
         Line result = null;
         ArrayList<Square> smallestChannel = getSortedChannels().get(0);
 
-        System.out.println("index = " + index + " nb = "+ nb +" trick= "+ trick);
+        //System.out.println("index = " + index + " nb = "+ nb +" trick= "+ trick);
 
         if(trick){
         nb++;

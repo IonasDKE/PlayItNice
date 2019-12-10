@@ -158,14 +158,13 @@ public class State {
     public State cloned(){
         State result = new State(State.cloned(this.getLines()),Player.cloned(this.players));
         result.setTurn(this.getTurn());
-        /*
+
         if(this.children!=null) {
             result.setChildren(this.clonedChildren());
         }
-         */
+
         return result;
     }
-
 
     //returns a cloned arraylist of lines
     public static ArrayList<Line> cloned(ArrayList<Line> lines){
@@ -204,9 +203,10 @@ public class State {
 
     //find the line that as a certain id, return's that line
     public static Line findLine(int id, ArrayList<Line> lines) {
+
         Line lineToReturn = null;
         for (Line line : lines) {
-            if (line.getid()==id)
+            if (line.getid() == id)
                 lineToReturn = line;
         }
         return lineToReturn;
@@ -302,7 +302,7 @@ public class State {
         //-1 is just an arbitrary value
         int result = -1;
         for (Player p: players) {
-            if (p.getName() == player.getName()) {
+            if (p.getName().equals(player.getName())) {
                 return p.getScore();
             }
         }

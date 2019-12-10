@@ -21,7 +21,7 @@ public class AlphaBeta extends AISolver {
         startTime = System.nanoTime();
         maxDepth = 1;
         Line line = null;
-        board.display();
+        //board.display();
         //Starts at depth 0
         while (maxDepth <= board.numberOfAvailableMoves()) {
             //System.out.println("moves : " + board.numberOfAvailableMoves());

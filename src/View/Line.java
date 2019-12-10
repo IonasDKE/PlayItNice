@@ -3,8 +3,9 @@ package View;
 import AI.Mcts;
 import Controller.Controller;
 import GameTree.State;
-import javafx.scene.paint.Color;
+import Controller.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Line {
@@ -37,7 +38,7 @@ public class Line {
      * this method is used to fill (color) a line, it is called on a single line and it
      * also switches the turn
      */
-    public void fill(){
+    public void fill() throws IOException {
 
         Player actualPlayer = State.getCurrentActualPlayer();
 
@@ -50,19 +51,34 @@ public class Line {
             for (Square sq : this.getSquares()) {
                 sq.colorSquare(actualPlayer);
             }
-
+            //Controller.updateComponents();
             Controller.updateTurn(this, State.currentState());
 
-            Controller.updateComponents();
 
-            if (Controller.checkEnd()) {
+
+            if (Simulator.checkEnd()) {
                 System.out.println("endGame");
-                EndWindow.display(Launcher.thisStage);
+                int score = State.currentState().getPlayers().get(0).getScore();
+                Simulator.scores.add(score);
+                if (score<5){
+                    Simulator.wins.add(0);
+                }else
+                    Simulator.wins.add(1);
+
+                return;
+
+                //EndWindow.display(Launcher.thisStage);
             } else {
-                //checks if the next player to play is an AI, if it is the case, makes it play
                 Mcts.setNewRoots();
                 Controller.checkAiPlay();
             }
+
+
+            /*if(!Simlator.checkEnd()) {
+                //checks if the next player to play is an AI, if it is the case, makes it play
+                Mcts.setNewRoots();
+                Controller.checkAiPlay();
+            }*/
         }
     }
 

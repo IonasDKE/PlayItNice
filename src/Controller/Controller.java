@@ -5,11 +5,13 @@ import View.Player;
 import View.*;
 import javafx.scene.shape.Rectangle;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Controller {
-
 
     // checks if the line has already been claimed
     public static Boolean checkMove(View.Line line) {
@@ -20,7 +22,6 @@ public class Controller {
             return false;
         }
     }
-
 
     // decreases the player's moves in case he hasn't claimed any square and adds a score to the player in case he has
     // claimed a square, a move is implicitely added to the player as its moves haven't been decreased
@@ -38,14 +39,14 @@ public class Controller {
         }
     }
 
-    public static void checkAiPlay(){
+    public static void checkAiPlay() throws IOException {
         Player player = State.getCurrentActualPlayer();
         if (player.isAi()) {
             //calls for the specific AI play method
             //System.out.println("player = " + player.getAiType());
             player.aiPlay();
         }else{
-            // System.out.println("player = " + player.getAiType()+ " "+ player.getName());
+            //System.out.println("player = " + player.getAiType()+ " "+ player.getName());
         }
     }
 
@@ -102,17 +103,18 @@ public class Controller {
     }
 
 
-    //check if the game has ended
-    public static boolean checkEnd() {
+    public static boolean checkEnd() throws IOException {
         if (countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN())) {
+
             return true;
         } else {
+
             return false;
         }
     }
 
     //update the gui components of the ending frame
-    public static Rectangle setWinner() {
+    public static Rectangle setWinner() throws IOException {
         int winner = 0;
         //Player winner = Player.getPlayers().get(0);
         int max = 0;
@@ -132,6 +134,7 @@ public class Controller {
         sq.setTranslateY(30);
         return sq;
     }
+
 
 
 }

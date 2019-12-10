@@ -99,11 +99,10 @@ public class Board {
      * @param higth height of the grid
      * @return the board of the game which is composed of dots and lines ;)
      */
-    private static Pane  makeGrid( int width, int higth){
+    public static Pane  makeGrid( int width, int higth){
         int DOT_SIZE = 10;
         Pane pane = new Pane();
         int squareSize = GRID_SIZE/Integer.max(width,higth);
-
 
         ArrayList<Line> lines = new ArrayList<>();
         ArrayList<Square> squares = new ArrayList<>();
