@@ -92,6 +92,7 @@ public class Simulator {
 
             sb.append("score");
             sb.append("wins");
+            sb.append("\n");
 
             for (int i =0;i<values.size();i++) {
                 sb.append(values.get(i));
