@@ -44,6 +44,15 @@ public class Square {
         return result;
     }
 
+    public boolean containsBorder(Line line){
+        boolean result = false;
+        for(Line l : this.getBorders()){
+            if(l.getid()== line.getid()){
+                return true;
+            }
+        }
+        return result;
+    }
     // adds a border reference to the square
     public void addBorder(Line line){
         if(borders.size()<4){

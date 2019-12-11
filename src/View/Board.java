@@ -100,7 +100,7 @@ public class Board {
      * @return the board of the game which is composed of dots and lines ;)
      */
     public static Pane  makeGrid( int width, int higth){
-        int DOT_SIZE = 10;
+        int DOT_SIZE = 12;
         Pane pane = new Pane();
         int squareSize = GRID_SIZE/Integer.max(width,higth);
 
@@ -139,8 +139,12 @@ public class Board {
                 if(w!=0){State.findSquare( (2*10*h+w-1), squares).addBorder(graphicLine.getLine());}
 
                 pane.getChildren().add(graphicLine);
-                pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+yTranslation, DOT_SIZE, Color.RED));
-                if(h==(higth-1)) { pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, DOT_SIZE, Color.RED));}
+               pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+yTranslation, DOT_SIZE, Color.BLUE));
+                // pane.getChildren().add(new Rectangle(w*squareSize+xTranslation-squareSize/DOT_SIZE, h*squareSize+yTranslation-squareSize/DOT_SIZE, DOT_SIZE*2, DOT_SIZE*2));
+                if(h==(higth-1)) {
+                    pane.getChildren().add( new Circle(w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, DOT_SIZE, Color.BLUE));
+                   // pane.getChildren().add(new Rectangle(w*squareSize+xTranslation-squareSize/DOT_SIZE, h*squareSize+squareSize+yTranslation-squareSize/DOT_SIZE, DOT_SIZE*2, DOT_SIZE*2));
+                }
             }
         }
 

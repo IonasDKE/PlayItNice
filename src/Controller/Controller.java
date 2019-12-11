@@ -105,7 +105,6 @@ public class Controller {
 
     public static boolean checkEnd() throws IOException {
         if (countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN())) {
-
             return true;
         } else {
 

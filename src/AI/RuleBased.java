@@ -33,25 +33,24 @@ public class RuleBased extends AISolver {
         if (board.getNdValenceLines().size() != 0) {
             result = completeSquare();
             if (result == null) {
+                System.out.println("color randomline");
                 result = colorRandomLine(board);
             }
+
         } else {
-
             //filling phase, phase where it is not longer possible to find a square of valence less then 2
-            if(nb ==0 ){
-                index = getChannelNb();
-            }
-            if(firstCall){
 
-                //checks if the trick is going to have to be applied
-                if(pairScore()<impairScore()){
-                    trick = true;
+            Player p = State.getCurrentActualPlayer();
+            //checks if the trick is going to have to be applied
+            if (pairScore() + p.getScore() < impairScore() + Player.nextPlayer(p).getScore()) {
+                if (nb == 0) {
+                    index = getSortedChannels().get(0).size();
                 }
-                //System.out.println("nb = " + nb);
-                System.out.println(pairScore()+ " "+impairScore());
-                firstCall =false;
+                trick = true;
             }
-            result = fillPhase();
+            //System.out.println("nb = " + nb);
+            System.out.println(pairScore() +"+"+ p.getScore() + "  " + impairScore()+ "+"+ Player.nextPlayer(p).getScore());
+        result = fillPhase();
         }
 
         return result;
@@ -129,7 +128,8 @@ public class RuleBased extends AISolver {
         //System.out.println("called random");
         Random rand = new Random();
         ArrayList<Line> lines = s.getNdValenceLines();
-        int index = rand.nextInt(lines.size());
+        //int index = rand.nextInt(lines.size());
+        int index = 0;
         //Line result = lines.get(index);
         //case 1 finds a line that doesnt give the opponent the opportunity to claim a square
         return lines.get(index);
@@ -143,26 +143,13 @@ public class RuleBased extends AISolver {
         //System.out.println("index = " + index + " nb = "+ nb +" trick= "+ trick);
 
         if(trick){
-        nb++;
-            if(nb == index-1) {
+            if(nb == index-2) {
                 System.out.println();
                 nb=0;
-                for(Square sq : smallestChannel){
-                    if(sq.getValence()==2){
-                        for(Line l : sq.getEmptyBorders()){
-                            boolean ok = true;
-                            for(Square s :l.getSquares()){
-                                if(s.getValence()==3){
-                                    ok = false;
-                                }
-                            }
-                            if(ok == true){
-                                System.out.println("found trick "+ l.getid());
-                                return l;
-                            }
-                        }
-                    }
-                }
+                trick = false;
+                return switchC();
+            }else{
+                nb++;
             }
         }
 
@@ -182,6 +169,31 @@ public class RuleBased extends AISolver {
 
             result = randomSq.getEmptyBorders().get(randomLineIndex);
         System.out.println("random");
+        return result;
+    }
+
+    private static Line switchC(){
+        Line result =null;
+        ArrayList<Square> channelTwo = getSortedChannels().get(0);
+        if(channelTwo.size()!=2){
+            System.out.println("cannot switch" + channelTwo.size());
+        }
+        Square s2;
+        Square s3;
+        if(channelTwo.get(0).getValence()==2){
+            s2 = channelTwo.get(0);
+            s3 = channelTwo.get(1);
+        }
+        else{
+            s2 = channelTwo.get(1);
+            s3 = channelTwo.get(0);
+        }
+
+        for (Line l2 : s2.getEmptyBorders()) {
+            if(!s3.containsBorder(l2)){
+                result = l2;
+            }
+        }
         return result;
     }
 

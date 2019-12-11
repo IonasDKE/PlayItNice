@@ -246,6 +246,7 @@ public class State {
         }
         return newLines;
     }
+
     public ArrayList<Line> getNdValenceLines(){
         ArrayList<Line> lines = new ArrayList<>();
         //System.out.println(" nd" + this.getLines().size());

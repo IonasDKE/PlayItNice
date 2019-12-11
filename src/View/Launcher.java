@@ -236,8 +236,8 @@ public class Launcher  extends Application {
             try {
                 //AdjacencyMatrix.setMatrix(chosenM,chosenN);
                 ArrayList<Color> players = new ArrayList<>();
-                players.add(Color.BLUE);
-                players.add(Color.CHOCOLATE);
+                players.add(Color.GREEN);
+                players.add(Color.RED);
                 if(Integer.parseInt(numberOfPlayers.getValue().toString()) == 2) {
                     players.add(Color.LIME);
                 }
