@@ -42,7 +42,7 @@ public class RuleBased extends AISolver {
 
             Player p = State.getCurrentActualPlayer();
             //checks if the trick is going to have to be applied
-            if (pairScore() + p.getScore() < impairScore() + Player.nextPlayer(p).getScore()) {
+            if (pairScore() + p.getScore() + 2 <= impairScore() + Player.nextPlayer(p).getScore() -2) {
                 if (nb == 0) {
                     index = getSortedChannels().get(0).size();
                 }
@@ -128,8 +128,8 @@ public class RuleBased extends AISolver {
         //System.out.println("called random");
         Random rand = new Random();
         ArrayList<Line> lines = s.getNdValenceLines();
-        //int index = rand.nextInt(lines.size());
-        int index = 0;
+        int index = rand.nextInt(lines.size());
+        //int index = 0;
         //Line result = lines.get(index);
         //case 1 finds a line that doesnt give the opponent the opportunity to claim a square
         return lines.get(index);

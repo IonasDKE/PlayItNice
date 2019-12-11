@@ -53,9 +53,9 @@ public class Line {
             for (Square sq : this.getSquares()) {
                 sq.colorSquare(actualPlayer);
             }
-            Controller.updateComponents();
-            Controller.updateTurn(this, State.currentState());
 
+            Controller.updateTurn(this, State.currentState());
+            Controller.updateComponents();
 
             boolean simulation = false;
             if (simulation) {
