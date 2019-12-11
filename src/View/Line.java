@@ -55,9 +55,8 @@ public class Line {
             }
 
             Controller.updateTurn(this, State.currentState());
-            Controller.updateComponents();
 
-            boolean simulation = false;
+            boolean simulation = true;
             if (simulation) {
                 if (Simulator.checkEnd()) {
                     System.out.println("endGame");
@@ -78,6 +77,7 @@ public class Line {
             } else {
                 if (!Controller.checkEnd()) {
                     //checks if the next player to play is an AI, if it is the case, makes it play
+                    Controller.updateComponents();
                     Mcts.setNewRoots();
                     Controller.checkAiPlay();
                 } else {

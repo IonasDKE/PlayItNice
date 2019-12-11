@@ -42,12 +42,12 @@ public class Simulator {
 
         ArrayList<Player> currentPlayers = new ArrayList<>();
         int playerNumber=0;
-        Player a = new Player(players.get(playerNumber), Integer.toString(playerNumber+1), "Mcts");
+        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "MiniMax");
         currentPlayers.add(a);
         a.setSolver();
         playerNumber++;
 
-        Player b = new Player(players.get(playerNumber), Integer.toString(playerNumber+1), "MiniMax");
+        Player b = new Player(Color.RED, Integer.toString(2), "Mcts");
         currentPlayers.add(b);
         b.setSolver();
         playerNumber++;

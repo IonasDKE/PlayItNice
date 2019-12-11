@@ -37,9 +37,11 @@ public class Player {
                 solver = new AlphaBeta();
                 break;
             case "MiniMax" :
-                //System.out.println("haha");
                 solver = new MiniMax();
                 break;
+        }
+        if(solver==null){
+            System.out.println("solver "+this.ai+ " is null");
         }
     }
 
@@ -91,6 +93,7 @@ public class Player {
 
     public void aiPlay() throws IOException {
         //System.out.println("called ai player");
+
         Line chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn());
         //System.out.println("ai fill "+chosenLine.getid());
 

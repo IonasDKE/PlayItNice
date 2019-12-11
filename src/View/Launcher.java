@@ -290,7 +290,7 @@ public class Launcher  extends Application {
             State.currentState().reset();
         }
 
-        State.setCurrentState(new State(currentPlayers, 1));
+        State.setCurrentState(new State(currentPlayers, 0));
     }
 
     /**
