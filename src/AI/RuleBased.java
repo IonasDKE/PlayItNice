@@ -24,7 +24,7 @@ public class RuleBased extends AISolver {
     private int nb =0;
     private int index = 0;
     @Override
-    public Line nextMove(State board, int color) {
+    public Line nextMove(State board, int color,  String str) {
 
         //board.display();
         Line result = null;

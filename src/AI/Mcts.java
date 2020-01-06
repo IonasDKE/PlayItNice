@@ -1,6 +1,5 @@
 package AI;
 
-import Controller.Controller;
 import GameTree.*;
 import View.*;
 import java.util.*;
@@ -13,32 +12,37 @@ import java.util.*;
  *  Simulation: simulates the promising node/state until the end of the game, returns win or loose depending on the simulation
  *  Back propagation: for all the parent of the promising node, increase/decrease the score found in the simulation stage.
  *                   And increase the number of visit by 1.
- */
+ **/
 
 public class Mcts extends AISolver {
-    private Tree tree;
-    private Node rootNode;
-    private static ArrayList<Tree> trees = new ArrayList<>();
-    private static int minScore;
-    private boolean firstTurn=true;
-    private Player player;
-    private Random rand = new Random();
 
-    public Line nextMove(State state, int color) {
-        //System.out.println("mcts new move");
-        if(firstTurn) {
-            this.player= State.getCurrentActualPlayer();
-            tree = new Tree(new Node(state, null));
-            trees.add(tree);
-            minScore = (Launcher.getChosenN()*Launcher.getChosenM())/2 +1;
+    public Graph graph;
+    public static ArrayList<Graph> graphs = new ArrayList<>();
+    public Player player;
+    public Random rand = new Random();
+    public Node rootNode;
+    public static int minScore;
+    public boolean firstTurn=true;
+
+    public Line nextMove(State state, int color, String str) {
+        System.out.println("mcts new move");
+        //System.out.println("root node: " + rootNode);
+        if (firstTurn) {
+            this.player = State.getCurrentActualPlayer();
+
+            if (str.equals("acyclic"))
+                graph = new AcyclicGraph(new Node(state, null));
+            else
+                graph = new Tree(new Node( state, null));
+
+            graphs.add(graph);
+            minScore = (Launcher.getChosenN() * Launcher.getChosenM()) / 2 + 1;
             //System.out.println("min score =" + minScore);
             //System.out.println("first turn");
             this.firstTurn = false;
         }
-        rootNode=this.tree.getRoot();
+        rootNode = this.graph.getRoot();
 
-        //System.out.println();
-        //System.out.println("root node "+tree.getRoot() +" children: "+tree.getRoot().getChildren().size());
         long timeLimit = System.currentTimeMillis() + 1000; //1000 = 1 sec
         try {
             while (System.currentTimeMillis() < timeLimit) {
@@ -56,39 +60,43 @@ public class Mcts extends AISolver {
                     backPropagation(promisingNode, promisingNode.getState().getScore(player));
 
             }
-        }catch(StackOverflowError e) {
+        } catch (StackOverflowError e) {
             return bestMove(state);
         }
-
+        System.out.println("root node :" + rootNode);
         return bestMove(state);
     }
+
     //return the best Line to color after the limited time or if there is a stack over flow
     public Line bestMove(State state) {
+        //state.display();
         Node winnerNode = getBestChild();
-        this.tree.setNewRoot(winnerNode.getState());
+        this.graph.setNewRoot();
         this.firstTurn=false;
-        return (State.findDiffLineMcts(state.getLines(), winnerNode.getState().getLines()));
+        Line line =State.findDiffLineMcts(state.getLines(), winnerNode.getState().getLines());
+        System.out.println("line id: "+line.getid());
+        return (line);
     }
 
     //this method return a child node of a node that it is fed, based on the highest UCT score
-    private Node selection(Node rootNode) {
+    public Node selection(Node rootNode) {
         Node node = rootNode;
         while (node.getChildren()!=null && node.getChildren().size() != 0 && !isComplete(node.getState()) ) {
             node = Collections.max(node.getChildren(),          //collections.max returns the child node with largest UCT
                     Comparator.comparing(Node::getUctScore));
         }
-
+        //System.out.println("selected node :"+node+" uct value: "+node.getUctScore());
         return node;
     }
 
-    private void expansion(Node toExpand) {
+    public void expansion(Node toExpand) {
         if (!toExpand.hasChildren()) {
             toExpand.computeChildren();
         }
     }
 
     public int simulationCounter=0; //for debug
-    private int simulateRandomPlayOut(Node selectedNode) {
+    public int simulateRandomPlayOut(Node selectedNode) {
         State stateCopy = selectedNode.getState().cloned();
 
         simulationCounter++;
@@ -111,11 +119,9 @@ public class Mcts extends AISolver {
         }
 
         return score;
-
-
     }
 
-    private void backPropagation(Node node, int score) {
+    public void backPropagation(Node node, int score) {
         if (node.getParent() == null) {
             node.addVisit();
             node.addScore(score);
@@ -127,7 +133,7 @@ public class Mcts extends AISolver {
 
     }
 
-    private boolean isComplete(State state) {
+    public boolean isComplete(State state) {
         boolean boardIsComplete=true;
         for (Line l: state.getLines()){
             if (l.isEmpty()) {
@@ -152,14 +158,15 @@ public class Mcts extends AISolver {
     }
 
     public static void setNewRoots(){
-        for (Tree tree:trees){
-            tree.setNewRoot(State.currentState());
-            //System.out.println("new root: "+tree.getRoot());
+        for (Graph graph: graphs){
+            //System.out.println("set new root");
+            graph.setNewRoot();
         }
     }
 
     public static void resetMcts() {
-        trees= new ArrayList<>();
+        graphs = new ArrayList<>();
     }
+
 
 }

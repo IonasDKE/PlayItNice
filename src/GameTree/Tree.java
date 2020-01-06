@@ -2,8 +2,7 @@ package GameTree;
 
 import java.util.ArrayList;
 
-public class Tree {
-    private Node root;
+public class Tree extends Graph {
     private ArrayList<Node> leaf = new ArrayList<>();
 
     public Tree(){
@@ -75,22 +74,6 @@ public class Tree {
             //System.out.println("time :"+ (System.currentTimeMillis()-be)/1000+ " seconds; leaf size = "+leaf.size());
         }
     }*/
-
-    //for MCTS, delets all the non-used subtree
-    public void deleteRootParent() {
-        Node parent = this.getRoot().getParent();
-        for (Node childToDelete: parent.getChildren()) {
-            if (childToDelete != this.getRoot())
-                childToDelete=null;
-        }
-        this.getRoot().setParent(null);
-        parent=null;
-
-    }
-
-    public void setRoot(Node newRoot) {
-        this.root=newRoot;
-    }
 
     public ArrayList<Node> getLayer(int layerNb) {
         ArrayList<Node> result = new ArrayList<>();

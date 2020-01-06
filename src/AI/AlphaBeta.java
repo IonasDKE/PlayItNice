@@ -17,7 +17,7 @@ public class AlphaBeta extends AISolver {
     private long startTime;
 
 
-    public Line nextMove(State board, int turn) {
+    public Line nextMove(State board, int turn, String str) {
         startTime = System.nanoTime();
         maxDepth = 1;
         Line line = null;

@@ -10,9 +10,8 @@ import java.util.LinkedList;
 
 public class MiniMax extends AISolver{
 
-
     @Override
-    public Line nextMove(State board, int color) {
+    public Line nextMove(State board, int color, String str) {
 
         LinkedList<Node> getPossibleMoves = new LinkedList<>();
         LinkedList<Node> backtrack = new LinkedList<>() ;

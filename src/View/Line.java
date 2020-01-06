@@ -61,11 +61,11 @@ public class Line {
                 if (Simulator.checkEnd()) {
                     System.out.println("endGame");
                     int score = State.currentState().getPlayers().get(0).getScore();
-                    Simulator.scores.add(score);
+                    Simulator.scores.get(Simulator.scores.size()).add(score);
                     if (score < 5) {
-                        Simulator.wins.add(0);
+                        Simulator.wins.get(Simulator.wins.size()).add(0);
                     } else
-                        Simulator.wins.add(1);
+                        Simulator.wins.get(Simulator.wins.size()).add(1);
 
                     return;
 
