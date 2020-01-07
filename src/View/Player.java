@@ -16,6 +16,7 @@ public class Player {
     private int score;
     private String name;
     private String ai;
+    public String graphType="";
 
 
     public Player(Color color, String name, String ai) {
@@ -27,8 +28,13 @@ public class Player {
 
     public void setSolver(){
         switch (this.ai) {
-            case  "Mcts":
+            case  "Mcts Tree":
+                this.graphType="Tree";
                 solver = new Mcts();
+                break;
+            case "Mcts Acyclic":
+                this.graphType="Acyclic";
+                solver= new Mcts();
                 break;
             case "Rule Based":
                 solver = new RuleBased();
@@ -94,7 +100,7 @@ public class Player {
     public void aiPlay() throws IOException {
         //System.out.println("called ai player");
 
-        Line chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), "");
+        Line chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
         //System.out.println("ai fill "+chosenLine.getid());
 
         State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
