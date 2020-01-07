@@ -44,11 +44,11 @@ public class Line {
         Player actualPlayer = State.getCurrentActualPlayer();
 
         if (Controller.checkMove(this)) {
-            //System.out.println("fill line "+this.id);
+            System.out.println("fill line "+this.id);
             this.setEmpty(false);
 
-            // this.graphicLine.setStroke(actualPlayer.getColor());
-            this.graphicLine.setStroke(Color.BLACK);
+            this.graphicLine.setStroke(actualPlayer.getColor());
+            //this.graphicLine.setStroke(Color.BLACK);
 
             for (Square sq : this.getSquares()) {
                 sq.colorSquare(actualPlayer);
@@ -56,7 +56,7 @@ public class Line {
 
             Controller.updateTurn(this, State.currentState());
 
-            boolean simulation = true;
+            boolean simulation = false;
             if (simulation) {
                 if (Simulator.checkEnd()) {
                     System.out.println("endGame");
