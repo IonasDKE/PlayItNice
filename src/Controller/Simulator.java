@@ -66,7 +66,7 @@ public class Simulator {
         for(int i = 0; i < 50; i++) {
             out.println("new simulation "+i);
             //State.currentState().display();
-            for (Line line : State.currentState().getLines()) {
+            for (Line line : GridController.getLines()) {
                 line.setEmpty(true);
             }
             State.currentState().setPlayers(currentPlayer, 0);

@@ -65,5 +65,5 @@ public abstract class AISolver {
          * @param board the state 'next move'
          * @param color takes the turn ( which player is playing
          */
-    public abstract Line nextMove(State board, int color, String str);
+    public abstract int nextMove(State board, int color, String str);
 }

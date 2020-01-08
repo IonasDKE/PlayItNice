@@ -1,7 +1,6 @@
 package AI;
 
 import GameTree.State;
-import View.Line;
 import View.Player;
 
 import java.util.ArrayList;
@@ -17,10 +16,10 @@ public class AlphaBeta extends AISolver {
     private long startTime;
 
 
-    public Line nextMove(State board, int turn, String str) {
+    public int nextMove(State board, int turn, String str) {
         startTime = System.nanoTime();
         maxDepth = 1;
-        Line line = null;
+        Integer line = null;
         //board.display();
         //Starts at depth 0
         while (maxDepth <= board.numberOfAvailableMoves()) {
@@ -44,7 +43,7 @@ public class AlphaBeta extends AISolver {
     public WeightedEdge startAI(State state, int turn, int depth, int alpha, int beta) {
 
         if ((depth < maxDepth && (System.nanoTime() - startTime) < moveTime)) {
-            ArrayList<Line> moves = state.getAvailableMoves();
+            ArrayList<Integer> moves = state.getAvailableMoves();
             int availableMoves = state.numberOfAvailableMoves();
             int movesLength = moves.size();
 
@@ -62,13 +61,14 @@ public class AlphaBeta extends AISolver {
 
             for (int i = 0; i < childrenState.size(); i++) {
                 State newBoard = childrenState.get(i);
-                ArrayList<Line> stateLine = state.getLines();
-                Line line = State.findDiffLineMinMax(stateLine, childrenState.get(i).getLines());
+
+                Integer line = State.findDiffLine(state, childrenState.get(i));
                 newEdges[i] = new WeightedEdge(line, evaluationFunction(newBoard, (newBoard.getScore(turn) > state.getScore(turn) ? turn : State.inverseTurn(turn))));
             }
 
+
             Arrays.sort(newEdges);
-            moves = new ArrayList<Line>();
+            moves = new ArrayList<>();
             if (playerColor != turn) {
                 for (int i = 0; i < childrenState.size(); i++) {
                     moves.add(newEdges[i].getLine());
@@ -104,7 +104,7 @@ public class AlphaBeta extends AISolver {
                     // Backtracks
                     if (newEdge.getWeight() < getScore) {
                         newEdge.setWeight(getScore);
-                        newEdge.setLine(State.findDiffLineMinMax(state.getLines(), child.getLines()));
+                        newEdge.setLine(State.findDiffLine(state, child));
                     }
                     if (found)
                         if (getScore >= beta)
@@ -175,7 +175,7 @@ public class AlphaBeta extends AISolver {
                     // Backtracks
                     if (newEdge.getWeight() > getScore) {
                         newEdge.setWeight(getScore);
-                        newEdge.setLine(State.findDiffLineMinMax(state.getLines(), child.getLines()));
+                        newEdge.setLine(State.findDiffLine(state, child));
                     }
                     if (found)
                         if (getScore <= alpha)

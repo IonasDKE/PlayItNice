@@ -24,7 +24,7 @@ public class Mcts extends AISolver {
     public static int minScore;
     public boolean firstTurn=true;
 
-    public Line nextMove(State state, int color, String str) {
+    public int nextMove(State state, int color, String str) {
         System.out.println("mcts new move");
         //System.out.println("root node: " + rootNode);
         if (firstTurn) {
@@ -68,13 +68,13 @@ public class Mcts extends AISolver {
     }
 
     //return the best Line to color after the limited time or if there is a stack over flow
-    public Line bestMove(State state) {
+    public int bestMove(State state) {
         //state.display();
         Node winnerNode = getBestChild();
         this.graph.setNewRoot();
         this.firstTurn=false;
-        Line line =State.findDiffLineMcts(state.getLines(), winnerNode.getState().getLines());
-        System.out.println("line id: "+line.getid());
+        int line =State.findDiffLine(state, winnerNode.getState());
+        System.out.println("line id: "+line);
         return (line);
     }
 
@@ -134,13 +134,7 @@ public class Mcts extends AISolver {
     }
 
     public boolean isComplete(State state) {
-        boolean boardIsComplete=true;
-        for (Line l: state.getLines()){
-            if (l.isEmpty()) {
-                boardIsComplete=false;
-            }
-        }
-        return boardIsComplete;
+       return state.getLines().size()==0;
     }
 
     public Node getBestChild() {

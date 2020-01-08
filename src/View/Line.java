@@ -15,17 +15,14 @@ public class Line {
     private int id;
     private boolean empty = true;
     private ArrayList<Square> squares= new ArrayList<>();
-    private static ArrayList<Line> lines = new ArrayList<>();
+
 
     public Line(int id, GraphicLine g){
         this.id= id;
         this.graphicLine = g;
-        //State.currentState().getLines().add(this);
-        lines.add(this);
-
     }
 
-    public Line (int id,boolean empty ,ArrayList<Square> squares ){
+    public Line (int id,boolean empty ,ArrayList<Square> squares){
         this.id = id;
         this.empty=empty;
         this.squares=squares;
@@ -89,15 +86,6 @@ public class Line {
     }
 
     /**
-     * @return all the lines contained in the board
-     */
-    public static ArrayList<Line> getLines(){
-        return lines;
-    }
-
-    //return the id as an integer
-
-    /**
      * @return the id of a line
      */
     public int getid() {
@@ -149,19 +137,16 @@ public class Line {
     /** this method prints all the informations about some lines
      * @param l  an array list which contains some lines
      */
-    public static void display(ArrayList<Line> l){
-        for(Line line : l){
+    public static void display(ArrayList<Line> l) {
+        for (Line line : l) {
             //if(line.isEmpty()) {
-                System.out.print("line " + line.getid() + ", empty = " + line.isEmpty() + ", squares = ");
-                for (Square s : line.getSquares()) {
-                    System.out.print(s.getid() + ", ");
-                }
-                System.out.println();
-           // }
+            System.out.print("line " + line.getid() + ", empty = " + line.isEmpty() + ", squares = ");
+            for (Square s : line.getSquares()) {
+                System.out.print(s.getid() + ", ");
+            }
+            System.out.println();
+            // }
         }
-    }
-    public void fillNoEffect() {
-        this.empty=false;
     }
 
 }

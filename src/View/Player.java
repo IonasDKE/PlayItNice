@@ -2,7 +2,7 @@ package View;
 import AI.*;
 import GameTree.State;
 import javafx.scene.paint.Color;
-import Controller.Controller;
+import Controller.GridController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -100,10 +100,10 @@ public class Player {
     public void aiPlay() throws IOException {
         //System.out.println("called ai player");
 
-        Line chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
-        //System.out.println("ai fill "+chosenLine.getid());
+        int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
+        System.out.println("ai fill "+chosenLine);
 
-        State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
+        GridController.findLine(chosenLine).fill();
 
     }
 

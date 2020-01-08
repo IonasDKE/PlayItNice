@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GridController;
 import GameTree.State;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
@@ -24,6 +25,14 @@ public class Square {
 
     public  ArrayList<Line> getBorders() {
         return this.borders;
+    }
+
+    public ArrayList<Integer> getBordersIds(){
+        ArrayList<Integer> result = new ArrayList<>();
+        for(Line l :borders){
+            result.add(l.getid());
+        }
+        return result;
     }
 
     //returns the borders of the square which are still empty
@@ -78,7 +87,7 @@ public class Square {
             };
             LinearGradient linearGradient =
                     new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
-            State.findSquare(this.getid()).getRect().setFill(linearGradient);
+            GridController.findSquare(this.getid()).getRect().setFill(linearGradient);
         }
     }
 
@@ -99,7 +108,7 @@ public class Square {
 
           for(int i =0; i<line.getSquares().size(); i++){
               Square a = line.getSquares().get(0);
-              Square f = State.findSquare(a.getid(),result);
+              Square f = GridController.findSquare(a.getid(),result);
               if(f ==null) {
                   f = new Square(a.getid());
                   result.add(f);
@@ -117,6 +126,17 @@ public class Square {
         int countLines = 0;
         for (Line line : this.getBorders()){
             if(line.isEmpty()){
+                countLines++;
+            }
+        }
+        return countLines;
+    }
+
+    //return number of non complete lines
+    public int getValence(ArrayList<Integer> lines){
+        int countLines = 0;
+        for (Integer line : this.getBordersIds()){
+            if(lines.contains(line)) {
                 countLines++;
             }
         }

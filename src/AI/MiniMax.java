@@ -11,13 +11,13 @@ import java.util.LinkedList;
 public class MiniMax extends AISolver{
 
     @Override
-    public Line nextMove(State board, int color, String str) {
+    public int nextMove(State board, int color, String str) {
 
         LinkedList<Node> getPossibleMoves = new LinkedList<>();
         LinkedList<Node> backtrack = new LinkedList<>() ;
 
         //Array List of lines which considers all the possible moves
-        ArrayList<Line> moves;
+        ArrayList<Integer> moves;
         State state;
         //takes in the current
         int turn;
@@ -56,7 +56,7 @@ public class MiniMax extends AISolver{
                 Collections.shuffle(moves);
 
                 //GEts all the possible lines in the move pull
-                for (Line i : moves) {
+                for (int i : moves) {
                     //gets the state which is given after every line coloring
                     //We clone the state and invest its children
                     State child = state.computeAChild(i);
