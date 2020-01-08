@@ -122,7 +122,7 @@ public class Simulator {
 
     public static ArrayList<ArrayList<String>> getAllCombination() {
         ArrayList<ArrayList<String>> toReturn=new ArrayList<>();
-        String[] allAi= {"Mcts", "Alpha-Beta", "Rule Based", "MiniMax"};
+        String[] allAi= {"Mcts Tree", "Mcts Acyclic", "Alpha-Beta", "Rule Based", "MiniMax"};
         int index=0;
 
         for (int i=0;i<allAi.length;i++) {
