@@ -19,7 +19,7 @@ public abstract class AISolver {
      * @param color
      * @return score of an evaluation function
      */
-        public int evaluationFunction(State board, int color){
+    public int evaluationFunction(State board, int color){
         int score;
         //Return the score of the first player
         if(playerColor==0) {
@@ -28,7 +28,7 @@ public abstract class AISolver {
         //Return the score of the second player
         else{
             score = cScore * board.getScore(1) - cScore * board.getScore(0);
-            }
+        }
         //CHECKS IN THE FUTURE
         if(playerColor == color) {
             //Assigns a good score to the end square
@@ -60,10 +60,10 @@ public abstract class AISolver {
     }
     */
 
-        /**
-         * Creates a next move for the player
-         * @param board the state 'next move'
-         * @param color takes the turn ( which player is playing
-         */
+    /**
+     * Creates a next move for the player
+     * @param board the state 'next move'
+     * @param color takes the turn ( which player is playing
+     */
     public abstract Line nextMove(State board, int color, String str);
 }

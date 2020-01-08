@@ -1,134 +1,198 @@
 package AI;
 
-import GameTree.Node;
 import GameTree.State;
 import View.Line;
+import View.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.Arrays;
 
-public class MiniMax extends AISolver{
+public class MiniMax extends AISolver {
+    private static int maxDepth;
+    final static int MIN = -1000000000, MAX = 1000000000;
+    private long startMoveTime = 1000000000;
+    private long moveTime = 1900000000;
+    private long startTime;
 
+    /**
+     * IMPORTANT : WITH MINIMAX WITH THIS AMOUNT OF TIME WE CAN REACH DEPTH OF 5
+     * @param board the state
+     * @param turn represents the turn of the player which is playing (0 or 1)
+     * @param st not used here
+     * @return the best move using minimax search algo
+     */
     @Override
-    public Line nextMove(State board, int color, String str) {
-
-        LinkedList<Node> getPossibleMoves = new LinkedList<>();
-        LinkedList<Node> backtrack = new LinkedList<>() ;
-
-        //Array List of lines which considers all the possible moves
-        ArrayList<Line> moves;
-        State state;
-        //takes in the current
-        int turn;
-        int currentScore;
-        long startTime = System.nanoTime();
-        long timeOut = 990000000;
-
-        // Creates the root (a move) with the actual player (AI or human)
-        Node root = new Node(board, color, null, null);
-        getPossibleMoves.add(root);
-       // queue.add(null);
-        playerColor = color;
-
-        //Do while there are elements on the queue
-        do {
-            //Checks if the time has passed
-            if ((System.nanoTime() - startTime) > timeOut)
+    public Line nextMove(State board, int turn, String st) {
+        startTime = System.nanoTime();
+        maxDepth = 1;
+        Line line = null;
+        //Starts at depth 0
+        while (maxDepth <= board.numberOfAvailableMoves()) {
+            WeightedEdge weight = startAI(board, turn, 0);
+            if((System.nanoTime() - startTime) < moveTime) {
+                line = weight.getLine();
+            }
+            else{
                 break;
-            //Gets the first element on the queue (the root)
-            Node current = getPossibleMoves.remove();
-            if (current != null) {
-                //Adds a new node on the stack (current node)
-                backtrack.add(current);
-                //Gets the state of the current node
-                state = current.getState();
-                //Gets the turn of the current node(either 0 or 1)
-                turn = current.getTurn();
+            }
+            maxDepth++;
 
-                //gets the score of the currentState ( current node )
-                currentScore = state.getScore(turn);
+        }
+        //State.findLine(line.getid()).fill();
+        //line.fill();
+        return line;
+    }
 
-                //gets the all the available moves from the node(children)
-                moves = state.getAvailableMoves();
+    public WeightedEdge startAI(State state, int turn, int depth) {
+        System.out.println(depth);
+        if ((depth < maxDepth && (System.nanoTime() - startTime) < moveTime)) {
+            ArrayList<Line> moves = state.getAvailableMoves();
+            int availableMoves = state.numberOfAvailableMoves();
+            int movesLength = moves.size();
 
-                //Randomly permutes all the moves
-                Collections.shuffle(moves);
+            if (availableMoves == 0) {
+                return new WeightedEdge(null, evaluationFunction(state, turn));
+            }
+            //Collections.shuffle(moves);
 
-                //GEts all the possible lines in the move pull
-                for (Line i : moves) {
-                    //gets the state which is given after every line coloring
-                    //We clone the state and invest its children
-                    State child = state.computeAChild(i);
-                    //gets the score associated with the given move
-                    int newScore = child.getScore(turn);
-                    //Checks if the score is equal to the score previously computed
-                    if (newScore == currentScore) {
-                        //Do BFS for the opponent if the score of the child = the current score
-                        getPossibleMoves.add(new Node(child, State.inverseTurn(turn), current, i));
+            /**
+             * resets the state
+             */
+
+            ArrayList<State> childrenState = state.computeAndGetChildren();
+            WeightedEdge[] newEdges = new WeightedEdge[childrenState.size()];
+
+            for (int i = 0; i < childrenState.size(); i++) {
+                State newBoard = childrenState.get(i);
+                ArrayList<Line> stateLine = state.getLines();
+                Line line = State.findDiffLineMinMax(stateLine, childrenState.get(i).getLines());
+                newEdges[i] = new WeightedEdge(line, evaluationFunction(newBoard, (newBoard.getScore(turn) > state.getScore(turn) ? turn : State.inverseTurn(turn))));
+            }
+
+            Arrays.sort(newEdges);
+            moves = new ArrayList<Line>();
+            if (playerColor != turn) {
+                for (int i = 0; i < childrenState.size(); i++) {
+                    moves.add(newEdges[i].getLine());
+                }
+            }
+            else{
+                for (int i = childrenState.size() - 1; i >= 0; i--)
+                    moves.add(newEdges[i].getLine());
+            }
+            // IF TURN = AI
+            if (turn == playerColor) {
+                // This is the edge we will return
+                WeightedEdge newEdge = new WeightedEdge(null, MIN);
+
+                //computes the children if they do not exist
+                //for (State child : state.computeAndGetChildren()) {
+                for(int i = 0; i < moves.size(); i ++){
+                    State child = state.computeAChild(moves.get(i));
+                    //Training edge
+                    WeightedEdge wedge;
+
+                    int childScore = child.getScore(state.getActualPlayer());
+                    int actualScore = state.getScore(state.getActualPlayer());
+                    boolean found = false;
+                    if (childScore == actualScore) {
+                        wedge = startAI(child, state.getNextTurn(turn), depth + 1);
+                        found = true;
                     } else {
-                        //Else try the next node for the same player!
-                        getPossibleMoves.add(new Node(child, turn, current, i));
+                        wedge = startAI(child, turn, depth + 1);
+                    }
+
+                    int getScore = wedge.getWeight();
+                    // Backtracks
+                    if (newEdge.getWeight() < getScore) {
+                        newEdge.setWeight(getScore);
+                        newEdge.setLine(State.findDiffLineMinMax(state.getLines(), child.getLines()));
+                    }
+                    //if (found)
+                    //    if (getScore >= beta)
+                    //        return newEdge;
+
+                    //alpha = Math.max(alpha, newEdge.getWeight());
+
+                }
+                //System.out.println(newEdge.getLine().getid());
+                //State.findLine(newEdge.getLine().getid()).fill();
+                return newEdge;
+            } else {
+                /*WeightedEdge newEdge = new WeightedEdge(null, MAX);
+
+                for (int i = 0; i < moves.size(); i++) {
+
+                    State child = state.computeAndGetChildren().get(i);
+                    WeightedEdge pair;
+                    int childScore = child.getScore(turn), currentScore = state.getScore(turn);
+                    boolean flag = false;
+                    if (childScore == currentScore) {
+                        pair = startAI(child, State.inverseTurn(turn), depth+1, alpha, beta);
+                        flag = true;
+                    } else
+                        pair = startAI(child, turn, depth+1, alpha, beta);
+
+                    int childUtility = pair.getWeight();
+                    if (newEdge.getWeight() > childUtility) {
+                        newEdge.setWeight(childUtility);
+                        newEdge.setLine(State.findDiffLine(state.getLines(), child.getLines()));
+                    }
+                    if (flag)
+                        if (childUtility <= alpha)
+                            return newEdge;
+
+                    beta = Math.min(beta, newEdge.getWeight());
+                }
+                return newEdge;
+            }
+                 */
+                WeightedEdge newEdge = new WeightedEdge(null, MAX);
+
+                //System.out.println("is not ai");
+
+                //computes the children if they do not exist
+                // for (State child : state.computeAndGetChildren()) {
+                for(int i = 0; i < moves.size(); i ++) {
+                    State child = state.computeAChild(moves.get(i));
+
+                    //State child = state.updateState(moves.get(i), color);
+                    //Training edge
+                    WeightedEdge wedge;
+
+                    Player p = state.getActualPlayer();
+                    int childScore = child.getScore(p);
+                    int actualScore = state.getScore(p);
+                    boolean found = false;
+
+
+                    if (childScore == actualScore) {
+                        wedge = startAI(child, state.getNextTurn(turn), depth + 1);
+                        found = true;
+                    } else {
+                        wedge = startAI(child, turn, depth + 1);
+                    }
+
+                    int getScore = wedge.getWeight();
+                    // Backtracks
+                    if (newEdge.getWeight() > getScore) {
+                        newEdge.setWeight(getScore);
+                        newEdge.setLine(State.findDiffLineMinMax(state.getLines(), child.getLines()));
                     }
                 }
 
-            } else {
-                //else return null
-                getPossibleMoves.add(null);
-            }
-        }while(getPossibleMoves.size()!=0);
+                //System.out.println(newEdge.getLine().getid());
 
-        //while there are elements on the queue
-        //This is where we are evaluating each move
-        while(getPossibleMoves.size()!=0) {
-            //current is the move we are investigating
-            Node current = getPossibleMoves.remove();
-            if (current != null)
-                //We add the current node to the stack
-                backtrack.add(current);
+                //State.findLine(newEdge.getLine().getid()).fill();
+                return newEdge;
+
+
+            }
         }
 
-        do{
-            //Get the current node and its parent (backtracking more or less)
-            Node current = backtrack.removeLast();
-            Node parentNode = current.getParent() ;
-            //Gets the weight (evaluation function) of the current node
-            int weight = current.getWeight();
-
-            //Checks if it is the first iteration
-            //And then update the weight of the state
-            if(Node.MIN == weight)
-                //EVALUATION FUNCTION!!
-                current.setWeigth(evaluationFunction(current.getState(), current.getTurn()));
-            //Get the weight we have just computed to compare it with the parent's after
-            weight = current.getWeight();
-
-            /**
-             * IN THIS SECTION I TRY TO BACKTTRACK THE BEST RESULT TO THE ROOT
-             * SO I GO TO THE LEAF AND EACH TIME WE GET A BETTER RESULT, THEN THE PARENT BECOMES THIS MOVE
-             */
-            //If the parent is the AI
-            if(parentNode.getTurn()==playerColor){
-                //If the parent has an weaker score than the child
-                if(parentNode.getWeight()< weight){
-                    //Set the parent with the weight of the child
-                    parentNode.setWeigth(weight);
-                    //If the parent is the root we set the root with this score
-                    if(parentNode == root)
-                        root.setLine(current.getLine());
-                }
-            }
-            //IF the parent is the human player
-            else{
-                if(parentNode.getWeight()> weight)
-                    //Since we try to MAXIMIZE the win
-                    parentNode.setWeigth(weight);
-            }
-        //DO THIS UNTIL WE REACH THE ROOT!!
-        //Which is why we stop at 1
-        }   while(backtrack.size()!=1);
-        //System.out.println(root.getLine().getid());
-        return root.getLine();
-
+        else{
+            return new WeightedEdge(null, evaluationFunction(state, turn));
+        }
     }
+
 }
