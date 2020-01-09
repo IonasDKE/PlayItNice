@@ -28,6 +28,10 @@ public class State {
         this.players = players;
     }
 
+    public State() {
+
+    }
+
     /**
      * use this state constructor only for the current state
      */
@@ -104,6 +108,15 @@ public class State {
         Line filledLine = State.findLine(line.getid(),childState.getLines());
         filledLine.setEmpty(false);
 
+        int scored = Controller.checkAnySquareClaimed(filledLine);
+
+        /*if(scored>0){
+            childState.getActualPlayer().addScore(scored);
+        }else{
+            childState.updateTurn();
+        }
+        */
+
         Controller.updateTurn(filledLine, childState);
 
         children.add(childState);
@@ -158,13 +171,14 @@ public class State {
     public State cloned(){
         State result = new State(State.cloned(this.getLines()),Player.cloned(this.players));
         result.setTurn(this.getTurn());
-
+        /*
         if(this.children!=null) {
             result.setChildren(this.clonedChildren());
         }
-
+         */
         return result;
     }
+
 
     //returns a cloned arraylist of lines
     public static ArrayList<Line> cloned(ArrayList<Line> lines){
@@ -203,10 +217,9 @@ public class State {
 
     //find the line that as a certain id, return's that line
     public static Line findLine(int id, ArrayList<Line> lines) {
-
         Line lineToReturn = null;
         for (Line line : lines) {
-            if (line.getid() == id)
+            if (line.getid()==id)
                 lineToReturn = line;
         }
         return lineToReturn;
@@ -217,10 +230,16 @@ public class State {
         this.getLines().clear();
         this.getSquares().clear();
         this.getPlayers().clear();
-        if(children!=null) {
+        if(getChildren()!=null) {
             this.getChildren().clear();
         }
         this.turn = 0;
+    }
+
+    public void setPlayable(){
+        for (Line line: getLines()){
+            line.setEmpty(true);
+        }
     }
 
     public int numberOfAvailableMoves(){
@@ -246,7 +265,6 @@ public class State {
         }
         return newLines;
     }
-
     public ArrayList<Line> getNdValenceLines(){
         ArrayList<Line> lines = new ArrayList<>();
         //System.out.println(" nd" + this.getLines().size());
@@ -294,6 +312,14 @@ public class State {
         this.turn = turn;
     }
 
+    public void updateTurn() {
+        if (turn < players.size() - 1) {
+            turn++;
+        } else {
+            turn = 0;
+        }
+    }
+
     public void setPlayers(ArrayList<Player> newPlayers, int turn) {
         this.players = newPlayers;
         this.turn = turn;
@@ -303,7 +329,7 @@ public class State {
         //-1 is just an arbitrary value
         int result = -1;
         for (Player p: players) {
-            if (p.getName().equals(player.getName())) {
+            if (p.getName() == player.getName()) {
                 return p.getScore();
             }
         }
@@ -321,14 +347,14 @@ public class State {
         return result;
     }
 
-    public int getValenceNb(int k) {
+    public int getValence(int k) {
         int counter = 0;
         for(Square sq : getSquares()){
             if(sq.getValence()==k){
                 counter++;
             }
         }
-       return counter;
+        return counter;
     }
 
     public static int inverseTurn(int turn){
@@ -341,6 +367,9 @@ public class State {
         return 0;
     }
 
+    public State duplicateBoard(Line line, int turn) {
+        return  computeAndGetChildren().get(1);
+    }
 
     public void nextTurn(){
         this.turn = this.turn+1;
@@ -358,5 +387,22 @@ public class State {
         Controller.updateTurn(filledLine, childState);
         return childState;
     }
+
+    public int getNextTurn(int turn) {
+        if(turn == 1){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
+
+   /*public void setScores(ArrayList<Integer> newScores) {
+        for(Player p : players){
+
+        }
+    }*/
+
+    //TO DO : add state info methods
 
 }

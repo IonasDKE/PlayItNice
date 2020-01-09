@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 public class Line {
 
+    public int reward;
+    public int currentState;
+    public int nextState;
+    public int fillId;
     private GraphicLine graphicLine;
     private int id;
     private boolean empty = true;
@@ -152,12 +156,12 @@ public class Line {
     public static void display(ArrayList<Line> l){
         for(Line line : l){
             //if(line.isEmpty()) {
-                System.out.print("line " + line.getid() + ", empty = " + line.isEmpty() + ", squares = ");
-                for (Square s : line.getSquares()) {
-                    System.out.print(s.getid() + ", ");
-                }
-                System.out.println();
-           // }
+            System.out.print("line " + line.getid() + ", empty = " + line.isEmpty() + ", squares = ");
+            for (Square s : line.getSquares()) {
+                System.out.print(s.getid() + ", ");
+            }
+            System.out.println();
+            // }
         }
     }
     public void fillNoEffect() {

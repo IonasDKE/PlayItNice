@@ -10,12 +10,21 @@ import java.util.ArrayList;
 
 public class RLSolver extends Player{
 
+    protected int [] reward = new int[3];
     protected ArrayList<Line> moves = State.currentState().getAvailableMoves();
     private int turn;
     private State state;
     QLearning qLearner;
 
     public RLSolver(int turn, State state, QLearning learn) {
+        //both player draws
+        //this needs to be negative other wise q value might converge
+        reward[0] = -10;
+        //Qplayer loses
+        reward[1] = -100;
+        //QPlayer wons
+        reward[2] = 100;
+
         this.turn = turn;
         this.state = state;
         qLearner = learn;
@@ -43,5 +52,23 @@ public class RLSolver extends Player{
 
     public void learn() {
 
+        //    GETS THE PLAYER WHO WON THE GAME
+        Player winner = state.getActualPlayer();
+        //
+        int winnerIndex = winner.checkPlayerReward();
+        int rewardValue = reward[winnerIndex];
+
+        for(Line move : state.getAvailableMoves()){
+            move.reward = rewardValue;
+            //takes in the current state(before the agent makes the move)
+            //             next state(after the agent makes the given move)
+            //             the action of the agent (fill)
+            //              the reward associated with that move
+            qLearner.learnModel(move.currentState, move.nextState, move.fillId, move.reward, null);
+        }
+
+        /**
+         *
+         */
     }
 }

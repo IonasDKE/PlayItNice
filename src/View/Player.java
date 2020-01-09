@@ -26,6 +26,9 @@ public class Player {
         this.ai= ai;
     }
 
+    public Player() {
+    }
+
     public void setSolver(){
         switch (this.ai) {
             case  "Mcts Tree":
@@ -165,4 +168,12 @@ public class Player {
         this.score = newScore;
     }
 
+    public int checkPlayerReward() {
+        /**
+         * return 0 if the result of the game is a draw
+         * return 1 if the agent lost the game
+         * return 2 if the agent won the game
+         */
+        return 0;
+    }
 }
