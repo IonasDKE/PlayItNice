@@ -26,6 +26,7 @@ public class AlphaBeta extends AISolver {
      * @return the best move using minimax search algo
      */
     public int nextMove(State board, int turn, String str) {
+        board.display();
         startTime = System.nanoTime();
         maxDepth = 1;
         Integer line = null;
@@ -49,7 +50,7 @@ public class AlphaBeta extends AISolver {
     }
     int counter = 0;
     public WeightedEdge startAI(State state, int turn, int depth, int alpha, int beta){
-        System.out.println(depth);
+       // System.out.println(depth);
         if ((depth < maxDepth && (System.nanoTime() - startTime) < moveTime)) {
             ArrayList<Integer> moves = state.getAvailableMoves();
             int availableMoves = state.numberOfAvailableMoves();
@@ -69,7 +70,7 @@ public class AlphaBeta extends AISolver {
             for (int i = 0; i < childrenState.size(); i++) {
                 State newBoard = childrenState.get(i);
 
-                Integer line = State.findDiffLine(state, childrenState.get(i));
+                int line = State.findDiffLine(state, childrenState.get(i));
                 newEdges[i] = new WeightedEdge(line, evaluationFunction(newBoard, (newBoard.getScore(turn) > state.getScore(turn) ? turn : State.inverseTurn(turn))));
             }
 

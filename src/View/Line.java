@@ -43,6 +43,7 @@ public class Line {
         if (Controller.checkMove(this)) {
             System.out.println("fill line "+this.id);
             this.setEmpty(false);
+            State.currentState().getLines().remove(new Integer(this.getid()));
 
             this.graphicLine.setStroke(actualPlayer.getColor());
             //this.graphicLine.setStroke(Color.BLACK);
@@ -72,14 +73,14 @@ public class Line {
                     Controller.checkAiPlay();
                 }
             } else {
-                if (!Controller.checkEnd()) {
+                if (Controller.checkEnd()) {
+                    System.out.println("endGame");
+                    EndWindow.display(Launcher.thisStage);
+                } else {
                     //checks if the next player to play is an AI, if it is the case, makes it play
                     Controller.updateComponents();
                     Mcts.setNewRoots();
                     Controller.checkAiPlay();
-                } else {
-                    System.out.println("endGame");
-                    EndWindow.display(Launcher.thisStage);
                 }
             }
         }

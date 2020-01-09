@@ -60,9 +60,9 @@ public class State {
     }
 
     public ArrayList<State> computeAndGetChildren(){
-      //  if(this.children==null) {
+        if(this.children==null) {
             computeChildren();
-        //}
+      }
         return this.children;
     }
 
@@ -135,6 +135,10 @@ public class State {
             if (!state2.contains(line)) {
                 return line;
             }
+        }
+        if(randomEmptyLine==null) {
+           // System.out.println("parent and child are identical");
+            return state2.get(0);
         }
         return randomEmptyLine;
     }
@@ -251,10 +255,9 @@ public class State {
         if (turn ==0){
             return 1;
         }
-        else if (turn ==1){
+        else {
             return 0;
         }
-        return 0;
     }
 
 
