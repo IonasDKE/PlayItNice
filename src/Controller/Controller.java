@@ -39,6 +39,20 @@ public class Controller {
         }
     }
 
+    public static void updateTurn(int line, State s){
+        int numberOfCompleteSquare = checkAnySquareClaimed(line, s.getLines());
+
+        if (numberOfCompleteSquare > 0) {
+            s.getActualPlayer().addScore(numberOfCompleteSquare);
+        } else {
+            if (s.getTurn() < s.getPlayers().size() - 1) {
+                s.nextTurn();
+            } else {
+                s.setTurn(0);
+            }
+        }
+    }
+
     public static void checkAiPlay() throws IOException {
         Player player = State.getCurrentActualPlayer();
         if (player.isAi()) {
@@ -51,23 +65,32 @@ public class Controller {
     }
 
     // check if any square has been claimed
-    public static int checkAnySquareClaimed(View.Line line) {
-        int squareNbBefore = 0;
-        int squareNbAfter = 0;
-        line.setEmpty(true);
+    public static int checkAnySquareClaimed(Line line) {
+        int squareNb= 0;
+
         for (Square sq : line.getSquares()) {
             if (sq.isClaimed()) {
-                squareNbBefore++;
-            }
-        }
-        line.setEmpty(false);
-        for (Square sq : line.getSquares()) {
-            if (sq.isClaimed()) {
-                squareNbAfter++;
+                squareNb++;
             }
         }
         //System.out.println("squareNb = " + (squareNbAfter-squareNbBefore));
-        return squareNbAfter-squareNbBefore;
+        return squareNb;
+    }
+
+    public static int checkAnySquareClaimed(int line, ArrayList<Integer> lines){
+        int squareNb=0;
+        for(Square s : GridController.getSquares(line)){
+            boolean add = true;
+            for(int id : s.getBordersIds() ){
+                if(lines.contains(id)){
+                    add =false;
+                }
+            }
+            if(add){
+                squareNb++;
+            }
+        }
+        return squareNb;
     }
 
     //update of gui labels of the playing frame
@@ -79,22 +102,10 @@ public class Controller {
     }
 
 
-    //checks if claiming the line will update any square to a valence of 1
-    public static boolean isThirdLine(Line line) {
-        boolean result = false;
-
-        for (Square sq : line.getSquares()) {
-            if (sq.getValence() == 2) {
-                result = true;
-            }
-        }
-        return result;
-    }
-
     //counts the number of squares that players have claimed
     public static int countClaimedSquare() {
         int count = 0;
-        for (Square sq : State.currentState().getSquares()) {
+        for (Square sq : GridController.getSquares()) {
             if (sq.getValence() == 0) {
                 count++;
             }

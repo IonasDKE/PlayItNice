@@ -17,7 +17,7 @@ public class Node {
     private int turn;
     private int visitNb = 0;
     private int weight;
-    private Line line;
+    private Integer line;
     private double uctScore = Double.NEGATIVE_INFINITY;
     public final static int MIN = -1000000000;
 
@@ -26,7 +26,7 @@ public class Node {
         this.parent = parent;
     }
 
-    public Node(State state, int turn, Node parent, Line line){
+    public Node(State state, int turn, Node parent, Integer line){
         this.state = state;
         this.turn = turn;
         this.parent = parent;
@@ -153,11 +153,11 @@ public class Node {
         this.weight = weigth;
     }
 
-    public void setLine(Line line){
+    public void setLine(Integer line){
         this.line = line;
     }
 
-    public Line getLine() {
+    public Integer getLine() {
         return this.line;
     }
 
