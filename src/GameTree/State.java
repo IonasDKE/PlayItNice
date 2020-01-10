@@ -279,5 +279,20 @@ public class State {
 
         return childState;
     }
+    /*
+    public static void checkSymmetry(ArrayList<State> allStates) {
+        for (State state: allStates) {
+            allStates.removeIf(toCompare -> state != toCompare && rotationSymmetry(state,toCompare));
+        }
+    }
 
+    public static boolean rotationSymmetry(State state,State toCompare) {
+        for (int i=0; i<4; i++) {
+            if (toCompare.rotate(i).getLines()==state.getLines()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    */
 }
