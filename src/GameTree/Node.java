@@ -17,7 +17,7 @@ public class Node {
     private int turn;
     private int visitNb = 0;
     private int weight;
-    private Line line;
+    private Integer line;
     private double uctScore = Double.NEGATIVE_INFINITY;
     public final static int MIN = -1000000000;
 
@@ -26,7 +26,7 @@ public class Node {
         this.parent = parent;
     }
 
-    public Node(State state, int turn, Node parent, Line line){
+    public Node(State state, int turn, Node parent, Integer line){
         this.state = state;
         this.turn = turn;
         this.parent = parent;
@@ -38,9 +38,10 @@ public class Node {
     public ArrayList<Node> computeChildren( ) {
         ArrayList<State> stateChildren = this.state.computeAndGetChildren();
         ArrayList<Node> newChildren = new ArrayList<>();
-        for (State t : stateChildren) {
-            newChildren.add(new Node(t, this));
+        State.checkSymmetry(stateChildren);
 
+        for (State state : stateChildren) {
+            newChildren.add(new Node(state, this));
         }
         this.children = newChildren;
         return newChildren;
@@ -92,9 +93,14 @@ public class Node {
         if (this.visitNb==0) {
             return Integer.MAX_VALUE;
         }else {
+<<<<<<< HEAD
 
             return this.uctScore = (this.numberOfWin / (double) this.visitNb) +
+=======
+            this.uctScore = (this.score / (double) this.visitNb) +
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
                     COEFFICIENT * Math.sqrt(Math.log(this.getParent().getVisitNb()) / (double) this.visitNb);
+            return this.uctScore;
 
         }
     }
@@ -152,11 +158,12 @@ public class Node {
         this.weight = weigth;
     }
 
-    public void setLine(Line line){
+    public void setLine(Integer line){
         this.line = line;
     }
 
-    public Line getLine() {
+    public Integer getLine() {
         return this.line;
     }
+
 }

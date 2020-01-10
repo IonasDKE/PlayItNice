@@ -1,4 +1,5 @@
 package View;
+import Controller.GridController;
 import GameTree.State;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -100,7 +101,11 @@ public class Board {
      * @return the board of the game which is composed of dots and lines ;)
      */
     public static Pane  makeGrid( int width, int higth){
+<<<<<<< HEAD
         int DOT_SIZE = 10;
+=======
+        int DOT_SIZE = 12;
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         Pane pane = new Pane();
         int squareSize = GRID_SIZE/Integer.max(width,higth);
 
@@ -121,7 +126,7 @@ public class Board {
                     sq.addBorder(graphicLine.getLine());
                 }
 
-                if(h!=0){State.findSquare( (2*10*(h-1)+w),squares).addBorder(graphicLine.getLine());}
+                if(h!=0){GridController.findSquare( (2*10*(h-1)+w),squares).addBorder(graphicLine.getLine());}
 
                 pane.getChildren().add(graphicLine);
             }
@@ -135,16 +140,25 @@ public class Board {
 
                 lines.add(graphicLine.getLine());
 
-                if(w!=width){ State.findSquare( (2*10*h+w), squares).addBorder(graphicLine.getLine());}
-                if(w!=0){State.findSquare( (2*10*h+w-1), squares).addBorder(graphicLine.getLine());}
+                if(w!=width){ GridController.findSquare( (2*10*h+w), squares).addBorder(graphicLine.getLine());}
+                if(w!=0){GridController.findSquare( (2*10*h+w-1), squares).addBorder(graphicLine.getLine());}
 
                 pane.getChildren().add(graphicLine);
-                pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+yTranslation, DOT_SIZE, Color.RED));
-                if(h==(higth-1)) { pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, DOT_SIZE, Color.RED));}
+               pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+yTranslation, DOT_SIZE, Color.BURLYWOOD));
+                // pane.getChildren().add(new Rectangle(w*squareSize+xTranslation-squareSize/DOT_SIZE, h*squareSize+yTranslation-squareSize/DOT_SIZE, DOT_SIZE*2, DOT_SIZE*2));
+                if(h==(higth-1)) {
+                    pane.getChildren().add( new Circle(w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, DOT_SIZE, Color.BURLYWOOD));
+                   // pane.getChildren().add(new Rectangle(w*squareSize+xTranslation-squareSize/DOT_SIZE, h*squareSize+squareSize+yTranslation-squareSize/DOT_SIZE, DOT_SIZE*2, DOT_SIZE*2));
+                }
             }
         }
 
-        State.currentState().setLinesAndSquares(lines,squares);
+        ArrayList<Integer> linesInt = new ArrayList<>();
+        for(Line line : lines){
+            linesInt.add(line.getid());
+        }
+        State.currentState().setLines(linesInt);
+        GridController.setLinesAndSquares(lines,squares);
         return pane;
     }
 

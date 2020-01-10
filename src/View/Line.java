@@ -19,17 +19,14 @@ public class Line {
     private int id;
     private boolean empty = true;
     private ArrayList<Square> squares= new ArrayList<>();
-    private static ArrayList<Line> lines = new ArrayList<>();
+
 
     public Line(int id, GraphicLine g){
         this.id= id;
         this.graphicLine = g;
-        //State.currentState().getLines().add(this);
-        lines.add(this);
-
     }
 
-    public Line (int id,boolean empty ,ArrayList<Square> squares ){
+    public Line (int id,boolean empty ,ArrayList<Square> squares){
         this.id = id;
         this.empty=empty;
         this.squares=squares;
@@ -50,6 +47,7 @@ public class Line {
         if (Controller.checkMove(this)) {
             System.out.println("fill line "+this.id);
             this.setEmpty(false);
+            State.currentState().getLines().remove(new Integer(this.getid()));
 
             this.graphicLine.setStroke(actualPlayer.getColor());
             //this.graphicLine.setStroke(Color.BLACK);
@@ -79,27 +77,28 @@ public class Line {
                     Controller.checkAiPlay();
                 }
             } else {
+<<<<<<< HEAD
                 if (!Controller.checkEnd()) {
+=======
+                if (Controller.checkEnd()) {
+                    System.out.println("endGame");
+                    EndWindow.display(Launcher.thisStage);
+                } else {
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
                     //checks if the next player to play is an AI, if it is the case, makes it play
                     Controller.updateComponents();
                     Mcts.setNewRoots();
                     Controller.checkAiPlay();
+<<<<<<< HEAD
                 } else {
                     System.out.println("endGame");
                     EndWindow.display(Launcher.thisStage);
+=======
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
                 }
             }
         }
     }
-
-    /**
-     * @return all the lines contained in the board
-     */
-    public static ArrayList<Line> getLines(){
-        return lines;
-    }
-
-    //return the id as an integer
 
     /**
      * @return the id of a line
@@ -153,8 +152,13 @@ public class Line {
     /** this method prints all the informations about some lines
      * @param l  an array list which contains some lines
      */
+<<<<<<< HEAD
     public static void display(ArrayList<Line> l){
         for(Line line : l){
+=======
+    public static void display(ArrayList<Line> l) {
+        for (Line line : l) {
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
             //if(line.isEmpty()) {
             System.out.print("line " + line.getid() + ", empty = " + line.isEmpty() + ", squares = ");
             for (Square s : line.getSquares()) {
@@ -163,9 +167,6 @@ public class Line {
             System.out.println();
             // }
         }
-    }
-    public void fillNoEffect() {
-        this.empty=false;
     }
 
 }

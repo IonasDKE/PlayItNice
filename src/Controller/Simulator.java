@@ -66,7 +66,11 @@ public class Simulator {
         for(int i = 0; i < 50; i++) {
             out.println("new simulation "+i);
             //State.currentState().display();
+<<<<<<< HEAD
             for (Line line : State.currentState().getLines()) {
+=======
+            for (Line line : GridController.getLines()) {
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
                 line.setEmpty(true);
             }
             State.currentState().setPlayers(currentPlayer, 0);
@@ -122,7 +126,11 @@ public class Simulator {
 
     public static ArrayList<ArrayList<String>> getAllCombination() {
         ArrayList<ArrayList<String>> toReturn=new ArrayList<>();
+<<<<<<< HEAD
         String[] allAi= {"Mcts", "Alpha-Beta", "Rule Based", "MiniMax"};
+=======
+        String[] allAi= {"Mcts Tree", "Mcts Acyclic", "Alpha-Beta", "Rule Based", "MiniMax"};
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         int index=0;
 
         for (int i=0;i<allAi.length;i++) {
@@ -136,4 +144,8 @@ public class Simulator {
         }
         return toReturn;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00

@@ -3,11 +3,18 @@ import AI.*;
 import GameTree.State;
 import RLearning.QLearning;
 import javafx.scene.paint.Color;
+<<<<<<< HEAD
 import Controller.Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+=======
+import Controller.GridController;
+
+import java.io.IOException;
+import java.util.ArrayList;
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
 import java.util.concurrent.TimeUnit;
 
 
@@ -19,9 +26,13 @@ public class Player {
     private String name;
     private String ai;
     public String graphType="";
+<<<<<<< HEAD
     QLearning qLearner;
     protected int [] reward = new int[3];
     private State state;
+=======
+
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
 
     public Player(Color color, String name, String ai) {
         this.color = color;
@@ -119,10 +130,17 @@ public class Player {
     public void aiPlay() throws IOException {
         //System.out.println("called ai player");
 
+<<<<<<< HEAD
         Line chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
         //System.out.println("ai fill "+chosenLine.getid());
 
         State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
+=======
+        int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
+        System.out.println("ai fill "+chosenLine);
+
+        GridController.findLine(chosenLine).fill();
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
 
     }
 
@@ -184,6 +202,7 @@ public class Player {
         this.score = newScore;
     }
 
+<<<<<<< HEAD
     public int checkPlayerReward() {
         /**
          * return 0 if the result of the game is a draw
@@ -246,4 +265,6 @@ public class Player {
          */
     }
 
+=======
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
 }

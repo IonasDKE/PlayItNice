@@ -24,7 +24,11 @@ public class Mcts extends AISolver {
     public static int minScore;
     public boolean firstTurn=true;
 
+<<<<<<< HEAD
     public Line nextMove(State state, int color, String str) {
+=======
+    public int nextMove(State state, int color, String str) {
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         System.out.println("mcts new move");
         //System.out.println("root node: " + rootNode);
         if (firstTurn) {
@@ -68,13 +72,22 @@ public class Mcts extends AISolver {
     }
 
     //return the best Line to color after the limited time or if there is a stack over flow
+<<<<<<< HEAD
     public Line bestMove(State state) {
+=======
+    public int bestMove(State state) {
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         //state.display();
         Node winnerNode = getBestChild();
         this.graph.setNewRoot();
         this.firstTurn=false;
+<<<<<<< HEAD
         Line line =State.findDiffLineMcts(state.getLines(), winnerNode.getState().getLines());
         System.out.println("line id: "+line.getid());
+=======
+        int line =State.findDiffLine(state, winnerNode.getState());
+        System.out.println("line id: "+line);
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         return (line);
     }
 
@@ -101,9 +114,17 @@ public class Mcts extends AISolver {
 
         simulationCounter++;
         while (!isComplete(stateCopy)) {
+<<<<<<< HEAD
             stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));
             //RuleBased.nextMove(stateCopy, player.getColor());
 
+=======
+            stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size()))); //random simulation
+
+            //TODO
+            //stateCopy=stateCopy.computeAChild(RuleBased.nextMove(stateCopy, 1, "")); //simulation using our rule based agent
+
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         }
 
         int score= stateCopy.getScore(player);
@@ -134,6 +155,7 @@ public class Mcts extends AISolver {
     }
 
     public boolean isComplete(State state) {
+<<<<<<< HEAD
         boolean boardIsComplete=true;
         for (Line l: state.getLines()){
             if (l.isEmpty()) {
@@ -141,6 +163,9 @@ public class Mcts extends AISolver {
             }
         }
         return boardIsComplete;
+=======
+       return state.getLines().size()==0;
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
     }
 
     public Node getBestChild() {
