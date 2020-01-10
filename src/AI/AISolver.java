@@ -3,16 +3,13 @@ package AI;
 import GameTree.State;
 import View.*;
 
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 
 public abstract class AISolver {
 
     protected int playerColor;
     protected Player getActualPlayer;
     private final static int cScore = 20;
-    private final static int cThree = 15;
+    private final static int cThree = 5;
     private final static int cTwo = 2;
     int counter =0;
 
@@ -22,7 +19,7 @@ public abstract class AISolver {
      * @param color
      * @return score of an evaluation function
      */
-        public int evaluationFunction(State board, int color){
+    public int evaluationFunction(State board, int color){
         int score;
         //Return the score of the first player
         if(playerColor==0) {
@@ -31,14 +28,14 @@ public abstract class AISolver {
         //Return the score of the second player
         else{
             score = cScore * board.getScore(1) - cScore * board.getScore(0);
-            }
+        }
         //CHECKS IN THE FUTURE
         if(playerColor == color) {
             //Assigns a good score to the end square
-            score += cThree * board.getValence(0) - cTwo * board.getValence(1);
+            score += cThree * board.getValence(0) - cTwo * board.getValence(2);
         }else
             //Assigns a bad score to the opposite end square
-            score -= cThree * board.getValence(0) - cTwo * board.getValence(1);
+            score -= cThree * board.getValence(0) - cTwo * board.getValence(2);
         return score;
     }
 
@@ -63,10 +60,10 @@ public abstract class AISolver {
     }
     */
 
-        /**
-         * Creates a next move for the player
-         * @param board the state 'next move'
-         * @param color takes the turn ( which player is playing
-         */
-    public abstract Line nextMove(State board, int color);
+    /**
+     * Creates a next move for the player
+     * @param board the state 'next move'
+     * @param color takes the turn ( which player is playing
+     */
+    public abstract Line nextMove(State board, int color, String str);
 }

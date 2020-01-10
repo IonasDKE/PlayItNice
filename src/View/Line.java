@@ -3,12 +3,18 @@ package View;
 import AI.Mcts;
 import Controller.Controller;
 import GameTree.State;
+import Controller.*;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Line {
 
+    public int reward;
+    public int currentState;
+    public int nextState;
+    public int fillId;
     private GraphicLine graphicLine;
     private int id;
     private boolean empty = true;
@@ -37,15 +43,16 @@ public class Line {
      * this method is used to fill (color) a line, it is called on a single line and it
      * also switches the turn
      */
-    public void fill(){
+    public void fill() throws IOException {
 
         Player actualPlayer = State.getCurrentActualPlayer();
 
         if (Controller.checkMove(this)) {
-            //System.out.println("fill line "+this.id);
+            System.out.println("fill line "+this.id);
             this.setEmpty(false);
 
             this.graphicLine.setStroke(actualPlayer.getColor());
+            //this.graphicLine.setStroke(Color.BLACK);
 
             for (Square sq : this.getSquares()) {
                 sq.colorSquare(actualPlayer);
@@ -53,15 +60,34 @@ public class Line {
 
             Controller.updateTurn(this, State.currentState());
 
-            Controller.updateComponents();
+            boolean simulation = false;
+            if (simulation) {
+                if (Simulator.checkEnd()) {
+                    System.out.println("endGame");
+                    int score = State.currentState().getPlayers().get(0).getScore();
+                    Simulator.scores.get(Simulator.scores.size()).add(score);
+                    if (score < 5) {
+                        Simulator.wins.get(Simulator.wins.size()).add(0);
+                    } else
+                        Simulator.wins.get(Simulator.wins.size()).add(1);
 
-            if (Controller.checkEnd()) {
-                System.out.println("endGame");
-                EndWindow.display(Launcher.thisStage);
+                    return;
+
+                    //EndWindow.display(Launcher.thisStage);
+                } else {
+                    Mcts.setNewRoots();
+                    Controller.checkAiPlay();
+                }
             } else {
-                //checks if the next player to play is an AI, if it is the case, makes it play
-                Mcts.setNewRoots();
-                Controller.checkAiPlay();
+                if (!Controller.checkEnd()) {
+                    //checks if the next player to play is an AI, if it is the case, makes it play
+                    Controller.updateComponents();
+                    Mcts.setNewRoots();
+                    Controller.checkAiPlay();
+                } else {
+                    System.out.println("endGame");
+                    EndWindow.display(Launcher.thisStage);
+                }
             }
         }
     }
@@ -129,13 +155,13 @@ public class Line {
      */
     public static void display(ArrayList<Line> l){
         for(Line line : l){
-            if(line.isEmpty()) {
-                System.out.print("line " + line.getid() + ", empty = " + line.isEmpty() + ", squares = ");
-                for (Square s : line.getSquares()) {
-                    System.out.print(s.getid() + ", ");
-                }
-                System.out.println();
+            //if(line.isEmpty()) {
+            System.out.print("line " + line.getid() + ", empty = " + line.isEmpty() + ", squares = ");
+            for (Square s : line.getSquares()) {
+                System.out.print(s.getid() + ", ");
             }
+            System.out.println();
+            // }
         }
     }
     public void fillNoEffect() {

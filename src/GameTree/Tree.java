@@ -2,8 +2,7 @@ package GameTree;
 
 import java.util.ArrayList;
 
-public class Tree {
-    private Node root;
+public class Tree extends Graph {
     private ArrayList<Node> leaf = new ArrayList<>();
 
     public Tree(){
@@ -29,25 +28,25 @@ public class Tree {
 
     //grow the tree deeper
     public void extend(int height){
-       for(int i =0; i<height; i++) {
-           long be = System.currentTimeMillis();
-           //System.out.println("extend "+i);
-           ArrayList<Node> newLeafs = new ArrayList<>();
+        for(int i =0; i<height; i++) {
+            long be = System.currentTimeMillis();
+            //System.out.println("extend "+i);
+            ArrayList<Node> newLeafs = new ArrayList<>();
 
-           for (Node parent : leaf) {
-               //System.out.println();
-               //System.out.println("Parent = ");
-               //parent.getState().display();
-                   ArrayList<Node> children = parent.computeAndGetChildren();
-                   for (Node s : children) {
-                       newLeafs.add(s);
-                   }
-           }
-           //System.out.println("newLeafs = " + newLeafs.size());
-           leaf = newLeafs;
-           //System.out.println("time :"+ (System.currentTimeMillis()-be)/1000+ " seconds; leaf size = "+leaf.size());
+            for (Node parent : leaf) {
+                //System.out.println();
+                //System.out.println("Parent = ");
+                //parent.getState().display();
+                ArrayList<Node> children = parent.computeAndGetChildren();
+                for (Node s : children) {
+                    newLeafs.add(s);
+                }
+            }
+            //System.out.println("newLeafs = " + newLeafs.size());
+            leaf = newLeafs;
+            //System.out.println("time :"+ (System.currentTimeMillis()-be)/1000+ " seconds; leaf size = "+leaf.size());
 
-       }
+        }
     }
 
    /* public void rootCheckExtend(int height){
@@ -76,34 +75,18 @@ public class Tree {
         }
     }*/
 
-    //for MCTS, delets all the non-used subtree
-    public void deleteRootParent() {
-        Node parent = this.getRoot().getParent();
-        for (Node childToDelete: parent.getChildren()) {
-            if (childToDelete != this.getRoot())
-                childToDelete=null;
-        }
-        this.getRoot().setParent(null);
-        parent=null;
-
-    }
-
-    public void setRoot(Node newRoot) {
-        this.root=newRoot;
-    }
-
     public ArrayList<Node> getLayer(int layerNb) {
         ArrayList<Node> result = new ArrayList<>();
         result.add(this.root);
 
-       // System.out.println();
-       // System.out.println("layer root = ");
-      //  root.getState().display();
+        // System.out.println();
+        // System.out.println("layer root = ");
+        //  root.getState().display();
 
         for (int i = 0; i < layerNb; i++) {
             ArrayList<Node> layer = new ArrayList<>(result);
             result.clear();
-           // System.out.println("layer.size() = " + layer.size());
+            // System.out.println("layer.size() = " + layer.size());
             for (Node n : layer) {
                 if (!n.hasChildren()) {
                     n.computeChildren();
@@ -136,7 +119,7 @@ public class Tree {
 
             if (nbdiff== 0) {
                 this.setRoot(node);
-                System.out.println("mcts root changed");
+                //System.out.println("mcts root changed");
                 //node.getState().display();
             }
         }
@@ -148,4 +131,3 @@ public class Tree {
     }
 
 }
-

@@ -44,6 +44,15 @@ public class Square {
         return result;
     }
 
+    public boolean containsBorder(Line line){
+        boolean result = false;
+        for(Line l : this.getBorders()){
+            if(l.getid()== line.getid()){
+                return true;
+            }
+        }
+        return result;
+    }
     // adds a border reference to the square
     public void addBorder(Line line){
         if(borders.size()<4){
@@ -88,17 +97,17 @@ public class Square {
 
         for(Line line : lines){
 
-          for(int i =0; i<line.getSquares().size(); i++){
-              Square a = line.getSquares().get(0);
-              Square f = State.findSquare(a.getid(),result);
-              if(f ==null) {
-                  f = new Square(a.getid());
-                  result.add(f);
-              }
-                 line.getSquares().remove(0);
-                 f.addBorder(line);
-                 // adds also f in the squares arraylists of line. As a result a is replaced by a cloned version
-          }
+            for(int i =0; i<line.getSquares().size(); i++){
+                Square a = line.getSquares().get(0);
+                Square f = State.findSquare(a.getid(),result);
+                if(f ==null) {
+                    f = new Square(a.getid());
+                    result.add(f);
+                }
+                line.getSquares().remove(0);
+                f.addBorder(line);
+                // adds also f in the squares arraylists of line. As a result a is replaced by a cloned version
+            }
         }
         return result;
     }

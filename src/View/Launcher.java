@@ -29,10 +29,10 @@ public class Launcher  extends Application {
     private final int HEIGHT = 800;
     private int countError=0;
     private ComboBox selectPlayerOne, selectPlayerTwo , numberOfPlayers;
-    private String[] gameSizes = {"2 x 2", "3 x 3" , "4 x 4", "4 x 5", "5 x 6", "8 x 8"};
+    private String[] gameSizes = {"2 x 2", "3 x 3" , "4 x 4", "5 x 5", "5 x 6", "8 x 8"};
     //Creates the label for all the types of player
-    private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "Rule Based","Alpha Beta", "Mcts", "MiniMax");
-    private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "Rule Based","Alpha Beta", "Mcts", "MiniMax");
+    private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "Rule Based","Alpha Beta", "Mcts Tree","Mcts Acyclic", "MiniMax");
+    private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "Rule Based","Alpha Beta", "Mcts Tree", "Mcts Acyclic", "MiniMax");
     private ObservableList<String> playerNumbers = FXCollections.observableArrayList("Select a number","1","2");
     private RadioButton[] radioButtons;
     private GridPane sizeBox;
@@ -236,8 +236,8 @@ public class Launcher  extends Application {
             try {
                 //AdjacencyMatrix.setMatrix(chosenM,chosenN);
                 ArrayList<Color> players = new ArrayList<>();
-                players.add(Color.BLUE);
-                players.add(Color.CHOCOLATE);
+                players.add(Color.GREEN);
+                players.add(Color.RED);
                 if(Integer.parseInt(numberOfPlayers.getValue().toString()) == 2) {
                     players.add(Color.LIME);
                 }
@@ -262,15 +262,18 @@ public class Launcher  extends Application {
      * e.g if the user select MCTS, then it assigns a player to BE mcts
      * @param colors whatever
      */
+
+    public static ArrayList<Player>currentPlayers = new ArrayList<>();
+    public static String opponent1;
+
     public void setPlayers(ArrayList<Color> colors){
-        ArrayList<Player> currentPlayers = new ArrayList<>();
         int playerNumber=0;
         Player a = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), "Human");
         currentPlayers.add(a);
         a.setSolver();
         playerNumber++;
 
-        String opponent1 = selectPlayerOne.getValue().toString();
+        opponent1 = selectPlayerOne.getValue().toString();
         Player b = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent1);
         currentPlayers.add(b);
         b.setSolver();
@@ -303,6 +306,10 @@ public class Launcher  extends Application {
      */
     public static int getChosenN(){
         return chosenN;
+    }
+
+    public static ArrayList<Player> getCurrentPlayers() {
+        return currentPlayers;
     }
 
 }

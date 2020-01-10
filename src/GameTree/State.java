@@ -28,6 +28,10 @@ public class State {
         this.players = players;
     }
 
+    public State() {
+
+    }
+
     /**
      * use this state constructor only for the current state
      */
@@ -226,8 +230,16 @@ public class State {
         this.getLines().clear();
         this.getSquares().clear();
         this.getPlayers().clear();
-        this.getChildren().clear();
+        if(getChildren()!=null) {
+            this.getChildren().clear();
+        }
         this.turn = 0;
+    }
+
+    public void setPlayable(){
+        for (Line line: getLines()){
+            line.setEmpty(true);
+        }
     }
 
     public int numberOfAvailableMoves(){
@@ -374,6 +386,15 @@ public class State {
 
         Controller.updateTurn(filledLine, childState);
         return childState;
+    }
+
+    public int getNextTurn(int turn) {
+        if(turn == 1){
+            return 0;
+        }
+        else{
+            return 1;
+        }
     }
 
    /*public void setScores(ArrayList<Integer> newScores) {

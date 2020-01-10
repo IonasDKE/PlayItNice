@@ -6,6 +6,7 @@ import View.Launcher;
 import View.Line;
 import View.Player;
 import View.Square;
+import javafx.scene.paint.Color;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -17,19 +18,38 @@ import static Controller.Controller.isThirdLine;
 
 
 public class RuleBased extends AISolver {
+
+    private boolean trick = false;
+    private boolean firstCall = true;
+    private int nb =0;
+    private int index = 0;
     @Override
-    public Line nextMove(State board, int color) {
+    public Line nextMove(State board, int color,  String str) {
 
         //board.display();
         Line result = null;
 
+        //first phase: check if any square can be filled, if not pick a random line in a square of valence 2
         if (board.getNdValenceLines().size() != 0) {
-            result = completeSquare(State.currentState().getSquares());
+            result = completeSquare();
             if (result == null) {
+                System.out.println("color randomline");
                 result = colorRandomLine(board);
             }
-        } else {
 
+        } else {
+            //filling phase, phase where it is not longer possible to find a square of valence less then 2
+
+            Player p = State.getCurrentActualPlayer();
+            //checks if the trick is going to have to be applied
+            if (pairScore() + p.getScore() + 2 <= impairScore() + Player.nextPlayer(p).getScore() -2) {
+                if (nb == 0) {
+                    index = getSortedChannels().get(0).size();
+                }
+                trick = true;
+            }
+            //System.out.println("nb = " + nb);
+            System.out.println(pairScore() +"+"+ p.getScore() + "  " + impairScore()+ "+"+ Player.nextPlayer(p).getScore());
             result = fillPhase();
         }
 
@@ -67,6 +87,8 @@ public class RuleBased extends AISolver {
                 children.remove(0);
             }
         }
+
+        // to be visited is the same object than State.currentState().getSquares and has been emptied
         State.currentState().setSquares(visited);
         return result;
     }
@@ -76,7 +98,7 @@ public class RuleBased extends AISolver {
         return getChannels().size();
     }
 
-    //returns all the neighouring squares of a given square
+    //returns all the neighouring squares of a given square which are not in the array list sqs
     private static ArrayList<Square> goToNextSquares(ArrayList<Square> sqs, Square s) {
         ArrayList<Square> children = new ArrayList<>();
         for (Line line : s.getEmptyInnerBorders()) {
@@ -89,23 +111,10 @@ public class RuleBased extends AISolver {
         return children;
     }
 
-    //returns all the neighouring squares of a given square
-    private static ArrayList<Square> goToNextSquares(Square s) {
-        ArrayList<Square> children = new ArrayList<>();
-        for (Line line : s.getEmptyInnerBorders()) {
-            for (Square neighbouringSquare : line.getSquares()) {
-                if (neighbouringSquare != s) {
-                    children.add(neighbouringSquare);
-                }
-            }
-        }
-        return children;
-    }
-
-    //claim the squares who can be claimed
-    public static Line completeSquare(ArrayList<Square> sqs) {
+    //claim the squares who can be claimed, by filling the last line
+    public static Line completeSquare() {
         Line result = null;
-        for (Square sq : sqs) {
+        for (Square sq : State.currentState().getSquares()) {
             if (sq.getValence() == 1) {
                 //System.out.println("fill square");
                 result = sq.getEmptyBorders().get(0);
@@ -114,30 +123,77 @@ public class RuleBased extends AISolver {
         return result;
     }
 
+    //picks a random line which doesn t give the opponent the opportunity the fill a box and thus to win a point
     public static Line colorRandomLine(State s) {
-        System.out.println("called random");
+        //System.out.println("called random");
         Random rand = new Random();
         ArrayList<Line> lines = s.getNdValenceLines();
         int index = rand.nextInt(lines.size());
+        //int index = 0;
         //Line result = lines.get(index);
         //case 1 finds a line that doesnt give the opponent the opportunity to claim a square
         return lines.get(index);
     }
 
-    public static Line fillPhase() {
+    //try to implement the trick if needed otherwise, color a line of the smallest channel
+    public Line fillPhase() {
         Line result = null;
+        ArrayList<Square> smallestChannel = getSortedChannels().get(0);
+
+        //System.out.println("index = " + index + " nb = "+ nb +" trick= "+ trick);
+
+        if(trick){
+            if(nb == index-2) {
+                System.out.println();
+                nb=0;
+                trick = false;
+                return switchC();
+            }else{
+                nb++;
+            }
+        }
+
+        result = completeSquare();
+
+        if(result !=null ){
+            System.out.println("complete");
+            return result;
+        }
 
         Random rand = new Random();
 
-        System.out.println(" pick smallest channel");
-
-        ArrayList<Square> smallestChannel = getSortedChannels().get(0);
         int randomSqIndex = rand.nextInt(smallestChannel.size());
 
         Square randomSq = smallestChannel.get(randomSqIndex);
         int randomLineIndex = rand.nextInt(randomSq.getEmptyBorders().size());
 
         result = randomSq.getEmptyBorders().get(randomLineIndex);
+        System.out.println("random");
+        return result;
+    }
+
+    private static Line switchC(){
+        Line result =null;
+        ArrayList<Square> channelTwo = getSortedChannels().get(0);
+        if(channelTwo.size()!=2){
+            System.out.println("cannot switch" + channelTwo.size());
+        }
+        Square s2;
+        Square s3;
+        if(channelTwo.get(0).getValence()==2){
+            s2 = channelTwo.get(0);
+            s3 = channelTwo.get(1);
+        }
+        else{
+            s2 = channelTwo.get(1);
+            s3 = channelTwo.get(0);
+        }
+
+        for (Line l2 : s2.getEmptyBorders()) {
+            if(!s3.containsBorder(l2)){
+                result = l2;
+            }
+        }
         return result;
     }
 
@@ -145,6 +201,7 @@ public class RuleBased extends AISolver {
         return sort(getChannels());
     }
 
+    //sort the channels by length
     private static ArrayList<ArrayList<Square>> sort(ArrayList<ArrayList<Square>> channels) {
         channels.sort(new Comparator<ArrayList<Square>>() {
             @Override
@@ -160,6 +217,7 @@ public class RuleBased extends AISolver {
         return channels;
     }
 
+    //number of squares in the pair indexes channels
     private static int pairScore() {
 
         int result = 0;
@@ -175,6 +233,7 @@ public class RuleBased extends AISolver {
         return result;
     }
 
+    //number of squares in the impair indexes channels
     private static int impairScore() {
 
         int result = 0;

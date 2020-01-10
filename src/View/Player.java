@@ -1,9 +1,14 @@
 package View;
 import AI.*;
 import GameTree.State;
+import RLearning.QLearning;
 import javafx.scene.paint.Color;
 import Controller.Controller;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 
 public class Player {
@@ -13,7 +18,10 @@ public class Player {
     private int score;
     private String name;
     private String ai;
-
+    public String graphType="";
+    QLearning qLearner;
+    protected int [] reward = new int[3];
+    private State state;
 
     public Player(Color color, String name, String ai) {
         this.color = color;
@@ -22,10 +30,28 @@ public class Player {
         this.ai= ai;
     }
 
+
+    public Player(QLearning agentToBeTrained) {
+        this.score = 0;
+        this.qLearner = agentToBeTrained;
+        //both player draws
+        //this needs to be negative other wise q value might converge
+        reward[0] = -10;
+        //Qplayer loses
+        reward[1] = -100;
+        //QPlayer wons
+        reward[2] = 100;
+    }
+
     public void setSolver(){
         switch (this.ai) {
-            case  "Mcts":
+            case  "Mcts Tree":
+                this.graphType="Tree";
                 solver = new Mcts();
+                break;
+            case "Mcts Acyclic":
+                this.graphType="Acyclic";
+                solver= new Mcts();
                 break;
             case "Rule Based":
                 solver = new RuleBased();
@@ -34,9 +60,11 @@ public class Player {
                 solver = new AlphaBeta();
                 break;
             case "MiniMax" :
-                System.out.println("haha");
                 solver = new MiniMax();
                 break;
+        }
+        if(solver==null){
+            System.out.println("solver "+this.ai+ " is null");
         }
     }
 
@@ -70,6 +98,8 @@ public class Player {
         return this.score;
     }
 
+
+
     public Color getColor() {
         return this.color;
     }
@@ -86,11 +116,13 @@ public class Player {
         else{ return false; }
     }
 
-    public void aiPlay() {
+    public void aiPlay() throws IOException {
         //System.out.println("called ai player");
-        Line chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn());
+
+        Line chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
+        //System.out.println("ai fill "+chosenLine.getid());
+
         State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
-        System.out.println("ai fill "+chosenLine.getid());
 
     }
 
@@ -146,6 +178,72 @@ public class Player {
             result.add(player.cloned());
         }
         return result;
+    }
+
+    public void setScore(int newScore) {
+        this.score = newScore;
+    }
+
+    public int checkPlayerReward() {
+        /**
+         * return 0 if the result of the game is a draw
+         * return 1 if the agent lost the game
+         * return 2 if the agent won the game
+         */
+        return 0;
+    }
+
+    public void reset() {
+        State.currentState().setPlayable();
+    }
+
+    public void move(){
+        if (State.currentState().getAvailableMoves().size() != 0) {
+            Line line;
+            if(qLearner!=null) {
+                 line = qLearner.selectMove(State.currentState().getAvailableMoves());
+            }
+            else{
+                 line = getRandomLine(State.currentState().getAvailableMoves());
+            }
+            Controller.updateTurn(line,State.currentState());
+            line.setEmpty(false);
+        }
+    }
+
+    private Line getRandomLine(ArrayList<Line> availableMoves) {
+        Random rand = new Random();
+        Line line = availableMoves.get(rand.nextInt(availableMoves.size()));
+        //System.out.println(line.getid());
+        return line;
+    }
+
+    public void learn(int height, int width) {
+        //  GETS THE PLAYER WHO WON THE GAME
+        int winnerIndex =0;
+
+        if(this.score < (height*width/2)+1){
+            winnerIndex = 0;
+        }
+        else if(this.score < height*width/2){
+            winnerIndex = 1;
+        }
+        else if(this.score >= height*width/2+1){
+             winnerIndex = 2;
+        }
+
+        int rewardValue = reward[winnerIndex];
+
+        for(Line move : State.currentState().getAvailableMoves()){
+            move.reward = rewardValue;
+            // takes in the current state(before the agent makes the move) next state(after the agent makes the given move)
+            // the action of the agent (fill) the reward associated with that move
+            qLearner.learnModel(move.currentState, move.nextState, move.fillId, move.reward, null);
+        }
+
+        /**
+         *
+         */
     }
 
 }
