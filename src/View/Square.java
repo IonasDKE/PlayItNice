@@ -3,7 +3,6 @@ package View;
 import Controller.GridController;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 
 public class Square {
@@ -46,7 +45,7 @@ public class Square {
     //same as the above method but removing the borders which are edges of the main grid
     public ArrayList<Line> getEmptyInnerBorders(){
         ArrayList<Line> result = new ArrayList<>();
-        for( Line line : borders){
+        for(Line line : borders){
             if(line.isEmpty() && line.getSquares().size()!=1 ){result.add(line);}
         }
         return result;
@@ -105,19 +104,7 @@ public class Square {
 
         for(Line line : lines){
 
-<<<<<<< HEAD
-            for(int i =0; i<line.getSquares().size(); i++){
-                Square a = line.getSquares().get(0);
-                Square f = State.findSquare(a.getid(),result);
-                if(f ==null) {
-                    f = new Square(a.getid());
-                    result.add(f);
-                }
-                line.getSquares().remove(0);
-                f.addBorder(line);
-                // adds also f in the squares arraylists of line. As a result a is replaced by a cloned version
-            }
-=======
+
           for(int i =0; i<line.getSquares().size(); i++){
               Square a = line.getSquares().get(0);
               Square f = GridController.findSquare(a.getid(),result);
@@ -129,7 +116,6 @@ public class Square {
                  f.addBorder(line);
                  // adds also f in the squares arraylists of line. As a result a is replaced by a cloned version
           }
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         }
         return result;
     }

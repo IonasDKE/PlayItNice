@@ -39,7 +39,7 @@ public class Mcts extends AISolver {
             if (str.equals("acyclic"))
                 graph = new AcyclicGraph(new Node(state, null));
             else
-                graph = new Tree(new Node( state, null));
+                graph = new Tree(new Node(state, null));
             graphs.add(graph);
             minScore = (Launcher.getChosenN() * Launcher.getChosenM()) / 2 + 1;
             //System.out.println("min score =" + minScore);

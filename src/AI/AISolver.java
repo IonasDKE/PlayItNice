@@ -32,17 +32,11 @@ public abstract class AISolver {
         //CHECKS IN THE FUTURE
         if(playerColor == color) {
             //Assigns a good score to the end square
-<<<<<<< HEAD
             score += cThree * board.getValence(0) - cTwo * board.getValence(2);
         }else
             //Assigns a bad score to the opposite end square
             score -= cThree * board.getValence(0) - cTwo * board.getValence(2);
-=======
-            score += cThree * board.getValenceNb(0) - cTwo * board.getValenceNb(1);
-        }else
-            //Assigns a bad score to the opposite end square
-            score -= cThree * board.getValenceNb(0) - cTwo * board.getValenceNb(1);
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
+
         return score;
     }
 
@@ -67,20 +61,11 @@ public abstract class AISolver {
     }
     */
 
-<<<<<<< HEAD
     /**
      * Creates a next move for the player
      * @param board the state 'next move'
      * @param color takes the turn ( which player is playing
      */
-    public abstract Line nextMove(State board, int color, String str);
-}
-=======
-        /**
-         * Creates a next move for the player
-         * @param board the state 'next move'
-         * @param color takes the turn ( which player is playing
-         */
     public abstract int nextMove(State board, int color, String str);
 }
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
+

@@ -1,10 +1,9 @@
 package Controller;
 
 import AI.Mcts;
-import GameTree.Node;
 import GameTree.State;
 import View.Board;
-import View.Line;
+import View.*;
 import View.Player;
 import View.Square;
 import javafx.scene.paint.Color;

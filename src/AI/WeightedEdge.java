@@ -1,6 +1,6 @@
 package AI;
 
-import View.Line;
+import View.*;
 
 public class WeightedEdge implements Comparable<WeightedEdge>{
 

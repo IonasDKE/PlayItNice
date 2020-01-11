@@ -1,6 +1,7 @@
 package GameTree;
 import java.util.ArrayList;
 
+
 public abstract class Graph {
     public Node root;
 
@@ -55,8 +56,5 @@ public abstract class Graph {
 
         return result;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
+

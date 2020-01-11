@@ -1,5 +1,6 @@
 package GameTree;
 
+import View.Launcher;
 import Controller.Controller;
 import Controller.GridController;
 import RLearning.QTraining;
@@ -182,9 +183,8 @@ public class State {
     }
 
     public void setPlayable() {
-        currentState().setLines(GridController.getLinesIDs());
+        //currentState().setLines(GridController.getLinesIDs());
     }
-
 
     public int numberOfAvailableMoves() {
         return lines.size();
@@ -291,9 +291,9 @@ public class State {
     public State computeAChild(int line) {
 
         State childState = this.cloned();
-
         childState.getLines().remove(Integer.valueOf(line));
-
+        Controller.updateTurn(line, childState);
+        return childState;
     }
 
     public int getNextTurn(int turn) {
@@ -329,7 +329,7 @@ public class State {
         }
         return false;
     }
-}
+
 
    /*public void setScores(ArrayList<Integer> newScores) {
         for(Player p : players){

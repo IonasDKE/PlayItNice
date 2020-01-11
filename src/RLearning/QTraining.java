@@ -88,7 +88,7 @@ public class QTraining {
         Board.makeGrid(width, height);
 
         // Sets all the line to empty
-        State.currentState().setLines(GridController.getLinesIDs());
+        //State.currentState().setLines(GridController.getLinesIDs());
         // sets the states with line and player (could be a clone)
         State state = new State(State.currentState().getLines(),players);
 

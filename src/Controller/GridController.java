@@ -1,6 +1,6 @@
 package Controller;
 
-import View.Line;
+import View.*;
 import View.Square;
 
 import java.util.ArrayList;

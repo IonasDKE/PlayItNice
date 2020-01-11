@@ -1,7 +1,7 @@
 package AI;
 
 import GameTree.State;
-import View.Line;
+import View.*;
 import View.Player;
 import View.Square;
 
@@ -19,29 +19,19 @@ public class RuleBased extends AISolver {
     private int nb =0;
     private int index = 0;
     @Override
-<<<<<<< HEAD
-    public Line nextMove(State board, int color,  String str) {
-=======
+
     public int nextMove(State board, int color, String str) {
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
 
         //board.display();
         Line result = null;
 
         //first phase: check if any square can be filled, if not pick a random line in a square of valence 2
-<<<<<<< HEAD
-        if (board.getNdValenceLines().size() != 0) {
-            result = completeSquare();
-            if (result == null) {
-                System.out.println("color randomline");
-                result = colorRandomLine(board);
-=======
+
         if (GridController.getNdValenceLines().size() != 0) {
             result = completeSquare();
             if (result == null) {
                 System.out.println("color randomline");
                 result = colorRandomLine();
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
             }
 
         } else {
@@ -57,11 +47,8 @@ public class RuleBased extends AISolver {
             }
             //System.out.println("nb = " + nb);
             System.out.println(pairScore() +"+"+ p.getScore() + "  " + impairScore()+ "+"+ Player.nextPlayer(p).getScore());
-<<<<<<< HEAD
-            result = fillPhase();
-=======
+
         result = fillPhase();
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         }
 
         return result.getId();
@@ -100,11 +87,8 @@ public class RuleBased extends AISolver {
         }
 
         // to be visited is the same object than State.currentState().getSquares and has been emptied
-<<<<<<< HEAD
-        State.currentState().setSquares(visited);
-=======
+
         GridController.setSquares(visited);
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         return result;
     }
 
@@ -129,11 +113,7 @@ public class RuleBased extends AISolver {
     //claim the squares who can be claimed, by filling the last line
     public static Line completeSquare() {
         Line result = null;
-<<<<<<< HEAD
-        for (Square sq : State.currentState().getSquares()) {
-=======
         for (Square sq : GridController.getSquares()) {
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
             if (sq.getValence() == 1) {
                 //System.out.println("fill square");
                 result = sq.getEmptyBorders().get(0);
@@ -143,11 +123,8 @@ public class RuleBased extends AISolver {
     }
 
     //picks a random line which doesn t give the opponent the opportunity the fill a box and thus to win a point
-<<<<<<< HEAD
-    public static Line colorRandomLine(State s) {
-=======
+
     public static Line colorRandomLine() {
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         //System.out.println("called random");
         Random rand = new Random();
         ArrayList<Line> lines = GridController.getNdValenceLines();
@@ -175,31 +152,13 @@ public class RuleBased extends AISolver {
                 nb++;
             }
         }
-<<<<<<< HEAD
-
-        result = completeSquare();
-
-        if(result !=null ){
-            System.out.println("complete");
-            return result;
-        }
-
-        Random rand = new Random();
-
-        int randomSqIndex = rand.nextInt(smallestChannel.size());
-=======
-
             result = completeSquare();
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
 
             if(result !=null ){
                 System.out.println("complete");
                 return result;
             }
 
-<<<<<<< HEAD
-        result = randomSq.getEmptyBorders().get(randomLineIndex);
-=======
             Random rand = new Random();
 
             int randomSqIndex = rand.nextInt(smallestChannel.size());
@@ -208,7 +167,6 @@ public class RuleBased extends AISolver {
             int randomLineIndex = rand.nextInt(randomSq.getEmptyBorders().size());
 
             result = randomSq.getEmptyBorders().get(randomLineIndex);
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         System.out.println("random");
         return result;
     }

@@ -3,7 +3,8 @@ import AI.*;
 import GameTree.State;
 import RLearning.QLearning;
 import javafx.scene.paint.Color;
-import Controller.GridController;
+import Controller.*;
+import java.util.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class Player {
     private String name;
     private String ai;
     public String graphType="";
+    QLearning qLearner;
+    public int[] reward = new int[3];
 
 
     public Player(Color color, String name, String ai) {

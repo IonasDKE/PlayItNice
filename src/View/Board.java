@@ -101,11 +101,9 @@ public class Board {
      * @return the board of the game which is composed of dots and lines ;)
      */
     public static Pane  makeGrid( int width, int higth){
-<<<<<<< HEAD
-        int DOT_SIZE = 10;
-=======
+
         int DOT_SIZE = 12;
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
+
         Pane pane = new Pane();
         int squareSize = GRID_SIZE/Integer.max(width,higth);
 

@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 public class Controller {
 
     // checks if the line has already been claimed
-    public static Boolean checkMove(View.Line line) {
+    public static Boolean checkMove(Line line) {
         if (line.isEmpty()) {
             return true;
         } else {
@@ -38,8 +38,7 @@ public class Controller {
         }
     }
 
-<<<<<<< HEAD
-=======
+
     public static void updateTurn(int line, State s){
         int numberOfCompleteSquare = checkAnySquareClaimed(line, s.getLines());
 
@@ -54,7 +53,6 @@ public class Controller {
         }
     }
 
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
     public static void checkAiPlay() throws IOException {
         Player player = State.getCurrentActualPlayer();
         if (player.isAi()) {
@@ -150,8 +148,5 @@ public class Controller {
 
 
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
+
