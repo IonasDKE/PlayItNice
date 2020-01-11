@@ -28,16 +28,17 @@ public class Player {
     }
 
 
-    public Player(QLearning agentToBeTrained) {
+    public Player(String name, QLearning agentToBeTrained) {
         this.score = 0;
+        this.name = name;
         this.qLearner = agentToBeTrained;
         //both player draws
         //this needs to be negative other wise q value might converge
-        reward[0] = -10;
+        reward[0] = 0;
         //Qplayer loses
-        reward[1] = -100;
+        reward[1] = -1;
         //QPlayer wons
-        reward[2] = 100;
+        reward[2] = 1;
     }
 
     public void setSolver(){
@@ -193,31 +194,46 @@ public class Player {
         State.currentState().setPlayable();
     }
 
+    /**
+     * this method makes a 'move' for the player, depending on wheter the current player
+     * is the random solver of the Q learner
+     */
     public void move(){
+        Integer line;
         if (State.currentState().getAvailableMoves().size() != 0) {
-            Line line;
+             // if its the Q learner to play
             if(qLearner!=null) {
-                 line = qLearner.selectMove(State.currentState().getAvailableMoves());
+                 line = qLearner.getBestQLine(State.currentState());
+                 qLearner.update(State.currentState());
             }
+            // if its the random bot
             else{
                  line = getRandomLine(State.currentState().getAvailableMoves());
             }
-            Controller.updateTurn(line,State.currentState());
-            line.setEmpty(false);
+            //Removes the line from the current state (equivalent to thefill)
+            State.currentState().getLines().remove(new Integer(line));
+            Controller.updateTurn(line, State.currentState());
         }
     }
 
-    private Line getRandomLine(ArrayList<Line> availableMoves) {
+    /**
+     * @param availableMoves represents all the possible move at a given state
+     * @return a random move out of all the possible moves
+     */
+    private int getRandomLine(ArrayList<Integer> availableMoves) {
         Random rand = new Random();
-        Line line = availableMoves.get(rand.nextInt(availableMoves.size()));
-        //System.out.println(line.getid());
+        int line = availableMoves.get(rand.nextInt(availableMoves.size()));
         return line;
     }
 
+    /** this is called at the end of the game and it updates the Q values for each state
+     * @param height the height of the board
+     * @param width the width of the board
+     */
     public void learn(int height, int width) {
         //  GETS THE PLAYER WHO WON THE GAME
         int winnerIndex =0;
-
+        // checks the score and sets up the rewards
         if(this.score < (height*width/2)+1){
             winnerIndex = 0;
         }
@@ -227,19 +243,10 @@ public class Player {
         else if(this.score >= height*width/2+1){
              winnerIndex = 2;
         }
-
+        //Checks which reward is assigned to the first player
         int rewardValue = reward[winnerIndex];
-
-        for(Line move : State.currentState().getAvailableMoves()){
-            move.reward = rewardValue;
-            // takes in the current state(before the agent makes the move) next state(after the agent makes the given move)
-            // the action of the agent (fill) the reward associated with that move
-            qLearner.learnModel(move.currentState, move.nextState, move.fillId, move.reward, null);
-        }
-
-        /**
-         *
-         */
+        //We train the AI here
+        //it takes in the reward given by the end of the game
+        qLearner.learnFromPolicy(rewardValue);
     }
-
 }
