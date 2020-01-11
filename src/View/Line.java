@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 public class Line {
 
+    public int reward;
+    public int currentState;
+    public int nextState;
+    public int fillId;
     private GraphicLine graphicLine;
     private int id;
     private boolean empty = true;

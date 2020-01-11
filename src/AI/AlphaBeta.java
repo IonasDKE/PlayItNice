@@ -22,14 +22,26 @@ public class AlphaBeta extends AISolver {
      * IMPORTANT : WITH ALPHA BETA WITH THIS AMOUNT OF TIME WE CAN REACH DEPTH OF 7 (ALMOST 8)
      * @param board the state
      * @param turn represents the turn of the player which is playing (0 or 1)
+<<<<<<< HEAD
+     * @param st not used here
+     * @return the best move using minimax search algo
+     */
+    public Line nextMove(State board, int turn, String st) {
+        startTime = System.nanoTime();
+        maxDepth = 1;
+        Line line = null;
+       // board.display();
+=======
      * @param str not used here
      * @return the best move using minimax search algo
      */
     public int nextMove(State board, int turn, String str) {
+        board.display();
         startTime = System.nanoTime();
         maxDepth = 1;
         Integer line = null;
         //board.display();
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         //Starts at depth 0
         while (maxDepth <= board.numberOfAvailableMoves()) {
             WeightedEdge weight = startAI(board, turn, 0, MIN, MAX);
@@ -42,14 +54,20 @@ public class AlphaBeta extends AISolver {
             maxDepth++;
 
         }
+
         //State.findLine(line.getid()).fill();
         //line.fill();
+        System.out.println("Alpha Beta Choose line number" + line.getid());
         return line;
 
     }
     int counter = 0;
     public WeightedEdge startAI(State state, int turn, int depth, int alpha, int beta){
+<<<<<<< HEAD
         System.out.println(depth);
+=======
+       // System.out.println(depth);
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         if ((depth < maxDepth && (System.nanoTime() - startTime) < moveTime)) {
             ArrayList<Integer> moves = state.getAvailableMoves();
             int availableMoves = state.numberOfAvailableMoves();
@@ -68,9 +86,15 @@ public class AlphaBeta extends AISolver {
 
             for (int i = 0; i < childrenState.size(); i++) {
                 State newBoard = childrenState.get(i);
+<<<<<<< HEAD
+                ArrayList<Line> stateLine = state.getLines();
+                Line line = State.findDiffLineMinMax(stateLine, childrenState.get(i).getLines());
+                newEdges[i] = new WeightedEdge(line, evaluationFunction(newBoard, state.getNextTurn(turn)));
+=======
 
-                Integer line = State.findDiffLine(state, childrenState.get(i));
+                int line = State.findDiffLine(state, childrenState.get(i));
                 newEdges[i] = new WeightedEdge(line, evaluationFunction(newBoard, (newBoard.getScore(turn) > state.getScore(turn) ? turn : State.inverseTurn(turn))));
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
             }
 
 
@@ -100,7 +124,11 @@ public class AlphaBeta extends AISolver {
                     int actualScore = state.getScore(state.getActualPlayer());
                     boolean found = false;
                     if (childScore == actualScore) {
+<<<<<<< HEAD
+                        wedge = startAI(child, state.getNextTurn(turn), depth + 1, alpha, beta);
+=======
                         wedge = startAI(child, state.inverseTurn(turn), depth + 1, alpha, beta);
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
                         found = true;
                     } else {
                         wedge = startAI(child, turn, depth + 1, alpha, beta);
@@ -145,7 +173,11 @@ public class AlphaBeta extends AISolver {
                     //System.out.println("actualScore " + actualScore);
 
                     if (childScore == actualScore) {
+<<<<<<< HEAD
+                        wedge = startAI(child, state.getNextTurn(turn), depth + 1, alpha, beta);
+=======
                         wedge = startAI(child, state.inverseTurn(turn), depth + 1, alpha, beta);
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
                         found = true;
                     } else {
                         wedge = startAI(child, turn, depth + 1, alpha, beta);

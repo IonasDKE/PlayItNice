@@ -105,6 +105,19 @@ public class Square {
 
         for(Line line : lines){
 
+<<<<<<< HEAD
+            for(int i =0; i<line.getSquares().size(); i++){
+                Square a = line.getSquares().get(0);
+                Square f = State.findSquare(a.getid(),result);
+                if(f ==null) {
+                    f = new Square(a.getid());
+                    result.add(f);
+                }
+                line.getSquares().remove(0);
+                f.addBorder(line);
+                // adds also f in the squares arraylists of line. As a result a is replaced by a cloned version
+            }
+=======
           for(int i =0; i<line.getSquares().size(); i++){
               Square a = line.getSquares().get(0);
               Square f = GridController.findSquare(a.getid(),result);
@@ -116,6 +129,7 @@ public class Square {
                  f.addBorder(line);
                  // adds also f in the squares arraylists of line. As a result a is replaced by a cloned version
           }
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
         }
         return result;
     }

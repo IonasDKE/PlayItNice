@@ -38,11 +38,11 @@ public class Node {
     public ArrayList<Node> computeChildren() {
         ArrayList<State> stateChildren = this.state.computeAndGetChildren();
         ArrayList<Node> newChildren = new ArrayList<>();
+        State.checkSymmetry(stateChildren);
 
-        for (State t : stateChildren) {
-            newChildren.add(new Node(t, this));
+        for (State state : stateChildren) {
+            newChildren.add(new Node(state, this));
         }
-
         this.children = newChildren;
         return newChildren;
     }

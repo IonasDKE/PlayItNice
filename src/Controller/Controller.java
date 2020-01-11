@@ -27,7 +27,6 @@ public class Controller {
     // claimed a square, a move is implicitely added to the player as its moves haven't been decreased
     public static void updateTurn(Line line, State s) {
         int numberOfCompleteSquare = checkAnySquareClaimed(line);
-
         if (numberOfCompleteSquare > 0) {
             s.getActualPlayer().addScore(numberOfCompleteSquare);
         } else {
@@ -39,6 +38,8 @@ public class Controller {
         }
     }
 
+<<<<<<< HEAD
+=======
     public static void updateTurn(int line, State s){
         int numberOfCompleteSquare = checkAnySquareClaimed(line, s.getLines());
 
@@ -53,6 +54,7 @@ public class Controller {
         }
     }
 
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
     public static void checkAiPlay() throws IOException {
         Player player = State.getCurrentActualPlayer();
         if (player.isAi()) {
@@ -116,6 +118,7 @@ public class Controller {
 
     public static boolean checkEnd() throws IOException {
         if (countClaimedSquare() == (Launcher.getChosenM() * Launcher.getChosenN())) {
+
             return true;
         } else {
 
@@ -147,4 +150,8 @@ public class Controller {
 
 
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00

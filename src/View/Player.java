@@ -1,6 +1,7 @@
 package View;
 import AI.*;
 import GameTree.State;
+import RLearning.QLearning;
 import javafx.scene.paint.Color;
 import Controller.GridController;
 
@@ -24,6 +25,19 @@ public class Player {
         this.name = name;
         this.score = 0;
         this.ai= ai;
+    }
+
+
+    public Player(QLearning agentToBeTrained) {
+        this.score = 0;
+        this.qLearner = agentToBeTrained;
+        //both player draws
+        //this needs to be negative other wise q value might converge
+        reward[0] = -10;
+        //Qplayer loses
+        reward[1] = -100;
+        //QPlayer wons
+        reward[2] = 100;
     }
 
     public void setSolver(){
@@ -81,6 +95,7 @@ public class Player {
         return this.score;
     }
 
+
     public Color getColor() {
         return this.color;
     }
@@ -100,7 +115,7 @@ public class Player {
     public void aiPlay() throws IOException {
         //System.out.println("called ai player");
 
-        int chosenLine = solver.nextMove(State.currentState(), State.currentState().getTurn(), this.graphType);
+        int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
         System.out.println("ai fill "+chosenLine);
 
         GridController.findLine(chosenLine).fill();
@@ -163,6 +178,68 @@ public class Player {
 
     public void setScore(int newScore) {
         this.score = newScore;
+    }
+
+    public int checkPlayerReward() {
+        /**
+         * return 0 if the result of the game is a draw
+         * return 1 if the agent lost the game
+         * return 2 if the agent won the game
+         */
+        return 0;
+    }
+
+    public void reset() {
+        State.currentState().setPlayable();
+    }
+
+    public void move(){
+        if (State.currentState().getAvailableMoves().size() != 0) {
+            Line line;
+            if(qLearner!=null) {
+                 line = qLearner.selectMove(State.currentState().getAvailableMoves());
+            }
+            else{
+                 line = getRandomLine(State.currentState().getAvailableMoves());
+            }
+            Controller.updateTurn(line,State.currentState());
+            line.setEmpty(false);
+        }
+    }
+
+    private Line getRandomLine(ArrayList<Line> availableMoves) {
+        Random rand = new Random();
+        Line line = availableMoves.get(rand.nextInt(availableMoves.size()));
+        //System.out.println(line.getid());
+        return line;
+    }
+
+    public void learn(int height, int width) {
+        //  GETS THE PLAYER WHO WON THE GAME
+        int winnerIndex =0;
+
+        if(this.score < (height*width/2)+1){
+            winnerIndex = 0;
+        }
+        else if(this.score < height*width/2){
+            winnerIndex = 1;
+        }
+        else if(this.score >= height*width/2+1){
+             winnerIndex = 2;
+        }
+
+        int rewardValue = reward[winnerIndex];
+
+        for(Line move : State.currentState().getAvailableMoves()){
+            move.reward = rewardValue;
+            // takes in the current state(before the agent makes the move) next state(after the agent makes the given move)
+            // the action of the agent (fill) the reward associated with that move
+            qLearner.learnModel(move.currentState, move.nextState, move.fillId, move.reward, null);
+        }
+
+        /**
+         *
+         */
     }
 
 }

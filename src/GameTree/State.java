@@ -27,6 +27,10 @@ public class State {
         this.players = players;
     }
 
+    public State() {
+
+    }
+
     /**
      * use this state constructor only for the current state
      */
@@ -149,6 +153,10 @@ public class State {
                 return line;
             }
         }
+        if(randomEmptyLine==null) {
+           // System.out.println("parent and child are identical");
+            return state2.get(0);
+        }
         return randomEmptyLine;
     }
 
@@ -168,6 +176,12 @@ public class State {
             this.getChildren().clear();
         }
         this.turn = 0;
+    }
+
+    public void setPlayable(){
+        for (Line line: getLines()){
+            line.setEmpty(true);
+        }
     }
 
     public int numberOfAvailableMoves(){
@@ -264,10 +278,9 @@ public class State {
         if (turn ==0){
             return 1;
         }
-        else if (turn ==1){
+        else {
             return 0;
         }
-        return 0;
     }
 
 
@@ -285,6 +298,17 @@ public class State {
 
         childState.getLines().remove(Integer.valueOf(line));
 
+    public int getNextTurn(int turn) {
+        if(turn == 1){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
+
+   /*public void setScores(ArrayList<Integer> newScores) {
+        for(Player p : players){
         Controller.updateTurn(line, childState);
 
         return childState;

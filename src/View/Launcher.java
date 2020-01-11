@@ -33,7 +33,11 @@ public class Launcher  extends Application {
     //Creates the label for all the types of player
     private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "Rule Based","Alpha Beta", "Mcts Tree","Mcts Acyclic", "MiniMax");
     private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "Rule Based","Alpha Beta", "Mcts Tree", "Mcts Acyclic", "MiniMax");
+<<<<<<< HEAD
     private ObservableList<String> playerNumbers = FXCollections.observableArrayList("Select a number","1","2");
+=======
+    private ObservableList<String> playerNumbers = FXCollections.observableArrayList("1","2");
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
     private RadioButton[] radioButtons;
     private GridPane sizeBox;
     private Text sizeText;
@@ -265,6 +269,10 @@ public class Launcher  extends Application {
 
     public static ArrayList<Player>currentPlayers = new ArrayList<>();
     public static String opponent1;
+<<<<<<< HEAD
+
+=======
+>>>>>>> 2d0ddf53d7dc7c70935bee3733646ba4cb787d00
     public void setPlayers(ArrayList<Color> colors){
         int playerNumber=0;
         Player a = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), "Human");

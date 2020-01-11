@@ -28,25 +28,25 @@ public class Tree extends Graph {
 
     //grow the tree deeper
     public void extend(int height){
-       for(int i =0; i<height; i++) {
-           long be = System.currentTimeMillis();
-           //System.out.println("extend "+i);
-           ArrayList<Node> newLeafs = new ArrayList<>();
+        for(int i =0; i<height; i++) {
+            long be = System.currentTimeMillis();
+            //System.out.println("extend "+i);
+            ArrayList<Node> newLeafs = new ArrayList<>();
 
-           for (Node parent : leaf) {
-               //System.out.println();
-               //System.out.println("Parent = ");
-               //parent.getState().display();
-                   ArrayList<Node> children = parent.computeAndGetChildren();
-                   for (Node s : children) {
-                       newLeafs.add(s);
-                   }
-           }
-           //System.out.println("newLeafs = " + newLeafs.size());
-           leaf = newLeafs;
-           //System.out.println("time :"+ (System.currentTimeMillis()-be)/1000+ " seconds; leaf size = "+leaf.size());
+            for (Node parent : leaf) {
+                //System.out.println();
+                //System.out.println("Parent = ");
+                //parent.getState().display();
+                ArrayList<Node> children = parent.computeAndGetChildren();
+                for (Node s : children) {
+                    newLeafs.add(s);
+                }
+            }
+            //System.out.println("newLeafs = " + newLeafs.size());
+            leaf = newLeafs;
+            //System.out.println("time :"+ (System.currentTimeMillis()-be)/1000+ " seconds; leaf size = "+leaf.size());
 
-       }
+        }
     }
 
    /* public void rootCheckExtend(int height){
@@ -79,14 +79,14 @@ public class Tree extends Graph {
         ArrayList<Node> result = new ArrayList<>();
         result.add(this.root);
 
-       // System.out.println();
-       // System.out.println("layer root = ");
-      //  root.getState().display();
+        // System.out.println();
+        // System.out.println("layer root = ");
+        //  root.getState().display();
 
         for (int i = 0; i < layerNb; i++) {
             ArrayList<Node> layer = new ArrayList<>(result);
             result.clear();
-           // System.out.println("layer.size() = " + layer.size());
+            // System.out.println("layer.size() = " + layer.size());
             for (Node n : layer) {
                 if (!n.hasChildren()) {
                     n.computeChildren();
@@ -111,4 +111,3 @@ public class Tree extends Graph {
     }
 
 }
-
