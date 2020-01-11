@@ -106,26 +106,6 @@ public class Tree extends Graph {
         return root;
     }
 
-    public void setNewRoot(State state) {
-        //tree.rootCheckExtend(2);
-
-        for (Node node : this.getLayer(1)){
-            //System.out.println();
-            //System.out.println("New State");
-            //node.getState().display();
-
-            int nbdiff = node.getState().isEqual(state);
-            //System.out.println("nbdiff = " + nbdiff);
-
-            if (nbdiff== 0) {
-                this.setRoot(node);
-                //System.out.println("mcts root changed");
-                //node.getState().display();
-            }
-        }
-
-    }
-
     public ArrayList<Node> getLeaves() {
         return leaf;
     }

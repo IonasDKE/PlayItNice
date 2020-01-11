@@ -1,7 +1,6 @@
 package View;
 
 import Controller.GridController;
-import GameTree.State;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 
@@ -30,7 +29,7 @@ public class Square {
     public ArrayList<Integer> getBordersIds(){
         ArrayList<Integer> result = new ArrayList<>();
         for(Line l :borders){
-            result.add(l.getid());
+            result.add(l.getId());
         }
         return result;
     }
@@ -56,7 +55,7 @@ public class Square {
     public boolean containsBorder(Line line){
         boolean result = false;
         for(Line l : this.getBorders()){
-            if(l.getid()== line.getid()){
+            if(l.getId()== line.getId()){
                 return true;
             }
         }
@@ -147,7 +146,7 @@ public class Square {
         for(Square s: sqs){
             System.out.print("square = " + s.getid()+", valence "+ s.getValence()+ ", borders = ");
             for(Line l : s.getBorders()){
-                System.out.print(l.getid()+", "+l.isEmpty()+"; ");
+                System.out.print(l.getId()+", "+l.isEmpty()+"; ");
             }
             System.out.println();
         }

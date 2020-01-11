@@ -35,12 +35,12 @@ public class Node {
 
     }
 
-    public ArrayList<Node> computeChildren( ) {
+    public ArrayList<Node> computeChildren() {
         ArrayList<State> stateChildren = this.state.computeAndGetChildren();
         ArrayList<Node> newChildren = new ArrayList<>();
+
         for (State t : stateChildren) {
             newChildren.add(new Node(t, this));
-
         }
 
         this.children = newChildren;

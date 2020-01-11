@@ -1,6 +1,5 @@
 package Controller;
 
-import GameTree.State;
 import View.Line;
 import View.Square;
 
@@ -53,7 +52,7 @@ public class GridController {
 
         Line lineToReturn = null;
         for (Line line : lines) {
-            if (line.getid() == id)
+            if (line.getId() == id)
                 lineToReturn = line;
         }
         return lineToReturn;

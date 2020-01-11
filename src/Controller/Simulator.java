@@ -19,6 +19,7 @@ public class Simulator {
     public static ArrayList<ArrayList<Integer>> wins = new ArrayList<>();
 
     public static void main(String [] args) throws IOException {
+        Line.simulation=true;
         ArrayList<ArrayList<String>> simulation = getAllCombination();
         try {
             for (int i=0;i<simulation.size();i++) {

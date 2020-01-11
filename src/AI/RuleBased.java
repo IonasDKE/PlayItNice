@@ -1,19 +1,14 @@
 package AI;
 
-import Controller.Controller;
 import GameTree.State;
-import View.Launcher;
 import View.Line;
 import View.Player;
 import View.Square;
-import javafx.scene.paint.Color;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
-import static Controller.Controller.countClaimedSquare;
 import Controller.GridController;
 
 
@@ -53,7 +48,7 @@ public class RuleBased extends AISolver {
         result = fillPhase();
         }
 
-        return result.getid();
+        return result.getId();
     }
 
     //find all the different of channels, return them on a arraylist of arraylist of squares

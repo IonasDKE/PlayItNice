@@ -151,7 +151,7 @@ public class Board {
 
         ArrayList<Integer> linesInt = new ArrayList<>();
         for(Line line : lines){
-            linesInt.add(line.getid());
+            linesInt.add(line.getId());
         }
         State.currentState().setLines(linesInt);
         GridController.setLinesAndSquares(lines,squares);

@@ -4,7 +4,6 @@ import AI.Mcts;
 import Controller.Controller;
 import GameTree.State;
 import Controller.*;
-import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,13 +35,16 @@ public class Line {
      * this method is used to fill (color) a line, it is called on a single line and it
      * also switches the turn
      */
+    public static boolean simulation = false;
     public void fill() throws IOException {
 
         Player actualPlayer = State.getCurrentActualPlayer();
+        State.currentState().getLines().remove(Integer.valueOf(this.getId()));
 
         if (Controller.checkMove(this)) {
-            System.out.println("fill line "+this.id);
+            //System.out.println("fill line "+this.id);
             this.setEmpty(false);
+            State.currentState().getLines().remove(this);
 
             this.graphicLine.setStroke(actualPlayer.getColor());
             //this.graphicLine.setStroke(Color.BLACK);
@@ -53,7 +55,6 @@ public class Line {
 
             Controller.updateTurn(this, State.currentState());
 
-            boolean simulation = false;
             if (simulation) {
                 if (Simulator.checkEnd()) {
                     System.out.println("endGame");
@@ -88,7 +89,7 @@ public class Line {
     /**
      * @return the id of a line
      */
-    public int getid() {
+    public int getId() {
         return id;
     }
 
@@ -140,7 +141,7 @@ public class Line {
     public static void display(ArrayList<Line> l) {
         for (Line line : l) {
             //if(line.isEmpty()) {
-            System.out.print("line " + line.getid() + ", empty = " + line.isEmpty() + ", squares = ");
+            System.out.print("line " + line.getId() + ", empty = " + line.isEmpty() + ", squares = ");
             for (Square s : line.getSquares()) {
                 System.out.print(s.getid() + ", ");
             }

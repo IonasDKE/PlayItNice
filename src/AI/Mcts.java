@@ -1,5 +1,6 @@
 package AI;
 
+import Controller.GridController;
 import GameTree.*;
 import View.*;
 import java.util.*;
@@ -26,6 +27,11 @@ public class Mcts extends AISolver {
 
     public int nextMove(State state, int color, String str) {
         System.out.println("mcts new move");
+
+        //debug:
+        if (!firstTurn) {
+            //System.out.println("Same root? " + this.rootNode.getState().isEqual(state));
+        }
         //System.out.println("root node: " + rootNode);
         if (firstTurn) {
             this.player = State.getCurrentActualPlayer();
@@ -34,11 +40,11 @@ public class Mcts extends AISolver {
                 graph = new AcyclicGraph(new Node(state, null));
             else
                 graph = new Tree(new Node( state, null));
-
             graphs.add(graph);
             minScore = (Launcher.getChosenN() * Launcher.getChosenM()) / 2 + 1;
             //System.out.println("min score =" + minScore);
             //System.out.println("first turn");
+
             this.firstTurn = false;
         }
         rootNode = this.graph.getRoot();
@@ -63,18 +69,16 @@ public class Mcts extends AISolver {
         } catch (StackOverflowError e) {
             return bestMove(state);
         }
-        System.out.println("root node :" + rootNode);
+        System.out.println("root node children: " + rootNode.getChildren().size());
         return bestMove(state);
     }
 
     //return the best Line to color after the limited time or if there is a stack over flow
     public int bestMove(State state) {
-        //state.display();
         Node winnerNode = getBestChild();
         this.graph.setNewRoot();
-        this.firstTurn=false;
         int line =State.findDiffLine(state, winnerNode.getState());
-        System.out.println("line id: "+line);
+        //System.out.println("line id: "+line);
         return (line);
     }
 
@@ -95,14 +99,16 @@ public class Mcts extends AISolver {
         }
     }
 
-    public int simulationCounter=0; //for debug
+    public int simulationCounter=0; //for debug/testing
     public int simulateRandomPlayOut(Node selectedNode) {
         State stateCopy = selectedNode.getState().cloned();
 
         simulationCounter++;
         while (!isComplete(stateCopy)) {
             stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));
-            //RuleBased.nextMove(stateCopy, player.getColor());
+
+            //TODO
+            //stateCopy=stateCopy.computeAChild(RuleBased.nextMove(stateCopy, 1, "")); //simulation using our rule based agent
 
         }
 
@@ -140,7 +146,7 @@ public class Mcts extends AISolver {
     public Node getBestChild() {
         double currentBest=Double.NEGATIVE_INFINITY;
         Node bestChild=null;
-        for (Node child : rootNode.getChildren()) {
+        for (Node child : this.rootNode.getChildren()) {
             //System.out.println("child score : "+child.getScore());
             if (child.getAvg() > currentBest) {
                 bestChild = child;
