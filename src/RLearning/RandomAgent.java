@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+/*
 public class RandomAgent extends Player {
 
     /**
      *  IMPLEMENT A RANDOM AGENT E.G A BOT WHICH WILL RANDOMLY SELECT MOVES
-     */
+     *
     int turn;
     State state;
 
@@ -43,3 +43,4 @@ public class RandomAgent extends Player {
 
 
 }
+*/

@@ -8,7 +8,7 @@ import View.Player;
 import java.util.ArrayList;
 
 import static Controller.Simulator.setPlayers;
-
+/*
 public class QTraining {
 
     static QLearning agentToBeTrained;
@@ -38,14 +38,14 @@ public class QTraining {
             state.setPlayable();
             /**
              * SIMULATES A GAME , STILL NEEDS THE MOVE() FUNCTION TO BE CORRECT
-             */
+             *
             while(state.getAvailableMoves().size()!=0){
                 trainedBot.move();
                 agent.move();
             }
             /**
              * AFTER THE GAME THE AGENT NEEDS TO CALCULATE THE Q VALUES OF THE GAME
-             */
+             *
             System.out.println("TRAINING THE BEAST");
             trainedBot.learn();
         }
@@ -55,7 +55,7 @@ public class QTraining {
     public static void main(String[] args){
         /**resets the state to 0
          * as if we had another board
-         */
+         *
         int height = 3;
         int width = 3;
         //TRAINING PART
@@ -79,7 +79,8 @@ public class QTraining {
         //TESTING PART
         /**
          * write a method which test the 'training' by making it play against other player
-         */
+         *
 
     }
 }
+*/

@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
+/*
 public class RLSolver extends Player{
 
     protected ArrayList<Line> moves = State.currentState().getAvailableMoves();
@@ -45,3 +45,4 @@ public class RLSolver extends Player{
 
     }
 }
+*/

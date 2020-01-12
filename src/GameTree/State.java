@@ -331,6 +331,14 @@ public class State {
        return counter;
     }
 
+    public int getNextTurn(int turn){
+        if (turn==1){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
     public static int inverseTurn(int turn){
         if (turn ==0){
             return 1;
