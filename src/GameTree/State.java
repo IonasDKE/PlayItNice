@@ -304,6 +304,14 @@ public class State {
         return childState;
     }
 
+    public int getNextTurn(int turn) {
+        if (turn == 1) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     public int getHashedID() {
         int id = 0;
         Random rand = new Random();
