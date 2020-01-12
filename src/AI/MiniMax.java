@@ -1,7 +1,7 @@
 package AI;
 
 import GameTree.State;
-import View.Line;
+import View.*;
 import View.Player;
 
 import java.util.ArrayList;
@@ -22,10 +22,11 @@ public class MiniMax extends AISolver {
      * @return the best move using minimax search algo
      */
     @Override
-    public Line nextMove(State board, int turn, String st) {
+
+    public int nextMove(State board, int turn, String st) {
         startTime = System.nanoTime();
         maxDepth = 1;
-        Line line = null;
+        Integer line = null;
         //Starts at depth 0
         while (maxDepth <= board.numberOfAvailableMoves()) {
             WeightedEdge weight = startAI(board, turn, 0);
@@ -46,7 +47,7 @@ public class MiniMax extends AISolver {
     public WeightedEdge startAI(State state, int turn, int depth) {
         System.out.println(depth);
         if ((depth < maxDepth && (System.nanoTime() - startTime) < moveTime)) {
-            ArrayList<Line> moves = state.getAvailableMoves();
+            ArrayList<Integer> moves = state.getAvailableMoves();
             int availableMoves = state.numberOfAvailableMoves();
             int movesLength = moves.size();
 
@@ -64,13 +65,12 @@ public class MiniMax extends AISolver {
 
             for (int i = 0; i < childrenState.size(); i++) {
                 State newBoard = childrenState.get(i);
-                ArrayList<Line> stateLine = state.getLines();
-                Line line = State.findDiffLineMinMax(stateLine, childrenState.get(i).getLines());
+                int line = State.findDiffLine(state, childrenState.get(i));
                 newEdges[i] = new WeightedEdge(line, evaluationFunction(newBoard, (newBoard.getScore(turn) > state.getScore(turn) ? turn : State.inverseTurn(turn))));
             }
 
             Arrays.sort(newEdges);
-            moves = new ArrayList<Line>();
+            moves = new ArrayList<>();
             if (playerColor != turn) {
                 for (int i = 0; i < childrenState.size(); i++) {
                     moves.add(newEdges[i].getLine());
@@ -96,7 +96,7 @@ public class MiniMax extends AISolver {
                     int actualScore = state.getScore(state.getActualPlayer());
                     boolean found = false;
                     if (childScore == actualScore) {
-                        wedge = startAI(child, state.getNextTurn(turn), depth + 1);
+                        wedge = startAI(child, state.inverseTurn(turn), depth + 1);
                         found = true;
                     } else {
                         wedge = startAI(child, turn, depth + 1);
@@ -106,7 +106,8 @@ public class MiniMax extends AISolver {
                     // Backtracks
                     if (newEdge.getWeight() < getScore) {
                         newEdge.setWeight(getScore);
-                        newEdge.setLine(State.findDiffLineMinMax(state.getLines(), child.getLines()));
+
+                        newEdge.setLine(State.findDiffLine(state.getLines(), child.getLines()));
                     }
                     //if (found)
                     //    if (getScore >= beta)
@@ -167,7 +168,8 @@ public class MiniMax extends AISolver {
 
 
                     if (childScore == actualScore) {
-                        wedge = startAI(child, state.getNextTurn(turn), depth + 1);
+
+                        wedge = startAI(child, state.inverseTurn(turn), depth + 1);
                         found = true;
                     } else {
                         wedge = startAI(child, turn, depth + 1);
@@ -177,7 +179,8 @@ public class MiniMax extends AISolver {
                     // Backtracks
                     if (newEdge.getWeight() > getScore) {
                         newEdge.setWeight(getScore);
-                        newEdge.setLine(State.findDiffLineMinMax(state.getLines(), child.getLines()));
+
+                        newEdge.setLine(State.findDiffLine(state, child));
                     }
                 }
 

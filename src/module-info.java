@@ -6,3 +6,4 @@ module PlayItNice {
 
     opens View;
 }
+

@@ -9,7 +9,7 @@ public abstract class AISolver {
     protected int playerColor;
     protected Player getActualPlayer;
     private final static int cScore = 20;
-    private final static int cThree = 15;
+    private final static int cThree = 5;
     private final static int cTwo = 2;
     int counter =0;
 
@@ -32,10 +32,11 @@ public abstract class AISolver {
         //CHECKS IN THE FUTURE
         if(playerColor == color) {
             //Assigns a good score to the end square
-            score += cThree * board.getValenceNb(0) - cTwo * board.getValenceNb(1);
+            score += cThree * board.getValence(0) - cTwo * board.getValence(2);
         }else
             //Assigns a bad score to the opposite end square
-            score -= cThree * board.getValenceNb(0) - cTwo * board.getValenceNb(1);
+            score -= cThree * board.getValence(0) - cTwo * board.getValence(2);
+
         return score;
     }
 
@@ -65,5 +66,6 @@ public abstract class AISolver {
      * @param board the state 'next move'
      * @param color takes the turn ( which player is playing
      */
-    public abstract Line nextMove(State board, int color, String str);
+    public abstract int nextMove(State board, int color, String str);
 }
+

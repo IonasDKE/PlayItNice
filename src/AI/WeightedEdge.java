@@ -1,11 +1,11 @@
 package AI;
 
-import View.Line;
+import View.*;
 
 public class WeightedEdge implements Comparable<WeightedEdge>{
 
     private int weight ;
-    private Line line;
+    private Integer line;
 
     /**
      *  This parameter takes in a line and a weight which is equals
@@ -14,7 +14,7 @@ public class WeightedEdge implements Comparable<WeightedEdge>{
      * @param line takes in a  line
      * @param weight and a weight
      */
-    public WeightedEdge(Line line, int weight) {
+    public WeightedEdge(Integer line, int weight) {
         this.line = line ;
         this.weight = weight ;
     }
@@ -22,7 +22,7 @@ public class WeightedEdge implements Comparable<WeightedEdge>{
     /**
      * @return the line associated to a Weighted Edge
      */
-    public Line getLine(){
+    public Integer getLine(){
         return this.line;
     }
 
@@ -37,7 +37,7 @@ public class WeightedEdge implements Comparable<WeightedEdge>{
         this.weight = weight;
     }
 
-    public void setLine(Line line){
+    public void setLine(Integer line){
         this.line = line;
     }
 

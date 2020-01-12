@@ -1,20 +1,15 @@
 package AI;
 
-import Controller.Controller;
 import GameTree.State;
-import View.Launcher;
-import View.Line;
+import View.*;
 import View.Player;
 import View.Square;
-import javafx.scene.paint.Color;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
-import static Controller.Controller.countClaimedSquare;
-import static Controller.Controller.isThirdLine;
+import Controller.GridController;
 
 
 public class RuleBased extends AISolver {
@@ -24,17 +19,19 @@ public class RuleBased extends AISolver {
     private int nb =0;
     private int index = 0;
     @Override
-    public Line nextMove(State board, int color,  String str) {
+
+    public int nextMove(State board, int color, String str) {
 
         //board.display();
         Line result = null;
 
         //first phase: check if any square can be filled, if not pick a random line in a square of valence 2
-        if (board.getNdValenceLines().size() != 0) {
+
+        if (GridController.getNdValenceLines().size() != 0) {
             result = completeSquare();
             if (result == null) {
                 System.out.println("color randomline");
-                result = colorRandomLine(board);
+                result = colorRandomLine();
             }
 
         } else {
@@ -50,16 +47,17 @@ public class RuleBased extends AISolver {
             }
             //System.out.println("nb = " + nb);
             System.out.println(pairScore() +"+"+ p.getScore() + "  " + impairScore()+ "+"+ Player.nextPlayer(p).getScore());
+
         result = fillPhase();
         }
 
-        return result;
+        return result.getId();
     }
 
     //find all the different of channels, return them on a arraylist of arraylist of squares
     public static ArrayList<ArrayList<Square>> getChannels() {
         ArrayList<Square> visited = new ArrayList<>();
-        ArrayList<Square> toBeVisited = State.currentState().getSquares();
+        ArrayList<Square> toBeVisited = GridController.getSquares();
         ArrayList result = new ArrayList();
 
         // while all the squares have not been visited
@@ -89,7 +87,8 @@ public class RuleBased extends AISolver {
         }
 
         // to be visited is the same object than State.currentState().getSquares and has been emptied
-        State.currentState().setSquares(visited);
+
+        GridController.setSquares(visited);
         return result;
     }
 
@@ -114,7 +113,7 @@ public class RuleBased extends AISolver {
     //claim the squares who can be claimed, by filling the last line
     public static Line completeSquare() {
         Line result = null;
-        for (Square sq : State.currentState().getSquares()) {
+        for (Square sq : GridController.getSquares()) {
             if (sq.getValence() == 1) {
                 //System.out.println("fill square");
                 result = sq.getEmptyBorders().get(0);
@@ -124,10 +123,11 @@ public class RuleBased extends AISolver {
     }
 
     //picks a random line which doesn t give the opponent the opportunity the fill a box and thus to win a point
-    public static Line colorRandomLine(State s) {
+
+    public static Line colorRandomLine() {
         //System.out.println("called random");
         Random rand = new Random();
-        ArrayList<Line> lines = s.getNdValenceLines();
+        ArrayList<Line> lines = GridController.getNdValenceLines();
         int index = rand.nextInt(lines.size());
         //int index = 0;
         //Line result = lines.get(index);
@@ -152,7 +152,6 @@ public class RuleBased extends AISolver {
                 nb++;
             }
         }
-
             result = completeSquare();
 
             if(result !=null ){

@@ -1,9 +1,8 @@
 package View;
 
-import GameTree.State;
+import Controller.GridController;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 
 public class Square {
@@ -26,6 +25,14 @@ public class Square {
         return this.borders;
     }
 
+    public ArrayList<Integer> getBordersIds(){
+        ArrayList<Integer> result = new ArrayList<>();
+        for(Line l :borders){
+            result.add(l.getId());
+        }
+        return result;
+    }
+
     //returns the borders of the square which are still empty
     public ArrayList<Line> getEmptyBorders(){
         ArrayList<Line> result = new ArrayList<>();
@@ -38,7 +45,7 @@ public class Square {
     //same as the above method but removing the borders which are edges of the main grid
     public ArrayList<Line> getEmptyInnerBorders(){
         ArrayList<Line> result = new ArrayList<>();
-        for( Line line : borders){
+        for(Line line : borders){
             if(line.isEmpty() && line.getSquares().size()!=1 ){result.add(line);}
         }
         return result;
@@ -47,7 +54,7 @@ public class Square {
     public boolean containsBorder(Line line){
         boolean result = false;
         for(Line l : this.getBorders()){
-            if(l.getid()== line.getid()){
+            if(l.getId()== line.getId()){
                 return true;
             }
         }
@@ -78,7 +85,7 @@ public class Square {
             };
             LinearGradient linearGradient =
                     new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
-            State.findSquare(this.getid()).getRect().setFill(linearGradient);
+            GridController.findSquare(this.getid()).getRect().setFill(linearGradient);
         }
     }
 
@@ -97,9 +104,10 @@ public class Square {
 
         for(Line line : lines){
 
+
           for(int i =0; i<line.getSquares().size(); i++){
               Square a = line.getSquares().get(0);
-              Square f = State.findSquare(a.getid(),result);
+              Square f = GridController.findSquare(a.getid(),result);
               if(f ==null) {
                   f = new Square(a.getid());
                   result.add(f);
@@ -123,11 +131,22 @@ public class Square {
         return countLines;
     }
 
+    //return number of non complete lines
+    public int getValence(ArrayList<Integer> lines){
+        int countLines = 0;
+        for (Integer line : this.getBordersIds()){
+            if(lines.contains(line)) {
+                countLines++;
+            }
+        }
+        return countLines;
+    }
+
     public static void display(ArrayList<Square> sqs){
         for(Square s: sqs){
             System.out.print("square = " + s.getid()+", valence "+ s.getValence()+ ", borders = ");
             for(Line l : s.getBorders()){
-                System.out.print(l.getid()+", "+l.isEmpty()+"; ");
+                System.out.print(l.getId()+", "+l.isEmpty()+"; ");
             }
             System.out.println();
         }

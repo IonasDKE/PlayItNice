@@ -1,8 +1,10 @@
 package View;
 import AI.*;
 import GameTree.State;
+import RLearning.QLearning;
 import javafx.scene.paint.Color;
-import Controller.Controller;
+import Controller.*;
+import java.util.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ public class Player {
     private String name;
     private String ai;
     public String graphType="";
+    QLearning qLearner;
+    public int[] reward = new int[3];
 
 
     public Player(Color color, String name, String ai) {
@@ -24,6 +28,20 @@ public class Player {
         this.name = name;
         this.score = 0;
         this.ai= ai;
+    }
+
+
+    public Player(String name, QLearning agentToBeTrained) {
+        this.score = 0;
+        this.name = name;
+        this.qLearner = agentToBeTrained;
+        //both player draws
+        //this needs to be negative other wise q value might converge
+        reward[0] = 0;
+        //Qplayer loses
+        reward[1] = -1;
+        //QPlayer wons
+        reward[2] = 1;
     }
 
     public void setSolver(){
@@ -81,6 +99,7 @@ public class Player {
         return this.score;
     }
 
+
     public Color getColor() {
         return this.color;
     }
@@ -100,10 +119,10 @@ public class Player {
     public void aiPlay() throws IOException {
         //System.out.println("called ai player");
 
-        Line chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
-        //System.out.println("ai fill "+chosenLine.getid());
+        int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
+        System.out.println("ai fill "+chosenLine);
 
-        State.findLine(chosenLine.getid(),State.currentState().getLines()).fill();
+        GridController.findLine(chosenLine).fill();
 
     }
 
@@ -165,4 +184,72 @@ public class Player {
         this.score = newScore;
     }
 
+    public int checkPlayerReward() {
+        /**
+         * return 0 if the result of the game is a draw
+         * return 1 if the agent lost the game
+         * return 2 if the agent won the game
+         */
+        return 0;
+    }
+
+    public void reset() {
+        State.currentState().setPlayable();
+    }
+
+    /**
+     * this method makes a 'move' for the player, depending on wheter the current player
+     * is the random solver of the Q learner
+     */
+    public void move(){
+        Integer line;
+        if (State.currentState().getAvailableMoves().size() != 0) {
+             // if its the Q learner to play
+            if(qLearner!=null) {
+                 line = qLearner.getBestQLine(State.currentState());
+                 qLearner.update(State.currentState());
+            }
+            // if its the random bot
+            else{
+                 line = getRandomLine(State.currentState().getAvailableMoves());
+            }
+            //Removes the line from the current state (equivalent to thefill)
+            State.currentState().getLines().remove(new Integer(line));
+            Controller.updateTurn(line, State.currentState());
+        }
+    }
+
+    /**
+     * @param availableMoves represents all the possible move at a given state
+     * @return a random move out of all the possible moves
+     */
+    private int getRandomLine(ArrayList<Integer> availableMoves) {
+        Random rand = new Random();
+        int line = availableMoves.get(rand.nextInt(availableMoves.size()));
+        return line;
+    }
+
+    /** this is called at the end of the game and it updates the Q values for each state
+     * @param height the height of the board
+     * @param width the width of the board
+     */
+    public void learn(int height, int width) {
+        //  GETS THE PLAYER WHO WON THE GAME
+        int winnerIndex =0;
+        // checks the score and sets up the rewards
+        if(this.score < (height*width/2)+1){
+            winnerIndex = 0;
+        }
+        else if(this.score < height*width/2){
+            winnerIndex = 1;
+        }
+        else if(this.score >= height*width/2+1){
+             winnerIndex = 2;
+        }
+        //Checks which reward is assigned to the first player
+        int rewardValue = reward[winnerIndex];
+        //We train the AI here
+        //it takes in the reward given by the end of the game
+        qLearner.learnFromPolicy(rewardValue);
+    }
 }

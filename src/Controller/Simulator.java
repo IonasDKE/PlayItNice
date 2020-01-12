@@ -3,7 +3,7 @@ package Controller;
 import AI.*;
 import GameTree.State;
 import View.Board;
-import View.Line;
+import View.*;
 import View.Player;
 import javafx.scene.paint.Color;
 
@@ -19,6 +19,7 @@ public class Simulator {
     public static ArrayList<ArrayList<Integer>> wins = new ArrayList<>();
 
     public static void main(String [] args) throws IOException {
+        Line.simulation=true;
         ArrayList<ArrayList<String>> simulation = getAllCombination();
         try {
             for (int i=0;i<simulation.size();i++) {
@@ -66,7 +67,8 @@ public class Simulator {
         for(int i = 0; i < 50; i++) {
             out.println("new simulation "+i);
             //State.currentState().display();
-            for (Line line : State.currentState().getLines()) {
+
+            for (Line line : GridController.getLines()) {
                 line.setEmpty(true);
             }
             State.currentState().setPlayers(currentPlayer, 0);
@@ -122,6 +124,7 @@ public class Simulator {
 
     public static ArrayList<ArrayList<String>> getAllCombination() {
         ArrayList<ArrayList<String>> toReturn=new ArrayList<>();
+
         String[] allAi= {"Mcts Tree", "Mcts Acyclic", "Alpha-Beta", "Rule Based", "MiniMax"};
         int index=0;
 
@@ -137,3 +140,4 @@ public class Simulator {
         return toReturn;
     }
 }
+

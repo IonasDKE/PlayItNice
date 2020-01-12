@@ -34,6 +34,7 @@ public class Launcher  extends Application {
     private ObservableList<String> typeOfPlayerOne = FXCollections.observableArrayList("Opponent 1", "Human", "Rule Based","Alpha Beta", "Mcts Tree","Mcts Acyclic", "MiniMax");
     private ObservableList<String> typeOfPlayerTwo = FXCollections.observableArrayList("Opponent 2", "Human", "Rule Based","Alpha Beta", "Mcts Tree", "Mcts Acyclic", "MiniMax");
     private ObservableList<String> playerNumbers = FXCollections.observableArrayList("Select a number","1","2");
+
     private RadioButton[] radioButtons;
     private GridPane sizeBox;
     private Text sizeText;

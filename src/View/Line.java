@@ -4,28 +4,28 @@ import AI.Mcts;
 import Controller.Controller;
 import GameTree.State;
 import Controller.*;
-import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Line {
 
+    public int reward;
+    public int currentState;
+    public int nextState;
+    public int fillId;
     private GraphicLine graphicLine;
     private int id;
     private boolean empty = true;
     private ArrayList<Square> squares= new ArrayList<>();
-    private static ArrayList<Line> lines = new ArrayList<>();
+
 
     public Line(int id, GraphicLine g){
         this.id= id;
         this.graphicLine = g;
-        //State.currentState().getLines().add(this);
-        lines.add(this);
-
     }
 
-    public Line (int id,boolean empty ,ArrayList<Square> squares ){
+    public Line (int id,boolean empty ,ArrayList<Square> squares){
         this.id = id;
         this.empty=empty;
         this.squares=squares;
@@ -39,13 +39,16 @@ public class Line {
      * this method is used to fill (color) a line, it is called on a single line and it
      * also switches the turn
      */
+    public static boolean simulation = false;
     public void fill() throws IOException {
 
         Player actualPlayer = State.getCurrentActualPlayer();
+        State.currentState().getLines().remove(Integer.valueOf(this.getId()));
 
         if (Controller.checkMove(this)) {
-            System.out.println("fill line "+this.id);
+            //System.out.println("fill line "+this.id);
             this.setEmpty(false);
+            State.currentState().getLines().remove(this);
 
             this.graphicLine.setStroke(actualPlayer.getColor());
             //this.graphicLine.setStroke(Color.BLACK);
@@ -56,7 +59,6 @@ public class Line {
 
             Controller.updateTurn(this, State.currentState());
 
-            boolean simulation = false;
             if (simulation) {
                 if (Simulator.checkEnd()) {
                     System.out.println("endGame");
@@ -89,18 +91,9 @@ public class Line {
     }
 
     /**
-     * @return all the lines contained in the board
-     */
-    public static ArrayList<Line> getLines(){
-        return lines;
-    }
-
-    //return the id as an integer
-
-    /**
      * @return the id of a line
      */
-    public int getid() {
+    public int getId() {
         return id;
     }
 
@@ -149,19 +142,16 @@ public class Line {
     /** this method prints all the informations about some lines
      * @param l  an array list which contains some lines
      */
-    public static void display(ArrayList<Line> l){
-        for(Line line : l){
+    public static void display(ArrayList<Line> l) {
+        for (Line line : l) {
             //if(line.isEmpty()) {
-                System.out.print("line " + line.getid() + ", empty = " + line.isEmpty() + ", squares = ");
-                for (Square s : line.getSquares()) {
-                    System.out.print(s.getid() + ", ");
-                }
-                System.out.println();
-           // }
+            System.out.print("line " + line.getId() + ", empty = " + line.isEmpty() + ", squares = ");
+            for (Square s : line.getSquares()) {
+                System.out.print(s.getid() + ", ");
+            }
+            System.out.println();
+            // }
         }
-    }
-    public void fillNoEffect() {
-        this.empty=false;
     }
 
 }

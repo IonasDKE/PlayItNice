@@ -1,4 +1,5 @@
 package View;
+import Controller.GridController;
 import GameTree.State;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -100,7 +101,9 @@ public class Board {
      * @return the board of the game which is composed of dots and lines ;)
      */
     public static Pane  makeGrid( int width, int higth){
+
         int DOT_SIZE = 12;
+
         Pane pane = new Pane();
         int squareSize = GRID_SIZE/Integer.max(width,higth);
 
@@ -121,7 +124,7 @@ public class Board {
                     sq.addBorder(graphicLine.getLine());
                 }
 
-                if(h!=0){State.findSquare( (2*10*(h-1)+w),squares).addBorder(graphicLine.getLine());}
+                if(h!=0){GridController.findSquare( (2*10*(h-1)+w),squares).addBorder(graphicLine.getLine());}
 
                 pane.getChildren().add(graphicLine);
             }
@@ -135,8 +138,8 @@ public class Board {
 
                 lines.add(graphicLine.getLine());
 
-                if(w!=width){ State.findSquare( (2*10*h+w), squares).addBorder(graphicLine.getLine());}
-                if(w!=0){State.findSquare( (2*10*h+w-1), squares).addBorder(graphicLine.getLine());}
+                if(w!=width){ GridController.findSquare( (2*10*h+w), squares).addBorder(graphicLine.getLine());}
+                if(w!=0){GridController.findSquare( (2*10*h+w-1), squares).addBorder(graphicLine.getLine());}
 
                 pane.getChildren().add(graphicLine);
                pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+yTranslation, DOT_SIZE, Color.BURLYWOOD));
@@ -148,7 +151,12 @@ public class Board {
             }
         }
 
-        State.currentState().setLinesAndSquares(lines,squares);
+        ArrayList<Integer> linesInt = new ArrayList<>();
+        for(Line line : lines){
+            linesInt.add(line.getId());
+        }
+        State.currentState().setLines(linesInt);
+        GridController.setLinesAndSquares(lines,squares);
         return pane;
     }
 
