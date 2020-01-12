@@ -101,8 +101,7 @@ public class QTraining {
         //TESTING PART
         /**
          * write a method which test the 'training' by making it play against other player
-         *
+         */
 
     }
 }
-*/
