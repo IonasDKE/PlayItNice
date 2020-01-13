@@ -3,43 +3,29 @@ package GameTree;
 import View.Launcher;
 import Controller.Controller;
 import Controller.GridController;
-import RLearning.QTraining;
 import View.Square;
 import View.Player;
-import RLearning.QTraining;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class State {
 
     private ArrayList<Player> players;
+    private int hashedId = -1;
     private int turn;
     private static State currentState;
     private ArrayList<State> children;
     private ArrayList<Integer> lines;
-
+    private static int nbOfids =0;
     /**
      * @param g       set of line
      * @param players assign an array list which contains all the player to a state
      */
     public State(ArrayList<Integer> g, ArrayList<Player> players) {
         this.lines = g;
-        // this.squares = Square.buildSquares(g);
         this.players = players;
     }
 
-    public State() {
-
-    }
-
-    /**
-     * use this state constructor only for the current state
-     */
-   /* public void setLinesAndSquares(ArrayList<Line> lines, ArrayList<Square> squares) {
-        this.lines = lines;
-        this.squares = squares;
-    }*/
     public void setLines(ArrayList<Integer> lines) {
         this.lines = lines;
     }
@@ -149,26 +135,26 @@ public class State {
     }
 
     //finds the lines that needs to be colored for mcts
-    public static int findDiffLine(ArrayList<Integer> state1, ArrayList<Integer> state2) {
+    public static int findDiffLine(ArrayList<Integer> parent, ArrayList<Integer> child) {
         Integer randomEmptyLine = null;
-        for (int line : state1) {
-            if (!state2.contains(line)) {
+        for (int line : parent) {
+            if (!child.contains(line)) {
                 return line;
             }
         }
         if (randomEmptyLine == null) {
             // System.out.println("parent and child are identical");
-            return state2.get(0);
+            return child.get(0);
         }
         return randomEmptyLine;
     }
 
-    public static int findDiffLine(State state1, State state2) {
-      //  System.out.println("state1");
-        //state1.display();
-        //System.out.println("state2");
-        //state2.display();
-        return findDiffLine(state1.getLines(), state2.getLines());
+    public static int findDiffLine(State parent, State child) {
+      //  System.out.println("parent");
+        //parent.display();
+        //System.out.println("child");
+        //child.display();
+        return findDiffLine(parent.getLines(), child.getLines());
     }
 
     //clears a state
@@ -183,7 +169,7 @@ public class State {
     }
 
     public void setPlayable() {
-        //currentState().setLines(GridController.getLinesIDs());
+        currentState().setLines(GridController.getLinesIds());
     }
 
     public int numberOfAvailableMoves() {
@@ -308,26 +294,77 @@ public class State {
         int id = 0;
         Random rand = new Random();
 
-        for(int i = 0 ; i < QTraining.width * QTraining.height; i ++ ){
-            id = id * QTraining.width;
-            id += rand.nextInt(1);
+//        for(int i = 0 ; i < QTraining.width * QTraining.height; i ++ ){
+//            id = id * QTraining.width;
+//            id += rand.nextInt(1);
+//        }
+        if(this.hashedId!=-1) {
+            return this.hashedId;
+        }else{
+
+              this.hashedId= toInt(this.orderedLines());
+            return this.hashedId;
         }
-        return id;
     }
 
-    public boolean isPlayable(int index) {
+    public ArrayList<Integer> orderedLines(){
+        ArrayList<Integer> result = new ArrayList<>();
+
+        for(Integer i : this.getLines()){
+            if(result.size()==0){
+                result.add(i);
+            }else{
+                int increment= 0;
+                while(i<result.size() && i<result.get(increment)){
+                    increment++;
+                }
+                result.add(i);
+            }
+        }
+        return result;
+    }
+
+    public int toInt(ArrayList<Integer> a){
+        int result=0;
+        int increment = 1;
+        for(Integer i : a){
+            result+= i*Math.pow(100,increment);
+            increment++;
+        }
+        System.out.println(result);
+        return result;
+    }
+    public boolean isPlayable(int index, State parent) {
         /**
          * TODO
          * at a given state, check if the index is a valid mode
          * which means it checks if the line which correseponds to
          * the index is possible to play
          */
-        for(Integer itg : getLines()){
-            if(itg==index){
-                return true;
+//
+//        System.out.println("parent");
+//        parent.display();
+//        System.out.println("child");
+//        this.display();
+
+        boolean playable = false;
+        for(Integer i : getLines()){
+            if(i==index){
+                playable = true;
             }
+            if(!parent.getLines().contains(i)){
+                    //System.out.println("this state is not playable");
+                    return false;
+            }
+
         }
-        return false;
+        if(!playable) {
+          //  System.out.println("line " + index + " is not playable");
+        }else{
+          //  System.out.println("line " + index + " is playable");
+        }
+        return playable;
+
     }
 
 
@@ -556,7 +593,7 @@ public class State {
         ArrayList<Square> result = new ArrayList<>();
         // it is assumed that the grid is squared
         for (int i = 0 ; i<gridWidth; i++){
-            result.add(GridController.squares.get((gridWidth+i*(gridWidth-1))-1));
+            result.add(GridController.getSquares().get((gridWidth+i*(gridWidth-1))-1));
             //System.out.println("index "+(gridWidth+i*(gridWidth-1))+ " id "+result.get(result.size()-1).getid());
         }
         return result;
@@ -566,7 +603,7 @@ public class State {
         ArrayList<Square> result = new ArrayList<>();
         // it is assumed that the grid is squared
         for (int i = 0 ; i<gridWidth; i++){
-            result.add(GridController.squares.get(i*(gridWidth+1)));
+            result.add(GridController.getSquares().get(i*(gridWidth+1)));
         }
         return result;
     }
