@@ -215,7 +215,7 @@ public class Player {
                  line = getRandomLine(current.getAvailableMoves());
             }
             //Removes the line from the current state (equivalent to thefill)
-            System.out.println("chose line "+line);
+          //  System.out.println("chose line "+line);
            // System.out.println();
             State.currentState().getLines().remove(new Integer(line));
             Controller.updateTurn(line,State.currentState());

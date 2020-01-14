@@ -38,10 +38,10 @@ public class QTraining {
             while(State.currentState().getAvailableMoves().size()!=0){
                 //Selects the move that the AI is goint to make
                 trainedBot.move();
-                 System.out.println("agent score " +trainedBot.getScore());
+                // System.out.println("agent score " +trainedBot.getScore());
                 //Selects the move that the random solver will pick
                 agent.move();
-                System.out.println("line size:   "+State.currentState().getLines().size());
+               // System.out.println("line size:   "+State.currentState().getLines().size());
             }
             /*
              * AFTER THE GAME THE AGENT NEEDS TO CALCULATE THE Q VALUES OF THE GAME
@@ -49,6 +49,8 @@ public class QTraining {
              */
             trainedBot.learn(width, height);
             checkWinners(State.currentState());
+            System.out.println("Game "+i);
+            System.out.println();
         }
 
         System.out.println("Trained Bot: " + countTrainedBot);
@@ -99,7 +101,7 @@ public class QTraining {
         State state = new State(State.currentState().getLines(),players);
 
         // training will represent an agent which will have been trained
-        QLearning training = train(state, 100);
+        QLearning training = train(state, 10000);
 
         //TESTING PART
         /**

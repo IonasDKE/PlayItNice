@@ -119,7 +119,7 @@ public class QLearning {
         //Maps a state to it's actions
         String stateID = state.getHashedID();
         policyRecorder.add(new QVector(stateID, lineWhichHasBeenSelected));
-        out.println();
+       //out.println();
     }
 
     /**
