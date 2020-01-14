@@ -1,5 +1,6 @@
 package Controller;
 
+import GameTree.State;
 import View.*;
 import View.Square;
 
@@ -45,7 +46,7 @@ public class GridController {
     }
 
     public static Line findLine(int id) {
-        return findLine(id,lines);
+        return findLine(id, lines);
     }
     //find the line that as a certain id, return's that line
     public static Line findLine(int id, ArrayList<Line> lines) {
@@ -95,9 +96,19 @@ public class GridController {
     public static ArrayList<Line> getNdValenceLines(){
         ArrayList<Line> result = new ArrayList<>();
         //System.out.println(" nd" + this.getLines().size());
-        for (Line line: lines) {
+        for (Line line : lines) {
             if (line.isEmpty() && !GridController.isThirdLine(line)) {
                 result.add(line);
+            }
+        }
+        return result;
+    }
+
+    public static ArrayList<Integer> getUnEmptyLines(State s){
+        ArrayList<Integer> result = new ArrayList<>();
+        for(Line i : lines){
+            if(!s.getLines().contains(i.getId())){
+                result.add(i.getId());
             }
         }
         return result;

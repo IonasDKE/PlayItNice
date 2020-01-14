@@ -44,8 +44,7 @@ public class Mcts extends AISolver {
             minScore = (Launcher.getChosenN() * Launcher.getChosenM()) / 2 + 1;
             //System.out.println("min score =" + minScore);
             //System.out.println("first turn");
-
-            this.firstTurn = false;
+            this.firstTurn=false;
         }
         rootNode = this.graph.getRoot();
 
@@ -69,6 +68,7 @@ public class Mcts extends AISolver {
         } catch (StackOverflowError e) {
             return bestMove(state);
         }
+
         System.out.println("root node children: " + rootNode.getChildren().size());
         return bestMove(state);
     }
@@ -76,7 +76,8 @@ public class Mcts extends AISolver {
     //return the best Line to color after the limited time or if there is a stack over flow
     public int bestMove(State state) {
         Node winnerNode = getBestChild();
-        this.graph.setNewRoot();
+        System.out.println("Winner Node: "+winnerNode);
+        //this.graph.setNewRoot();
         int line =State.findDiffLine(state, winnerNode.getState());
         //System.out.println("line id: "+line);
         return (line);
@@ -107,7 +108,6 @@ public class Mcts extends AISolver {
         while (!isComplete(stateCopy)) {
             stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));
 
-            //TODO
             //stateCopy=stateCopy.computeAChild(RuleBased.nextMove(stateCopy, 1, "")); //simulation using our rule based agent
 
         }

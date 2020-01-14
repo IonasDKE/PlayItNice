@@ -120,7 +120,7 @@ public class Player {
         //System.out.println("called ai player");
 
         int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
-        System.out.println("ai fill "+chosenLine);
+        //System.out.println("ai fill "+chosenLine);
 
         GridController.findLine(chosenLine).fill();
 
@@ -214,7 +214,7 @@ public class Player {
                  line = getRandomLine(State.currentState().getAvailableMoves());
             }
             //Removes the line from the current state (equivalent to thefill)
-            State.currentState().getLines().remove(new Integer(line));
+            State.currentState().getLines().remove(Integer.valueOf(line));
             Controller.updateTurn(line, State.currentState());
         }
     }

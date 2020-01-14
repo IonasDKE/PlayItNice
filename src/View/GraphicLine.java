@@ -1,12 +1,11 @@
 package View;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 
 import java.io.IOException;
 
 
-public class GraphicLine extends Line {
+public class GraphicLine extends javafx.scene.shape.Line {
 
     private static final int STROKE_WIDTH = 10;
 
