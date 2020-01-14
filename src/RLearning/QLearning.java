@@ -1,6 +1,5 @@
 package RLearning;
 
-import Controller.GridController;
 import GameTree.State;
 
 
@@ -14,7 +13,7 @@ public class QLearning {
 
     int numberOfState;
     int numberOfMoves;
-    protected HashMap<Integer, double[]> qHashMap = new HashMap<Integer, double[]>();
+    protected HashMap<String, double[]> qHashMap = new HashMap<String, double[]>();
     protected double Qinit;
     protected ArrayList<QVector> policyRecorder;
     protected double alpha;
@@ -46,7 +45,7 @@ public class QLearning {
      * @param stateID represents the id of a state of a game
      * @return
      */
-    public double[] getQAndCSV(int stateID, State currentState){
+    public double[] getQAndCSV(String stateID, State currentState){
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(new File("trainingRL.csv"));
@@ -84,7 +83,7 @@ public class QLearning {
         //q.entrySet().forEach(entry->{
         //    System.out.println(entry.getKey() + " " + Arrays.toString(entry.getValue()));
         //});
-        int getStateId = state.getHashedID();
+        String getStateId = state.getHashedID();
         double[] qVals = getQAndCSV(getStateId, state);
         //loop until converges
         while(true){
@@ -118,7 +117,7 @@ public class QLearning {
         // selects the line of the current state (using the q table)
         int lineWhichHasBeenSelected = getBestQLine(state);
         //Maps a state to it's actions
-        int stateID = state.getHashedID();
+        String stateID = state.getHashedID();
         policyRecorder.add(new QVector(stateID, lineWhichHasBeenSelected));
         out.println();
     }

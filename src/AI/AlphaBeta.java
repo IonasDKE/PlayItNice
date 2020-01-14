@@ -59,7 +59,7 @@ public class AlphaBeta extends AISolver {
             if (availableMoves == 0) {
                 return new WeightedEdge(null, evaluationFunction(state, turn));
             }
-            //Collections.shuffle(moves);
+            Collections.shuffle(moves);
 
             /**
              * resets the state

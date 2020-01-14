@@ -11,7 +11,7 @@ import java.util.*;
 public class State {
 
     private ArrayList<Player> players;
-    private int hashedId = -1;
+    private String hashedId = "";
     private int turn;
     private static State currentState;
     private ArrayList<State> children;
@@ -253,7 +253,7 @@ public class State {
                 counter++;
             }
         }
-        System.out.println(counter);
+       // System.out.println(counter);
         return counter;
     }
 
@@ -290,7 +290,7 @@ public class State {
         return childState;
     }
 
-    public int getHashedID() {
+    public String getHashedID() {
         int id = 0;
         Random rand = new Random();
 
@@ -298,7 +298,8 @@ public class State {
 //            id = id * QTraining.width;
 //            id += rand.nextInt(1);
 //        }
-        if(this.hashedId!=-1) {
+
+        if(this.hashedId!="") {
             return this.hashedId;
         }else{
 
@@ -310,29 +311,33 @@ public class State {
     public ArrayList<Integer> orderedLines(){
         ArrayList<Integer> result = new ArrayList<>();
 
-        for(Integer i : this.getLines()){
-            if(result.size()==0){
+        for(Integer i : this.lines){
                 result.add(i);
-            }else{
-                int increment= 0;
-                while(i<result.size() && i<result.get(increment)){
-                    increment++;
-                }
-                result.add(i);
-            }
         }
+        Collections.sort(result);
+        System.out.println(Arrays.toString(result.toArray()));
         return result;
     }
 
-    public int toInt(ArrayList<Integer> a){
-        int result=0;
-        int increment = 1;
-        for(Integer i : a){
-            result+= i*Math.pow(100,increment);
-            increment++;
+    public String toInt(ArrayList<Integer> a){
+        String toConvert = "";
+
+        for(Integer t : a){
+            toConvert+= t.toString();
         }
-        System.out.println(result);
-        return result;
+        System.out.println("State.toInt");
+        System.out.println(toConvert);
+        return toConvert;
+//        int result=0;
+//        for(Integer i : a){
+//            if(i>9){
+//                result = result*100+i;
+//            }else{
+//                result= result*10+i;
+//            }
+//     }
+//        System.out.println(result);
+//        return result;
     }
     public boolean isPlayable(int index, State parent) {
         /**
