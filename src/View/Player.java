@@ -218,7 +218,7 @@ public class Player {
             System.out.println("chose line "+line);
            // System.out.println();
             State.currentState().getLines().remove(new Integer(line));
-            Controller.updateTurn(line,current);
+            Controller.updateTurn(line,State.currentState());
         }
     }
 

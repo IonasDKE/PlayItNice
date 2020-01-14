@@ -48,7 +48,9 @@ public class QTraining {
 
              */
             trainedBot.learn(width, height);
+            checkWinners(State.currentState());
         }
+
         System.out.println("Trained Bot: " + countTrainedBot);
         System.out.println("Random Bot: " + countRandomBot);
         System.out.println("Draws: " + countDraws);

@@ -285,7 +285,7 @@ public class State {
     public State computeAChild(int line) {
 
         State childState = this.cloned();
-        childState.getLines().remove(Integer.valueOf(line));
+        childState.getLines().remove(new Integer(line));
         Controller.updateTurn(line, childState);
         return childState;
     }
@@ -315,7 +315,6 @@ public class State {
                 result.add(i);
         }
         Collections.sort(result);
-        System.out.println(Arrays.toString(result.toArray()));
         return result;
     }
 
@@ -325,8 +324,6 @@ public class State {
         for(Integer t : a){
             toConvert+= t.toString();
         }
-        System.out.println("State.toInt");
-        System.out.println(toConvert);
         return toConvert;
 //        int result=0;
 //        for(Integer i : a){
