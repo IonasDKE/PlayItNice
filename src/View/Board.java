@@ -155,8 +155,10 @@ public class Board {
         for(Line line : lines){
             linesInt.add(line.getId());
         }
+
         State.currentState().setLines(linesInt);
         GridController.setLinesAndSquares(lines,squares);
+        GridController.setGridHightWidth(higth, width);
         return pane;
     }
 

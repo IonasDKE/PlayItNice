@@ -6,7 +6,6 @@ import GameTree.State;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.*;
 import static java.lang.System.out;
 
@@ -14,7 +13,7 @@ public class QLearning {
 
     int numberOfState;
     int numberOfMoves;
-    protected HashMap<Integer, double[]> q = new HashMap<Integer, double[]>();
+    protected HashMap<String, double[]> qHashMap = new HashMap<String, double[]>();
     protected double Qinit;
     protected ArrayList<QVector> policyRecorder;
     protected double alpha;
@@ -46,7 +45,7 @@ public class QLearning {
      * @param stateID represents the id of a state of a game
      * @return
      */
-    public double[] getQAndCSV(int stateID){
+    public double[] getQAndCSV(String stateID, State currentState){
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(new File("trainingRL.csv"));
@@ -54,22 +53,24 @@ public class QLearning {
             e.printStackTrace();
         }
 
-        double [] sb = new double[(QTraining.height* QTraining.width)*2];
-        out.println("coucou");
-        //Checks if state has been computed
-        if (q.containsKey(stateID)) {
-            out.println("State " + q.get(stateID) + " has been computed");
+        double [] sb = new double[QTraining.height*20+QTraining.width];
 
-            sb = q.get(stateID);
+        //Checks if state has been computed
+
+        if (qHashMap.containsKey(stateID)) {
+           // out.println("found state "+ stateID);
+            sb = qHashMap.get(stateID);
         }
         else{
+           // out.println("create state "+stateID);
             // else we store the values of the state in the array
             for (int i = 0; i < sb.length; i++) {
                  sb[i] = getQinit();
                  writer.append(sb[i] + " ");
             }
             // and then we add them to the hashmap
-            q.put(stateID, sb);
+          //  out.println("create state "+stateID);
+            qHashMap.put(stateID, sb);
 
         }
         // and we write it to the CSV file
@@ -82,36 +83,43 @@ public class QLearning {
         //q.entrySet().forEach(entry->{
         //    System.out.println(entry.getKey() + " " + Arrays.toString(entry.getValue()));
         //});
-        int getStateId = state.getHashedID();
-        double[] qVals = getQAndCSV(getStateId);
+        String getStateId = state.getHashedID();
+        double[] qVals = getQAndCSV(getStateId, state);
         //loop until converges
         while(true){
-            //gets the index of the maximum q value among all the q values
-            int index = 0;
+            //gets the maxIndex of the maximum q value among all the q values
+            int maxIndex = 0;
             double max = qVals[0];
+          //  out.println(qVals.length);
             for (int i = 0; i < qVals.length ; i++){
-                if(qVals[i]> max){
-                    max = qVals[i];
-                    index = i;
-                }
+//                for(int j = 0; j< QTraining.width+1 ; j++) {
+//                    int index = 10*i+j;
+                    if (qVals[i] > max) {
+                        max = qVals[i];
+                        maxIndex = i;
+                    }
+
             }
             //checks if the move is valid at the given state
-            if(state.isPlayable(index)){
-                return index;
+            if(state.isPlayable(maxIndex, state)){
+                return maxIndex;
             }
             //else set the q value to -1.0 (it has been computed)
             else{
-                qVals[index] = -1.0;
+                qVals[maxIndex] = -1.0;
             }
+           // out.println(" loop");
         }
     }
 
     public void update(State state){
+        //out.println("update");
         // selects the line of the current state (using the q table)
-        int lineWhichHasBeenSelected = getBestQLine(State.currentState());
+        int lineWhichHasBeenSelected = getBestQLine(state);
         //Maps a state to it's actions
-        int stateID = State.currentState().getHashedID();
+        String stateID = state.getHashedID();
         policyRecorder.add(new QVector(stateID, lineWhichHasBeenSelected));
+       //out.println();
     }
 
     /**
@@ -134,7 +142,7 @@ public class QLearning {
 
         for(QVector qVec : reversed){
             //Needs the id of the state!
-            double[] qValues = this.q.get(qVec.getState());
+            double[] qValues = this.qHashMap.get(qVec.getState());
             //first iteration
             if(computeMaximum<0){
                 qValues[qVec.getMove()] = reward;

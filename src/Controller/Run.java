@@ -74,7 +74,7 @@ public class Run {
         for (int i = 0; i < 5; i++) {
             out.println("new simulation " + i);
             //State.currentState().display();
-            for (Line line:GridController.lines)
+            for (Line line: GridController.getLines())
                 line.setEmpty(true);
 
             State.currentState().setPlayers(setPlayers(), 0);

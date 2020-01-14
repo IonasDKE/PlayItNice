@@ -205,18 +205,21 @@ public class Player {
     public void move(){
         Integer line;
         if (State.currentState().getAvailableMoves().size() != 0) {
+            State current = State.currentState().cloned();
              // if its the Q learner to play
             if(qLearner!=null) {
-                 line = qLearner.getBestQLine(State.currentState());
-                 qLearner.update(State.currentState());
+                 line = qLearner.getBestQLine(current);
+                 qLearner.update(current);
             }
             // if its the random bot
             else{
-                 line = getRandomLine(State.currentState().getAvailableMoves());
+                 line = getRandomLine(current.getAvailableMoves());
             }
             //Removes the line from the current state (equivalent to thefill)
+          //  System.out.println("chose line "+line);
+           // System.out.println();
             State.currentState().getLines().remove(new Integer(line));
-            Controller.updateTurn(line, State.currentState());
+            Controller.updateTurn(line,State.currentState());
         }
     }
 

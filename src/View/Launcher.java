@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import Controller.GridController;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -248,6 +248,7 @@ public class Launcher  extends Application {
                 gamePlay.getStylesheets().add("View/GUIstyle.css");
                 thisStage.setScene(gamePlay);
                 //TimeUnit.SECONDS.sleep(15);
+                GridController.rotated(1);
                 Controller.checkAiPlay();
                 System.out.println("Starting a new game!");
             }
