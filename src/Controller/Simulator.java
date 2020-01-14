@@ -64,7 +64,7 @@ public class Simulator {
     }
 
     public static String simulate(ArrayList<Player> currentPlayer) throws IOException {
-        for(int i = 0; i < 50; i++) {
+        for(int i = 0; i < 3; i++) {
             out.println("new simulation "+i);
             //State.currentState().display();
 
@@ -102,24 +102,33 @@ public class Simulator {
             ArrayList<Integer> scores = Simulator.wins.get(j);
             ArrayList<Integer> finalResult=wins.get(j);
             ArrayList<String> players =allPlayers.get(j);
-            sb.append(players.get(0)+" scores: ");
-            sb.append(players.get(1)+" scores: ");
-            sb.append(players.get(0)+" wins: ");
-            sb.append("\n");
+            writer.append(players.get(0) +" scores: ");
+            writer.append(players.get(1)+" scores: ");
+            writer.append(players.get(0)+" wins: ");
+            writer.append("\n");
 
             for (int i = 0; i < scores.size(); i++) {
+                writer.append(String.valueOf(scores.get(i)));
+                writer.append(String.valueOf(nbSquares - scores.get(i)));
+                writer.append(String.valueOf(finalResult.get(i)));
+                writer.append("\n");
+                /*
                 sb.append(scores.get(i));
                 sb.append(", ");
                 sb.append(nbSquares - scores.get(i));
                 sb.append(", ");
                 sb.append(finalResult.get(i));
                 sb.append("\n");
+                 */
             }
+
+
+
         }
         //out.println(sb.toString());
-        writer.write(sb.toString());
+        //writer.write(sb.toString());
+        writer.flush();
         writer.close();
-
     }
 
     public static ArrayList<ArrayList<String>> getAllCombination() {

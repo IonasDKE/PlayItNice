@@ -58,7 +58,7 @@ public class QLearning {
         out.println("coucou");
         //Checks if state has been computed
         if (q.containsKey(stateID)) {
-            out.println("hey");
+            out.println("State " + q.get(stateID) + " has been computed");
 
             sb = q.get(stateID);
         }

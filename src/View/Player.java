@@ -66,6 +66,7 @@ public class Player {
         }
         if(solver==null){
             System.out.println("solver "+this.ai+ " is null");
+
         }
     }
 
