@@ -8,6 +8,7 @@ import View.Square;
 import View.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class State {
@@ -17,6 +18,7 @@ public class State {
     private static State currentState;
     private ArrayList<State> children;
     private ArrayList<Integer> lines;
+    private String hashedId = "";
 
     /**
      * @param g       set of line
@@ -359,15 +361,77 @@ public class State {
         }
     }
 
-    public int getHashedID() {
+    public String getHashedID() {
+
         int id = 0;
         Random rand = new Random();
 
-        for(int i = 0 ; i < QTraining.width * QTraining.height; i ++ ){
-            id = id * QTraining.width;
-            id += rand.nextInt(1);
+//        for(int i = 0 ; i < QTraining.width * QTraining.height; i ++ ){
+//            id = id * QTraining.width;
+//            id += rand.nextInt(1);
+//        }
+
+        if(this.hashedId!="") {
+            return this.hashedId;
+        }else{
+
+            this.hashedId= toInt(this.orderedLines());
+            return this.hashedId;
         }
-        return id;
+
+    }
+
+    public boolean isPlayable(int index, State parent) {
+        /**
+         * TODO
+         * at a given state, check if the index is a valid mode
+         * which means it checks if the line which correseponds to
+         * the index is possible to play
+         */
+//
+//        System.out.println("parent");
+//        parent.display();
+//        System.out.println("child");
+//        this.display();
+
+        boolean playable = false;
+        for(Integer i : getLines()){
+            if(i==index){
+                playable = true;
+            }
+            if(!parent.getLines().contains(i)){
+                //System.out.println("this state is not playable");
+                return false;
+            }
+
+        }
+        if(!playable) {
+            //  System.out.println("line " + index + " is not playable");
+        }else{
+            //  System.out.println("line " + index + " is playable");
+        }
+        return playable;
+
+    }
+
+
+    public String toInt(ArrayList<Integer> a){
+        String toConvert = "";
+
+        for(Integer t : a){
+            toConvert+= t.toString();
+        }
+        return toConvert;
+    }
+
+    public ArrayList<Integer> orderedLines(){
+        ArrayList<Integer> result = new ArrayList<>();
+
+        for(Integer i : this.lines){
+            result.add(i);
+        }
+        Collections.sort(result);
+        return result;
     }
 
     public boolean isPlayable(int index) {
