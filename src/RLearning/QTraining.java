@@ -7,6 +7,7 @@ import View.Board;
 import View.Player;
 
 import java.util.ArrayList;
+
 import java.util.concurrent.TimeUnit;
 
 public class QTraining {
@@ -31,22 +32,27 @@ public class QTraining {
             State.currentState().setPlayable();
             trainedBot.setScore(0);
             agent.setScore(0);
-            /**
+            /*
              * SIMULATES A GAME , STILL NEEDS THE MOVE() FUNCTION TO BE CORRECT
-             */
+            */
             while(State.currentState().getAvailableMoves().size()!=0){
                 //Selects the move that the AI is goint to make
                 trainedBot.move();
-                 System.out.println(trainedBot.getScore());
+                // System.out.println("agent score " +trainedBot.getScore());
                 //Selects the move that the random solver will pick
                 agent.move();
-                System.out.println(State.currentState().getLines().size());
+               // System.out.println("line size:   "+State.currentState().getLines().size());
             }
-            /**
+            /*
              * AFTER THE GAME THE AGENT NEEDS TO CALCULATE THE Q VALUES OF THE GAME
+
              */
             trainedBot.learn(width, height);
+            checkWinners(State.currentState());
+            System.out.println("Game "+i);
+            System.out.println();
         }
+
         System.out.println("Trained Bot: " + countTrainedBot);
         System.out.println("Random Bot: " + countRandomBot);
         System.out.println("Draws: " + countDraws);
@@ -71,6 +77,7 @@ public class QTraining {
     public static void main(String[] args){
         /**resets the state to 0
          * as if we had another board
+
          */
         // this is what we are going to return
         agentToBeTrained = new QLearning(100, 1000, 0.1D, 0.7D, 0.5);
@@ -82,13 +89,14 @@ public class QTraining {
         //TRAINING PART
         players.add(trainedBot);
         players.add(agent);
+
         //Set the current state to a new game , with two agents
         State.setCurrentState(new State(players, 0));
         // Makes the grid , to allow the coloring of the lines
         Board.makeGrid(width, height);
 
         // Sets all the line to empty
-        //State.currentState().setLines(GridController.getLinesIDs());
+        //State.currentState().setLines(GridController.getLinesIds());
         // sets the states with line and player (could be a clone)
         State state = new State(State.currentState().getLines(),players);
 

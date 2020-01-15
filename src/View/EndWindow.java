@@ -1,5 +1,6 @@
 package View;
 import Controller.Controller;
+import GameTree.State;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -86,8 +87,11 @@ public class EndWindow{
         startAgain.setAlignment(Pos.BOTTOM_CENTER);
         startAgain.setFont((Font.font("Helvetica", FontWeight.BOLD, 30)));
         startAgain.setId("validatebutton");
-        startAgain.setOnAction(e ->
-                Platform.runLater( () -> new Launcher().start( new Stage() ) ));
+        startAgain.setOnAction(e ->{
+                Launcher.thisStage.close();
+                State.currentState().reset();
+                Platform.runLater( () -> new Launcher().start( new Stage() ) );
+                });
 
 
 

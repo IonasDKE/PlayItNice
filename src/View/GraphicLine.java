@@ -9,11 +9,11 @@ public class GraphicLine extends javafx.scene.shape.Line {
 
     private static final int STROKE_WIDTH = 10;
 
-    private Line line;
+    private View.Line line;
 
     public GraphicLine(int x, int y, int a, int b, int id) {
         super(x, y, a, b);
-        this.line = new Line(id,this);
+        this.line = new View.Line(id,this);
         this.setStroke(Color.WHITE);
         this.setStrokeWidth(STROKE_WIDTH);
         setOnMouseClicked(event -> {
@@ -25,7 +25,7 @@ public class GraphicLine extends javafx.scene.shape.Line {
         });
     }
 
-    public Line getLine() {
+    public View.Line getLine() {
         return line;
     }
 }

@@ -6,7 +6,7 @@ import java.util.*;
 
 
 public class QVector {
-    private int state;
+    private String state;
     private int move;
 
     /**
@@ -14,7 +14,7 @@ public class QVector {
      * @param state represents the id of a STATE
      * @param move represents the id of a move (a given line)
      */
-    public QVector(int state, int move){
+    public QVector(String state, int move){
         this.state = state;
         this.move = move;
     }
@@ -36,13 +36,13 @@ public class QVector {
     /**
      * @return the state of the game
      */
-    public int getState() {
+    public String getState() {
         return state;
     }
     /**
      * @param state the state of the game
      */
-    public void setState(int state) {
+    public void setState(String state) {
         this.state = state;
     }
 }
