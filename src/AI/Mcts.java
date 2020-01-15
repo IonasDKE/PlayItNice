@@ -98,6 +98,7 @@ public class Mcts extends AISolver {
         if (!toExpand.hasChildren()) {
             toExpand.computeChildren();
         }
+        System.out.println("to expand children size: "+toExpand.getChildren().size());
     }
 
     public int simulationCounter=0; //for debug/testing

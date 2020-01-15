@@ -27,6 +27,7 @@ import static java.lang.System.out;
 public class Run {
     public static ArrayList<Integer> scores = new ArrayList<>();
     public static ArrayList<Integer> wins = new ArrayList<>();
+
     public static void main(String[] args) throws IOException {
         Line.simulation=true;
         Line.runTesting=false;
