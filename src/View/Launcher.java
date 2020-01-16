@@ -110,11 +110,30 @@ public class Launcher  extends Application {
                 if(getNumberofOpponents == 1){
                     selectPlayerVB.getChildren().add(selectPlayerOne);
                     //opponents.getChildren().remove(0);
+                    validate.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            int getNumberofOpponents1=Integer.parseInt(numberOfPlayers.getValue().toString());
+                            if(getNumberofOpponents1==2){
+                                selectPlayerVB.getChildren().add(selectPlayerTwo);
+                            }
+                        }
+                    });
                 }
                 else if(getNumberofOpponents == 2){
                     selectPlayerVB.getChildren().addAll(selectPlayerOne, selectPlayerTwo);
                     //opponents.getChildren().remove(0);
+                    validate.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            int getNumberofOpponents1=Integer.parseInt(numberOfPlayers.getValue().toString());
+                            if(getNumberofOpponents1==1){
+                                selectPlayerVB.getChildren().remove(selectPlayerTwo);
+                            }
+                        }
+                    });
                 }
+
             }
         }
         ));
