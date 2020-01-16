@@ -284,7 +284,7 @@ public class State {
 
     public State computeAChild(int line) {
         State childState = this.cloned();
-        childState.getLines().remove(new Integer(line));
+        childState.getLines().remove(Integer.valueOf(line));
         Controller.updateTurn(line, childState);
         return childState;
     }

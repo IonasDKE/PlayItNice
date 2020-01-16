@@ -37,9 +37,9 @@ public class Player {
         this.qLearner = agentToBeTrained;
         //both player draws
         //this needs to be negative other wise q value might converge
-        reward[0] = 0.5;
+        reward[0] = -0.3;
         //Qplayer loses
-        reward[1] = 0;
+        reward[1] = -1;
         //QPlayer wons
         reward[2] = 1;
     }
@@ -206,20 +206,28 @@ public class Player {
         if (State.currentState().getAvailableMoves().size() != 0) {
             State current = State.currentState().cloned();
              // if its the Q learner to play
+
             if(qLearner!=null) {
+                 //System.out.println("Q's turn is: " + State.currentState().getTurn());
                  line = qLearner.getBestQLine(current);
+                 //System.out.println("Q fills line: " + line);
                  qLearner.update(current);
             }
             // if its the random bot
             else{
-                 line = getRandomLine(current.getAvailableMoves());
+                //System.out.println("AI's turn is: " + State.currentState().getTurn());
+                line = solver.nextMove(State.currentState(),State.currentState().getTurn(),null);
+                //System.out.println("AI fills line: " + line);
+                //line = getRandomLine(current.getAvailableMoves());
             }
             //Removes the line from the current state (equivalent to thefill)
           //  System.out.println("chose line "+line);
            // System.out.println();
            // Line lineToFill = new Line(line);
-            State.currentState().getLines().remove(new Integer(line));
+            State.currentState().getLines().remove(Integer.valueOf(line));
+            GridController.findLine(line).setEmpty(false);
             Controller.updateTurn(line,State.currentState());
+            //System.out.println("Now the turn has been updated to turn: " + State.currentState().getTurn());
         }
     }
 

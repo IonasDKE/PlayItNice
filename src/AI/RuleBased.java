@@ -30,7 +30,7 @@ public class RuleBased extends AISolver {
         if (GridController.getNdValenceLines().size() != 0) {
             result = completeSquare();
             if (result == null) {
-                System.out.println("color randomline");
+                // System.out.println("color randomline");
                 result = colorRandomLine();
             }
 
@@ -128,6 +128,7 @@ public class RuleBased extends AISolver {
         //System.out.println("called random");
         Random rand = new Random();
         ArrayList<Line> lines = GridController.getNdValenceLines();
+        // System.out.println("These are the lines that the RB agent sees as empty: " + lines);
         int index = rand.nextInt(lines.size());
         //int index = 0;
         //Line result = lines.get(index);

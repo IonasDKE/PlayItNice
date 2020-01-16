@@ -453,5 +453,10 @@ public class GridController {
     private static ArrayList<Integer> downDiagonalLines ;
     private static ArrayList<Integer> upDiagonalLines ;
 
+    public static void resetGrid () {
+        for (Line l :lines){
+            l.setEmpty(true);
+        }
+    }
 }
 
