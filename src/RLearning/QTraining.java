@@ -4,8 +4,10 @@ import Controller.Controller;
 import Controller.GridController;
 import GameTree.State;
 import View.Board;
+import View.Line;
 import View.Player;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.concurrent.TimeUnit;
@@ -16,17 +18,18 @@ public class QTraining {
     static ArrayList<Player> players = new ArrayList();
     static Player trainedBot;
     static Player agent;
-    public static int height = 3;
-    public static int width = 3;
+    public static int height = 2;
+    public static int width = 2;
     static int countTrainedBot=0;
     static int countRandomBot=0;
     static int countDraws=0;
 
-    public static QLearning train(State state, int numberOfIterations){
+    public static QLearning train(State state, int numberOfIterations) throws IOException {
 
         // Calculate the number of states and move at each game
         // this is what we are going to return
 
+        Line.doQTraining = true;
         //TRAINING PART
         for(int i = 0 ; i < numberOfIterations; i++){
             State.currentState().setPlayable();
@@ -36,12 +39,19 @@ public class QTraining {
              * SIMULATES A GAME , STILL NEEDS THE MOVE() FUNCTION TO BE CORRECT
             */
             while(State.currentState().getAvailableMoves().size()!=0){
-                //Selects the move that the AI is goint to make
+                //Selects the move that the AI is going to make
                 trainedBot.move();
-                // System.out.println("agent score " +trainedBot.getScore());
+                State.currentState().display();
                 //Selects the move that the random solver will pick
                 agent.move();
-               // System.out.println("line size:   "+State.currentState().getLines().size());
+                State.currentState().display();
+
+
+            }
+            try {
+                TimeUnit.SECONDS.sleep(15);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             /*
              * AFTER THE GAME THE AGENT NEEDS TO CALCULATE THE Q VALUES OF THE GAME
@@ -74,17 +84,20 @@ public class QTraining {
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         /**resets the state to 0
          * as if we had another board
 
          */
         // this is what we are going to return
-        agentToBeTrained = new QLearning(100, 1000, 0.1D, 0.7D, 0.5);
+        agentToBeTrained = new QLearning(100, 1000, 0.1D, 0.1D, 0.1);
+
 
         // the first bot is the one we want to train
         trainedBot = new Player("Trained Bot", agentToBeTrained);
         agent = new Player("Random Bot", null);
+
+
 
         //TRAINING PART
         players.add(trainedBot);
@@ -101,7 +114,7 @@ public class QTraining {
         State state = new State(State.currentState().getLines(),players);
 
         // training will represent an agent which will have been trained
-        QLearning training = train(state, 10000);
+        QLearning training = train(state, 200000);
 
         //TESTING PART
         /**
