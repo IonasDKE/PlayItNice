@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-
 import static Controller.Controller.countClaimedSquare;
 import static java.lang.System.out;
 
@@ -58,11 +57,11 @@ public class Run {
         players.add(Color.CHOCOLATE);
 
         ArrayList<Player> currentPlayers = new ArrayList<>();
-        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "Rule Based");
+        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "Mcts Tree");
         currentPlayers.add(a);
         a.setSolver();
 
-        Player b = new Player(Color.RED, Integer.toString(2), "Mcts Acyclic");
+        Player b = new Player(Color.RED, Integer.toString(2), "Mcts Tree");
         currentPlayers.add(b);
         b.setSolver();
         return currentPlayers;
@@ -103,35 +102,24 @@ public class Run {
         int nbSquares = height * width;
         PrintWriter writer = new PrintWriter(new File("experiment.csv"));
 
-        String sb[] = {"scores A","scores B","wins"};
-        for (int j = 0; j < sb.length; j++) {
-            writer.write(sb[j]);
-        }
-        writer.append("\n");
-        /*
+        StringBuilder sb = new StringBuilder();
+
         sb.append("scores: ");
         sb.append("scores: ");
         sb.append("wins: ");
         sb.append("\n");
-        */
 
         for (int i = 0; i < score.size(); i++) {
-            writer.append(String.valueOf(score.get(i)));
-            writer.append(String.valueOf(nbSquares - score.get(i)));
-            writer.append(String.valueOf(wins.get(i)));
-            writer.append("\n");
-            /*
             sb.append(score.get(i));
             sb.append(", ");
             sb.append(nbSquares - score.get(i));
             sb.append(", ");
             sb.append(wins.get(i));
             sb.append("\n");
-            */
         }
 
         //out.println(sb.toString());
-        //writer.write(sb.toString());
+        writer.write(sb.toString());
         writer.close();
 
     }

@@ -89,6 +89,7 @@ public class EndWindow{
         startAgain.setId("validatebutton");
         startAgain.setOnAction(e ->{
                 Launcher.thisStage.close();
+                State.currentState().reset();
                 Platform.runLater( () -> new Launcher().start( new Stage() ) );
                 });
 

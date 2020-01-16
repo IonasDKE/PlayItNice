@@ -56,9 +56,9 @@ public class QLearning {
         double [] sb = new double[QTraining.height*20+QTraining.width];
 
         //Checks if state has been computed
-
         if (qHashMap.containsKey(stateID)) {
            // out.println("found state "+ stateID);
+
             sb = qHashMap.get(stateID);
         }
         else{

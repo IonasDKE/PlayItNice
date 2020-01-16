@@ -64,7 +64,7 @@ public class Testing {
     }
 
     public static String simulate(ArrayList<Player> currentPlayer) throws IOException {
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < 50; i++) {
             out.println("new simulation "+i);
             //State.currentState().display();
 
@@ -96,41 +96,30 @@ public class Testing {
         int nbSquares = height * width;
         PrintWriter writer = new PrintWriter(new File("experiment.csv"));
 
-
         StringBuilder sb = new StringBuilder();
 
         for (int j = 0; j< Testing.wins.size(); j++) {
             ArrayList<Integer> scores = Testing.wins.get(j);
             ArrayList<Integer> finalResult=wins.get(j);
             ArrayList<String> players =allPlayers.get(j);
-            writer.append(players.get(0) +" scores: ");
-            writer.append(players.get(1)+" scores: ");
-            writer.append(players.get(0)+" wins: ");
-            writer.append("\n");
-
+            sb.append(players.get(0)+" scores: ");
+            sb.append(players.get(1)+" scores: ");
+            sb.append(players.get(0)+" wins: ");
+            sb.append("\n");
 
             for (int i = 0; i < scores.size(); i++) {
-                writer.append(String.valueOf(scores.get(i)));
-                writer.append(String.valueOf(nbSquares - scores.get(i)));
-                writer.append(String.valueOf(finalResult.get(i)));
-                writer.append("\n");
-                /*
                 sb.append(scores.get(i));
                 sb.append(", ");
                 sb.append(nbSquares - scores.get(i));
                 sb.append(", ");
                 sb.append(finalResult.get(i));
                 sb.append("\n");
-                 */
             }
-
-
-
         }
         //out.println(sb.toString());
-        //writer.write(sb.toString());
-        writer.flush();
+        writer.write(sb.toString());
         writer.close();
+
     }
 
     public static ArrayList<ArrayList<String>> getAllCombination() {

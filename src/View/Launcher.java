@@ -269,7 +269,6 @@ public class Launcher  extends Application {
                 //TimeUnit.SECONDS.sleep(15);
                 GridController.rotated(1);
                 Controller.checkAiPlay();
-                System.out.println("Starting a new game!");
             }
             catch (Exception e1 ) {
                 e1.printStackTrace();
@@ -289,10 +288,8 @@ public class Launcher  extends Application {
     public static String opponent1;
     public void setPlayers(ArrayList<Color> colors){
         int playerNumber=0;
-
         opponent1 = selectPlayerOne.getValue().toString();
         Player a = new Player(colors.get(playerNumber), Integer.toString(playerNumber+1), opponent1);
-
         currentPlayers.add(a);
         a.setSolver();
         playerNumber++;
@@ -311,7 +308,9 @@ public class Launcher  extends Application {
         }
         playerNumber++;
 
-
+        if(State.currentState()!=null) {
+            State.currentState().reset();
+        }
 
         State.setCurrentState(new State(currentPlayers, 0));
     }
