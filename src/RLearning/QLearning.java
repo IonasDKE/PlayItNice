@@ -155,7 +155,7 @@ public class QLearning {
             else
             {
                 //Qfunction
-                qValues[qVec.getMove()] = qValues[qVec.getMove()] + alpha * ()
+                //qValues[qVec.getMove()] = qValues[qVec.getMove()] + alpha * ()
                 qValues[qVec.getMove()] =  qValues[qVec.getMove()] * ( 1 - alpha ) + alpha * gamma * computeMaximum;
             }
             /**
