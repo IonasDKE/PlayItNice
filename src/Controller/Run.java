@@ -62,7 +62,7 @@ public class Run {
         currentPlayers.add(a);
         a.setSolver();
 
-        Player b = new Player(Color.RED, Integer.toString(2), "Rule Based");
+        Player b = new Player(Color.RED, Integer.toString(2), "Mcts Acyclic");
         currentPlayers.add(b);
         b.setSolver();
         return currentPlayers;

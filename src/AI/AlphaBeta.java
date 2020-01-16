@@ -14,7 +14,7 @@ public class AlphaBeta extends AISolver {
     private static int maxDepth;
     final static int MIN = -1000000000, MAX = 1000000000;
     private long startMoveTime = 1000000000;
-    private long moveTime = 1900000000;
+    private long moveTime = 2100000000;
     private long startTime;
     private int iteration = 0 ;
 

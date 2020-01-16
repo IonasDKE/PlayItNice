@@ -96,6 +96,7 @@ public class Testing {
         int nbSquares = height * width;
         PrintWriter writer = new PrintWriter(new File("experiment.csv"));
 
+
         StringBuilder sb = new StringBuilder();
 
         for (int j = 0; j< Testing.wins.size(); j++) {
@@ -106,6 +107,7 @@ public class Testing {
             writer.append(players.get(1)+" scores: ");
             writer.append(players.get(0)+" wins: ");
             writer.append("\n");
+
 
             for (int i = 0; i < scores.size(); i++) {
                 writer.append(String.valueOf(scores.get(i)));

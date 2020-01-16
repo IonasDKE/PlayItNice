@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Player {
 
-    private AISolver solver;
+    AISolver solver;
     private Color color;
     private int score;
     private String name;
@@ -32,8 +32,10 @@ public class Player {
 
 
     public Player(String name, QLearning agentToBeTrained) {
-        this.score = 0;
+        this.color = color;
         this.name = name;
+        this.score = 0;
+        this.ai = null;
         this.qLearner = agentToBeTrained;
         //both player draws
         //this needs to be negative other wise q value might converge
@@ -125,6 +127,18 @@ public class Player {
 
         GridController.findLine(chosenLine).fill();
 
+
+    }
+
+
+    public int aiPlay2() throws IOException {
+        //System.out.println("called ai player");
+
+        int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
+        //System.out.println("ai fill "+chosenLine);
+
+        GridController.findLine(chosenLine).fill();
+        return chosenLine;
     }
 
     /**
@@ -203,24 +217,40 @@ public class Player {
      * is the random solver of the Q learner
      */
     public void move(){
-        Integer line;
+        Integer line = null;
+        if(qLearner != null) {
+            line = qLearner.getBestQLine(State.currentState());
+            qLearner.update(State.currentState());
+            System.out.println("Q makes move " + line);
+        }
+        // remove chosen line from board.
+        State.currentState().getLines().remove(Integer.valueOf(line));
+        Controller.updateTurn(line, State.currentState());
+        /*
         if (State.currentState().getAvailableMoves().size() != 0) {
+
             State current = State.currentState().cloned();
              // if its the Q learner to play
             if(qLearner!=null) {
                  line = qLearner.getBestQLine(State.currentState());
                  qLearner.update(State.currentState());
+                 System.out.println("Q makes move " + line);
             }
-            // if its the random bot
+            // if its the other AI
+
             else{
-                 line = getRandomLine(current.getAvailableMoves());
+                line = solver.nextMove(State.currentState(),State.currentState().getTurn(),this.ai);
+                // line = getRandomLine(current.getAvailableMoves());
+                System.out.println("Agent makes move " + line);
             }
+
             //Removes the line from the current state (equivalent to thefill)
           //  System.out.println("chose line "+line);
            // System.out.println();
-            State.currentState().getLines().remove(new Integer(line));
+            State.currentState().getLines().remove(Integer.valueOf(line));
             Controller.updateTurn(line,State.currentState());
         }
+        */
     }
 
     /**
