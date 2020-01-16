@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class Line {
 
+    public static boolean doQTraining = false;
     public int reward;
     public int currentState;
     public int nextState;
@@ -24,13 +25,13 @@ public class Line {
         this.graphicLine = g;
     }
 
-    public Line(int id, boolean empty , ArrayList<Square> squares){
+    public Line (int id,boolean empty ,ArrayList<Square> squares){
         this.id = id;
         this.empty=empty;
         this.squares=squares;
     }
 
-    public Line(int id){
+    public Line (int id){
         this.id = id;
     }
 
