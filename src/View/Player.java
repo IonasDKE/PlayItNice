@@ -20,7 +20,7 @@ public class Player {
     private String ai;
     public String graphType="";
     QLearning qLearner;
-    public int[] reward = new int[3];
+    public double[] reward = new double[3];
 
 
     public Player(Color color, String name, String ai) {
@@ -32,14 +32,14 @@ public class Player {
 
 
     public Player(String name, QLearning agentToBeTrained) {
+        this(Color.BLUE, name, null);
         this.score = 0;
-        this.name = name;
         this.qLearner = agentToBeTrained;
         //both player draws
         //this needs to be negative other wise q value might converge
-        reward[0] = 0;
+        reward[0] = 0.5;
         //Qplayer loses
-        reward[1] = -1;
+        reward[1] = 0;
         //QPlayer wons
         reward[2] = 1;
     }
@@ -120,7 +120,7 @@ public class Player {
         //System.out.println("called ai player");
 
         int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
-        //System.out.println("ai fill "+chosenLine);
+        System.out.println("ai fill "+chosenLine);
 
         GridController.findLine(chosenLine).fill();
 
@@ -201,14 +201,14 @@ public class Player {
      * this method makes a 'move' for the player, depending on wheter the current player
      * is the random solver of the Q learner
      */
-    public void move(){
+    public void move() throws IOException {
         Integer line;
         if (State.currentState().getAvailableMoves().size() != 0) {
             State current = State.currentState().cloned();
              // if its the Q learner to play
             if(qLearner!=null) {
-                 line = qLearner.getBestQLine(State.currentState());
-                 qLearner.update(State.currentState());
+                 line = qLearner.getBestQLine(current);
+                 qLearner.update(current);
             }
             // if its the random bot
             else{
@@ -217,6 +217,7 @@ public class Player {
             //Removes the line from the current state (equivalent to thefill)
           //  System.out.println("chose line "+line);
            // System.out.println();
+           // Line lineToFill = new Line(line);
             State.currentState().getLines().remove(new Integer(line));
             Controller.updateTurn(line,State.currentState());
         }
@@ -238,6 +239,7 @@ public class Player {
      */
     public void learn(int height, int width) {
         //  GETS THE PLAYER WHO WON THE GAME
+
         int winnerIndex =0;
         // checks the score and sets up the rewards
         if(this.score < (height*width/2)+1){
@@ -250,7 +252,7 @@ public class Player {
              winnerIndex = 2;
         }
         //Checks which reward is assigned to the first player
-        int rewardValue = reward[winnerIndex];
+        double rewardValue = reward[winnerIndex];
         //We train the AI here
         //it takes in the reward given by the end of the game
         qLearner.learnFromPolicy(rewardValue);
