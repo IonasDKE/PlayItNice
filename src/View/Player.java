@@ -121,7 +121,7 @@ public class Player {
         //System.out.println("called ai player");
 
         int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
-        System.out.println("ai fill "+chosenLine);
+        //System.out.println("ai fill "+chosenLine);
 
         GridController.findLine(chosenLine).fill();
 
@@ -208,8 +208,8 @@ public class Player {
             State current = State.currentState().cloned();
              // if its the Q learner to play
             if(qLearner!=null) {
-                 line = qLearner.getBestQLine(current);
-                 qLearner.update(current);
+                 line = qLearner.getBestQLine(State.currentState());
+                 qLearner.update(State.currentState());
             }
             // if its the random bot
             else{

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static Controller.Controller.countClaimedSquare;
 import static java.lang.System.*;
 
-public class Simulator {
+public class Testing {
     //AdjacencyMatrix.setMatrix(chosenM,chosenN);
     public static ArrayList<ArrayList<Integer>> scores= new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> wins = new ArrayList<>();
@@ -98,8 +98,8 @@ public class Simulator {
 
         StringBuilder sb = new StringBuilder();
 
-        for (int j = 0; j< Simulator.wins.size(); j++) {
-            ArrayList<Integer> scores = Simulator.wins.get(j);
+        for (int j = 0; j< Testing.wins.size(); j++) {
+            ArrayList<Integer> scores = Testing.wins.get(j);
             ArrayList<Integer> finalResult=wins.get(j);
             ArrayList<String> players =allPlayers.get(j);
             writer.append(players.get(0) +" scores: ");

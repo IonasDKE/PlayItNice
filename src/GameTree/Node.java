@@ -2,10 +2,6 @@ package GameTree;
 
 import java.util.ArrayList;
 
-/*
-TODO:
-- We could add a general class to list parameters, such as the exploration-exploitation coefficient.
- */
 public class Node {
     private State state;
     private ArrayList<Node> children;

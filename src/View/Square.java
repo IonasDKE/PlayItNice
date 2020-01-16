@@ -105,7 +105,7 @@ public class Square {
         for(Line line : lines){
 
 
-          for(int i =0; i<line.getSquares().size(); i++){
+          for(int i = 0; i< line.getSquares().size(); i++){
               Square a = line.getSquares().get(0);
               Square f = GridController.findSquare(a.getid(),result);
               if(f ==null) {

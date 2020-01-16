@@ -24,13 +24,13 @@ public class Line {
         this.graphicLine = g;
     }
 
-    public Line (int id,boolean empty ,ArrayList<Square> squares){
+    public Line(int id, boolean empty , ArrayList<Square> squares){
         this.id = id;
         this.empty=empty;
         this.squares=squares;
     }
 
-    public Line (int id){
+    public Line(int id){
         this.id = id;
     }
 
@@ -39,6 +39,7 @@ public class Line {
      * also switches the turn
      */
     public static boolean simulation = false;
+    public static boolean runTesting =true;
     public void fill() throws IOException {
 
         Player actualPlayer = State.getCurrentActualPlayer();
@@ -59,21 +60,44 @@ public class Line {
             Controller.updateTurn(this, State.currentState());
 
             if (simulation) {
-                if (Simulator.checkEnd()) {
-                    System.out.println("endGame");
-                    int score = State.currentState().getPlayers().get(0).getScore();
-                    Simulator.scores.get(Simulator.scores.size()).add(score);
-                    if (score < 5) {
-                        Simulator.wins.get(Simulator.wins.size()).add(0);
-                    } else
-                        Simulator.wins.get(Simulator.wins.size()).add(1);
+                if (runTesting) {
+                    if (Testing.checkEnd()) {
+                        System.out.println("endGame");
+                        int score = State.currentState().getPlayers().get(0).getScore();
+                        Testing.scores.get(Testing.scores.size()).add(score);
+                        if (score < (Testing.width*Testing.height)/2 +1) {
+                            Testing.wins.get(Testing.wins.size()).add(0);
+                        }else if ((Testing.width*Testing.height)%2==0 && score == (Testing.width*Testing.height)/2 +1){
+                            Testing.wins.get(Testing.wins.size()).add(null);
+                        }else
+                            Testing.wins.get(Testing.wins.size()).add(1);
 
-                    return;
+                        return;
 
-                    //EndWindow.display(Launcher.thisStage);
-                } else {
-                    Mcts.setNewRoots();
-                    Controller.checkAiPlay();
+                        //EndWindow.display(Launcher.thisStage);
+                    } else {
+                        Mcts.setNewRoots();
+                        Controller.checkAiPlay();
+                    }
+                }else {
+                    if (Run.checkEnd()) {
+                        System.out.println("endGame");
+                        int score = State.currentState().getPlayers().get(0).getScore();
+                        Run.scores.add(score);
+                        if (score < (Run.width*Run.height)/2 +1) {
+                            Run.wins.add(0);
+                        } else if ((Run.width*Run.height)%2==0 && score == (Run.width*Run.height)/2 +1){
+                            Run.wins.add(null);
+                        }else
+                            Run.wins.add(1);
+
+                        return;
+
+                        //EndWindow.display(Launcher.thisStage);
+                    } else {
+                        Mcts.setNewRoots();
+                        Controller.checkAiPlay();
+                    }
                 }
             } else {
                 if (!Controller.checkEnd()) {

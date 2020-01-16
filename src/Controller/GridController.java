@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public class GridController {
     private static int gridHight ;
     private static int gridWidth ;
-    private static ArrayList<Square> squares;
-    private static ArrayList<Line> lines;
+    public static ArrayList<Square> squares;
+    public static ArrayList<Line> lines;
 
     public static void setLinesAndSquares(ArrayList<Line> l, ArrayList<Square> s) {
         lines = l;

@@ -5,7 +5,6 @@ import GameTree.State;
 import View.Board;
 import View.*;
 import View.Player;
-import View.Square;
 import javafx.scene.paint.Color;
 
 import java.io.File;
@@ -27,13 +26,13 @@ import static java.lang.System.out;
  */
 
 public class Run {
+    public static ArrayList<Integer> scores = new ArrayList<>();
+    public static ArrayList<Integer> wins = new ArrayList<>();
+
     public static void main(String[] args) throws IOException {
         Line.simulation=true;
-        Simulator.scores.add(new ArrayList<>());
-        Simulator.wins.add(new ArrayList<>());
+        Line.runTesting=false;
 
-        ArrayList<Integer> scores = Simulator.scores.get(0);
-        ArrayList<Integer> wins = Simulator.wins.get(0);
 
         try {
             State.setCurrentState(new State(setPlayers(), 0));
@@ -74,7 +73,7 @@ public class Run {
         for (int i = 0; i < 5; i++) {
             out.println("new simulation " + i);
             //State.currentState().display();
-            for (Line line: GridController.getLines())
+            for (Line line :GridController.lines)
                 line.setEmpty(true);
 
             State.currentState().setPlayers(setPlayers(), 0);

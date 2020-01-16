@@ -6,10 +6,7 @@ import View.*;
 import javafx.scene.shape.Rectangle;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Controller {
 
