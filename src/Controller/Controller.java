@@ -6,7 +6,10 @@ import View.*;
 import javafx.scene.shape.Rectangle;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Controller {
 
@@ -38,7 +41,6 @@ public class Controller {
 
     public static void updateTurn(int line, State s){
         int numberOfCompleteSquare = checkAnySquareClaimed(line, s.getLines());
-
         if (numberOfCompleteSquare > 0) {
             s.getActualPlayer().addScore(numberOfCompleteSquare);
         } else {
