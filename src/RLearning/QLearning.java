@@ -7,13 +7,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 import static java.lang.System.out;
 
 public class QLearning {
 
     int numberOfState;
     int numberOfMoves;
-    protected HashMap<String, double[]> qHashMap = new HashMap<String, double[]>();
+    protected HashMap<String, double[]> qHashMap = new HashMap<>();
     protected double Qinit;
     protected ArrayList<QVector> policyRecorder;
     protected double alpha;
@@ -57,8 +59,6 @@ public class QLearning {
 
         //Checks if state has been computed
         if (qHashMap.containsKey(stateID)) {
-           // out.println("found state "+ stateID);
-
             sb = qHashMap.get(stateID);
         }
         else{
@@ -80,11 +80,14 @@ public class QLearning {
 
     public int getBestQLine(State state){
         //Uncomment to see the q hashmap
-        //q.entrySet().forEach(entry->{
-        //    System.out.println(entry.getKey() + " " + Arrays.toString(entry.getValue()));
-        //});
+       // qHashMap.entrySet().forEach(entry->{
+       //     System.out.println(entry.getKey() + " " + Arrays.toString(entry.getValue()));
+       // });
+
+
         String getStateId = state.getHashedID();
         double[] qVals = getQAndCSV(getStateId, state);
+        //out.println("qvals"+ Arrays.toString(qVals));
         //loop until converges
         while(true){
             //gets the maxIndex of the maximum q value among all the q values
@@ -108,7 +111,6 @@ public class QLearning {
             else{
                 qVals[maxIndex] = -1.0;
             }
-           // out.println(" loop");
         }
     }
 
@@ -119,6 +121,9 @@ public class QLearning {
         //Maps a state to it's actions
         String stateID = state.getHashedID();
         policyRecorder.add(new QVector(stateID, lineWhichHasBeenSelected));
+        //for(QVector qVec : policyRecorder){
+        //    out.print("State+" + qVec.getState() + " move = " + qVec.getMove());
+        //}
        //out.println();
     }
 
@@ -132,7 +137,7 @@ public class QLearning {
     /**
      * @param reward  represents the reward given after a game
      */
-    public void learnFromPolicy(int reward){
+    public void learnFromPolicy(double reward){
         //reverse the policy history to get the last move(final move) fist
         ArrayList<QVector> reversed = new ArrayList<>();
         for(int i = this.policyRecorder.size() -1 ; i >=0; i--){
