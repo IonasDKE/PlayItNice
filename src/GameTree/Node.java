@@ -40,6 +40,17 @@ public class Node {
         return newChildren;
     }
 
+    public ArrayList<Node> computeChildrenPruning() {
+        ArrayList<State> stateChildren = this.state.computeAndGetChildrenPruning();
+        ArrayList<Node> newChildren = new ArrayList<>();
+
+        for (State state : stateChildren) {
+            newChildren.add(new Node(state, this));
+        }
+        this.children = newChildren;
+        return newChildren;
+    }
+
     public boolean isRoot() {
         if (this.parent == null) {
             return true;

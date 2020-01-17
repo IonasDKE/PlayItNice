@@ -23,27 +23,21 @@ public class Mcts extends AISolver {
     public Random rand = new Random();
     public Node rootNode;
     public static int minScore;
-    public boolean firstTurn=true;
 
     public int nextMove(State state, int color, String str) {
-        System.out.println("mcts new move");
+        //System.out.println("mcts new move");
 
-        //debug:
-        if (!firstTurn) {
-            //System.out.println("Same root? " + this.rootNode.getState().isEqual(state));
-        }
-        //System.out.println("root node: " + rootNode);
         if (firstTurn) {
+            System.out.println("set new Mcts");
             this.player = State.getCurrentActualPlayer();
 
             if (str.equals("acyclic"))
                 graph = new AcyclicGraph(new Node(state, null));
             else
                 graph = new Tree(new Node(state, null));
+
             graphs.add(graph);
-            minScore = (Launcher.getChosenN() * Launcher.getChosenM()) / 2 + 1;
-            //System.out.println("min score =" + minScore);
-            //System.out.println("first turn");
+            minScore = (GridController.gridHeight * GridController.gridWidth) / 2 + 1;
             this.firstTurn=false;
         }
         rootNode = this.graph.getRoot();
@@ -63,21 +57,19 @@ public class Mcts extends AISolver {
                     backPropagation(promisingNode, simulateRandomPlayOut(promisingNode));
                 } else
                     backPropagation(promisingNode, promisingNode.getState().getScore(player));
-
             }
         } catch (StackOverflowError e) {
             return bestMove(state);
         }
 
-        System.out.println("root node children: " + rootNode.getChildren().size());
         return bestMove(state);
     }
 
     //return the best Line to color after the limited time or if there is a stack over flow
     public int bestMove(State state) {
         Node winnerNode = getBestChild();
-        System.out.println("Winner Node: "+winnerNode);
-        //this.graph.setNewRoot();
+        //System.out.println(state.getLines().size());
+        //System.out.println("state size = " + state.getLines().size());
         int line =State.findDiffLine(state, winnerNode.getState());
         //System.out.println("line id: "+line);
         return (line);
@@ -96,20 +88,19 @@ public class Mcts extends AISolver {
 
     public void expansion(Node toExpand) {
         if (!toExpand.hasChildren()) {
-            toExpand.computeChildren();
+            toExpand.computeChildrenPruning();
         }
-        System.out.println("to expand children size: "+toExpand.getChildren().size());
     }
 
     public int simulationCounter=0; //for debug/testing
     public int simulateRandomPlayOut(Node selectedNode) {
         State stateCopy = selectedNode.getState().cloned();
-
+        RuleBased a = new RuleBased();
         simulationCounter++;
         while (!isComplete(stateCopy)) {
             stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));
 
-            //stateCopy=stateCopy.computeAChild(RuleBased.nextMove(stateCopy, 1, "")); //simulation using our rule based agent
+            //stateCopy=stateCopy.computeAChild(a.nextMove(stateCopy, 1, "")); //simulation using our rule based agent
 
         }
 
@@ -147,13 +138,18 @@ public class Mcts extends AISolver {
     public Node getBestChild() {
         double currentBest=Double.NEGATIVE_INFINITY;
         Node bestChild=null;
-        for (Node child : this.rootNode.getChildren()) {
-            //System.out.println("child score : "+child.getScore());
-            if (child.getAvg() > currentBest) {
-                bestChild = child;
-                currentBest=child.getAvg();
-                //System.out.println("current best : "+currentBest+ " node: "+child);
+        try {
+            for (Node child : this.rootNode.getChildren()) {
+                //System.out.println("child score : "+child.getScore());
+                if (child.getAvg() > currentBest) {
+                    bestChild = child;
+                    currentBest=child.getAvg();
+                    //System.out.println("current best : "+currentBest+ " node: "+child);
+                }
             }
+        } catch(NullPointerException e) {
+            System.out.println("NullPointerException");
+            State.currentState().display();
         }
         return bestChild;
     }
@@ -167,7 +163,7 @@ public class Mcts extends AISolver {
 
     public static void resetMcts() {
         graphs = new ArrayList<>();
-    }
 
+    }
 
 }

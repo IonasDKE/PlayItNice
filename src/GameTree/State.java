@@ -1,6 +1,6 @@
 package GameTree;
 
-import View.Launcher;
+import View.Line;
 import Controller.Controller;
 import Controller.GridController;
 import View.Square;
@@ -52,9 +52,45 @@ public class State {
         return this.children;
     }
 
+    public ArrayList<State> getChildrenStupid() {
+        ArrayList<State> result = new ArrayList<>();
+        System.out.println("lines size: "+this.lines.size());
+        for (int l : this.lines) {
+            Line line= GridController.findLine(l);
+            if (!GridController.isThirdLine(line)) {
+                State child = computeAChild(line.getId());
+                result.add(child);
+            }
+            for (Square sq:line.getSquares()) {
+                if (sq.getValence()==1) {
+                    result=new ArrayList<>();
+                    result.add(computeAChild(line.getId()));
+                    return  result;
+                }
+            }
+        }
+        if (result.size()==0) {
+            System.out.println("result size empty");
+            for (int l:this.lines) {
+                State child = computeAChild(l);
+                result.add(child);
+            }
+        }
+
+        this.children=result;
+        return result;
+    }
+
     public ArrayList<State> computeAndGetChildren() {
         if (this.children == null) {
             computeChildren();
+        }
+        return this.children;
+    }
+
+    public ArrayList<State> computeAndGetChildrenPruning() {
+        if (this.children == null) {
+            computeChildrenPruning();
         }
         return this.children;
     }
@@ -69,30 +105,46 @@ public class State {
 
     public void computeChildren() {
         ArrayList<State> result = new ArrayList<>();
-        ArrayList<Integer> symmetricMoves = new ArrayList<>();
-        //System.out.println("parent");
-        //this.display();
+
         for (int line : this.lines) {
-            if (!isInArray(line, symmetricMoves))
-                symmetricMoves.addAll(getAllSymmetricMoves(line));
-                State child = computeAChild(line);
-                result.add(child);
+            State child = computeAChild(line);
+            result.add(child);
         }
-        System.out.println("symmetric moves size: "+symmetricMoves.size());
-        System.out.println();
         this.children=result;
     }
 
-    public boolean isInArray(int line, ArrayList<Integer> array) {
-        int counter=0;
-        for (int arrayElement:array) {
-            System.out.println("lien id: "+line+" array element: "+arrayElement);
-            if (line==arrayElement) {
-                counter++;
+    public void computeChildrenPruning() {
+        ArrayList<State> result = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> symmetricStates = new ArrayList<>();
+
+        for (int line : this.lines) {
+            State child = computeAChild(line);
+            if (!inList(GridController.getUnEmptyLines(child), symmetricStates)) {
+                result.add(child);
+                symmetricStates.addAll(GridController.checkStateSymmetry(GridController.getUnEmptyLines(child)));
+            }
+        }
+        this.children=result;
+    }
+
+    public static void display(ArrayList<Integer> lines) {
+        for (Integer line:lines) {
+            System.out.print(line+", ");
+        }
+    }
+
+    public boolean inList(ArrayList<Integer> lines, ArrayList<ArrayList<Integer>> symmetricStates) {
+        for (ArrayList<Integer> setOfLines:symmetricStates) {
+            boolean inList=true;
+            for (Integer line: lines) {
+                if (!setOfLines.contains(line)) {
+                    inList= false;
+                }
+            }
+            if (inList){
                 return true;
             }
         }
-        System.out.println(counter);
         return false;
     }
 
@@ -101,6 +153,7 @@ public class State {
         for (int l : lines) {
             System.out.print(l + ", ");
         }
+        System.out.println();
         System.out.println();
     }
 
@@ -128,9 +181,7 @@ public class State {
     //returns a cloned arraylist of lines
     public static ArrayList<Integer> cloned(ArrayList<Integer> lines) {
         ArrayList<Integer> result = new ArrayList<>();
-        for(int line : lines){
-            result.add(line);
-        }
+        result.addAll(lines);
         return result;
     }
 
@@ -284,7 +335,7 @@ public class State {
 
     public State computeAChild(int line) {
         State childState = this.cloned();
-        childState.getLines().remove(new Integer(line));
+        childState.getLines().remove(Integer.valueOf(line));
         Controller.updateTurn(line, childState);
         return childState;
     }
@@ -307,34 +358,6 @@ public class State {
         }
     }
 
-    public ArrayList<Integer> orderedLines(){
-        ArrayList<Integer> result = new ArrayList<>();
-
-        for(Integer i : this.lines){
-                result.add(i);
-        }
-        Collections.sort(result);
-        return result;
-    }
-
-    public String toInt(ArrayList<Integer> a){
-        String toConvert = "";
-
-        for(Integer t : a){
-            toConvert+= t.toString();
-        }
-        return toConvert;
-//        int result=0;
-//        for(Integer i : a){
-//            if(i>9){
-//                result = result*100+i;
-//            }else{
-//                result= result*10+i;
-//            }
-//     }
-//        System.out.println(result);
-//        return result;
-    }
     public boolean isPlayable(int index, State parent) {
         /**
          * TODO
@@ -354,319 +377,52 @@ public class State {
                 playable = true;
             }
             if(!parent.getLines().contains(i)){
-                    //System.out.println("this state is not playable");
-                    return false;
+                //System.out.println("this state is not playable");
+                return false;
             }
 
         }
         if(!playable) {
-          //  System.out.println("line " + index + " is not playable");
+            //  System.out.println("line " + index + " is not playable");
         }else{
-          //  System.out.println("line " + index + " is playable");
+            //  System.out.println("line " + index + " is playable");
         }
         return playable;
 
     }
 
 
-   /*public void setScores(ArrayList<Integer> newScores) {
-        for(Player p : players){
-        Controller.updateTurn(line, childState);
+    public String toInt(ArrayList<Integer> a){
+        String toConvert = "";
 
-        return childState;
-    }
-
-        /*
-    public static void checkSymmetry(ArrayList<State> allStates) {
-        for (State state: allStates) {
-            allStates.removeIf(toCompare -> state != toCompare && rotationSymmetry(state,toCompare));
+        for(Integer t : a){
+            toConvert+= t.toString();
         }
+        return toConvert;
     }
 
-    public static boolean rotationSymmetry(State state,State toCompare) {
-        for (int i=0; i<4; i++) {
-            if (toCompare.getAllSymmeticMoves(i)==state.getLines()) {
+    public ArrayList<Integer> orderedLines(){
+        ArrayList<Integer> result = new ArrayList<>();
+
+        for(Integer i : this.lines){
+            result.add(i);
+        }
+        return result;
+    }
+
+    public boolean isPlayable(int index) {
+        /**
+         * TODO
+         * at a given state, check if the index is a valid mode
+         * which means it checks if the line which correseponds to
+         * the index is possible to play
+         */
+        for(Integer itg : getLines()){
+            if(itg==index){
                 return true;
             }
         }
         return false;
     }
-
-         */
-
-    public static ArrayList<Integer> getAllSymmetricMoves(int id) {
-        int gridHeight= Launcher.getChosenM();
-        int gridWidth= Launcher.getChosenN();
-
-        ArrayList<Integer> result = new ArrayList<>();
-        ArrayList<Integer> twins = new ArrayList<>();
-        //result.add(id);
-
-        //System.out.println("Horizontal Twin");
-        //Check if it's a horizontal symmetry
-        if (toDozen(id) != gridHeight) {
-            int twin = horizontal(id, gridHeight);
-            result.add(twin);
-            twins.add(twin);
-            //System.out.println("add "+result.get(result.size()-1));
-        }
-
-
-        boolean pairHeight = toDozen(id) % 2 == 0;
-        boolean pairWidth = gridWidth % 2 == 0;
-
-        //System.out.println("Vertical Twin");
-        //Check if it's a vertical symmetry
-        if (pairWidth) {
-            if (pairHeight || toUnits(id) != gridWidth / 2){
-                int newTwin = vertical(id, gridWidth);
-                if(!result.contains(newTwin)) {
-                    result.add(newTwin);
-                    twins.add(newTwin);
-                    //System.out.println("add "+result.get(result.size()-1));
-                }
-            }
-
-        } else {
-            if (!pairHeight || toUnits(id) != (gridWidth - 1) / 2) {
-                int newTwin = vertical(id, gridWidth);
-                if(!result.contains(newTwin)) {
-                    result.add(newTwin);
-                    twins.add(newTwin);
-                    //System.out.println("add "+result.get(result.size()-1));
-                }
-            }
-        }
-
-        //System.out.println("Diagonal Twin");
-        //Check if it's a diagonal symmetry
-        int size = result.size();
-        for (int j = 0 ; j<size; j++){
-            Integer i = result.get(j);
-            if(downLeftCorner(i)){
-                //  System.out.println("Twin down "+i);
-                int newTwin = downDiagonalTwin(i, gridWidth) ;
-                if(!result.contains(newTwin)) {
-                    result.add(newTwin);
-                    twins.add(newTwin);
-                    //System.out.println("add "+result.get(result.size()-1));
-                }
-            }
-
-            if(upperLeftCorner(i, gridWidth)){
-                // System.out.println("Twin up "+i);
-                int newTwin =upDiagonalTwin(i, gridWidth) ;
-                if(!result.contains(newTwin)) {
-                    result.add(newTwin);
-                    twins.add(newTwin);
-                    //System.out.println("add "+result.get(result.size()-1));
-                }
-            }
-        }
-
-        while(twins.size()!=0){
-            int twin = twins.remove(0);
-
-            //    System.out.println("Horizontal Twin");
-            if (toDozen(twin) != gridHeight) {
-
-                int newTwin = horizontal(twin, gridHeight);
-                // System.out.println("newTwin = " + newTwin);
-                if(!result.contains(newTwin)) {
-                    result.add(newTwin);
-                    twins.add(newTwin);
-                    //System.out.println("add "+result.get(result.size()-1));
-                }
-            }
-
-            pairHeight = toDozen(twin) % 2 == 0;
-            pairWidth = gridWidth % 2 == 0;
-
-            //   System.out.println("Vertical Twin");
-            if (pairWidth) {
-                if (pairHeight || toUnits(twin) != gridWidth / 2){
-                    int newTwin = vertical(twin, gridWidth);
-                    //  System.out.println("newTwin = " + newTwin);
-                    if(!result.contains(newTwin)) {
-                        result.add(newTwin);
-                        twins.add(newTwin);
-                        //System.out.println("add "+result.get(result.size()-1));
-                    }
-                }
-
-            } else {
-                if (!pairHeight || toUnits(twin) != (gridWidth - 1) / 2) {
-                    int newTwin = vertical(twin, gridWidth);
-                    //System.out.println("newTwin = " + newTwin);
-                    if(!result.contains(newTwin)) {
-                        result.add(newTwin);
-                        twins.add(newTwin);
-                        //System.out.println("add "+result.get(result.size()-1));
-                    }
-                }
-            }
-
-        }
-        System.out.println("symmetric moves size: "+result.size());
-        return result;
-    }
-
-    public static int horizontal(int id, int gridHeight){
-        return id + 20 * (gridHeight - toDozen(id));
-    }
-
-    public static int vertical(int id, int gridWidth){
-        boolean pairHeight = toDozen(id) % 2 == 0;
-        double temp = gridWidth;
-        int result =(int)(id + 2 *(temp/2 - toUnits(id)));
-
-        if (pairHeight) {
-            result-=1;
-        }
-        return result;
-    }
-
-    public static Integer downDiagonalTwin(int id, int gridWidth){
-        int result = id;
-        int stack = 1;
-        boolean pairHeight = (toDozen(id)) % 2 == 0;
-        while (!getDownDiagnalLines(gridWidth).contains(result)){
-            if(pairHeight){
-                result+=1;
-            }else{
-                result-=20;
-            }
-            stack++;
-            // System.out.println("Move "+result);
-        }
-
-        result-=10;
-        if(pairHeight){
-            result+=1;
-        }
-        //  System.out.println("Switch "+result);
-
-        for(int i = 1; i<stack ; i++){
-            if(pairHeight){
-                result-=20;
-            }else{
-                result+=1;
-            }
-            //  System.out.println("MoveBack "+ result);
-        }
-
-        return result;
-    }
-
-    public static Integer upDiagonalTwin(int id, int gridWidth){
-        int result = id;
-        int stack = 1;
-        boolean pairHeight = (toDozen(id)) % 2 == 0;
-        while (!getUpDiagonalLines(gridWidth).contains(result)){
-            if(pairHeight){
-                result+=1;
-            }else{
-                result+=20;
-            }
-            stack++;
-            // System.out.println("Move "+result);
-        }
-
-        result+=10;
-        if(pairHeight){
-            result+=1;
-        }
-        //System.out.println("Switch "+result);
-
-        for(int i = 1; i<stack ; i++){
-            if(pairHeight){
-                result+=20;
-            }else{
-                result+=1;
-            }
-            // System.out.println("MoveBack "+ result);
-
-        }
-        return result;
-    }
-
-    public static ArrayList<Square> computeUpDiagonalSquares(int gridWidth){
-        ArrayList<Square> result = new ArrayList<>();
-        // it is assumed that the grid is squared
-        for (int i = 0 ; i<gridWidth; i++){
-            result.add(GridController.getSquares().get((gridWidth+i*(gridWidth-1))-1));
-            //System.out.println("index "+(gridWidth+i*(gridWidth-1))+ " id "+result.get(result.size()-1).getid());
-        }
-        return result;
-    }
-
-    public static ArrayList<Square> computeDownDiagonalSquares(int gridWidth){
-        ArrayList<Square> result = new ArrayList<>();
-        // it is assumed that the grid is squared
-        for (int i = 0 ; i<gridWidth; i++){
-            result.add(GridController.getSquares().get(i*(gridWidth+1)));
-        }
-        return result;
-    }
-
-    public static ArrayList<Integer> getDownDiagnalLines(int gridWidth){
-        if (downDiagonalLines==null) {
-            downDiagonalLines = new ArrayList<>();
-            ArrayList<Square> squares = computeDownDiagonalSquares(gridWidth);
-            for (Square s :squares){
-                // System.out.println("Square "+s.getid());
-                for (Integer i : s.getBordersIds()){
-                    //System.out.println("Border "+i);
-                    downDiagonalLines.add(i);
-                }
-                //System.out.println();
-            }
-        }
-        return downDiagonalLines;
-    }
-
-    public static ArrayList<Integer> getUpDiagonalLines(int gridWidth){
-        ArrayList<Integer> result = new ArrayList<>();
-        if(upDiagonalLines==null){
-            upDiagonalLines = new ArrayList<>();
-            ArrayList<Square> squares = computeUpDiagonalSquares(gridWidth);
-            for(Square s :squares){
-                //   System.out.println("Square "+s.getid());
-                for(Integer i : s.getBordersIds()){
-                    //  System.out.println("Border "+i);
-                    upDiagonalLines.add(i);
-                }
-                //  System.out.println();
-            }
-        }
-        return upDiagonalLines;
-    }
-
-    public static boolean upperLeftCorner(int id, int gridWidth){
-        double temp = toDozen(id);
-        return (toUnits(id)+temp/2)<gridWidth;
-    }
-
-    public static boolean downLeftCorner(int id){
-        double temp = toDozen(id);
-        if(temp%2==0){
-            temp = temp/2;
-        }else{
-            temp = (temp+1)/2;
-        }
-        return toUnits(id)< temp;
-    }
-
-    public static int toDozen(int id){
-        return (id - toUnits(id)) / 10;
-    }
-
-    public static int toUnits(int id){
-        return  id % 10;
-    }
-
-    private static ArrayList<Integer> downDiagonalLines ;
-    private static ArrayList<Integer> upDiagonalLines ;
-
 
 }

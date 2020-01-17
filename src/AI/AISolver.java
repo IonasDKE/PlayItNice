@@ -11,6 +11,7 @@ public abstract class AISolver {
     private final static int cScore = 20;
     private final static int cThree = 5;
     private final static int cTwo = 2;
+    public boolean firstTurn=true;
     int counter =0;
 
     /**

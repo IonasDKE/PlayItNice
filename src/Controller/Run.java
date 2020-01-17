@@ -31,11 +31,11 @@ public class Run {
     public static void main(String[] args) throws IOException {
         Line.simulation=true;
         Line.runTesting=false;
-
+        GridController.setGridHeightWidth(3,3);
 
         try {
             State.setCurrentState(new State(setPlayers(), 0));
-            Board.makeGrid(width, height);
+            Board.makeGrid(GridController.gridWidth,GridController.gridHeight);
             simulate();
 
             out.println("score size " + scores.size());
@@ -48,9 +48,6 @@ public class Run {
 
     }
 
-    public static int height = 3;
-    public static int width = 3;
-
     public static ArrayList<Player> setPlayers() {
         ArrayList<Color> players = new ArrayList<>();
         players.add(Color.BLUE);
@@ -61,25 +58,26 @@ public class Run {
         currentPlayers.add(a);
         a.setSolver();
 
-        Player b = new Player(Color.RED, Integer.toString(2), "Mcts Tree");
+        Player b = new Player(Color.RED, Integer.toString(2), "StupidAI");
         currentPlayers.add(b);
         b.setSolver();
+
         return currentPlayers;
     }
 
     public static String simulate() throws IOException {
 
         for (int i = 0; i < 5; i++) {
-            out.println("new simulation " + i);
+            out.println("new simulation "+i);
             //State.currentState().display();
-            for (Line line :GridController.lines)
+            for (Line line : GridController.getLines()) {
                 line.setEmpty(true);
-
+            }
+            State.setCurrentState(new State(GridController.getLinesIds(), setPlayers()));
             State.currentState().setPlayers(setPlayers(), 0);
             Mcts.resetMcts();
 
-            while (!checkEnd())
-                Controller.checkAiPlay();
+            Controller.checkAiPlay();
 
         }
 
@@ -88,7 +86,7 @@ public class Run {
 
     //check if the game has ended
     public static boolean checkEnd() throws IOException {
-        if (countClaimedSquare() == (height * width)) {
+        if (countClaimedSquare() == (GridController.gridHeight * GridController.gridHeight)) {
             return true;
         } else {
             return false;
@@ -99,7 +97,7 @@ public class Run {
     // write on a file the result of the game. For experimentation.
     public static void writeOnTxt(ArrayList<Integer> score, ArrayList<Integer> wins) throws FileNotFoundException {
         out.println("writing ");
-        int nbSquares = height * width;
+        int nbSquares = GridController.gridHeight * GridController.gridWidth;
         PrintWriter writer = new PrintWriter(new File("experiment.csv"));
 
         StringBuilder sb = new StringBuilder();

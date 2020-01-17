@@ -2,14 +2,13 @@ package Controller;
 
 import GameTree.State;
 import View.Line;
-import View.*;
 import View.Square;
 
 import java.util.ArrayList;
 
 public class GridController {
-    private static int gridHight ;
-    private static int gridWidth ;
+    public static int gridHeight;
+    public static int gridWidth ;
     public static ArrayList<Square> squares;
     public static ArrayList<Line> lines;
 
@@ -18,13 +17,12 @@ public class GridController {
         squares = s;
     }
 
-
     public static ArrayList<Square> getSquares() {
         return squares;
     }
 
-    public static void setGridHightWidth(int gridHight, int gridWidth) {
-        GridController.gridHight = gridHight;
+    public static void setGridHeightWidth(int gridHeight, int gridWidth) {
+        GridController.gridHeight = gridHeight;
         GridController.gridWidth = gridWidth;
     }
 
@@ -89,6 +87,7 @@ public class GridController {
     public static ArrayList<Square> getSquares(int line){
         return findLine(line).getSquares();
     }
+
     //checks if claiming the line will update any square to a valence of 1
     public static boolean isThirdLine(Line line) {
         boolean result = false;
@@ -100,16 +99,7 @@ public class GridController {
         }
         return result;
     }
-    public static boolean isThirdLine(Integer line) {
-        boolean result = false;
 
-        for (Square sq : GridController.getSquares(line)) {
-            if (sq.getValence() == 2) {
-                result = true;
-            }
-        }
-        return result;
-    }
     public static ArrayList<Line> getNdValenceLines(){
         ArrayList<Line> result = new ArrayList<>();
         //System.out.println(" nd" + this.getLines().size());
@@ -119,6 +109,53 @@ public class GridController {
             }
         }
         return result;
+    }
+
+    public static ArrayList<ArrayList<Integer>> checkStateSymmetry(ArrayList<Integer> lines) {
+        ArrayList<ArrayList<Integer>> symmetricState = new ArrayList<>();
+
+        for (int i=0; i<4; i++) {
+            symmetricState.add(new ArrayList<>());
+            if (i==0) {
+                symmetricState.get(symmetricState.size() - 1).addAll(verticalSymmetry(lines));
+            } else {
+                symmetricState.get(symmetricState.size() - 1).addAll(verticalSymmetry(combination(lines, i)));
+            }
+
+            symmetricState.add(new ArrayList<>());
+            if (i==1) {
+                symmetricState.get(symmetricState.size()-1).addAll(horizontalSymmetry(lines));
+            }else {
+                symmetricState.get(symmetricState.size()-1).addAll(horizontalSymmetry(combination(lines,i)));
+            }
+
+            symmetricState.add(new ArrayList<>());
+            if (i==2) {
+                symmetricState.get(symmetricState.size() - 1).addAll(diagonalUpSymmetry(lines));
+            }else {
+                symmetricState.get(symmetricState.size() - 1).addAll(diagonalUpSymmetry(combination(lines,i)));
+            }
+
+            symmetricState.add(new ArrayList<>());
+            if (i==3) {
+                symmetricState.get(symmetricState.size() - 1).addAll(diagonalDownSymmetry(lines));
+            }else {
+                symmetricState.get(symmetricState.size() - 1).addAll(diagonalDownSymmetry(combination(lines,i)));
+            }
+        }
+        return symmetricState;
+    }
+
+    public static ArrayList<Integer> combination(ArrayList<Integer> lines, int index) {
+        if (index == 0) {
+            return GridController.verticalSymmetry(lines);
+        }else if (index==1) {
+            return GridController.horizontalSymmetry(lines);
+        }else if (index==2) {
+            return GridController.diagonalUpSymmetry(lines);
+        }else {
+            return GridController.diagonalDownSymmetry(lines);
+        }
     }
 
     public static ArrayList<Integer> verticalSymmetry (ArrayList<Integer> stateLines){
@@ -149,7 +186,7 @@ public class GridController {
     public static ArrayList<Integer> horizontalSymmetry(ArrayList<Integer> stateLines){
         ArrayList<Integer> result = new ArrayList<>();
         for(Integer id : stateLines){
-            if (toDozen(id) != gridHight) {
+            if (toDozen(id) != gridHeight) {
                 int twin = horizontal(id);
                 result.add(twin);
             }
@@ -163,7 +200,7 @@ public class GridController {
     public static ArrayList<Integer> diagonalUpSymmetry(ArrayList<Integer> stateLines){
         ArrayList<Integer> result = new ArrayList<>();
         for(Integer id : stateLines) {
-                int newTwin = upDiagnalTwin(id);
+                int newTwin = upDiagonalTwin(id);
                     result.add(newTwin);
         }
         return result;
@@ -172,7 +209,7 @@ public class GridController {
     public static ArrayList<Integer> diagonalDownSymmetry(ArrayList<Integer> stateLines){
         ArrayList<Integer> result = new ArrayList<>();
         for(Integer id : stateLines) {
-                int newTwin = downDiagnalTwin(id);
+                int newTwin = downDiagonalTwin(id);
                 result.add(newTwin);
         }
         return result;
@@ -194,10 +231,10 @@ public class GridController {
         for(int j = 0 ; j<size; j++ ){
             Integer i = result.get(j);
 
-            int newTwin = downDiagnalTwin(i) ;
+            int newTwin = downDiagonalTwin(i) ;
             safeAdd(result, id, newTwin, twins);
 
-            int newTwin2 = upDiagnalTwin(i) ;
+            int newTwin2 = upDiagonalTwin(i) ;
             safeAdd(result, id, newTwin2, twins);
         }
 
@@ -236,7 +273,7 @@ public class GridController {
     }
 
     public static int horizontal(int id){
-        return id + 20 * (gridHight - toDozen(id));
+        return id + 20 * (gridHeight - toDozen(id));
     }
 
     public static int vertical(int id){
@@ -250,8 +287,8 @@ public class GridController {
         return result;
     }
 
-        public static Integer downDiagnalTwin( int id){
-            Integer result = new Integer(id);
+        public static Integer downDiagonalTwin(int id){
+            int result = id;
 
             boolean downLeftCorner = downLeftCorner(id);
             int stack = 1;
@@ -309,8 +346,8 @@ public class GridController {
             return result;
         }
 
-    public static Integer upDiagnalTwin( int id){
-        Integer result = new Integer(id);
+    public static Integer upDiagonalTwin(int id){
+        int result = id;
         int stack = 1;
         boolean upperLeftCorner = uppperLeftCorner(id);
         boolean pairHeight = (toDozen(id)) % 2 == 0;

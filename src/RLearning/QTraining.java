@@ -41,10 +41,10 @@ public class QTraining {
             while(State.currentState().getAvailableMoves().size()!=0){
                 //Selects the move that the AI is going to make
                 trainedBot.move();
-                State.currentState().display();
+                //State.currentState().display();
                 //Selects the move that the random solver will pick
                 agent.move();
-                State.currentState().display();
+                //State.currentState().display();
 
 
             }

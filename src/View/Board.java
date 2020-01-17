@@ -97,27 +97,27 @@ public class Board {
 
     /**
      * @param width width of the grid
-     * @param higth height of the grid
+     * @param heigth height of the grid
      * @return the board of the game which is composed of dots and lines ;)
      */
-    public static Pane  makeGrid( int width, int higth){
+    public static Pane  makeGrid( int width, int heigth){
 
         int DOT_SIZE = 12;
 
         Pane pane = new Pane();
-        int squareSize = GRID_SIZE/Integer.max(width,higth);
+        int squareSize = GRID_SIZE/Integer.max(width,heigth);
 
         ArrayList<Line> lines = new ArrayList<>();
         ArrayList<Square> squares = new ArrayList<>();
 
         //build the horizontal lines and the rectangles filling space between the lines
-        for(int h = 0; h<=higth; h++){
+        for(int h = 0; h<=heigth; h++){
             for(int w=0; w<width; w++){
                 GraphicLine graphicLine = new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+squareSize+xTranslation, h*squareSize+yTranslation, 2*10*h+w);
 
                 lines.add(graphicLine.getLine());
 
-                if(h!=higth){
+                if(h!=heigth){
                     Square sq = new Square(w*squareSize+xTranslation, h*squareSize+yTranslation,squareSize, 2*10*h+w);
                     squares.add(sq);
                     pane.getChildren().add(sq.getRect());
@@ -131,7 +131,7 @@ public class Board {
         }
 
         //build the vertical lines and dots
-        for(int h = 0; h<higth; h++) {
+        for(int h = 0; h<heigth; h++) {
             for (int w = 0; w <= width; w++) {
 
                 GraphicLine graphicLine = new GraphicLine(w*squareSize+xTranslation, h*squareSize+yTranslation, w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, 2*10*h+10+w);
@@ -144,7 +144,7 @@ public class Board {
                 pane.getChildren().add(graphicLine);
                pane.getChildren().add(new Circle(w*squareSize+xTranslation, h*squareSize+yTranslation, DOT_SIZE, Color.BURLYWOOD));
                 // pane.getChildren().add(new Rectangle(w*squareSize+xTranslation-squareSize/DOT_SIZE, h*squareSize+yTranslation-squareSize/DOT_SIZE, DOT_SIZE*2, DOT_SIZE*2));
-                if(h==(higth-1)) {
+                if(h==(heigth-1)) {
                     pane.getChildren().add( new Circle(w*squareSize+xTranslation, h*squareSize+squareSize+yTranslation, DOT_SIZE, Color.BURLYWOOD));
                    // pane.getChildren().add(new Rectangle(w*squareSize+xTranslation-squareSize/DOT_SIZE, h*squareSize+squareSize+yTranslation-squareSize/DOT_SIZE, DOT_SIZE*2, DOT_SIZE*2));
                 }
@@ -158,7 +158,7 @@ public class Board {
 
         State.currentState().setLines(linesInt);
         GridController.setLinesAndSquares(lines,squares);
-        GridController.setGridHightWidth(higth, width);
+        GridController.setGridHeightWidth(heigth, width);
         return pane;
     }
 

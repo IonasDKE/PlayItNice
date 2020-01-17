@@ -20,7 +20,7 @@ public abstract class Graph {
                 //node.getState().display();
             }
         }
-        System.out.println("Root Node: "+this.getRoot());
+        //System.out.println("Root Node: "+this.getRoot());
     }
 
     public Node getRoot() {

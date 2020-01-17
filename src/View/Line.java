@@ -42,15 +42,17 @@ public class Line {
     public static boolean simulation = false;
     public static boolean runTesting =true;
     public void fill() throws IOException {
-
+        int width= GridController.gridWidth;
+        int height= GridController.gridHeight;
         Player actualPlayer = State.getCurrentActualPlayer();
         State.currentState().getLines().remove(Integer.valueOf(this.getId()));
 
         if (Controller.checkMove(this)) {
+
             //System.out.println("fill line "+this.id);
             this.setEmpty(false);
             State.currentState().getLines().remove(this);
-
+            Mcts.setNewRoots();
             this.graphicLine.setStroke(actualPlayer.getColor());
             //this.graphicLine.setStroke(Color.BLACK);
 
@@ -65,19 +67,18 @@ public class Line {
                     if (Testing.checkEnd()) {
                         System.out.println("endGame");
                         int score = State.currentState().getPlayers().get(0).getScore();
-                        Testing.scores.get(Testing.scores.size()).add(score);
-                        if (score < (Testing.width*Testing.height)/2 +1) {
-                            Testing.wins.get(Testing.wins.size()).add(0);
-                        }else if ((Testing.width*Testing.height)%2==0 && score == (Testing.width*Testing.height)/2 +1){
-                            Testing.wins.get(Testing.wins.size()).add(null);
+                        Testing.scores.get(Testing.scores.size()-1).add(score);
+                        if (score < (width*height)/2 +1) {
+                            Testing.wins.get(Testing.wins.size()-1).add(0);
+                        }else if ((width*height)%2==0 && score == (width*height)/2 +1){
+                            Testing.wins.get(Testing.wins.size()-1).add(null);
                         }else
-                            Testing.wins.get(Testing.wins.size()).add(1);
+                            Testing.wins.get(Testing.wins.size()-1).add(1);
 
                         return;
 
                         //EndWindow.display(Launcher.thisStage);
                     } else {
-                        Mcts.setNewRoots();
                         Controller.checkAiPlay();
                     }
                 }else {
@@ -85,18 +86,20 @@ public class Line {
                         System.out.println("endGame");
                         int score = State.currentState().getPlayers().get(0).getScore();
                         Run.scores.add(score);
-                        if (score < (Run.width*Run.height)/2 +1) {
+                        if (score < (width*height)/2 +1) {
+                            System.out.println(score);
                             Run.wins.add(0);
-                        } else if ((Run.width*Run.height)%2==0 && score == (Run.width*Run.height)/2 +1){
+                        } else if ((width*height)%2==0 && score == (width*height)/2 +1){
+                            System.out.println(score);
                             Run.wins.add(null);
-                        }else
+                        }else {
+                            System.out.println(score);
                             Run.wins.add(1);
-
+                        }
                         return;
 
                         //EndWindow.display(Launcher.thisStage);
                     } else {
-                        Mcts.setNewRoots();
                         Controller.checkAiPlay();
                     }
                 }
@@ -104,11 +107,10 @@ public class Line {
                 if (!Controller.checkEnd()) {
                     //checks if the next player to play is an AI, if it is the case, makes it play
                     Controller.updateComponents();
-                    Mcts.setNewRoots();
                     Controller.checkAiPlay();
                 } else {
                     System.out.println("endGame");
-                    EndWindow.display(Launcher.thisStage);
+                    //EndWindow.display(Launcher.thisStage);
                 }
             }
         }

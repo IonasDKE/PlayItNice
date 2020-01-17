@@ -30,7 +30,7 @@ public class RuleBased extends AISolver {
         if (GridController.getNdValenceLines().size() != 0) {
             result = completeSquare();
             if (result == null) {
-                System.out.println("color randomline");
+                //System.out.println("color randomline");
                 result = colorRandomLine();
             }
 

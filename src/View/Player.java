@@ -46,6 +46,9 @@ public class Player {
 
     public void setSolver(){
         switch (this.ai) {
+            case "StupidAI":
+                solver=new StupidAI();
+                break;
             case  "Mcts Tree":
                 this.graphType="Tree";
                 solver = new Mcts();
@@ -118,12 +121,10 @@ public class Player {
 
     public void aiPlay() throws IOException {
         //System.out.println("called ai player");
-
         int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
         System.out.println("ai fill "+chosenLine);
 
         GridController.findLine(chosenLine).fill();
-
     }
 
     /**
@@ -218,7 +219,7 @@ public class Player {
           //  System.out.println("chose line "+line);
            // System.out.println();
            // Line lineToFill = new Line(line);
-            State.currentState().getLines().remove(new Integer(line));
+            State.currentState().getLines().remove(Integer.valueOf(line));
             Controller.updateTurn(line,State.currentState());
         }
     }
@@ -256,5 +257,9 @@ public class Player {
         //We train the AI here
         //it takes in the reward given by the end of the game
         qLearner.learnFromPolicy(rewardValue);
+    }
+
+    public AISolver getSolver() {
+        return this.solver;
     }
 }

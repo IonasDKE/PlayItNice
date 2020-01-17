@@ -27,7 +27,8 @@ public class AlphaBeta extends AISolver {
      * @return the best move using minimax search algo
      */
     public int nextMove(State board, int turn, String str) {
-        board.display();
+        //System.out.println("Alpha Beta new move");
+        //board.display();
         startTime = System.nanoTime();
         maxDepth = 1;
         Integer line = null;
