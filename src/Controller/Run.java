@@ -54,11 +54,11 @@ public class Run {
         players.add(Color.CHOCOLATE);
 
         ArrayList<Player> currentPlayers = new ArrayList<>();
-        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "Mcts Tree");
+        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "Rule Based");
         currentPlayers.add(a);
         a.setSolver();
 
-        Player b = new Player(Color.RED, Integer.toString(2), "StupidAI");
+        Player b = new Player(Color.RED, Integer.toString(2), "Rule BasedNoDD");
         currentPlayers.add(b);
         b.setSolver();
 

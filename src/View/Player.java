@@ -66,6 +66,9 @@ public class Player {
             case "MiniMax" :
                 solver = new MiniMax();
                 break;
+            case "Rule BasedNoDD":
+                solver = new RuleBasedNoDD();
+                break;
         }
         if(solver==null){
             System.out.println("solver "+this.ai+ " is null");

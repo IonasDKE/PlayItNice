@@ -100,6 +100,7 @@ public class GridController {
         return result;
     }
 
+    //
     public static ArrayList<Line> getNdValenceLines(){
         ArrayList<Line> result = new ArrayList<>();
         //System.out.println(" nd" + this.getLines().size());
