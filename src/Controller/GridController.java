@@ -60,12 +60,20 @@ public class GridController {
         return out;
     }
 
-    public static Line findLine(int id) {
+    public static Line getUn(int id) {
         return findLine(id,lines);
     }
     //find the line that as a certain id, return's that line
     public static Line findLine(int id, ArrayList<Line> lines) {
+        Line lineToReturn = null;
+        for (Line line : lines) {
+            if (line.getId() == id)
+                lineToReturn = line;
+        }
+        return lineToReturn;
+    }
 
+    public static Line findLine(int id) {
         Line lineToReturn = null;
         for (Line line : lines) {
             if (line.getId() == id)
@@ -455,12 +463,12 @@ public class GridController {
         return upDiagonalLines;
     }
 
-        public static boolean uppperLeftCorner(int id){
+    public static boolean uppperLeftCorner(int id){
         double temp = toDozen(id);
         return (toUnits(id)+temp/2)<gridWidth;
-        }
+    }
 
-        public static boolean downLeftCorner(int id){
+    public static boolean downLeftCorner(int id){
         double temp = toDozen(id);
         if(temp%2==0){
             temp = temp/2;
@@ -468,17 +476,17 @@ public class GridController {
             temp = (temp+1)/2;
         }
         return toUnits(id)< temp;
-        }
+    }
 
-        public static int toDozen(int id){
-        return (id - toUnits(id)) / 10;
-        }
+    public static int toDozen(int id){
+    return (id - toUnits(id)) / 10;
+    }
 
-        public static int toUnits(int id){
-        return  id % 10;
-        }
+    public static int toUnits(int id){
+    return  id % 10;
+    }
 
-        public static ArrayList<Integer> getUnEmptyLines(State s){
+    public static ArrayList<Integer> getUnEmptyLines(State s){
         ArrayList<Integer> result = new ArrayList<>();
         for(Line i : lines){
             if(!s.getLines().contains(i.getId())){
@@ -486,7 +494,22 @@ public class GridController {
             }
         }
         return result;
+    }
+
+    public static ArrayList<Integer> getUnEmptyLines(ArrayList<Integer> s){
+        ArrayList<Integer> result = new ArrayList<>();
+        for(Line i : lines){
+            if(!s.contains(i.getId())){
+                result.add(i.getId());
+            }
         }
+        return result;
+    }
+
+    public static ArrayList<ArrayList<Integer>> checkStateSymmetry(State s){
+        return checkStateSymmetry(getUnEmptyLines(s));
+    }
+
     private static ArrayList<Integer> downDiagonalLines ;
     private static ArrayList<Integer> upDiagonalLines ;
 

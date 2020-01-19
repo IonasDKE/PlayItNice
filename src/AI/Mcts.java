@@ -102,7 +102,6 @@ public class Mcts extends AISolver {
         simulationCounter++;
         while (!isComplete(stateCopy)) {
             stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));
-
             //stateCopy=stateCopy.computeAChild(a.nextMove(stateCopy, 1, "")); //simulation using our rule based agent
 
         }

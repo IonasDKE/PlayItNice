@@ -83,6 +83,18 @@ public class State {
         return result;
     }
 
+    public static int isEqual(ArrayList<Integer> lines, State other){
+        int nbOfDifferences = 0;
+        for (Integer l : lines) {
+            if (!other.getLines().contains(l)) {
+                nbOfDifferences++;
+                //System.out.println("nbOfDifferences = " + l.getid());
+            }
+        }
+        return nbOfDifferences;
+    }
+
+
     public ArrayList<State> computeAndGetChildren() {
         if (this.children == null) {
             computeChildren();

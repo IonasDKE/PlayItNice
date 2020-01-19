@@ -1,31 +1,34 @@
 package GameTree;
 import java.util.ArrayList;
-
+import Controller.GridController;
 
 public abstract class Graph {
     public Node root;
 
     public void setNewRoot() {
-        System.out.println("Set new root");
-        boolean rootChanged=false;
-        for (Node node : this.getLayer(1)){
-            //System.out.println();
-            //System.out.println("New State");
-            //node.getState().display();
 
-            int nbdiff = node.getState().isEqual(State.currentState());
-            //System.out.println("nbdiff = " + nbdiff);
+        for (Node node : root.computeAndGetChildren()){
+            // System.out.println("New State");
+            // node.getState().display();
 
-            if (nbdiff== 0) {
+            int nbdiff = node.getState().isEqual( State.currentState());
+
+            if (nbdiff == 0) {
                 this.setRoot(node);
-                rootChanged=true;
-                System.out.println("mcts root changed");
-                //node.getState().display();
+                // System.out.println("mcts root changed");
+                return;
             }
-        }
-        if (!rootChanged) {
-            this.setRoot(new Node(State.currentState(), null));
-            System.out.println("changed root cause bug");
+
+            for(ArrayList<Integer> ids : GridController.checkStateSymmetry(node.getState())) {
+                nbdiff = State.isEqual(GridController.getUnEmptyLines(ids), State.currentState());
+
+                if (nbdiff == 0) {
+                    this.setRoot(node);
+                    // System.out.println("mcts root twin changed");
+                    // node.getState().display();
+                    return;
+                }
+            }
         }
         //System.out.println("Root Node: "+this.getRoot());
     }
