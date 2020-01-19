@@ -25,10 +25,10 @@ public class Mcts extends AISolver {
     public static int minScore;
 
     public int nextMove(State state, int color, String str) {
-        //System.out.println("mcts new move");
+        System.out.println("mcts new move");
 
         if (firstTurn) {
-            System.out.println("set new Mcts");
+            //System.out.println("set new Mcts");
             this.player = State.getCurrentActualPlayer();
 
             if (str.equals("acyclic"))
@@ -61,9 +61,8 @@ public class Mcts extends AISolver {
         } catch (StackOverflowError e) {
             return bestMove(state);
         }
-        int line =  bestMove(state);
-        System.out.println("Mcts line: "+line);
-        return line;
+
+        return bestMove(state);
     }
 
     //return the best Line to color after the limited time or if there is a stack over flow

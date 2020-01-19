@@ -122,7 +122,7 @@ public class Player {
     public void aiPlay() throws IOException {
         //System.out.println("called ai player");
         int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
-        System.out.println("ai fill "+chosenLine);
+        //System.out.println("ai fill "+chosenLine);
 
         GridController.findLine(chosenLine).fill();
     }

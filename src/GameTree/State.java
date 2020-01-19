@@ -72,7 +72,6 @@ public class State {
             }
         }
         if (result.size()==0) {
-            System.out.println("result size empty");
             for (int l:this.lines) {
                 State child = computeAChild(l);
                 result.add(child);

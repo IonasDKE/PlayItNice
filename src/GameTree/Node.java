@@ -92,7 +92,7 @@ public class Node {
         return children;
     }
 
-    public static double COEFFICIENT = 1.41; //this coefficient balances exploration and exploitation in the UCT
+    public static float COEFFICIENT = (float) 1.41; //this coefficient balances exploration and exploitation in the UCT
     public double getUctScore(){
 
         if (this.visitNb==0) {

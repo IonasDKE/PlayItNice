@@ -48,10 +48,6 @@ public class Line {
         Player actualPlayer = State.getCurrentActualPlayer();
         State.currentState().getLines().remove(Integer.valueOf(this.getId()));
 
-        if (checkPhase()) {
-            System.out.println("COEFFICIENT: "+Run.j);
-            Node.COEFFICIENT = Run.j;
-        }
         if (Controller.checkMove(this)) {
 
             //System.out.println("fill line "+this.id);

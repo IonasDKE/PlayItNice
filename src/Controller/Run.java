@@ -29,7 +29,6 @@ public class Run {
     public static ArrayList<Integer> scores = new ArrayList<>();
     public static ArrayList<Integer> wins = new ArrayList<>();
     public static ArrayList<ArrayList<Float>> coefficient=new ArrayList<>();
-    public static float j;
 
     public static void main(String[] args) throws IOException {
         Line.simulation=true;
@@ -37,18 +36,10 @@ public class Run {
         GridController.setGridHeightWidth(3,3);
 
         try {
-            for (float i=0; i <=3; i+=0.1) {
-                for (j=0; j<=3; j+=0.1) {
-                    Node.COEFFICIENT=i;
-                    coefficient.add(new ArrayList<>());
-                    coefficient.get(coefficient.size()-1).add(i);
-                    coefficient.get(coefficient.size()-1).add(j);
-                    State.setCurrentState(new State(setPlayers(), 0));
-                    Board.makeGrid(GridController.gridWidth,GridController.gridHeight);
-                    simulate();
-                }
-            }
 
+            State.setCurrentState(new State(setPlayers(), 0));
+            Board.makeGrid(GridController.gridWidth,GridController.gridHeight);
+            simulate();
 
             writeOnTxt(scores, wins);
 
@@ -75,11 +66,12 @@ public class Run {
 
         return currentPlayers;
     }
-
+    public static int counter =0;
     public static String simulate() throws IOException {
 
-        for (int i = 0; i < 1; i++) {
-            out.println("new simulation "+i);
+        for (int i = 0; i < 25; i++) {
+            counter++;
+            out.println("new simulation "+counter);
             //State.currentState().display();
             for (Line line : GridController.getLines()) {
                 line.setEmpty(true);
@@ -115,7 +107,6 @@ public class Run {
 
         sb.append("scores: ");
         sb.append("scores: ");
-        sb.append("Ceof: ");
         sb.append("scores: ");
         sb.append("\n");
 
@@ -123,8 +114,6 @@ public class Run {
             sb.append(score.get(i));
             sb.append(", ");
             sb.append(nbSquares - score.get(i));
-            sb.append(", ");
-            sb.append(coefficient.get(i).get(0)+", "+coefficient.get(i).get(1));
             sb.append(", ");
             sb.append(wins.get(i));
             sb.append("\n");
