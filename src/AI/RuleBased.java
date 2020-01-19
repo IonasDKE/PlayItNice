@@ -20,36 +20,29 @@ public class RuleBased extends AISolver {
     private int index = 0;
     @Override
 
-    public int nextMove(State board, int color, String str) {
-
-        //board.display();
-        Line result = null;
-
-        //first phase: check if any square can be filled, if not pick a random line in a square of valence 2
-
+    public int nextMove(State board, int color, String str) {    //board.display();
+        Line result = null;    //first phase: check if any square can be filled, if not pick a random line in a square of valence 2
         if (GridController.getNdValenceLines().size() != 0) {
             result = completeSquare();
-            if (result == null) {
-                //System.out.println("color randomline");
-                result = colorRandomLine();
-            }
-
-        } else {
-            //filling phase, phase where it is not longer possible to find a square of valence less then 2
-
-            Player p = State.getCurrentActualPlayer();
-            //checks if the trick is going to have to be applied
-            if (pairScore() + p.getScore() + 2 <= impairScore() + Player.nextPlayer(p).getScore() -2) {
-                if (nb == 0) {
-                    index = getSortedChannels().get(0).size();
-                }
+        if (result == null) {
+            //System.out.println("color randomline");
+            result = colorRandomLine();
+        }    } else {
+        //filling phase, phase where it is not longer possible to find a square of valence less then 2
+        Player p = State.getCurrentActualPlayer();
+        int smallestChannel = getSortedChannels().get(0).size();
+        //checks if the trick has already been called
+        if(!trick) {
+            // checks if it is convenient to apply the trick
+            if (impairScore() + smallestChannel - 2 > pairScore() - smallestChannel + 2) {
+                //set the length of the chain on which the double dealing trick must be applied
+                index = smallestChannel;
+                System.out.println("index = " + index);
                 trick = true;
             }
-            //System.out.println("nb = " + nb);
-            System.out.println(pairScore() +"+"+ p.getScore() + "  " + impairScore()+ "+"+ Player.nextPlayer(p).getScore());
-
-        result = fillPhase();
         }
+        System.out.println((impairScore() + smallestChannel - 2 ) +"  " + ( pairScore() - smallestChannel + 2));    result = fillPhase();
+    }
 
         return result.getId();
     }

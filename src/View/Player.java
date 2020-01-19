@@ -21,6 +21,7 @@ public class Player {
     public String graphType="";
     QLearning qLearner;
     public double[] reward = new double[3];
+    int linesFilled = 0;
 
 
     public Player(Color color, String name, String ai) {
@@ -126,6 +127,7 @@ public class Player {
         //System.out.println("called ai player");
         int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
         System.out.println("ai fill "+chosenLine);
+        linesFilled++;
 
         GridController.findLine(chosenLine).fill();
     }
@@ -264,5 +266,9 @@ public class Player {
 
     public AISolver getSolver() {
         return this.solver;
+    }
+
+    public int getLinesFilled(){
+        return linesFilled;
     }
 }
