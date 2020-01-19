@@ -6,6 +6,7 @@ import View.Board;
 import View.*;
 import View.Player;
 import javafx.scene.paint.Color;
+import GameTree.Node;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,6 +28,8 @@ import static java.lang.System.out;
 public class Run {
     public static ArrayList<Integer> scores = new ArrayList<>();
     public static ArrayList<Integer> wins = new ArrayList<>();
+    public static ArrayList<ArrayList<Float>> coefficient=new ArrayList<>();
+    public static float j;
 
     public static void main(String[] args) throws IOException {
         Line.simulation=true;
@@ -34,11 +37,19 @@ public class Run {
         GridController.setGridHeightWidth(3,3);
 
         try {
-            State.setCurrentState(new State(setPlayers(), 0));
-            Board.makeGrid(GridController.gridWidth,GridController.gridHeight);
-            simulate();
+            for (float i=0; i <=3; i+=0.1) {
+                for (j=0; j<=3; j+=0.1) {
+                    Node.COEFFICIENT=i;
+                    coefficient.add(new ArrayList<>());
+                    coefficient.get(coefficient.size()-1).add(i);
+                    coefficient.get(coefficient.size()-1).add(j);
+                    State.setCurrentState(new State(setPlayers(), 0));
+                    Board.makeGrid(GridController.gridWidth,GridController.gridHeight);
+                    simulate();
+                }
+            }
 
-            out.println("score size " + scores.size());
+
             writeOnTxt(scores, wins);
 
         } catch (OutOfMemoryError e) {
@@ -67,7 +78,7 @@ public class Run {
 
     public static String simulate() throws IOException {
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 1; i++) {
             out.println("new simulation "+i);
             //State.currentState().display();
             for (Line line : GridController.getLines()) {
@@ -104,13 +115,16 @@ public class Run {
 
         sb.append("scores: ");
         sb.append("scores: ");
-        sb.append("wins: ");
+        sb.append("Ceof: ");
+        sb.append("scores: ");
         sb.append("\n");
 
         for (int i = 0; i < score.size(); i++) {
             sb.append(score.get(i));
             sb.append(", ");
             sb.append(nbSquares - score.get(i));
+            sb.append(", ");
+            sb.append(coefficient.get(i).get(0)+", "+coefficient.get(i).get(1));
             sb.append(", ");
             sb.append(wins.get(i));
             sb.append("\n");

@@ -92,8 +92,9 @@ public class Node {
         return children;
     }
 
+    public static double COEFFICIENT = 1.41; //this coefficient balances exploration and exploitation in the UCT
     public double getUctScore(){
-        final double COEFFICIENT = 1.41; //this coefficient balances exploration and exploitation in the UCT
+
         if (this.visitNb==0) {
             return Integer.MAX_VALUE;
         }else {

@@ -6,6 +6,8 @@ public abstract class Graph {
     public Node root;
 
     public void setNewRoot() {
+        System.out.println("Set new root");
+        boolean rootChanged=false;
         for (Node node : this.getLayer(1)){
             //System.out.println();
             //System.out.println("New State");
@@ -16,9 +18,14 @@ public abstract class Graph {
 
             if (nbdiff== 0) {
                 this.setRoot(node);
-                //System.out.println("mcts root changed");
+                rootChanged=true;
+                System.out.println("mcts root changed");
                 //node.getState().display();
             }
+        }
+        if (!rootChanged) {
+            this.setRoot(new Node(State.currentState(), null));
+            System.out.println("changed root cause bug");
         }
         //System.out.println("Root Node: "+this.getRoot());
     }

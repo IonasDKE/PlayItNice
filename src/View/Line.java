@@ -2,6 +2,7 @@ package View;
 
 import AI.Mcts;
 import Controller.Controller;
+import GameTree.Node;
 import GameTree.State;
 import Controller.*;
 
@@ -47,20 +48,24 @@ public class Line {
         Player actualPlayer = State.getCurrentActualPlayer();
         State.currentState().getLines().remove(Integer.valueOf(this.getId()));
 
+        if (checkPhase()) {
+            System.out.println("COEFFICIENT: "+Run.j);
+            Node.COEFFICIENT = Run.j;
+        }
         if (Controller.checkMove(this)) {
 
             //System.out.println("fill line "+this.id);
             this.setEmpty(false);
             State.currentState().getLines().remove(this);
-            Mcts.setNewRoots();
+
             this.graphicLine.setStroke(actualPlayer.getColor());
             //this.graphicLine.setStroke(Color.BLACK);
 
             for (Square sq : this.getSquares()) {
                 sq.colorSquare(actualPlayer);
             }
-
             Controller.updateTurn(this, State.currentState());
+            Mcts.setNewRoots();
 
             if (simulation) {
                 if (runTesting) {
@@ -114,6 +119,16 @@ public class Line {
                 }
             }
         }
+    }
+
+    public static boolean checkPhase() {
+        boolean toReturn = true;
+        for (Square sq: GridController.getSquares()) {
+           if (sq.getValence()>2)
+               toReturn=false;
+
+        }
+        return toReturn;
     }
 
     /**

@@ -54,18 +54,20 @@ public class State {
 
     public ArrayList<State> getChildrenStupid() {
         ArrayList<State> result = new ArrayList<>();
-        System.out.println("lines size: "+this.lines.size());
+        //System.out.println("lines size: "+this.lines.size());
         for (int l : this.lines) {
             Line line= GridController.findLine(l);
-            if (!GridController.isThirdLine(line)) {
-                State child = computeAChild(line.getId());
-                result.add(child);
-            }
-            for (Square sq:line.getSquares()) {
-                if (sq.getValence()==1) {
-                    result=new ArrayList<>();
-                    result.add(computeAChild(line.getId()));
-                    return  result;
+            if (line.isEmpty()) {
+                if (!GridController.isThirdLine(line)) {
+                    State child = computeAChild(line.getId());
+                    result.add(child);
+                }
+                for (Square sq : line.getSquares()) {
+                    if (sq.getValence() == 1) {
+                        result = new ArrayList<>();
+                        result.add(computeAChild(line.getId()));
+                        return result;
+                    }
                 }
             }
         }
@@ -153,7 +155,6 @@ public class State {
         for (int l : lines) {
             System.out.print(l + ", ");
         }
-        System.out.println();
         System.out.println();
     }
 

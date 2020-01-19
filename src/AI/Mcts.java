@@ -61,8 +61,9 @@ public class Mcts extends AISolver {
         } catch (StackOverflowError e) {
             return bestMove(state);
         }
-
-        return bestMove(state);
+        int line =  bestMove(state);
+        System.out.println("Mcts line: "+line);
+        return line;
     }
 
     //return the best Line to color after the limited time or if there is a stack over flow
@@ -70,6 +71,8 @@ public class Mcts extends AISolver {
         Node winnerNode = getBestChild();
         //System.out.println(state.getLines().size());
         //System.out.println("state size = " + state.getLines().size());
+        //state.display();
+        //winnerNode.getState().display();
         int line =State.findDiffLine(state, winnerNode.getState());
         //System.out.println("line id: "+line);
         return (line);
