@@ -26,10 +26,9 @@ import static java.lang.System.out;
 
 public class Run {
     //simulation parameters
-    static final int HEIGHT = 3;
-    static final int WIDTH = 3;
+    static final int HEIGHT = 5;
+    static final int WIDTH = 5;
     static final int NUM_GAMES = 50;
-
 
 
     // this ArrayList collects the score of player 0
@@ -64,11 +63,11 @@ public class Run {
         players.add(Color.CHOCOLATE);
 
         ArrayList<Player> currentPlayers = new ArrayList<>();
-        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "Rule Based");
+        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "Rule BasedNoDD");
         currentPlayers.add(a);
         a.setSolver();
 
-        Player b = new Player(Color.RED, Integer.toString(2), "Rule BasedNoDD");
+        Player b = new Player(Color.RED, Integer.toString(2), "Rule Based");
         currentPlayers.add(b);
         b.setSolver();
 
@@ -89,8 +88,14 @@ public class Run {
             Mcts.resetMcts();
 
             Controller.checkAiPlay();
-            int linesFilledBothPlayers = State.getCurrentPlayers().get(0).getLinesFilled() + State.getCurrentPlayers().get(0).getLinesFilled();
-            System.out.println("Lines filled by both Players:" + linesFilledBothPlayers);
+
+            int linesFilledAllPlayers = 0;
+
+            for (Player aPlayer : State.getCurrentPlayers()){
+                linesFilledAllPlayers += aPlayer.getLinesFilled();
+            }
+
+            System.out.println("Lines filled by all players:" + linesFilledAllPlayers);
 
         }
 
@@ -109,7 +114,7 @@ public class Run {
     }
 
     // write on a file the result of the game. For experimentation.
-    public static void writeOnTxt(ArrayList<Integer> score, ArrayList<Integer> wins) throws FileNotFoundException {
+    public static void writeOnTxt(ArrayList<Integer> score, ArrayList<Integer> theWins) throws FileNotFoundException {
         out.println("writing ");
         int nbSquares = GridController.gridHeight * GridController.gridWidth;
         PrintWriter writer = new PrintWriter(new File("experiment.csv"));
@@ -123,31 +128,71 @@ public class Run {
         sb.append(", ");
         sb.append("scores: " + Player1 );
         sb.append(", ");
-        sb.append("wins: " + Player0);
+        sb.append("theWins: " + Player0);
         sb.append("\n");
 
+        //print scores and wins
         for (int i = 0; i < score.size(); i++) {
             sb.append(score.get(i));
             sb.append(", ");
             sb.append(nbSquares - score.get(i));
             sb.append(", ");
-            sb.append(wins.get(i));
+            sb.append(theWins.get(i));
             sb.append("\n");
         }
 
+        //print summary line headers
+        sb.append("avg. score " + Player0);
+        sb.append(",");
+        sb.append("avg.score " + Player1);
+        sb.append(",");
+        sb.append("total wins " + Player0);
+        sb.append(",");
+        sb.append("total wins " + Player1);
+        sb.append(",");
+        sb.append("# of draws");
+        sb.append("\n");
+
+        //compute summary statistics
+        double avgScore = 0;
         int sumWins = 0;
-        for (int i : wins) {
-            sumWins += i;
+        int sumWinsPl2 = 0;
+
+        for (Integer i : score){
+            avgScore += score.get(i);
         }
 
-        int avgScore;
-        for (int j : scores)
+        for (int j = 0; j < theWins.size(); j++){
+            if(theWins.get(j) == null){
+
+            } else
+                sumWins += theWins.get(j);
+        }
+
+        for (int j = 0; j < theWins.size(); j++){
+            if(theWins.get(j) == null){
+
+            } else if( theWins.get(j) == 0)
+                sumWinsPl2++;
+        }
+
+        //print summary statistics
+        sb.append(avgScore / NUM_GAMES);
+        sb.append(",");
+        sb.append(nbSquares - avgScore /NUM_GAMES);
+        sb.append(",");
+        sb.append(sumWins + "/" + theWins.size());
+        sb.append(",");
+        sb.append(sumWinsPl2 + "/" + theWins.size());
+        sb.append(",");
+        sb.append( NUM_GAMES - sumWins - sumWinsPl2);
+        sb.append("\n");
+
 
         //out.println(sb.toString());
         writer.write(sb.toString());
         writer.close();
 
-        System.out.println(State.getCurrentPlayers().get(0).getAiType());
 
     }
 }

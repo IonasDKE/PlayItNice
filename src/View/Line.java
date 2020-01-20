@@ -66,6 +66,16 @@ public class Line {
                 if (runTesting) {
                     if (Testing.checkEnd()) {
                         System.out.println("endGame");
+
+                        int linesFilledAllPlayers = 0;
+
+                        for (Player aPlayer : State.getCurrentPlayers()){
+                            linesFilledAllPlayers += aPlayer.getLinesFilled();
+                        }
+
+                        System.out.println("Lines filled by all players:" + linesFilledAllPlayers);
+
+
                         int score = State.currentState().getPlayers().get(0).getScore();
                         Testing.scores.get(Testing.scores.size()-1).add(score);
                         if (score < (width*height)/2 +1) {
@@ -84,6 +94,15 @@ public class Line {
                 }else {
                     if (Run.checkEnd()) {
                         System.out.println("endGame");
+
+                        int linesFilledAllPlayers = 0;
+
+                        for (Player aPlayer : State.getCurrentPlayers()){
+                            linesFilledAllPlayers += aPlayer.getLinesFilled();
+                        }
+
+                        System.out.println("Lines filled by all players:" + linesFilledAllPlayers);
+
                         int score = State.currentState().getPlayers().get(0).getScore();
                         Run.scores.add(score);
                         if (score < (width*height)/2 +1) {
@@ -110,6 +129,16 @@ public class Line {
                     Controller.checkAiPlay();
                 } else {
                     System.out.println("endGame");
+
+                    int linesFilledAllPlayers = 0;
+
+                    for (Player aPlayer : State.getCurrentPlayers()){
+                        linesFilledAllPlayers += aPlayer.getLinesFilled();
+                    }
+
+                    //System.out.println("Lines filled by all players:" + linesFilledAllPlayers);
+
+
                     //EndWindow.display(Launcher.thisStage);
                 }
             }
