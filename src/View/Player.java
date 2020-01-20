@@ -13,6 +13,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Player {
 
+    public AISolver getSolver() {
+        return solver;
+    }
+
     private AISolver solver;
     private Color color;
     private int score;
@@ -20,6 +24,7 @@ public class Player {
     private String ai;
     public String graphType="";
     QLearning qLearner;
+    final double FILLSQUAREREWARD = 0.2;
     public double[] reward = new double[3];
 
 
@@ -31,24 +36,22 @@ public class Player {
     }
 
 
-    public Player(String name, QLearning agentToBeTrained) {
-        this(Color.BLUE, name, null);
+    public Player(Color color, String name, QLearning agentToBeTrained) {
+        this.color = color;
+        this.name = name;
         this.score = 0;
         this.qLearner = agentToBeTrained;
         //both player draws
         //this needs to be negative other wise q value might converge
-        reward[0] = 0.5;
+        reward[0] = 0;
         //Qplayer loses
-        reward[1] = 0;
+        reward[1] = -1;
         //QPlayer wons
         reward[2] = 1;
     }
 
     public void setSolver(){
         switch (this.ai) {
-            case "StupidAI":
-                solver=new StupidAI();
-                break;
             case  "Mcts Tree":
                 this.graphType="Tree";
                 solver = new Mcts();
@@ -121,10 +124,11 @@ public class Player {
 
     public void aiPlay() throws IOException {
         //System.out.println("called ai player");
+
         int chosenLine = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), this.graphType);
         //System.out.println("ai fill "+chosenLine);
-
         GridController.findLine(chosenLine).fill();
+
     }
 
     /**
@@ -202,24 +206,32 @@ public class Player {
      * this method makes a 'move' for the player, depending on wheter the current player
      * is the random solver of the Q learner
      */
-    public void move() throws IOException {
+    public void move(int i) throws IOException {
         Integer line;
         if (State.currentState().getAvailableMoves().size() != 0) {
             State current = State.currentState().cloned();
              // if its the Q learner to play
             if(qLearner!=null) {
-                 line = qLearner.getBestQLine(current);
-                 qLearner.update(current);
+                line = qLearner.getBestQLine(current);
+                qLearner.update(current);
+                int numberOfCompleteSquare = Controller.checkAnySquareClaimed(line, current.getLines());
+                if(numberOfCompleteSquare>0){
+                    double[] qValues = QLearning.qHashMap.get(State.currentState().getHashedID());
+                    qValues[line] += FILLSQUAREREWARD;
+                }
             }
             // if its the random bot
-            else{
-                 line = getRandomLine(current.getAvailableMoves());
+            else {
+               // if(i%5==0){
+                    //line = getRandomLine(State.currentState().getAvailableMoves());
+               // }
+               // else {
+                   line = solver.nextMove(State.currentState().cloned(), State.currentState().getTurn(), "");
+               // }
             }
             //Removes the line from the current state (equivalent to thefill)
-          //  System.out.println("chose line "+line);
-           // System.out.println();
-           // Line lineToFill = new Line(line);
-            State.currentState().getLines().remove(Integer.valueOf(line));
+            GridController.findLine(line).setEmpty(false);
+            State.currentState().getLines().remove(new Integer(line));
             Controller.updateTurn(line,State.currentState());
         }
     }
@@ -257,9 +269,5 @@ public class Player {
         //We train the AI here
         //it takes in the reward given by the end of the game
         qLearner.learnFromPolicy(rewardValue);
-    }
-
-    public AISolver getSolver() {
-        return this.solver;
     }
 }
