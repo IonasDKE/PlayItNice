@@ -15,7 +15,7 @@ public class QLearning {
 
     int numberOfState;
     int numberOfMoves;
-    protected HashMap<String, double[]> qHashMap = new HashMap<>();
+    public static HashMap<String, double[]> qHashMap = new HashMap<>();
     protected double Qinit;
     protected ArrayList<QVector> policyRecorder;
     protected double alpha;
@@ -127,6 +127,7 @@ public class QLearning {
        //out.println();
     }
 
+
     /**
      * @return the initial Q (which have to be instantiated
      */
@@ -163,12 +164,12 @@ public class QLearning {
             double max = qValues[0];
 
             for (int i = 0; i < qValues.length ; i++){
-                if(qValues[i]> max){
+                if(qValues[i] > max){
                     max = qValues[i];
                 }
             }
             computeMaximum = max;
         }
-
     }
+
 }
