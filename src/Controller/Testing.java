@@ -25,7 +25,6 @@ public class Testing {
 
         try {
             for (int i=0;i<simulation.size();i++) {
-
                 out.println("new simulation ");
                 ArrayList<Player> currentPlayer = setPlayers(simulation.get(i).get(0), simulation.get(i).get(1));
                 State.setCurrentState(new State(currentPlayer, 0));
@@ -92,7 +91,7 @@ public class Testing {
     public static void writeOnTxt(ArrayList<ArrayList<String>> allPlayers) throws FileNotFoundException {
         out.println("writing ");
         int nbSquares = GridController.gridHeight * GridController.gridWidth;
-        PrintWriter writer = new PrintWriter(new File("experiment.csv"));
+        PrintWriter writer = new PrintWriter(new File("experimentBig.csv"));
 
         StringBuilder sb = new StringBuilder();
 
@@ -122,7 +121,7 @@ public class Testing {
 
     public static ArrayList<ArrayList<String>> getAllCombination() {
         ArrayList<ArrayList<String>> toReturn=new ArrayList<>();
-        String[] allAi= {"Alpha Beta", "MiniMax"};
+        String[] allAi= {"Mcts Tree","Rule Based","Alpha Beta", "MiniMax"};
         int index=0;
 
         for (int i=0;i<allAi.length;i++) {

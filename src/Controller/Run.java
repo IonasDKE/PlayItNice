@@ -74,12 +74,11 @@ public class Run {
     public static int counter =0;
     public static String simulate(float a,float b) throws IOException {
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 25; i++) {
             coefficient.add(a);
             coefficient.add(b);
             counter++;
             out.println("new simulation "+counter);
-            //State.currentState().display();
             for (Line line : GridController.getLines()) {
                 line.setEmpty(true);
             }
@@ -110,11 +109,12 @@ public class Run {
         PrintWriter writer = new PrintWriter(new File("experimentMctsFirst.csv"));
 
         StringBuilder sb = new StringBuilder();
-        out.println("coef size: "+coefficient.size());
         out.println("score size: "+score.size());
         out.println("win size: "+wins.size());
 
         sb.append("scores: ");
+        sb.append("scores: ");
+        sb.append("coef: ");
         sb.append("\n");
 
         try {

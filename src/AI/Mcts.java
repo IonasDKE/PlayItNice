@@ -23,37 +23,29 @@ public class Mcts extends AISolver {
     public Random rand = new Random();
     public Node rootNode;
     public static int minScore;
+    public static int time=1000;
 
     public int nextMove(State state, int color, String str) {
-        System.out.println("mcts new move");
-
+        //System.out.println("mcts new move");
         if (firstTurn) {
             //System.out.println("set new Mcts");
             this.player = State.getCurrentActualPlayer();
-
-            if (str.equals("acyclic"))
-                graph = new AcyclicGraph(new Node(state, null));
-            else
-                graph = new Tree(new Node(state, null));
+            graph = new Tree(new Node(state, null));
 
             graphs.add(graph);
             minScore = (GridController.gridHeight * GridController.gridWidth) / 2 + 1;
             this.firstTurn=false;
         }
         rootNode = this.graph.getRoot();
-
-        long timeLimit = System.currentTimeMillis() + 100; //1000 = 1 sec
+        int counter =0;
+        long timeLimit = System.currentTimeMillis() + time; //1000 = 1 sec
         try {
-            while (System.currentTimeMillis() < timeLimit) {
-                Node promisingNode = selection(rootNode);
-                //promisingNode.getState().display();
 
+            while (System.currentTimeMillis() < timeLimit) {
+                counter++;
+                Node promisingNode = selection(rootNode);
                 if (!isComplete(promisingNode.getState())) {
                     expansion(promisingNode);
-
-                    if (promisingNode.getChildren().size() > 0) {
-                        promisingNode = promisingNode.getChildren().get(rand.nextInt(promisingNode.getChildren().size()));
-                    }
                     backPropagation(promisingNode, simulateRandomPlayOut(promisingNode));
                 } else
                     backPropagation(promisingNode, promisingNode.getState().getScore(player));
@@ -68,12 +60,7 @@ public class Mcts extends AISolver {
     //return the best Line to color after the limited time or if there is a stack over flow
     public int bestMove(State state) {
         Node winnerNode = getBestChild();
-        //System.out.println(state.getLines().size());
-        //System.out.println("state size = " + state.getLines().size());
-        //state.display();
-        //winnerNode.getState().display();
         int line =State.findDiffLine(state, winnerNode.getState());
-        //System.out.println("line id: "+line);
         return (line);
     }
 
@@ -84,7 +71,6 @@ public class Mcts extends AISolver {
             node = Collections.max(node.getChildren(),          //collections.max returns the child node with largest UCT
                     Comparator.comparing(Node::getUctScore));
         }
-        //System.out.println("selected node :"+node+" uct value: "+node.getUctScore());
         return node;
     }
 
@@ -139,18 +125,13 @@ public class Mcts extends AISolver {
     public Node getBestChild() {
         double currentBest=Double.NEGATIVE_INFINITY;
         Node bestChild=null;
-        try {
-            for (Node child : this.rootNode.getChildren()) {
-                //System.out.println("child score : "+child.getScore());
-                if (child.getAvg() > currentBest) {
-                    bestChild = child;
-                    currentBest=child.getAvg();
-                    //System.out.println("current best : "+currentBest+ " node: "+child);
-                }
+        for (Node child : this.rootNode.getChildren()) {
+            //System.out.println("child score : "+child.getScore());
+            if (child.getAvg() > currentBest) {
+                bestChild = child;
+                currentBest = child.getAvg();
+                //System.out.println("current best : "+currentBest+ " node: "+child);
             }
-        } catch(NullPointerException e) {
-            System.out.println("NullPointerException");
-            State.currentState().display();
         }
         return bestChild;
     }

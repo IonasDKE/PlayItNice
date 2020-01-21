@@ -210,10 +210,6 @@ public class State {
     }
 
     public static int findDiffLine(State parent, State child) {
-      //  System.out.println("parent");
-        //parent.display();
-        //System.out.println("child");
-        //child.display();
         return findDiffLine(parent.getLines(), child.getLines());
     }
 

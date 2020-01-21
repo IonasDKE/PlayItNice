@@ -59,10 +59,6 @@ public class Player {
                 this.graphType="Tree";
                 solver = new Mcts();
                 break;
-            case "Mcts Acyclic":
-                this.graphType="Acyclic";
-                solver= new Mcts();
-                break;
             case "Rule Based":
                 solver = new RuleBased();
                 break;
@@ -133,7 +129,6 @@ public class Player {
         GridController.findLine(chosenLine).fill();
 
     }
-
     /**
      * display the type of player
      */

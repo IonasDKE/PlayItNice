@@ -19,9 +19,6 @@ public class AcyclicGraph extends Graph{
         this.root= newRoot;
     }
 
-    public void computeChildrenAcyclic() {
-
-    }
 
 
 }
