@@ -48,6 +48,9 @@ public class Line {
         Player actualPlayer = State.getCurrentActualPlayer();
         State.currentState().getLines().remove(Integer.valueOf(this.getId()));
 
+        if (checkPhase())
+            Node.COEFFICIENT=Run.j;
+
         if (Controller.checkMove(this)) {
 
             //System.out.println("fill line "+this.id);
@@ -68,13 +71,13 @@ public class Line {
                     if (Testing.checkEnd()) {
                         System.out.println("endGame");
                         int score = State.currentState().getPlayers().get(0).getScore();
-                        Testing.scores.get(Testing.scores.size()-1).add(score);
+                        Testing.scores.add(score);
                         if (score < (width*height)/2 +1) {
-                            Testing.wins.get(Testing.wins.size()-1).add(0);
-                        }else if ((width*height)%2==0 && score == (width*height)/2 +1){
-                            Testing.wins.get(Testing.wins.size()-1).add(null);
+                            Testing.wins.add(0);
+                        }else if ((width*height)%2==0){
+                            Testing.wins.add(null);
                         }else
-                            Testing.wins.get(Testing.wins.size()-1).add(1);
+                            Testing.wins.add(1);
 
                         return;
 
@@ -90,7 +93,7 @@ public class Line {
                         if (score < (width*height)/2 +1) {
                             System.out.println(score);
                             Run.wins.add(0);
-                        } else if ((width*height)%2==0 && score == (width*height)/2 +1){
+                        } else if ((width*height)%2==0){
                             System.out.println(score);
                             Run.wins.add(null);
                         }else {

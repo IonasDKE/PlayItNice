@@ -1,8 +1,5 @@
 package GameTree;
 
-import GameTree.*;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AcyclicGraph extends Graph{
@@ -20,6 +17,10 @@ public class AcyclicGraph extends Graph{
 
     public void setRoot(Node newRoot) {
         this.root= newRoot;
+    }
+
+    public void computeChildrenAcyclic() {
+
     }
 
 

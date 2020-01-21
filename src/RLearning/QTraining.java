@@ -48,7 +48,7 @@ public class QTraining  {
                 }
 
             }
-            GridController.resetGrid();
+            //GridController.resetGrid();
              /* AFTER THE GAME THE AGENT NEEDS TO CALCULATE THE Q VALUES OF THE GAME
              */
             trainedBot.learn(width, height);
@@ -128,7 +128,7 @@ public class QTraining  {
                 agent.move(i);
                 opBot.move(i);
             }
-            GridController.resetGrid();
+            //GridController.resetGrid();
             opBot.learn(width, height);
             checkWinners(State.currentState());
         }

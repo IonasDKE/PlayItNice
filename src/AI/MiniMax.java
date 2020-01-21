@@ -11,7 +11,7 @@ public class MiniMax extends AISolver {
     private static int maxDepth;
     final static int MIN = -1000000000, MAX = 1000000000;
     private long startMoveTime = 1000000000;
-    private long moveTime = 1900000000;
+    private long moveTime = 500000000;
     private long startTime;
 
     /**

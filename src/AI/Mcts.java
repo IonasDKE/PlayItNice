@@ -42,7 +42,7 @@ public class Mcts extends AISolver {
         }
         rootNode = this.graph.getRoot();
 
-        long timeLimit = System.currentTimeMillis() + 1000; //1000 = 1 sec
+        long timeLimit = System.currentTimeMillis() + 100; //1000 = 1 sec
         try {
             while (System.currentTimeMillis() < timeLimit) {
                 Node promisingNode = selection(rootNode);

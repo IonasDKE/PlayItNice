@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static Controller.Controller.countClaimedSquare;
 import static java.lang.System.out;
@@ -28,19 +29,22 @@ import static java.lang.System.out;
 public class Run {
     public static ArrayList<Integer> scores = new ArrayList<>();
     public static ArrayList<Integer> wins = new ArrayList<>();
-    public static ArrayList<ArrayList<Float>> coefficient=new ArrayList<>();
+    public static ArrayList<Float> coefficient=new ArrayList<>();
+    public static float j;
 
     public static void main(String[] args) throws IOException {
         Line.simulation=true;
         Line.runTesting=false;
         GridController.setGridHeightWidth(3,3);
-
         try {
-
-            State.setCurrentState(new State(setPlayers(), 0));
-            Board.makeGrid(GridController.gridWidth,GridController.gridHeight);
-            simulate();
-
+            for (float i = (float) 1.8; i <=2.5; i+=0.2) {
+                for (j= (float) 1.8; j<=2.5; j+=0.2) {
+                    Node.COEFFICIENT=i;
+                    State.setCurrentState(new State(setPlayers(), 0));
+                    Board.makeGrid(GridController.gridWidth,GridController.gridHeight);
+                    simulate(i,j);
+                }
+            }
             writeOnTxt(scores, wins);
 
         } catch (OutOfMemoryError e) {
@@ -56,20 +60,23 @@ public class Run {
         players.add(Color.CHOCOLATE);
 
         ArrayList<Player> currentPlayers = new ArrayList<>();
-        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "Mcts Tree");
+        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "StupidAI");
         currentPlayers.add(a);
         a.setSolver();
 
-        Player b = new Player(Color.RED, Integer.toString(2), "StupidAI");
+        Player b = new Player(Color.RED, Integer.toString(2), "Mcts Tree");
         currentPlayers.add(b);
         b.setSolver();
 
         return currentPlayers;
     }
-    public static int counter =0;
-    public static String simulate() throws IOException {
 
-        for (int i = 0; i < 25; i++) {
+    public static int counter =0;
+    public static String simulate(float a,float b) throws IOException {
+
+        for (int i = 0; i < 10; i++) {
+            coefficient.add(a);
+            coefficient.add(b);
             counter++;
             out.println("new simulation "+counter);
             //State.currentState().display();
@@ -81,7 +88,6 @@ public class Run {
             Mcts.resetMcts();
 
             Controller.checkAiPlay();
-
         }
 
         return "Done";
@@ -101,22 +107,29 @@ public class Run {
     public static void writeOnTxt(ArrayList<Integer> score, ArrayList<Integer> wins) throws FileNotFoundException {
         out.println("writing ");
         int nbSquares = GridController.gridHeight * GridController.gridWidth;
-        PrintWriter writer = new PrintWriter(new File("experiment.csv"));
+        PrintWriter writer = new PrintWriter(new File("experimentMctsFirst.csv"));
 
         StringBuilder sb = new StringBuilder();
+        out.println("coef size: "+coefficient.size());
+        out.println("score size: "+score.size());
+        out.println("win size: "+wins.size());
 
-        sb.append("scores: ");
-        sb.append("scores: ");
         sb.append("scores: ");
         sb.append("\n");
 
-        for (int i = 0; i < score.size(); i++) {
-            sb.append(score.get(i));
-            sb.append(", ");
-            sb.append(nbSquares - score.get(i));
-            sb.append(", ");
-            sb.append(wins.get(i));
-            sb.append("\n");
+        try {
+            for (int i = 0; i < score.size(); i++) {
+                sb.append(score.get(i));
+                sb.append(", ");
+                sb.append(nbSquares - score.get(i));
+                sb.append(", ");
+                sb.append(coefficient.get(i*2)+", "+coefficient.get((i*2)+1));
+                sb.append(", ");
+                sb.append("\n");
+            }
+        } catch (IndexOutOfBoundsException e) {
+            writer.write(sb.toString());
+            writer.close();
         }
 
         //out.println(sb.toString());

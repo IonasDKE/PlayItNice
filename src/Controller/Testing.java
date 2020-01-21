@@ -14,19 +14,17 @@ import static Controller.Controller.countClaimedSquare;
 import static java.lang.System.*;
 
 public class Testing {
-    //AdjacencyMatrix.setMatrix(chosenM,chosenN);
-    public static ArrayList<ArrayList<Integer>> scores= new ArrayList<>();
-    public static ArrayList<ArrayList<Integer>> wins = new ArrayList<>();
+    public static ArrayList<Integer> scores= new ArrayList<>();
+    public static ArrayList<Integer> wins = new ArrayList<>();
 
     public static void main(String [] args) throws IOException {
         Line.simulation=true;
         ArrayList<ArrayList<String>> simulation = getAllCombination();
 
         GridController.setGridHeightWidth(3,3);
+
         try {
             for (int i=0;i<simulation.size();i++) {
-                scores.add(new ArrayList<>());
-                wins.add(new ArrayList<>());
 
                 out.println("new simulation ");
                 ArrayList<Player> currentPlayer = setPlayers(simulation.get(i).get(0), simulation.get(i).get(1));
@@ -63,7 +61,7 @@ public class Testing {
     }
 
     public static String simulate(ArrayList<Player> currentPlayer) throws IOException {
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < 20; i++) {
             out.println("new simulation "+i);
             //State.currentState().display();
             for (Line line : GridController.getLines()) {
@@ -98,9 +96,7 @@ public class Testing {
 
         StringBuilder sb = new StringBuilder();
 
-        for (int j = 0; j< Testing.wins.size(); j++) {
-            ArrayList<Integer> scores = Testing.wins.get(j);
-            ArrayList<Integer> finalResult=wins.get(j);
+        for (int j = 0; j< allPlayers.size(); j++) {
             ArrayList<String> players =allPlayers.get(j);
             sb.append(players.get(0)+" scores: ");
             sb.append(players.get(1)+" scores: ");
@@ -112,20 +108,21 @@ public class Testing {
                 sb.append(", ");
                 sb.append(nbSquares - scores.get(i));
                 sb.append(", ");
-                sb.append(finalResult.get(i));
+                sb.append(wins.get(i));
                 sb.append("\n");
             }
+            out.println(scores.size());
+            scores.remove(20);
+            wins.remove(20);
         }
         //out.println(sb.toString());
         writer.write(sb.toString());
         writer.close();
-
     }
 
     public static ArrayList<ArrayList<String>> getAllCombination() {
         ArrayList<ArrayList<String>> toReturn=new ArrayList<>();
-
-        String[] allAi= {"Mcts Tree", "Mcts Acyclic", "Alpha Beta", "Rule Based", "MiniMax"};
+        String[] allAi= {"Alpha Beta", "MiniMax"};
         int index=0;
 
         for (int i=0;i<allAi.length;i++) {

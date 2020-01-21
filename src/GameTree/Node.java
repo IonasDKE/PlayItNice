@@ -6,6 +6,8 @@ public class Node {
     private State state;
     private ArrayList<Node> children;
     private Node parent;
+    private ArrayList<Node> parents;
+    private int depth;
     private double score = 0;
     private int numberOfWin=0;
     private int turn;

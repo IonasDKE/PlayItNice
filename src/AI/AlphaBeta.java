@@ -14,7 +14,7 @@ public class AlphaBeta extends AISolver {
     private static int maxDepth;
     final static int MIN = -1000000000, MAX = 1000000000;
     private long startMoveTime = 1000000000;
-    private long moveTime = 1900000000;
+    private long moveTime = 500000000;
     private long startTime;
     private int iteration = 0 ;
 
@@ -60,7 +60,7 @@ public class AlphaBeta extends AISolver {
             if (availableMoves == 0) {
                 return new WeightedEdge(null, evaluationFunction(state, turn));
             }
-            Collections.shuffle(moves);
+            //Collections.shuffle(moves);
 
             /**
              * resets the state

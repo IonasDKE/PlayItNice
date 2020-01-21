@@ -52,6 +52,9 @@ public class Player {
 
     public void setSolver(){
         switch (this.ai) {
+            case "StupidAI":
+                solver=new StupidAI();
+                break;
             case  "Mcts Tree":
                 this.graphType="Tree";
                 solver = new Mcts();

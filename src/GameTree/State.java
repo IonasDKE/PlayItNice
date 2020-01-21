@@ -58,10 +58,6 @@ public class State {
         for (int l : this.lines) {
             Line line= GridController.findLine(l);
             if (line.isEmpty()) {
-                if (!GridController.isThirdLine(line)) {
-                    State child = computeAChild(line.getId());
-                    result.add(child);
-                }
                 for (Square sq : line.getSquares()) {
                     if (sq.getValence() == 1) {
                         result = new ArrayList<>();
@@ -71,6 +67,7 @@ public class State {
                 }
             }
         }
+
         if (result.size()==0) {
             for (int l:this.lines) {
                 State child = computeAChild(l);
