@@ -1,3 +1,11 @@
+/**
+ * The line class is used to make computations on lines in the game less expensive.
+ * The class has field to assign its respective squares it (see Square class). This supports the computation of valences,
+ * and determining the phase of the game. 
+ * @param GraphicLine
+ * @return
+ */
+
 package View;
 
 import AI.Mcts;

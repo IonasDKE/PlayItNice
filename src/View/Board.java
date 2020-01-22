@@ -1,3 +1,10 @@
+/**
+ *
+ * The Board class support the GUI representation of the game board.
+ * Main methods are makeBoard and makeGrid (makeGrid construct the grid of dots for the game)
+ * @return Returns a scene which will be the main scene with the board of the game (see makeboard method)
+ */
+
 package View;
 import Controller.GridController;
 import GameTree.State;
@@ -14,6 +21,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+
+
 
 public class Board {
 
@@ -33,10 +42,6 @@ public class Board {
         return playerNb;
     }
 
-    /**
-     * Returns a scene which will be the main scene with the board of the game
-     * it takes in the width of the GUI and the height of the GUI
-     */
     public static Scene makeBoard(int width, int hight, ArrayList<Color> colors){
 
         Font gameFont = new Font(18);

@@ -1,3 +1,8 @@
+/**
+ * The GraphicLine class is a graphic element of the GUI that corresponds to the lines in the Dots and Boxes game.
+ * Computations are performend on the Line class.
+ */
+
 package View;
 
 import javafx.scene.paint.Color;

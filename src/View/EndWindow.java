@@ -1,3 +1,12 @@
+/**
+ * This window contains the end features
+ * it states which player won/ if a draw happnend
+ * you don't need to know how this works since
+ *  it doesnt't have to be modified
+ * @param primaryStage the stage of the entire GUI
+ */
+
+
 package View;
 import Controller.Controller;
 import GameTree.State;
@@ -39,14 +48,6 @@ public class EndWindow{
     private static Label won;
     private static Rectangle rec;
 
-
-    /**
-     * This window contains the end features
-     * it states which player won or equality
-     * you don't need to know how this works since
-     * it doesnt't have to be modified
-     * @param primaryStage the stage of the entire GUI
-     */
     public static void display(Stage primaryStage) throws IOException {
 
         VBox root = new VBox(20);

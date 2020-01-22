@@ -1,3 +1,10 @@
+/**
+ * The square class represent a square (or Box) in the Dots and Boxes game.
+ * The class supports computations for squares (see getBorders ArrayList) and serves as a class for the GUI.
+ * The valence corresponds to the number of empty lines bordering a square (box).
+ */
+
+
 package View;
 
 import Controller.GridController;

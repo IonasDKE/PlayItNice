@@ -1,3 +1,9 @@
+/**
+ * The Player class represents a player of the game. It has, as a field, an AI technique (see AISolver).
+ * The score is being tracked in this class
+ * @param a Color (for the colour of the line in the GUI), a name, an ai
+ */
+
 package View;
 import AI.*;
 import GameTree.State;

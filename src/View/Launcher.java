@@ -1,3 +1,11 @@
+/**
+ * The Launcher class is a running class that will start the GUI and set up the game such that is can be played by a human player.
+ * The main window will start for the selection of the players and AI types.
+ * The main function calls getcontent pane, which contains the elements of the main menu.
+ */
+
+
+
 package View;
 
 import GameTree.State;
@@ -43,14 +51,13 @@ public class Launcher  extends Application {
     private VBox selectPlayerVB,numberOfPlayerVB;
     private HBox opponents;
 
-
+    //This methid is launching the progam and it calls the function getcontent pane
+ *  //which contains all the components for the main menu
     public static void main(String[] args)
     {
         launch(args);
     }
 
-    //This methid is launching the progam and it calls the function getcontent pane
-    //which contains all the components for the main menu
     public void start(Stage primaryStage) {
 
         thisStage=primaryStage;
@@ -286,6 +293,10 @@ public class Launcher  extends Application {
 
     public static ArrayList<Player>currentPlayers = new ArrayList<>();
     public static String opponent1;
+
+    /*
+    *   this method creates the players chosen in the main menu at the start of the game.
+     */
     public void setPlayers(ArrayList<Color> colors){
         int playerNumber=0;
         opponent1 = selectPlayerOne.getValue().toString();
