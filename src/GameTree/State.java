@@ -6,6 +6,7 @@ import Controller.GridController;
 import View.Square;
 import View.Player;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class State {
@@ -16,7 +17,6 @@ public class State {
     private static State currentState;
     private ArrayList<State> children;
     private ArrayList<Integer> lines;
-    private static int nbOfids =0;
     /**
      * @param g       set of line
      * @param players assign an array list which contains all the player to a state
@@ -54,7 +54,6 @@ public class State {
 
     public ArrayList<State> getChildrenStupid() {
         ArrayList<State> result = new ArrayList<>();
-        //System.out.println("lines size: "+this.lines.size());
         for (int l : this.lines) {
             Line line= GridController.findLine(l);
             if (line.isEmpty()) {
@@ -84,7 +83,6 @@ public class State {
         for (Integer l : lines) {
             if (!other.getLines().contains(l)) {
                 nbOfDifferences++;
-                //System.out.println("nbOfDifferences = " + l.getid());
             }
         }
         return nbOfDifferences;
@@ -98,6 +96,9 @@ public class State {
         return this.children;
     }
 
+    /**
+     * @return a set of unique states
+     */
     public ArrayList<State> computeAndGetChildrenPruning() {
         if (this.children == null) {
             computeChildrenPruning();
@@ -174,7 +175,6 @@ public class State {
         State.currentState = currentState;
     }
 
-
     //returns a cloned state
     public State cloned() {
         State result = new State(State.cloned(this.getLines()), Player.cloned(this.players));
@@ -238,7 +238,6 @@ public class State {
         return lines;
     }
 
-
     public int isEqual(State other) {
         int nbOfDifferences = 0;
         for (Integer l : this.getLines()) {
@@ -253,10 +252,6 @@ public class State {
     public ArrayList<Integer> getLines() {
         return lines;
     }
-
-   /* public ArrayList<Square> getSquares() {
-        return squares;
-    }*/
 
     public int getScore(int turn) {
         return players.get(turn).getScore();
@@ -365,7 +360,6 @@ public class State {
 
     public boolean isPlayable(int index, State parent) {
         /**
-         * TODO
          * at a given state, check if the index is a valid mode
          * which means it checks if the line which correseponds to
          * the index is possible to play
@@ -396,7 +390,6 @@ public class State {
 
     }
 
-
     public String toInt(ArrayList<Integer> a){
         String toConvert = "";
 
@@ -417,7 +410,6 @@ public class State {
 
     public boolean isPlayable(int index) {
         /**
-         * TODO
          * at a given state, check if the index is a valid mode
          * which means it checks if the line which correseponds to
          * the index is possible to play

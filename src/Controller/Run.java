@@ -37,14 +37,11 @@ public class Run {
         Line.runTesting=false;
         GridController.setGridHeightWidth(3,3);
         try {
-            for (float i = (float) 1.8; i <=2.5; i+=0.2) {
-                for (j= (float) 1.8; j<=2.5; j+=0.2) {
-                    Node.COEFFICIENT=i;
+
                     State.setCurrentState(new State(setPlayers(), 0));
                     Board.makeGrid(GridController.gridWidth,GridController.gridHeight);
-                    simulate(i,j);
-                }
-            }
+                    simulate();
+
             writeOnTxt(scores, wins);
 
         } catch (OutOfMemoryError e) {
@@ -60,11 +57,11 @@ public class Run {
         players.add(Color.CHOCOLATE);
 
         ArrayList<Player> currentPlayers = new ArrayList<>();
-        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "StupidAI");
+        Player a = new Player(Color.CHOCOLATE, Integer.toString(1), "Alpha Beta");
         currentPlayers.add(a);
         a.setSolver();
 
-        Player b = new Player(Color.RED, Integer.toString(2), "Mcts Tree");
+        Player b = new Player(Color.RED, Integer.toString(2), "Rule Based");
         currentPlayers.add(b);
         b.setSolver();
 
@@ -72,11 +69,10 @@ public class Run {
     }
 
     public static int counter =0;
-    public static String simulate(float a,float b) throws IOException {
+    public static String simulate() throws IOException {
 
-        for (int i = 0; i < 25; i++) {
-            coefficient.add(a);
-            coefficient.add(b);
+        for (int i = 0; i < 10; i++) {
+
             counter++;
             out.println("new simulation "+counter);
             for (Line line : GridController.getLines()) {
@@ -114,7 +110,6 @@ public class Run {
 
         sb.append("scores: ");
         sb.append("scores: ");
-        sb.append("coef: ");
         sb.append("\n");
 
         try {
@@ -122,8 +117,6 @@ public class Run {
                 sb.append(score.get(i));
                 sb.append(", ");
                 sb.append(nbSquares - score.get(i));
-                sb.append(", ");
-                sb.append(coefficient.get(i*2)+", "+coefficient.get((i*2)+1));
                 sb.append(", ");
                 sb.append("\n");
             }

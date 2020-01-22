@@ -266,7 +266,7 @@ public class GridController {
             if (a.contains(id)) {
                 a.add(id);
                 twins.add(twin);
-                System.out.println("add "+a.get(a.size()-1));
+                //System.out.println("add "+a.get(a.size()-1));
             }
         }
     }
@@ -275,7 +275,7 @@ public class GridController {
         if(twin!=id) {
             if (a.contains(id)) {
                 a.add(id);
-                System.out.println("add "+a.get(a.size()-1));
+                //System.out.println("add "+a.get(a.size()-1));
             }
         }
     }
@@ -357,7 +357,7 @@ public class GridController {
     public static Integer upDiagonalTwin(int id){
         int result = id;
         int stack = 1;
-        boolean upperLeftCorner = uppperLeftCorner(id);
+        boolean upperLeftCorner = upperLeftCorner(id);
         boolean pairHeight = (toDozen(id)) % 2 == 0;
 
         while (!getUpDiagnalLines().contains(result)){
@@ -463,7 +463,7 @@ public class GridController {
         return upDiagonalLines;
     }
 
-    public static boolean uppperLeftCorner(int id){
+    public static boolean upperLeftCorner(int id){
         double temp = toDozen(id);
         return (toUnits(id)+temp/2)<gridWidth;
     }

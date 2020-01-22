@@ -60,7 +60,7 @@ public class Testing {
     }
 
     public static String simulate(ArrayList<Player> currentPlayer) throws IOException {
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < 15; i++) {
             out.println("new simulation "+i);
             //State.currentState().display();
             for (Line line : GridController.getLines()) {
@@ -111,8 +111,8 @@ public class Testing {
                 sb.append("\n");
             }
             out.println(scores.size());
-            scores.remove(20);
-            wins.remove(20);
+            scores.remove(25);
+            wins.remove(25);
         }
         //out.println(sb.toString());
         writer.write(sb.toString());

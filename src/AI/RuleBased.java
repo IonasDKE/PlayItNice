@@ -21,12 +21,10 @@ public class RuleBased extends AISolver {
     @Override
 
     public int nextMove(State board, int color, String str) {
-
         //board.display();
         Line result = null;
 
         //first phase: check if any square can be filled, if not pick a random line in a square of valence 2
-
         if (GridController.getNdValenceLines().size() != 0) {
             result = completeSquare();
             if (result == null) {
@@ -50,7 +48,7 @@ public class RuleBased extends AISolver {
 
         result = fillPhase();
         }
-
+        System.out.println("line id= "+result.getId());
         return result.getId();
     }
 

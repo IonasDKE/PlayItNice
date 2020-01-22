@@ -53,14 +53,6 @@ public class Node {
         return newChildren;
     }
 
-    public boolean isRoot() {
-        if (this.parent == null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public Node getParent() {
         return this.parent;
     }
@@ -87,13 +79,10 @@ public class Node {
         return children;
     }
 
-    public ArrayList<Node> safeGetChildren(){
-        if (children == null) {
-            children = computeChildren();
-        }
-        return children;
-    }
-
+    /**
+     * Compute the UCT value of a node, for the selection method in Monte Carlo Tree Search
+     * COEFFICIENT is a global value so that we can change it from outside to mae the experiments
+     */
     public static float COEFFICIENT = (float) 1.41; //this coefficient balances exploration and exploitation in the UCT
     public double getUctScore(){
 
@@ -105,18 +94,6 @@ public class Node {
             return this.uctScore;
 
         }
-    }
-
-    public void setParent(Node newParent) {
-        this.parent=newParent;
-    }
-
-    public int getNumberOfWin() {
-        return numberOfWin;
-    }
-
-    public void increaseWinNb() {
-        this.numberOfWin ++;
     }
 
     public State getState() {
@@ -141,23 +118,6 @@ public class Node {
 
     public void addVisit() {
         this.visitNb++;
-    }
-
-    public void deleteParent(Boolean firstTurn) {
-        if (!firstTurn)
-            this.parent=null;
-    }
-
-    public int getTurn() {
-        return turn;
-    }
-
-    public int getWeight(){
-        return this.weight;
-    }
-
-    public void setWeigth(int weigth){
-        this.weight = weigth;
     }
 
     public void setLine(Integer line){

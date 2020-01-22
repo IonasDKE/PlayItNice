@@ -23,12 +23,11 @@ public class Mcts extends AISolver {
     public Random rand = new Random();
     public Node rootNode;
     public static int minScore;
-    public static int time=1000;
+    public static int time=1500;
 
     public int nextMove(State state, int color, String str) {
         //System.out.println("mcts new move");
         if (firstTurn) {
-            //System.out.println("set new Mcts");
             this.player = State.getCurrentActualPlayer();
             graph = new Tree(new Node(state, null));
 
@@ -37,16 +36,16 @@ public class Mcts extends AISolver {
             this.firstTurn=false;
         }
         rootNode = this.graph.getRoot();
-        int counter =0;
         long timeLimit = System.currentTimeMillis() + time; //1000 = 1 sec
-        try {
 
+        try {
             while (System.currentTimeMillis() < timeLimit) {
-                counter++;
                 Node promisingNode = selection(rootNode);
                 if (!isComplete(promisingNode.getState())) {
                     expansion(promisingNode);
-                    backPropagation(promisingNode, simulateRandomPlayOut(promisingNode));
+                    for (Node node: promisingNode.getChildren()) {
+                        simulateRandomPlayOut(node);
+                    }
                 } else
                     backPropagation(promisingNode, promisingNode.getState().getScore(player));
             }
@@ -80,30 +79,33 @@ public class Mcts extends AISolver {
         }
     }
 
-    public int simulationCounter=0; //for debug/testing
-    public int simulateRandomPlayOut(Node selectedNode) {
+    /**
+     * Simulation method for Mcts.
+     * To run the tree search with random playout uncomment the first line is the while loop
+     * To run with pseudo-random playout uncomment the second line of the while loop. Semi-random playout does not work correctly
+     * @param selectedNode found during the selection phase
+     */
+    public void simulateRandomPlayOut(Node selectedNode) {
         State stateCopy = selectedNode.getState().cloned();
         RuleBased a = new RuleBased();
-        simulationCounter++;
         while (!isComplete(stateCopy)) {
-            stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));
-            //stateCopy=stateCopy.computeAChild(a.nextMove(stateCopy, 1, "")); //simulation using our rule based agent
-
+            //stateCopy=stateCopy.computeAndGetChildren().get((rand.nextInt(stateCopy.getChildren().size())));
+            stateCopy=stateCopy.computeAChild(a.nextMove(stateCopy, 1, "")); //simulation using our rule based agent
+            stateCopy.display();
         }
-
         int score= stateCopy.getScore(player);
-        if (score < minScore) {
-            score=-1;
-            //System.out.println("loose");
-        }else if (score > minScore) {
-            //System.out.println("win");
+        //Simulation is a draw
+        if (score == minScore && minScore%2==0) {
+            score =0;
+        }
+        //simulation is a draw
+        else if (score >=minScore) {
             score=1;
-            selectedNode.increaseWinNb();
-        }else {
-            score=0;
+        }else{ // simulation is a loos
+            score = -1;
         }
 
-        return score;
+        backPropagation(selectedNode, score);
     }
 
     public void backPropagation(Node node, int score) {
@@ -126,11 +128,9 @@ public class Mcts extends AISolver {
         double currentBest=Double.NEGATIVE_INFINITY;
         Node bestChild=null;
         for (Node child : this.rootNode.getChildren()) {
-            //System.out.println("child score : "+child.getScore());
             if (child.getAvg() > currentBest) {
                 bestChild = child;
                 currentBest = child.getAvg();
-                //System.out.println("current best : "+currentBest+ " node: "+child);
             }
         }
         return bestChild;
@@ -138,7 +138,6 @@ public class Mcts extends AISolver {
 
     public static void setNewRoots(){
         for (Graph graph: graphs){
-            //System.out.println("set new root");
             graph.setNewRoot();
         }
     }
